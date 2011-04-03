@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="jGuard">
+    <publishDate position="left" format="MM-dd-yy"/>
+
+    <body>
+        <menu name="Overview">
+            <item name="Introduction" href="index.html"/>
+            <item name="FAQ" href="faq.html"/>
+            <item name="jGuard reference (html)" href="docbook/en_jGuard_reference.html"/>
+            <item name="jGuard reference (pdf)" href="docbook/en_jGuard_reference.pdf"/>
+            <item name="jGuard step by step (html)" href="docbook/en_jguard_step_by_step_eclipse.html"/>
+            <item name="jGuard step by step (pdf)" href="docbook/en_jguard_step_by_step_eclipse.pdf"/>
+            <item name="jGuard MyEclipse tutorial" href="jGuard-MyEclipse-Tutorial.doc"/>
+        </menu>
+        <menu ref="modules"/>
+        <menu ref="reports"/>
+    </body>
+</project>
+
+  

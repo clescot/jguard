@@ -1,0 +1,263 @@
+v1.1.0-beta1
+- rewrite documentation on docbook to generate different output formats 
+- decouple HTTP protocol from accessFilter for a future easy JSF integration
+- provide audit foundation
+- multiple minor bugfixes
+- APIs enhancement
+=> thanks to Théotime JURZAK for its feedback!
+v1.0.0 final
+- provide integration in DWR library for AJAX security
+- add an 'hasPermission' tag 
+v1.0.0 beta 3
+- add an isolated authentication mechanism
+v1.0.0 beta 2
+- add a complete LDAP support for authentication (LoginModule implementation)
+v1.0.0 beta 1
+- add ABAC feature (attribute based access control) 
+-activate/unactivate a role by user
+-maven 2 migration
+-subversion migration
+-negative permission
+-swing example
+-support multiple security model (with advanced domain combiners)
+-singlePolicy for standalone applications
+-handle JMX security(with RMI connector)
+-localized execution rights restriction
+-activate/passivate roles on the fly
+-internationalization of jguard error messages.
+
+v0.80.1
+- fix javadoc comments which prevent to generate a clean javadoc documentation
+- add some missing queries in authentication properties files (related to db2, oracle, hsqldb). 
+- replace log4j by the commons-logging wrapper into ContextListener
+=> thanks to gmsh
+
+v 0.80 final 
+- fix authentication.sqlserver.properties
+=> thanks to Nicolas Berthel!
+- fix a bug when user directly reach LogonProcessURI
+=> thanks to Filippo Guerzoni!
+- fix bug [ 1491153 ] LogonProcess: null subj uncompletely managed
+- fix bug [ 1489759 ] raise exception when add domain to principal
+- fix bug [ 1489917 ] Raise exception when add domain to principal2
+- fix bug [ 1494795 ] Adding domain to principal
+- fix bug [ 1489752 ] exception in jGuardExample
+- fix bug [ 1495518 ] exception when try to delete principal
+- fix bug [ 1494811 ] Cloning Principals
+- fix bug [ 1494833 ] Creating New User
+- fix bug [ 1494828 ] Delete Principal
+- fix bug [ 1491213 ] update of permission list for domain
+- fix bug [ 1495687 ] weird behaviour
+- fix bug [ 1489754  ] update subject in memory
+v0.80 beta2
+- add some user-roles management functions to the jGuardExample webapp
+- fix bug on logoff action
+=> thanks to jacksosa!
+- fix bug with a trailing '?' in the uri
+=> thanks to hiberbear!
+- fix a bug on domain creation
+=> thanks to Alireza Fattahi!
+- fix bug [ 1458453 ] jGuard 0.80 beta1 does not support mysql and sql server
+
+v0.80 beta1
+-fix a bug on CLIENT_CERT authentication
+=> thanks to Filippo Guerzoni!
+- add auto-ddl and auto insert data for database backend on the authentication part
+- add JCaptcha integration
+- add database backend for registration process
+- reorganise sources
+- support multiple authentication schemes at the same time
+=> thanks to Filippo Guerzoni!
+- more unit tests have been written for a better Quality of Service
+- digest password mechanism and salt have been refactored (not used by default)
+- fix bug [ 1441346 ] jdbc no password supplied
+- fix bug [ 1467853 ] Creating a new domain results in error
+
+v0.70.2
+- fix bug on connection init for atuhentication backed by databases
+- fix bug when user disconnect and go to a page : now a user is always authenticated : as 'guest' or
+  as a a registered used
+- fix a bug on hasPrinicpal tag
+- enhance authentication check on tags
+
+v0.70.1
+- fix bug [ 1403339 ] misspelled initialization on SubjectTemplate
+=>thanks to Manuel Castro
+- fix bug when multiple webapps are protected by jGuard on the same server
+=> thanks to Andrew Bartkiv
+
+v0.70 final
+- enhance HttpCallbackhandler
+- add Database authorization backend for role inheritance
+- add registration api (only on XML backend)
+
+v0.70 beta 2
+- fix the autorization persistance with role inheritance on mysql
+=> thanks to Elliot Ting
+- fix bugs on URLPermission
+- fix bug on JGuardPrincipal => classCastException prevented
+- rename 'role' references to 'principal'
+- enhance the HasPrincipal tag (custom class can be used)
+- change JdbcAuthorizationManager to permit use of Properties files for database jdbc queries customization
+- integrate into JdbcAuthorizationManager tables autocreation
+- integrate into JdbcAuthorizationManager import of XML datas when tables are empty
+- add authentication share through applications and password protection
+- enhance loginFailed phase by providing a way to display what's wrong
+- add support for Postgresql and oracle database for autorization
+
+v0.70 beta 1
+- enhance jGuardExample look and feel
+- implements role inheritance persisted by XML
+- role inheritance image generation
+- fix bug #1350622 (Weird behavior in <jguard:authorized/>) by providing supports of the * symbol
+in URLPermission: now, the * is not implicit, but explicit.
+- integrate jGuard.tld into jguard-j2ee.jar as taglib.tld to avoid taglib declaration into web.xml
+- integrate a css into jGuardExample
+- manage any Principal implementation
+- add an audit feature
+
+v0.70 alpha 2
+- correct the bug  #1303734 (String compare error)
+=> thanks to lostwind
+- correct the bug  #1307708 (logout error)
+=> thanks to lostwind
+- correct the bug on JBoss application server (tested with JBoss AS 4.03)
+- externalize in an XML file configuration all the web.xml parameters with the corresponding
+dtd
+- start to implements the interfaces needed to be a jacc (jsr 115) provider (work in progress)
+
+v0.70 alpha 1
+- add the redirect after authentication feature (#1213549)
+- add BASIC authentication
+- add CLIENT_CERT (server and clients authenticate through certificates) authentication
+via CRL or OCSP mechanism
+- manage any java.security.Permission subclasses with the XML backend(#1202809)
+- propagate security controls on any code on the webapp
+- add better integration with libraries which use
+the 'isUserInrole' and  'getuserPrincipal' methods.
+- add jGuard's own LDAPLoginModule
+v0.65.5
+- fix a bug where multiple webapps cannot use jGuard in the same application server
+- fix a bug #1307708 (logout error)
+=> thanks to lostwin for the report!
+v0.65.4
+- fix a bug on AuthUtils, raised when the user logout, but is not logged.
+=> thanks to Daniel Shane for the report!
+
+v0.65.3
+-change SQL requests in OracleAuthorizationManager (from SQL standard to
+the oracle own proprietary way) to allow oracle 8i databases to execute them.
+=> thanks to Cyrille VIVION for the fix!
+
+v0.65.2
+- remove a bug on unix/linux systems, raised by
+the XML-based implementations on the authentication and the authorization areas.
+v0.65.1
+- fix a security hole with loginModules backed by databases
+=> thanks to 'j0lea' to highlight this bug and provide the fix!
+
+v0.65 final
+- fix a bug on 'update role name' feature
+- add the Oracle based authorization backend
+- enhance the documentation
+
+v0.65 beta3
+- correct a bug on the applicationName discovery mechanism present in the beta2 release
+- remove the need to specify the webapp name => a discovery mechanism has been implemented
+- add a convenient logging system based on jakarta commons-logging
+- provide an AuthorizationManager implementation based on the MySQL database.
+v0.65 beta2
+- easy install and test has gone!: there is no more need to install and configure stuff on the jvm side
+- enable java configuration (relating to the COnfiguration class) through the web.xml
+with the JGuardConfiguration class
+- enable authentication configuration through the web.xml
+- clean Subject internals when http session expire
+- reduce the 'jvm part' classes size (it remains only two classes)
+=> avoid classloader issues
+- add MS SQLServer and DB2 authentication
+- add authorization jGuard API with the XML , MS SQLServer,PostgreSQL and DB2 implementations
+- fix bug #1184015 'Can't configure tables names in JDBC based LoginModules'
+- fix bug #1200119 'URLPermission.toString cause StackOverflowError'
+- fix bug when the webapp (but not the application server) stops and restarts
+- fix bug #1213037	'Changes in domains and permissions dont make effect in roles'
+- prevent errors and enhance error message displayed depending
+  on the XmlAuthorizationManager 'fileLocation'(parameter configured in the web.xml file)
+- upgrade dom4j to the 1.6.1 release.
+v0.64
+- JGuardPrincipalsPermissions.dtd has been updated
+- refactor loginModule implementations code to suppress duplicate code
+- refactor permissionmanager implementations code to suppress duplicate code
+- enhance XmlPermissionManager and Xml principals and permissions configuration
+- create a specific permissionmanagers package (update your configuration in the web.xml !)
+- add database support for PermissionManager with PostgreSQL, MySQL, and Oracle implementations
+- add a css on the jGuard web site dedicated to print
+
+v0.63
+- put documentation on the jGuard web site (http://jguard.sourceforge.net)
+- add AccessFilter parameter to set the 'loginField' name
+- add AccessFilter parameter to set the 'passwordField' name
+- permit driverManager settings (driverName,url,login,pwd)
+- handle specific database connections to each webapps
+- add MySQL's loginModule with encryption option
+- add Oracle's LoginModule with encryption option
+- add PostgreSQL's LoginModule with encryption option
+- add encryption in XmlLoginModule
+- upgrade the dom4j library to the 1.5.1 bug fix release
+- fix bug 1058710 "File jGuardUsersRoles.xml not found in jGuardExample" (include debug option bug in XmlLoginModule)
+=> thanxs to Damien Tomezzoli
+
+v0.62
+- remove UserInterface and UserImpl classes, and replace them by the right JAAS classes (the complete JAAS integration has gone).
+- support securityManager
+- remove tagish.jar dependancy
+- add <jguard:pubCredential> tag with EL support
+- add <jguard:privCredential> tag with EL support
+
+v0.61
+- replace xstream by dom4j library
+- enhance XML configuration for authentications
+- enhance XML configuration for authorizations
+- enhance logging messages in debug mode
+- french translation of installation notice
+- add the <jguard:hasRole> tag to the jGuard taglib, with EL support
+
+v0.60
+-big architecture refactoring
+-each webapp can now, has got its own authentication mechanism independantly
+-each webapp can now, has got its own authorization mechanism independantly
+-webapp authorization securisation with a applicationName, password mechanism
+to prevent developer to hack other authorization mechanism
+-taglib support Expression Language (EL)
+-a webapp example is provided
+-a DatabaseLoginModule is provided
+-an XmlLoginModule is provided
+-an XmlPermissionManager is provided
+-Message digest encryption feature for loginModules (DatabaseLoginModule use it)
+-logoff feature for accessFilter
+-autoinsert mode for DatabaseLoginModule
+-clean separation of Administrator tasks and Webapp developers
+-better jvm install instructions (with the use of the -XbootClassPath options)
+-enhance error and warn messages
+-enhance documentation
+
+
+v0.52
+-enhance javadoc
+-fix a regexp bug on URLPermission:
+before this fix, only a permission with the same name was granted.
+now, the URLPermission 'implies' other URLPermission with 'similar' uris
+by example:
+now,  'http://foo/bar/'   implies 'http://foo/bar/postAComment/stuff'
+
+
+v0.51
+-add licence header to some files
+-change jGuard.properties in jGuard.policy (better name for this file responsability)
+-add debug option to the DBViaJNDILogin login module
+-refactor some code in a cleaner way
+-enhance exception messages
+-add an applicationName parameter to the AccessFilter (previous release was tight to the 'jboard' name ......)
+
+
+v0.50
+-initial release

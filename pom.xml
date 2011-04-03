@@ -1,0 +1,626 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>net.sf.jguard</groupId>
+    <artifactId>jguard</artifactId>
+    <packaging>pom</packaging>
+    <version>2.0.0.beta-7-SNAPSHOT</version>
+    <name>TRUNK jGuard</name>
+    <url>http://jguard.net</url>
+    <description>jGuard is a library that provides EASY security (authentication and authorization) for Java web and
+        standalone applications
+    </description>
+    <inceptionYear>2004</inceptionYear>
+    <issueManagement>
+        <system>sourceforge</system>
+        <url>http://sourceforge.net/tracker/?group_id=107276</url>
+    </issueManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>jGuard-stable</id>
+            <name>jGuard Repository</name>
+            <url>sftp://web.sourceforge.net/home/groups/j/jg/jguard/htdocs/repository</url>
+        </repository>
+        <!--  <repository>
+              <id>jGuard-stable</id>
+                <name>jGuard Repository</name>
+                <url>scm:svn:http://jguard.svn.sourceforge.net/svnroot/jguard/jguard/repos/repo</url>
+                  </repository>-->
+        <!-- <snapshotRepository>
+                <id>jGuard-snapshot</id>
+                <name>jGuard snapshot Repository</name>
+                <url>scp://shell.sourceforge.net/home/groups/j/jg/jguard/htdocs/repository-snapshots</url>
+              </snapshotRepository> -->
+        <site>
+            <id>sourceforge</id>
+            <url>sftp://web.sourceforge.net/home/groups/j/jg/jguard/htdocs/mvnsite</url>
+        </site>
+    </distributionManagement>
+    <developers>
+        <developer>
+            <id>diabolo512</id>
+            <name>Charles Gay</name>
+            <email>diabolo512 at users.sourceforge.net</email>
+            <roles>
+                <role>Developer</role>
+                <role>French Translator</role>
+                <role>Project Manager</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>fred_borelli</id>
+            <name>Frederico Borelli</name>
+            <email>fred_borelli at users.sourceforge.net</email>
+            <roles>
+                <role>Tester</role>
+                <role>portuguese translator</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>GiHe</id>
+            <name>Gilles H.</name>
+            <email>gihe at users.sourceforge.net</email>
+            <roles>
+                <role>Packager</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>lostwind</id>
+            <email>shuwgf at users.sourceforge.net</email>
+            <roles>
+                <role>Tester</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>simon_lebettre</id>
+            <name>Simon Lebettre</name>
+            <email>simon_lebettre at users.sourceforge.net</email>
+            <roles>
+                <role>Tester</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>vinipitta</id>
+            <name>Vinícius Pitta Lima de Araújo</name>
+            <email>vinipitta at users.sourceforge.net</email>
+            <roles>
+                <role>Developer</role>
+                <role>Portuguese Translator</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>zelfdoen</id>
+            <name>Theo Niemeijer</name>
+            <email>zelfdoen at users.sourceforge.net</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>vberetti</id>
+            <name>Vincent Beretti</name>
+            <email>vberetti at users.sourceforge.net</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Alex Jacobs</name>
+            <roles>
+                <role>English Translator</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>maxi</id>
+            <name>Maximiliano Batelli</name>
+            <email>tandilero at users.sourceforge.net</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>srxavi</id>
+            <name>Xavier Francisco</name>
+            <email>srxavi at users.sourceforge.net</email>
+            <roles>
+                <role>tester</role>
+                <role>Spanish Translator</role>
+                <role>Catalan Translator</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>inacio</id>
+            <name>Inácio Ferrarini</name>
+            <email>inacioferrarini at users.sourceforge.net</email>
+            <roles>
+                <role>Documentation</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+
+    </developers>
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE, Version 2.1</name>
+            <url>http://www.gnu.org/copyleft/lesser.html</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:svn:https://jguard.svn.sourceforge.net/svnroot/jguard/jguard/tags/jguard-2.0.0-beta-6
+        </connection>
+        <developerConnection>scm:svn:https://jguard.svn.sourceforge.net/svnroot/jguard/jguard/tags/jguard-2.0.0-beta-6
+        </developerConnection>
+        <url>http://jguard.svn.sourceforge.net/viewvc/jguard/jguard/tags/jguard-2.0.0-beta-6</url>
+    </scm>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mycila.testing.plugins</groupId>
+            <artifactId>mycila-testing-mockito</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mycila.testing.plugins</groupId>
+            <artifactId>mycila-testing-guice</artifactId>
+            <version>2.4</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.2.134</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>0.9.27</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.guice</groupId>
+            <artifactId>guice</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>aopalliance</groupId>
+            <artifactId>aopalliance</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>1.0-beta-7</version>
+            </extension>
+        </extensions>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/site/resources/docbook</directory>
+                <includes>
+                    <include>jguard-docbook-fo.xsl</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <tagBase>https://jguard.svn.sourceforge.net/svnroot/jguard/jguard/tags</tagBase>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Specification-Version>${project.version}</Specification-Version>
+                            <Specification-Vendor>jguard</Specification-Vendor>
+                            <Implementation-Vendor>jguard</Implementation-Vendor>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.0.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <verbose>true</verbose>
+                    <fork>true</fork>
+                    <!--   <executable>${JAVA_HOME}/bin/javac</executable>-->
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <compilerVersion>1.5</compilerVersion>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.agilejava.docbkx</groupId>
+                <artifactId>docbkx-maven-plugin</artifactId>
+                <version>2.0.8</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>create-pdf-docs</id>
+                        <goals>
+                            <goal>generate-pdf</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <!-- Any parameters specific to the PDF version go here -->
+                            <imgSrcPath>file:///${basedir}/src/site/resources/docbook/</imgSrcPath>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-html-docs</id>
+                        <goals>
+                            <goal>generate-html</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <!-- This copies content (images, etc) for the HTML version -->
+                            <preProcess>
+                                <copy todir="target/site">
+                                    <fileset dir="src/site/resources"/>
+                                </copy>
+                            </preProcess>
+                            <!-- Any parameters specific to HTML version go here -->
+                        </configuration>
+                    </execution>
+                </executions>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.docbook</groupId>
+                        <artifactId>docbook-xml</artifactId>
+                        <version>4.4</version>
+                        <scope>runtime</scope>
+                    </dependency>
+
+                    <!-- Patch overflow bug -->
+                    <dependency>
+                        <groupId>org.apache.xmlgraphics</groupId>
+                        <artifactId>fop</artifactId>
+                        <version>0.95</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.avalon.framework</groupId>
+                        <artifactId>avalon-framework-impl</artifactId>
+                        <version>4.3.1</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <minmemory>1024m</minmemory>
+                    <maxmemory>1024m</maxmemory>
+                    <sourceDirectory>${basedir}/src/site/resources/docbook</sourceDirectory>
+                    <includes>**/en_jguard_step_by_step_eclipse.xml,**/en_jGuard_reference.xml</includes>
+                    <chunkedOutput>false</chunkedOutput>
+                    <targetDirectory>${basedir}/target/site/docbook</targetDirectory>
+
+                    <htmlStylesheet>../css/jguard-docbook.css</htmlStylesheet>
+                    <sectionAutolabel>1</sectionAutolabel>
+                    <sectionLabelIncludesComponentLabel>1</sectionLabelIncludesComponentLabel>
+                    <paperType>A4</paperType>
+                    <!-- <htmlCustomization>${basedir}/src/docbkx/resources/xsl/jguard-docbook-html.xsl</htmlCustomization>-->
+                    <foCustomization>${basedir}/src/site/resources/docbook/jguard-docbook-fo.xsl</foCustomization>
+                    <fop1Extensions>1</fop1Extensions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- that profile is designed for release distribution -->
+    <profiles>
+        <profile>
+            <id>distribution</id>
+            <activation>
+                <property>
+                    <name>distribution</name>
+                </property>
+            </activation>
+            <build>
+                <defaultGoal>install</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>javadoc</id>
+                                <configuration>
+                                    <minmemory>128m</minmemory>
+                                    <maxmemory>512m</maxmemory>
+                                    <links>
+                                        <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+                                    </links>
+                                    <stylesheetfile>${basedir}/src/site/xdocs/style/jguard.css</stylesheetfile>
+                                </configuration>
+                                <goals>
+                                    <goal>javadoc</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <inherited>false</inherited>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/distribution-all.xml</descriptor>
+                                    </descriptors>
+                                    <outputDirectory>target/assembly</outputDirectory>
+                                    <workDirectory>target/assembly/work</workDirectory>
+                                </configuration>
+                                <goals>
+                                    <goal>assembly</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>cobertura-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>clean</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.4.3</version>
+                        <executions>
+                            <execution>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <modules>
+        <module>jguard-core</module>
+        <module>jguard-ext</module>
+        <module>jguard-jee</module>
+        <module>jguard-jee-4</module>
+        <module>jguard-jee-extras</module>
+    </modules>
+    <repositories>
+        <repository>
+            <id>ibiblio</id>
+            <name>maven official repository</name>
+            <url>http://www.ibiblio.org/maven2</url>
+        </repository>
+        <repository>
+            <id>jguard</id>
+            <name>jguard repository</name>
+            <url>http://jguard.sourceforge.net/temp_repository</url>
+        </repository>
+        <repository>
+            <id>codehaus-release-repo</id>
+            <name>Codehaus Release Repo</name>
+            <url>http://repository.codehaus.org</url>
+        </repository>
+        <repository>
+            <id>jboss-repo</id>
+            <name>jBoss official maven 2 repository</name>
+            <url>http://repository.jboss.com/maven2</url>
+        </repository>
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>jboss</id>
+            <name>jboss</name>
+            <url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>guice-maven</id>
+            <name>guice maven</name>
+            <url>http://guice-maven.googlecode.com/svn/trunk</url>
+        </repository>
+        <repository>
+            <id>repo2-maven</id>
+            <name>repo2 maven</name>
+            <url>http://repo2.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>jahia</id>
+            <name>jahia</name>
+            <url>http://maven.jahia.org/maven2</url>
+        </repository>
+        <repository>
+            <id>warp-persist-repo</id>
+            <name>warp-persist-repo</name>
+            <url>http://gwt-enterprise-patterns.googlecode.com/svn/maven2/repo</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Docbkx</id>
+            <name>Docbkx plugin repository</name>
+            <url>http://agilejava.com/maven</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>Codehaus-repository</id>
+            <name>Codehaus repository</name>
+            <url>http://repository.codehaus.org/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>maven-2-mirrors</id>
+            <name>maven 2 mirrors</name>
+            <url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
+        </pluginRepository>
+    </pluginRepositories>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changes-plugin</artifactId>
+                <inherited>false</inherited>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>changes-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+                <configuration>
+                    <issueLinkTemplate>http://sourceforge.net/support/tracker.php?aid=%ISSUE%</issueLinkTemplate>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <tags>TODO, @todo,FIXME,@deprecated,XXX</tags>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <id>unit</id>
+                        <configuration>
+                            <reportsDirectory>${project.build.directory}/surefire-reports/unit</reportsDirectory>
+                            <outputName>surefire-report-unit</outputName>
+                        </configuration>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                    <reportSet>
+                        <id>perf</id>
+                        <configuration>
+                            <reportsDirectory>${project.build.directory}/surefire-reports/perf</reportsDirectory>
+                            <outputName>surefire-report-perf</outputName>
+                        </configuration>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <linkXRef>true</linkXRef>
+                    <sourceEncoding>utf-8</sourceEncoding>
+                    <aggregate>true</aggregate>
+                    <targetJdk>1.5</targetJdk>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>

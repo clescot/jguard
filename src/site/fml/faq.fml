@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<faqs id="FAQ" title="Frequently Asked Questions">
+  <part id="General">
+    <faq id="howAuthWorks">
+      <question>How does work authentication in jGuard?</question>
+      <answer>
+        <p>jGuard authenticates users (with the help of JAAS), through a stack of LoginModules.</p>
+      </answer>
+    </faq>
+    <faq id="authenticateLDAP">
+      <question>How can I configure jGuard to authenticate against an LDAP directory?</question>
+      <answer>
+        <p>
+          jGuard provides some convenient LoginModules, including a <a href="http://jguard.xwiki.com/xwiki/bin/view/Doc/JNDILoginModule">JNDILoginModule</a> since jGuard 1.0 beta 2. So, the solution is either to use the loginModule provided in the jGuard distribution, or to use a LoginModule provided by sun directly with the Java Runtime Environment(JRE). to do it, you have only to declare in the 'loginmodules' field this one: com.sun.security.auth.module.JndiLoginModule
+note that this loginmodule connect to LDAP through the great abstraction layer called JNDI. more details can be reached directly at the <a href="http://java.sun.com/j2se/1.4.2/docs/guide/security/jaas/spec/com/sun/security/auth/module/JndiLoginModule.html">corresponding page</a>. It exists others LoginModule implementations which do the same stuff. the only requirement is only to implements the LoginModule interface. 
+        </p>
+      </answer>
+    </faq>
+    <faq id="kerberos">
+      <question>How can I configure jGuard to authenticate against a Kerberos system?</question>
+      <answer>
+        <p>
+          you can configure jGuard to authenticate through a Kerberos system. the loginModule to use is the one provided by sun: com.sun.security.auth.module.Krb5LoginModule more information are provided <a href="http://java.sun.com/j2se/1.4.2/docs/guide/security/jgss/single-signon.html">here</a>
+        </p>
+      </answer>
+    </faq>
+    <faq id="NTUnixSolaris">
+      <question>How can I configure jGuard to authenticate against the NT/Unix/Solaris host system?</question>
+      <answer>
+        <p>
+jGuard can authenticate with any provided LoginModules implementations. <a href="http://java.sun.com/j2se/1.4.2/docs/guide/security/jaas/spec/com/sun/security/auth/module/package-summary.html">here</a> are the one provided by Sun.
+note that this loginmodule connect to LDAP through the great abstraction layer called JNDI. more details can be reached directly at the <a href="http://java.sun.com/j2se/1.4.2/docs/guide/security/jaas/spec/com/sun/security/auth/module/JndiLoginModule.html">corresponding page</a>. It exists others LoginModule implementations which do the same stuff. the only requirement is only to implements the LoginModule interface. 
+        </p>
+      </answer>
+    </faq>
+    <faq id="databaseAuthorization">
+      <question>How can I add database support to the authorization system?</question>
+      <answer>
+        <p>
+          Since the 0.70 release, you have to use the JdbcAuthorizationManager and configure it through jGuardConfiguration.xml file to set the right driver and jdbc settings in order to and provide authorization. yourdatabaseName.properties file contains specific sql queries.
+        </p>
+      </answer>
+    </faq>
+    <faq id="guest">
+      <question>AccessFilter automatically tries to log me in as 'guest'.Why should there be a "default" user in jGuard? Isn't that a security issue?</question>
+      <answer>
+        <p>
+          jGuard automatically authenticate you as 'guest' by default. it's not a security issue, but a design choice.
+but to fulfills your security requirements, you can configure that guest (unauthorized users), hasn't got access to your protected pages. how to do it? => configure the 'guest' role with no permissions. the guest user will only have access to login page and access denied page(access is always grant to these pages). 
+        </p>
+      </answer>
+    </faq>
+    <faq id="domainPermission">
+      <question>Can i create a permission not bound to a Domain?</question>
+      <answer>
+        <p>
+          "I didn't want to associate a domain to the permission because this permission is alone in a functional point of view."
+
+All permission must belong to a domain. To solve your problem, it is suitable to create a 'default' domain which will regroup "orphan permissions". but it is not mandatory to assign this domain to a role (this domain has no "functional meaning"). You will only assign some permissions of this domain to the role.
+
+The reason to always assign a domain to a permission, is to be sure that the sum of permissions of all domains contains all the permissions declared in the application. 
+        </p>
+      </answer>
+    </faq> 
+        <faq id="logonprocessURI">
+      <question>What is the role of logonProcessURI?</question>
+      <answer>
+        <p>
+          logonProcessURI is the way jGuard receive credentials through FORM authentication. The html form which contains your login and password will send this information to this special URI interecepted by jGuard.
+
+jGuard will evaluate them and authenticate you. It will redirect you to the convenient URI. So, this special URI does not point to a dedicated page. 
+        </p>
+      </answer>
+    </faq>
+        <faq id="NoClassDefFoundError">
+      <question>I've got a stack trace at startup with java.lang.NoClassDefFoundError: net/sf/jguard/security/JGuardPolicy</question>
+      <answer>
+        <p>
+To solve this issue, you must put the jGuard-jvm.jar archive in the 'shared lib' directory of your application server.
+
+More details about installation on application servers can be found <a href="http://jguard.xwiki.com/xwiki/bin/view/Doc/enApplicationServers">on the Application Servers page</a> 
+
+        </p>
+      </answer>
+    </faq>             
+  </part>
+</faqs>

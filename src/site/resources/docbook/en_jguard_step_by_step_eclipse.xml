@@ -1,0 +1,1082 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+        "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<book>
+    <title>JGuard Step by Step Guide (Eclipse)</title>
+
+    <bookinfo>
+        <author>
+            <firstname>Inácio</firstname>
+
+            <surname>Ferrarini</surname>
+
+            <email>inacioferrarini@users.sourceforge.net</email>
+        </author>
+    </bookinfo>
+
+    <chapter>
+        <title>What is This Guide about / Goals</title>
+
+        <para>This guide is the result of the JGuard Team´s efforts in order to
+            create a guide easy for beginners to follow and understand the way JGuard
+            works, and, at the end, have a very basic Application secured by
+            JGuard.
+        </para>
+
+        <para>This guide is based on JGuard´s Version 1.0.2</para>
+
+        <para>Goals of this Document:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Point what is needed in order to secure an application using
+                    JGuard
+                </para>
+            </listitem>
+
+            <listitem>
+                <para>Explain how JGuard´s flow is build based on the config
+                    files
+                </para>
+            </listitem>
+        </itemizedlist>
+
+        <para>To build the app, it was needed:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>JGuard 1.0.2</para>
+            </listitem>
+
+            <listitem>
+                <para>Maven 2.0.5</para>
+            </listitem>
+
+            <listitem>
+                <para>Sun Java JDK 1.6.5 (revision 11)</para>
+            </listitem>
+
+            <listitem>
+                <para>Eclipse 3.2 M20070212-1330 and latest WTP avaliable from update
+                    site
+                </para>
+            </listitem>
+
+            <listitem>
+                <para>Apache Tomcat version 5.5.20</para>
+            </listitem>
+
+            <listitem>
+                <para>Apache Struts version 1.3.5</para>
+            </listitem>
+
+            <listitem>
+                <para>Jakarta-Taglibs Standard-1.1 version 1.1.2</para>
+            </listitem>
+        </itemizedlist>
+
+        <para>For any information regarding JGuard, please see
+            http://www.jguard.net/ and the foruns at
+            https://sourceforge.net/projects/jguard
+        </para>
+
+        <para>Remarks:</para>
+
+        <para>if you use maven to build your project, you will not have to add the
+            libs in the project for yourself, because maven will do it for you and
+            will also include the dependencies´s depedencies, so, it´s a much more
+            confortable and easy way to do it. In order to build the app using maven,
+            use<emphasis role="bold">"mvn -e -o clean package"</emphasis>. It will
+            build your package in the offline way. If you need to check for updates
+            while building, use
+            <emphasis role="bold">"mvn -e -U clean
+                package"
+            </emphasis>
+            instead. If you got a 'BUILD SUCCESSFULL' message,
+            check for the .war at target dir.
+        </para>
+
+        <para></para>
+    </chapter>
+
+    <chapter>
+        <title>The Project</title>
+
+        <para>In this Chapter we will build, step by step, an Dynamic Web Project
+            using WTP.
+        </para>
+
+        <para>
+            <figure>
+                <title>Step 1: Creating the Dynamic Web Project</title>
+
+                <mediaobject>
+                    <imageobject>
+                        <imagedata align="center" fileref="WTP_new_Project_1.png"
+                                   format="PNG" scale="50" scalefit="1" width=""/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <figure>
+                <title>Step 2: Choosing the Project´s Name and Target Runtime</title>
+
+                <mediaobject>
+                    <imageobject>
+                        <imagedata align="center" fileref="WTP_new_Project_2.png"
+                                   format="PNG" scale="50" scalefit="1" width=""/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </para>
+
+        <para>Give the Project a name (suggestion: 'Basic1') and then click 'Next
+            &gt;'
+        </para>
+
+        <para>
+            <figure>
+                <title>Step 3: Configurations</title>
+
+                <mediaobject>
+                    <imageobject>
+                        <imagedata align="center" fileref="WTP_new_Project_3.png"
+                                   format="PNG" scale="50" scalefit="1" width=""/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </para>
+
+        <para>Just click 'Next &gt;'</para>
+
+        <para>
+            <figure>
+                <title>Step 4: Setting Java Source Directory</title>
+
+                <mediaobject>
+                    <imageobject>
+                        <imagedata align="center" fileref="WTP_new_Project_4.png"
+                                   format="PNG" scale="50" scalefit="1" width=""/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            One note about this last step: As Maven 2 will be our official
+            building tool, we changed Java Source Directory from src to src/main/java,
+            in order to be complient about Maven 2 source structure. Check out
+            http://jguard.xwiki.com/xwiki/bin/view/doc/devEclipse if you have
+            doubts.
+        </para>
+
+        <para>Click 'Finish'</para>
+
+        <para>
+            <figure>
+                <title>After Finished</title>
+
+                <mediaobject>
+                    <imageobject>
+                        <imagedata align="center" fileref="WTP_new_Project_5.png"
+                                   format="PNG" scale="50" scalefit="1" width=""/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            If it is the first time you have created a project like this,
+            you will be asked if you want to open the J2EE perspective, wich is a
+            personal choice.
+        </para>
+
+        <para>After the Dynamic Web Project was created, we should create the
+            structure wich will hold the files and config we will use.
+            <itemizedlist>
+                <listitem>
+                    <para>inside WEB-INF create a folder named conf</para>
+                </listitem>
+            </itemizedlist>
+            <itemizedlist>
+                <listitem>
+                    <para>inside WEB-INF/conf create three folders: jGuard, struts and
+                        tld
+                    </para>
+                </listitem>
+            </itemizedlist>
+            The Folder Structure should look like this:
+        </para>
+
+        <figure>
+            <title>Folder Structure for Basic 1</title>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="WTP_Project_Folder_Structure.png" format="PNG"
+                               scale="50" scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>First of all, we should create and run out build script, this way,
+            the libs we will need will be downloaded by Maven 2 in case it was not
+            downloaded yet. Save the file below as pom.xml in the project root dir
+            (the dir where is .project and .classpath - usualy
+            workspace/projectname).
+        </para>
+
+        <para>
+            <programlisting>&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+                &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+                &lt;groupId&gt;net.sf.jguard&lt;/groupId&gt;
+                &lt;artifactId&gt;jguard-example-basic1&lt;/artifactId&gt;
+                &lt;version&gt;1.0.2&lt;/version&gt;
+                &lt;packaging&gt;war&lt;/packaging&gt;
+                &lt;name&gt;jGuard Basic-1 Example&lt;/name&gt;
+                &lt;url&gt;http://jguard.net&lt;/url&gt;
+                &lt;dependencies&gt;
+                &lt;!-- jee lib, use provided appserver lib at runtime --&gt;
+                &lt;dependency&gt;
+                &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+                &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;
+                &lt;version&gt;2.3&lt;/version&gt;
+                &lt;scope&gt;provided&lt;/scope&gt;
+                &lt;/dependency&gt;
+                &lt;!-- struts core --&gt;
+                &lt;dependency&gt;
+                &lt;groupId&gt;org.apache.struts&lt;/groupId&gt;
+                &lt;artifactId&gt;struts-core&lt;/artifactId&gt;
+                &lt;version&gt;1.3.5&lt;/version&gt;
+                &lt;/dependency&gt;
+                &lt;!-- struts extras (ForwardAction) --&gt;
+                &lt;dependency&gt;
+                &lt;groupId&gt;org.apache.struts&lt;/groupId&gt;
+                &lt;artifactId&gt;struts-extras&lt;/artifactId&gt;
+                &lt;version&gt;1.3.5&lt;/version&gt;
+                &lt;/dependency&gt;
+                &lt;!-- struts taglib --&gt;
+                &lt;dependency&gt;
+                &lt;groupId&gt;org.apache.struts&lt;/groupId&gt;
+                &lt;artifactId&gt;struts-taglib&lt;/artifactId&gt;
+                &lt;version&gt;1.3.5&lt;/version&gt;
+                &lt;/dependency&gt;
+                &lt;!-- JSTL standard --&gt;
+                &lt;dependency&gt;
+                &lt;groupId&gt;taglibs&lt;/groupId&gt;
+                &lt;artifactId&gt;standard&lt;/artifactId&gt;
+                &lt;version&gt;1.1.2&lt;/version&gt;
+                &lt;/dependency&gt;
+                &lt;!-- JGuard core --&gt;
+                &lt;dependency&gt;
+                &lt;groupId&gt;net.sf.jguard&lt;/groupId&gt;
+                &lt;artifactId&gt;jguard-core&lt;/artifactId&gt;
+                &lt;version&gt;1.0.2&lt;/version&gt;
+                &lt;/dependency&gt;
+                &lt;!-- JGuard extensions --&gt;
+                &lt;dependency&gt;
+                &lt;groupId&gt;net.sf.jguard&lt;/groupId&gt;
+                &lt;artifactId&gt;jguard-ext&lt;/artifactId&gt;
+                &lt;version&gt;1.0.2&lt;/version&gt;
+                &lt;/dependency&gt;
+                &lt;!-- JGuard extensions for Java 1.5 --&gt;
+                &lt;dependency&gt;
+                &lt;groupId&gt;net.sf.jguard&lt;/groupId&gt;
+                &lt;artifactId&gt;jguard-ext-java-5&lt;/artifactId&gt;
+                &lt;version&gt;1.0.2&lt;/version&gt;
+                &lt;/dependency&gt;
+                &lt;!-- JGuard JEE extensions --&gt;
+                &lt;dependency&gt;
+                &lt;groupId&gt;net.sf.jguard&lt;/groupId&gt;
+                &lt;artifactId&gt;jguard-jee&lt;/artifactId&gt;
+                &lt;version&gt;1.0.2&lt;/version&gt;
+                &lt;/dependency&gt;
+                &lt;!-- JGuard JEE extras --&gt;
+                &lt;dependency&gt;
+                &lt;groupId&gt;net.sf.jguard&lt;/groupId&gt;
+                &lt;artifactId&gt;jguard-jee-extras&lt;/artifactId&gt;
+                &lt;version&gt;1.0.2&lt;/version&gt;
+                &lt;/dependency&gt;
+                &lt;/dependencies&gt;
+                &lt;build&gt;
+                &lt;plugins /&gt;
+                &lt;/build&gt;
+                &lt;/project&gt;</programlisting>
+        </para>
+
+        <para>after save the file, execute
+            <emphasis role="bold">mvn -e -U clean
+                install
+            </emphasis>
+        </para>
+
+        <para>if after Maven 2 ran you got the message BUILD SUCCESSFULL,
+            everything went OK, else, look at the Maven 2 configuration page in order
+            to see if you´ve missed something in your setup.
+        </para>
+
+        <para>
+            <programlisting>[INFO] ------------------------------------------------------------------------
+                [INFO] BUILD SUCCESSFUL
+                [INFO] ------------------------------------------------------------------------
+                [INFO] Total time: 23 seconds
+                [INFO] Finished at: Tue Mar 27 22:59:41 BRT 2007
+                [INFO] Final Memory: 6M/12M
+                [INFO] ------------------------------------------------------------------------
+            </programlisting>
+        </para>
+
+        <para></para>
+
+        <para>After that, all libraries we will use will be avaliable from
+            M2_REPO, now we are going to add them to the app classpath.
+        </para>
+
+        <figure>
+            <title>Adding libs to classpath</title>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="WTP_adding_libs_to_classpath1.gif" scale="50"
+                               scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>As M2_REPO is a directory, Eclipse will ask to extend M2_REPO so we
+            can add what we really want to add. Extend and search for these
+            libs:
+        </para>
+
+        <itemizedlist>
+            <listitem>
+                <para>M2_REPO/net/sf/jguard/jguard-core/1.0.2/jguard-core-1.0.2.jar</para>
+            </listitem>
+
+            <listitem>
+                <para>M2_REPO/net/sf/jguard/jguard-ext/1.0.2/jguard-ext-1.0.2.jar</para>
+            </listitem>
+
+            <listitem>
+                <para>M2_REPO/net/sf/jguard/jguard-ext-java-5/1.0.2/jguard-ext-java-5-1.0.2.jar</para>
+            </listitem>
+
+            <listitem>
+                <para>M2_REPO/net/sf/jguard/jguard-jee/1.0.2/jguard-jee-1.0.2.jar</para>
+            </listitem>
+
+            <listitem>
+                <para>M2_REPO/net/sf/jguard/jguard-jee-extras/1.0.2/jguard-jee-extras-1.0.2.jar</para>
+            </listitem>
+
+            <listitem>
+                <para>M2_REPO/org/apache/struts/struts-core/1.3.5/struts-core-1.3.5.jar</para>
+            </listitem>
+
+            <listitem>
+                <para>M2_REPO/taglibs/standard/1.1.2/standard-1.1.2.jar</para>
+            </listitem>
+        </itemizedlist>
+
+        <para>After added, it should look like this:</para>
+
+        <figure>
+            <title>Adding libs to classpath</title>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="WTP_adding_libs_to_classpath2.gif" scale="50"
+                               scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para></para>
+
+        <para>Before we can start writing our .jsps, we will, at first, copy the
+            .tlds files.
+        </para>
+
+        <para>From standard-1.1.2.jar!/META-INF, copy c.tld to
+            src/main/webapp/WEB-INF/config/tld
+        </para>
+
+        <para>From struts-taglib-1.3.5.jar!/META-INF/tld, copy struts-html.tld to
+            src/main/webapp/WEB-INF/config/tld
+        </para>
+
+        <para></para>
+
+        <para>Now, we are going to create the .jsp files we will use.</para>
+
+        <para>Fist of all, we will write our
+            <emphasis
+                    role="bold">index.jsp
+            </emphasis>
+            file, wich will only redirect the user to
+            the login form (usually, every system requires that the user gets
+            identified before anything else). Place this file at
+            <emphasis>src/main/webapp/</emphasis>
+        </para>
+
+        <para>
+            <programlisting>&lt;% /*
+                * index.jsp
+                * This page will redirect the user to the login page.
+                */
+                %&gt;
+
+                &lt;%@taglib uri="http://java.sun.com/jstl/core" prefix="c" %&gt;
+                &lt;c:redirect url="/LoginForm.do"/&gt;</programlisting>
+        </para>
+
+        <para>Now, let´s write our login form.</para>
+
+        <para>In order to do that, create a folder called jsp in
+            src/main/webapp/WEB-INF
+        </para>
+
+        <para>
+            <programlisting>&lt;% /*
+                * loginForm.jsp
+                * This page will get the login and password info, and will send it
+                * to LogonProcess.
+                */
+                %&gt;
+
+                &lt;%@ taglib prefix="html" uri="http://struts.apache.org/tags-html" %&gt;
+
+                &lt;html&gt;
+                &lt;head&gt;
+                &lt;title&gt;Authentication&lt;/title&gt;
+                &lt;/head&gt;
+                &lt;body&gt;
+                &lt;html:form action="/LogonProcess" method="post"&gt;
+                &lt;label for="login"&gt;Login&lt;/label&gt;
+                &lt;html:text property="<emphasis role="bold">login</emphasis>" maxlength="20" size="30" styleId="login"
+                tabindex="1" /&gt;
+                &lt;p&gt;
+                &lt;label for="login"&gt;Password&lt;/label&gt;
+                &lt;html:password property="<emphasis role="bold">password</emphasis>" maxlength="20" size="30"
+                styleId="login" tabindex="2" /&gt;
+                &lt;p&gt;
+                &lt;html:submit tabindex="3" /&gt;
+                &lt;html:reset tabindex="4" /&gt;
+                &lt;/html:form&gt;
+                &lt;/body&gt;
+                &lt;/html&gt;
+            </programlisting>
+        </para>
+
+        <para>Now, we will create a jsp in case authentication was successfull,
+            so, the user will be autheticated and will be able fo
+            unauthenticate.
+        </para>
+
+        <para>
+            <programlisting>&lt;% /*
+                * autenticated.jsp
+                * This page will show the message and let the user get unathenticated.
+                */
+                %&gt;
+
+                &lt;%@ taglib prefix="html" uri="http://struts.apache.org/tags-html" %&gt;
+
+                you are authenticated. You may &lt;html:link forward="/LogOff" /&gt;.
+            </programlisting>
+        </para>
+
+        <para>After the files were created, we are going now to create the
+            struts-config.xml file, wich will be located in
+            src/main/webapp/conf/struts
+        </para>
+
+        <para>
+            <programlisting>&lt;!DOCTYPE struts-config
+                PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+                "http://struts.apache.org/dtds/struts-config_1_2.dtd"&gt;
+
+                &lt;struts-config&gt;
+                &lt;form-beans&gt;
+                &lt;form-bean name="loginForm" type="org.apache.struts.action.DynaActionForm"&gt;
+                &lt;form-property name="login" type="java.lang.String" /&gt;
+                &lt;form-property name="password" type="java.lang.String" /&gt;
+                &lt;/form-bean&gt;
+                &lt;/form-beans&gt;
+
+                &lt;action-mappings&gt;
+                &lt;action path="/LoginForm" name="loginForm"
+                type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/jsp/loginForm.jsp" /&gt;
+                &lt;action path="/LogonProcess"
+                type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/jsp/authenticated.jsp" /&gt;
+                &lt;action path="/LogOff"
+                type="org.apache.struts.actions.ForwardAction" parameter="/index.jsp" /&gt;
+                &lt;/action-mappings&gt;
+                &lt;/struts-config&gt;</programlisting>
+        </para>
+
+        <para>After that, we will add struts-config.xml to our web.xml in order to
+            have a struts-based web application.
+        </para>
+
+        <para>So, now, our web.xml sould look like this:</para>
+
+        <para>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+                &lt;web-app id="WebApp_ID" version="2.4"
+                xmlns="http://java.sun.com/xml/ns/j2ee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+                http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"&gt;
+
+                &lt;display-name&gt;Basic1&lt;/display-name&gt;
+                &lt;description&gt;Provides a very basic webapp secured with jGuard&lt;/description&gt;
+
+                &lt;servlet&gt;
+                &lt;servlet-name&gt;action&lt;/servlet-name&gt;
+                &lt;servlet-class&gt;org.apache.struts.action.ActionServlet&lt;/servlet-class&gt;
+                &lt;init-param&gt;
+                &lt;param-name&gt;config&lt;/param-name&gt;
+                &lt;param-value&gt;/WEB-INF/conf/struts/struts-config.xml&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;init-param&gt;
+                &lt;param-name&gt;locale&lt;/param-name&gt;
+                &lt;param-value&gt;false&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;init-param&gt;
+                &lt;param-name&gt;debug&lt;/param-name&gt;
+                &lt;param-value&gt;2&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;init-param&gt;
+                &lt;param-name&gt;detail&lt;/param-name&gt;
+                &lt;param-value&gt;2&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;init-param&gt;
+                &lt;param-name&gt;convertNull&lt;/param-name&gt;
+                &lt;param-value&gt;true&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+                &lt;/servlet&gt;
+
+                &lt;servlet-mapping&gt;
+                &lt;servlet-name&gt;action&lt;/servlet-name&gt;
+                &lt;url-pattern&gt;*.do&lt;/url-pattern&gt;
+                &lt;/servlet-mapping&gt;
+
+                &lt;welcome-file-list&gt;
+                &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;
+                &lt;/welcome-file-list&gt;
+
+                &lt;/web-app&gt;</programlisting>
+        </para>
+
+        <para>Now we have a basic
+            <emphasis role="bold">not secured yet</emphasis>
+            app. So, it´s time to build and deploy it, and see if it works as a normal
+            app. So, let´s build it again.
+        </para>
+
+        <para>If you got a build successfull message from mvn, you´ve got it,
+            build was OK. You can deploy it and test it.
+        </para>
+    </chapter>
+
+    <chapter>
+        <title>JGuard Configuration</title>
+
+        <para>Now, that we have a basic app, it´s time to make it secure.</para>
+
+        <para>The basic flow is: when you access the application, it will forward
+            you to /LoginForm.do, wich is the URI that presents the form that will
+            collect the data wich JGuard will use in order to solve how´s tryin´ to
+            get authenticated and, if that was successfull or failed.
+        </para>
+
+        <para>&lt;&lt;PICTURE OF THE FLOW HERE?&gt;&gt;</para>
+
+        <para>In order to have JGuard working, we just need to configure five xml
+            files and add just basic context information on our web.xml file.
+        </para>
+
+        <para></para>
+
+        <para>This file is the<emphasis
+                role="bold">src/main/webapp/WEB-INF/conf/jGuard/jGuardFilter.xml</emphasis>.
+            Remember to copy the jGuardFilter_1.00.dtd file.
+        </para>
+
+        <para>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+                &lt;!DOCTYPE configuration SYSTEM "jGuardFilter_1.00.dtd"&gt;
+                &lt;configuration&gt;
+                &lt;filter&gt;
+                &lt;!--
+                Index uri of your web application.
+                This is the URI where JGuard will redirect the user case authentication succeed.
+                --&gt;
+                &lt;indexURI&gt;/WEB-INF/jsp/authenticated.jsp&lt;/indexURI&gt;
+                &lt;!-- Uri when the user authentication failed. --&gt;
+                &lt;authenticationFailedURI&gt;/AuthenticationFailed.do&lt;/authenticationFailedURI&gt;
+                &lt;!--
+                Uri to access to the authentication form.
+                A Submit from this URI (logonURI) to logonProcessURI means to JGuard that
+                it is an authentication cycle.
+                --&gt;
+                &lt;logonURI&gt;/Logon.do&lt;/logonURI&gt;
+                &lt;!-- uri to be authenticated. The action property of the authentication form MUST NOT be set to
+                j_security_check. --&gt;
+                &lt;logonProcessURI&gt;/LogonProcess.do&lt;/logonProcessURI&gt;
+                &lt;!-- uri related to register a user. not used by this example --&gt;
+                &lt;registerURI&gt;&lt;/registerURI&gt;
+                &lt;registerProcessURI&gt;&lt;/registerProcessURI&gt;
+                &lt;!-- uri to to be unauthenticated --&gt;
+                &lt;logoffURI&gt;/LogOff.do&lt;/logoffURI&gt;
+                &lt;!-- uri when access to a ressource is denied, ie. user doesn´t have access --&gt;
+                &lt;accessDeniedURI&gt;/AccessDenied.do&lt;/accessDeniedURI&gt;
+                &lt;authScheme&gt;FORM&lt;/authScheme&gt;
+                &lt;!-- these names must be the same of the LogonURI´s login and password fields. Remember the names in
+                bold? --&gt;
+                &lt;loginField&gt;login&lt;/loginField&gt;
+                &lt;passwordField&gt;password&lt;/passwordField&gt;
+                &lt;goToLastAccessDeniedUriOnSuccess&gt;true&lt;/goToLastAccessDeniedUriOnSuccess&gt;
+                &lt;/filter&gt;
+                &lt;/configuration&gt;</programlisting>
+        </para>
+
+        <para></para>
+
+        <para></para>
+
+        <para>This file is the<emphasis
+                role="bold">src/main/webapp/WEB-INF/conf/jGuard/jGuardAuthentication.xml</emphasis>.
+            Remember to copy the jGuardAuthentication_1.00.dtd file.
+        </para>
+
+        <para>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+                &lt;!DOCTYPE configuration SYSTEM "jGuardAuthentication_1.00.dtd"&gt;
+                &lt;configuration&gt;
+                &lt;authentication&gt;
+                &lt;!-- 'local' or 'jvm' --&gt;
+                &lt;scope&gt;local&lt;/scope&gt;
+                &lt;!-- boolean option('true' or 'false'), to activate the authorization debug mode --&gt;
+                &lt;debug&gt;true&lt;/debug&gt;
+                &lt;includeOldConfig&gt;false&lt;/includeOldConfig&gt;
+                &lt;!-- java.security.auth.login.config --&gt;
+                &lt;includeConfigFromJavaParam&gt;false&lt;/includeConfigFromJavaParam&gt;
+                &lt;includePolicyFromJavaParam&gt;false&lt;/includePolicyFromJavaParam&gt;
+                &lt;!-- &lt;digestAlgorithm&gt;MD5&lt;/digestAlgorithm&gt; --&gt;
+                &lt;!-- &lt;salt&gt;qsd846sdq6ds4&lt;/salt&gt; --&gt;
+                &lt;authenticationManager&gt;
+                net.sf.jguard.ext.authentication.manager.XmlAuthenticationManager
+                &lt;/authenticationManager&gt;
+                &lt;authenticationManagerOptions&gt;
+                &lt;option&gt;
+                &lt;name&gt;authenticationXmlFileLocation&lt;/name&gt;
+                &lt;value&gt;WEB-INF/conf/jGuard/jGuardUsersPrincipals.xml&lt;/value&gt;
+                &lt;/option&gt;
+                &lt;/authenticationManagerOptions&gt;
+                &lt;loginModules&gt;
+                &lt;!-- specify which loginModules are used for authentication. --&gt;
+                &lt;loginModule&gt;
+                &lt;name&gt;net.sf.jguard.ext.authentication.loginmodules.XmlLoginModule&lt;/name&gt;
+                &lt;!-- flag :'REQUIRED','OPTIONAL','REQUISITE' or 'SUFFICIENT' --&gt;
+                &lt;flag&gt;REQUIRED&lt;/flag&gt;
+                &lt;loginModuleOptions&gt;
+                &lt;option&gt;
+                &lt;name&gt;debug&lt;/name&gt;
+                &lt;value&gt;false&lt;/value&gt;
+                &lt;/option&gt;
+                &lt;/loginModuleOptions&gt;
+                &lt;/loginModule&gt;
+                &lt;/loginModules&gt;
+                &lt;/authentication&gt;
+                &lt;/configuration&gt;</programlisting>
+        </para>
+
+        <para></para>
+
+        <para></para>
+
+        <para>This file is the<emphasis
+                role="bold">src/main/webapp/WEB-INF/conf/jGuard/jGuardAuthorization.xml</emphasis>.
+            Remember to copy the jGuardAuthorization_1.00.dtd file.
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+                &lt;!DOCTYPE configuration SYSTEM "jGuardAuthorization_1.00.dtd"&gt;
+                &lt;configuration&gt;
+                &lt;authorization&gt;
+                &lt;!-- 'local' or 'jvm' --&gt;
+                &lt;scope&gt;local&lt;/scope&gt;
+                &lt;permissionResolutionCaching&gt;true&lt;/permissionResolutionCaching&gt;
+                &lt;authorizationManager&gt;
+                net.sf.jguard.ext.authorization.manager.XmlAuthorizationManager
+                &lt;/authorizationManager&gt;
+                &lt;authorizationManagerOptions&gt;
+                &lt;option&gt;
+                &lt;name&gt;authorizationXmlFileLocation&lt;/name&gt;
+                &lt;value&gt;WEB-INF/conf/jGuard/jGuardPrincipalsPermissions.xml&lt;/value&gt;
+                &lt;/option&gt;
+                &lt;option&gt;
+                &lt;name&gt;debug&lt;/name&gt;
+                &lt;value&gt;true&lt;/value&gt;
+                &lt;/option&gt;
+                &lt;/authorizationManagerOptions&gt;
+                &lt;/authorization&gt;
+                &lt;/configuration&gt;</programlisting>
+        </para>
+
+        <para></para>
+
+        <para>Now that we´ve define the flow (controlled by JGuardFilter.xml) and
+            the way authentication and authorization will happens, we have to define
+            the roles (principals) and permissions related to these principals.
+        </para>
+
+        <para></para>
+
+        <para></para>
+
+        <para>This file is the<emphasis
+                role="bold">src/main/webapp/WEB-INF/conf/jGuard/jGuardUsersPrincipals.xml</emphasis>.
+            Remember to copy the jGuardUsersPrincipals_1.00.dtd file.
+        </para>
+
+        <para>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+                &lt;!DOCTYPE usersPrincipals SYSTEM "jGuardUsersPrincipals_1.00.dtd"&gt;
+                &lt;usersPrincipals&gt;
+                &lt;principals&gt;
+                &lt;principal&gt;
+                &lt;name&gt;admin&lt;/name&gt;
+                &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                &lt;applicationName&gt;Basic1&lt;/applicationName&gt; &lt;!-- this value must be exacly the same as
+                web.xml´s display-name --&gt;
+                &lt;/principal&gt;
+                &lt;principal&gt;
+                &lt;name&gt;guest&lt;/name&gt;
+                &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                &lt;applicationName&gt;Basic1&lt;/applicationName&gt;
+                &lt;/principal&gt;
+                &lt;/principals&gt;
+
+                &lt;users&gt;
+                &lt;userTemplate&gt;
+                &lt;name&gt;default&lt;/name&gt;
+                &lt;privateRequiredCredentials&gt;
+                &lt;credTemplateId identity="true"&gt;login&lt;/credTemplateId&gt;
+                &lt;credTemplateId digestNeeded="true"&gt;password&lt;/credTemplateId&gt;
+                &lt;/privateRequiredCredentials&gt;
+                &lt;publicRequiredCredentials&gt;
+                &lt;credTemplateId&gt;firstname&lt;/credTemplateId&gt;
+                &lt;credTemplateId&gt;lastname&lt;/credTemplateId&gt;
+                &lt;credTemplateId&gt;location&lt;/credTemplateId&gt;
+                &lt;/publicRequiredCredentials&gt;
+                &lt;privateOptionalCredentials&gt;
+                &lt;credTemplateId&gt;country&lt;/credTemplateId&gt;
+                &lt;credTemplateId&gt;religion&lt;/credTemplateId&gt;
+                &lt;/privateOptionalCredentials&gt;
+                &lt;publicOptionalCredentials&gt;
+                &lt;credTemplateId&gt;hobbies&lt;/credTemplateId&gt;
+                &lt;/publicOptionalCredentials&gt;
+                &lt;genericPrincipals&gt;
+                &lt;principalRef name="admin" applicationName="Basic1"/&gt;
+                &lt;/genericPrincipals&gt;
+                &lt;specificPrincipalFactories/&gt;
+                &lt;/userTemplate&gt;
+                &lt;user&gt;
+                &lt;privateCredentials&gt;
+                &lt;credential&gt;
+                &lt;id&gt;login&lt;/id&gt;
+                &lt;value&gt;admin&lt;/value&gt;
+                &lt;/credential&gt;
+                &lt;credential&gt;
+                &lt;id&gt;password&lt;/id&gt;
+                &lt;value&gt;admin&lt;/value&gt;
+                &lt;/credential&gt;
+                &lt;/privateCredentials&gt;
+                &lt;publicCredentials&gt;
+                &lt;credential&gt;
+                &lt;id&gt;firstname&lt;/id&gt;
+                &lt;value&gt;Rick&lt;/value&gt;
+                &lt;/credential&gt;
+                &lt;credential&gt;
+                &lt;id&gt;lastname&lt;/id&gt;
+                &lt;value&gt;Dangerous&lt;/value&gt;
+                &lt;/credential&gt;
+                &lt;credential&gt;
+                &lt;id&gt;location&lt;/id&gt;
+                &lt;value&gt;Paris&lt;/value&gt;
+                &lt;/credential&gt;
+                &lt;/publicCredentials&gt;
+                &lt;principalsRef&gt;
+                &lt;principalRef name="admin" applicationName="Basic1"
+                definition="${subject.publicCredentials.location.contains('Paris')}" active="true"/&gt;
+                &lt;/principalsRef&gt;
+                &lt;/user&gt;
+                &lt;user&gt;
+                &lt;privateCredentials&gt;
+                &lt;credential&gt;
+                &lt;id&gt;login&lt;/id&gt;
+                &lt;value&gt;guest&lt;/value&gt;
+                &lt;/credential&gt;
+                &lt;credential&gt;
+                &lt;id&gt;password&lt;/id&gt;
+                &lt;value&gt;guest&lt;/value&gt;
+                &lt;/credential&gt;
+                &lt;/privateCredentials&gt;
+                &lt;publicCredentials/&gt;
+                &lt;principalsRef&gt;
+                &lt;principalRef name="guest" applicationName="jguard-struts-example" /&gt;
+                &lt;/principalsRef&gt;
+                &lt;/user&gt;
+                &lt;/users&gt;
+                &lt;/usersPrincipals&gt;</programlisting>
+        </para>
+
+        <para></para>
+
+        <para>This file is the<emphasis
+                role="bold">src/main/webapp/WEB-INF/conf/jGuardPrincipalsPermissions.xml</emphasis>.
+            Remember to copy the jGuardPrincipalsPermissions_1.00.dtd file.
+        </para>
+
+        <para>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+                &lt;!DOCTYPE configuration SYSTEM "jGuardPrincipalsPermissions_1.00.dtd"&gt;
+                &lt;configuration&gt;
+                &lt;permissions&gt;
+                &lt;domain&gt;
+                &lt;!--
+                this domain will hold all permissions that everybody will be able to access.
+                --&gt;
+                &lt;name&gt;public&lt;/name&gt;
+                &lt;permission&gt;
+                &lt;name&gt;LoginForm&lt;/name&gt;
+                &lt;class&gt;net.sf.jguard.core.authorization.permissions.URLPermission&lt;/class&gt;
+                &lt;actions&gt;
+                &lt;action&gt;/LoginForm.do&lt;/action&gt;
+                &lt;action&gt;ANY&lt;/action&gt;
+                &lt;/actions&gt;
+                &lt;/permission&gt;
+
+                &lt;permission&gt;
+                &lt;name&gt;LogonProcess&lt;/name&gt;
+                &lt;class&gt;net.sf.jguard.core.authorization.permissions.URLPermission&lt;/class&gt;
+                &lt;actions&gt;
+                &lt;action&gt;/LogonProcess.do&lt;/action&gt;
+                &lt;action&gt;ANY&lt;/action&gt;
+                &lt;/actions&gt;
+                &lt;/permission&gt;
+                &lt;permission&gt;
+                &lt;name&gt;LogOff&lt;/name&gt;
+                &lt;class&gt;net.sf.jguard.core.authorization.permissions.URLPermission&lt;/class&gt;
+                &lt;actions&gt;
+                &lt;action&gt;/LogOff.do&lt;/action&gt;
+                &lt;action&gt;ANY&lt;/action&gt;
+                &lt;/actions&gt;
+                &lt;/permission&gt;
+                &lt;/domain&gt;
+
+                &lt;domain&gt;
+                &lt;!--
+                this domain will hold all permissions that only authenticated people
+                having a related role will be able to access
+                --&gt;
+                &lt;name&gt;secured&lt;/name&gt;
+                &lt;permission&gt;
+                &lt;name&gt;Authenticated&lt;/name&gt;
+                &lt;class&gt;net.sf.jguard.core.authorization.permissions.URLPermission&lt;/class&gt;
+                &lt;actions&gt;
+                &lt;action&gt;/Authenticated.do&lt;/action&gt;
+                &lt;action&gt;ANY&lt;/action&gt;
+                &lt;action&gt;you have been authenticated&lt;/action&gt;
+                &lt;/actions&gt;
+                &lt;/permission&gt;
+                &lt;/domain&gt;
+                &lt;/permissions&gt;
+
+                &lt;principals&gt;
+                &lt;principal&gt;
+                &lt;name&gt;guest&lt;/name&gt;
+                &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                &lt;permissionsRef&gt;
+                &lt;permissionRef name="LoginForm"/&gt;
+                &lt;permissionRef name="LogonProcess"/&gt;
+                &lt;permissionRef name="LogOff"/&gt;
+                &lt;/permissionsRef&gt;
+                &lt;/principal&gt;
+                &lt;principal&gt;
+                &lt;name&gt;admin&lt;/name&gt;
+                &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                &lt;permissionsRef&gt;
+                &lt;domainRef name="secured"/&gt;
+                &lt;/permissionsRef&gt;
+                &lt;/principal&gt;
+                &lt;/principals&gt;
+
+                &lt;/configuration&gt;</programlisting>
+        </para>
+
+        <para></para>
+
+        <para>Now we are going to reference them at web.xml</para>
+
+        <para>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+                &lt;web-app id="WebApp_ID" version="2.4"
+                xmlns="http://java.sun.com/xml/ns/j2ee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+                http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"&gt;
+
+                &lt;display-name&gt;Basic1&lt;/display-name&gt;
+                &lt;description&gt;Provides a very basic webapp secured with jGuard&lt;/description&gt;
+                &lt;!-- JGuard basic configuration --&gt;
+
+                &lt;context-param&gt;
+                &lt;param-name&gt;authenticationConfigurationLocation&lt;/param-name&gt;
+                &lt;param-value&gt;/WEB-INF/conf/jGuard/jGuardAuthentication.xml&lt;/param-value&gt;
+                &lt;/context-param&gt;
+                &lt;context-param&gt;
+                &lt;param-name&gt;authenticationScope&lt;/param-name&gt;
+                &lt;param-value&gt;local&lt;/param-value&gt;
+                &lt;/context-param&gt;
+                &lt;context-param&gt;
+                &lt;param-name&gt;authorizationConfigurationLocation&lt;/param-name&gt;
+                &lt;param-value&gt;/WEB-INF/conf/jGuard/jGuardAuthorization.xml&lt;/param-value&gt;
+                &lt;/context-param&gt;
+                &lt;context-param&gt;
+                &lt;param-name&gt;authorizationScope&lt;/param-name&gt;
+                &lt;param-value&gt;local&lt;/param-value&gt;
+                &lt;/context-param&gt;
+                &lt;context-param&gt;
+                &lt;param-name&gt;enableJMX&lt;/param-name&gt;
+                &lt;param-value&gt;false&lt;/param-value&gt;
+                &lt;/context-param&gt;
+
+                &lt;filter&gt;
+                &lt;filter-name&gt;AccessFilter&lt;/filter-name&gt;
+                &lt;filter-class&gt;
+                net.sf.jguard.jee.authentication.http.AccessFilter
+                &lt;/filter-class&gt;
+                &lt;init-param&gt;
+                &lt;param-name&gt;configurationLocation&lt;/param-name&gt;
+                &lt;param-value&gt;/WEB-INF/conf/jGuard/jGuardFilter.xml&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;/filter&gt;
+                &lt;filter-mapping&gt;
+                &lt;filter-name&gt;AccessFilter&lt;/filter-name&gt;
+                &lt;url-pattern&gt;*.do&lt;/url-pattern&gt;
+                &lt;/filter-mapping&gt;
+                &lt;listener&gt;
+                &lt;listener-class&gt;net.sf.jguard.jee.listeners.SessionListener&lt;/listener-class&gt;
+                &lt;/listener&gt;
+                &lt;listener&gt;
+                &lt;listener-class&gt;net.sf.jguard.jee.listeners.ContextListener&lt;/listener-class&gt;
+                &lt;/listener&gt;
+                &lt;!-- end of JGuard basic configuration --&gt;
+
+                &lt;session-config&gt;
+                &lt;session-timeout&gt;30&lt;/session-timeout&gt;
+                &lt;/session-config&gt;
+
+                &lt;servlet&gt;
+                &lt;servlet-name&gt;action&lt;/servlet-name&gt;
+                &lt;servlet-class&gt;org.apache.struts.action.ActionServlet&lt;/servlet-class&gt;
+                &lt;init-param&gt;
+                &lt;param-name&gt;config&lt;/param-name&gt;
+                &lt;param-value&gt;/WEB-INF/conf/struts/struts-config.xml&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;init-param&gt;
+                &lt;param-name&gt;locale&lt;/param-name&gt;
+                &lt;param-value&gt;false&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;init-param&gt;
+                &lt;param-name&gt;debug&lt;/param-name&gt;
+                &lt;param-value&gt;2&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;init-param&gt;
+                &lt;param-name&gt;detail&lt;/param-name&gt;
+                &lt;param-value&gt;2&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;init-param&gt;
+                &lt;param-name&gt;convertNull&lt;/param-name&gt;
+                &lt;param-value&gt;true&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+                &lt;/servlet&gt;
+
+                &lt;servlet-mapping&gt;
+                &lt;servlet-name&gt;action&lt;/servlet-name&gt;
+                &lt;url-pattern&gt;*.do&lt;/url-pattern&gt;
+                &lt;/servlet-mapping&gt;
+
+                &lt;welcome-file-list&gt;
+                &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;
+                &lt;/welcome-file-list&gt;
+                &lt;/web-app&gt;</programlisting>
+        </para>
+
+        <para>Now, we need to create the to remainging forwards, one wich is
+            related to authenticationFailedURI and accessDeniedURI.
+        </para>
+
+        <para>
+            <programlisting>&lt;% /*
+                * accessDenied.jsp
+                * This page will show the Access Denied message.
+                */
+                %&gt;
+
+                &lt;%@ taglib prefix="html" uri="http://struts.apache.org/tags-html" %&gt;
+
+                Access Denied. You have not clearence to access the specified resource.
+            </programlisting>
+        </para>
+
+        <para></para>
+
+        <para>Now we need to add the forwards on the struts-config.xml
+            file:
+        </para>
+
+        <para>
+            <programlisting>&lt;!DOCTYPE struts-config
+                PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+                "http://struts.apache.org/dtds/struts-config_1_2.dtd"&gt;
+
+                &lt;struts-config&gt;
+                &lt;form-beans&gt;
+                &lt;form-bean name="loginForm" type="org.apache.struts.action.DynaActionForm"&gt;
+                &lt;form-property name="login" type="java.lang.String" /&gt;
+                &lt;form-property name="password" type="java.lang.String" /&gt;
+                &lt;/form-bean&gt;
+                &lt;/form-beans&gt;
+
+                &lt;action-mappings&gt;
+                &lt;!-- errors --&gt;
+                &lt;action path="/AccessDenied"
+                type="org.apache.struts.actions.ForwardAction"
+                parameter="/WEB-INF/jsp/accessDenied.jsp" /&gt;
+                &lt;action path="/AuthenticationFailed" name="loginForm"
+                type="org.apache.struts.actions.ForwardAction"
+                parameter="/LoginForm.do" /&gt;
+
+
+                &lt;action path="/LoginForm"
+                type="org.apache.struts.actions.ForwardAction"
+                parameter="/WEB-INF/jsp/loginForm.jsp" /&gt;
+                &lt;action path="/LogonProcess" name="loginForm"
+                type="org.apache.struts.actions.ForwardAction"
+                parameter="/Authenticated.do" /&gt;
+                &lt;action path="/Authenticated"
+                type="org.apache.struts.actions.ForwardAction"
+                parameter="/WEB-INF/jsp/authenticated.jsp" /&gt;
+                &lt;action path="/LogOff"
+                type="org.apache.struts.actions.ForwardAction"
+                parameter="/index.jsp" /&gt;
+                &lt;/action-mappings&gt;
+                &lt;/struts-config&gt;</programlisting>
+        </para>
+
+        <para>In order to deploy in tomcat, all you have to do is to copy the
+            target/jguard-example-basic1-1.0.2.war file to tomcat´s webapp dir and
+            start tomcat (if it is not already started).
+        </para>
+    </chapter>
+</book>
