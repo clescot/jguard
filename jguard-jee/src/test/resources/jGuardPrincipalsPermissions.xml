@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration xmlns="http://jguard.sourceforge.net/xsd/jGuardPrincipalsPermissions_2.0.0"
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance">
+    <permissions>
+            <permission>
+                <name>accessDenied</name>
+                <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+                <actions>
+                    <action>/AccessDenied.do</action>
+                    <action>http</action>
+                    <action>ressource where you are redirected when access to another ressource is denied</action>
+                </actions>
+            </permission>
+            <permission>
+                <name>accueil</name>
+                <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+                <actions>
+                    <action>/Welcome.do</action>
+                </actions>
+            </permission>
+            <permission>
+                <name>captcha</name>
+                <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+                <actions>
+                    <action>/Captcha.do</action>
+                </actions>
+            </permission>
+            <permission>
+                <name>registration</name>
+                <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+                <actions>
+                    <action>/Registration.do</action>
+                </actions>
+            </permission>
+            <permission>
+                <name>changeActiveStatusOnRole</name>
+                <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+                <actions>
+                    <action>/User.do?method=setActiveOnRolePrincipal&amp;*</action>
+                </actions>
+            </permission>
+            <permission>
+                <name>rickSpace</name>
+                <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+                <actions>
+                    <action>/RickSpace.do</action>
+                </actions>
+            </permission>
+
+            <permission>
+                <name>allAccess</name>
+                <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+                <actions>
+                    <action>/*</action>
+                    <action>full access to any ressource</action>
+                </actions>
+            </permission>
+            <!-- only use MBeanPermission if your jre is java 5 or higher
+
+                      <permission>
+                       <name>*</name>
+                       <class>javax.management.MBeanPermission</class>
+                       <actions>
+                       <action>*</action>
+                       </actions>
+                     </permission> -->
+
+            <!--   <permission>
+              <name>dummy</name>
+              <class>net.sf.jguard.jee.extras.dwr1.DWR1Permission</class>
+              <actions>
+                <action>uk.ltd.getahead.dwr.create.NewCreator</action>
+                <action>net.sf.jguard.example.dwr.Dummy</action>
+                <action>getHello</action>
+              </actions>
+            </permission>-->
+    </permissions>
+
+    <principals>
+        <principal>
+            <name>guest</name>
+            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <permissionsRef>
+                <permissionRef name="accessDenied"/>
+                <permissionRef name="accueil"/>
+                <permissionRef name="captcha"/>
+                <permissionRef name="registration"/>
+                <permissionRef name="changeActiveStatusOnRole"/>
+                <permissionRef name="rickSpace"/>
+            </permissionsRef>
+        </principal>
+
+        <principal>
+            <name>simple</name>
+            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <permissionsRef>
+                <permissionRef name="accessDenied"/>
+                <permissionRef name="accueil"/>
+                <permissionRef name="captcha"/>
+                <permissionRef name="registration"/>
+                <permissionRef name="changeActiveStatusOnRole"/>
+                <permissionRef name="rickSpace"/>
+            </permissionsRef>
+        </principal>
+
+        <principal>
+            <name>other</name>
+            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <permissionsRef/>
+        </principal>
+
+        <principal>
+            <name>admin</name>
+            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <permissionsRef>
+                <permissionRef name="allAccess" />
+            </permissionsRef>
+            <descendants>
+                <principalRef name="other"/>
+            </descendants>
+        </principal>
+    </principals>
+
+</configuration>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://jguard.sourceforge.net/xsd/jGuardFilter_2.0.0.xsd"
+            xmlns:tns="http://jguard.sourceforge.net/xsd/jGuardFilter_2.0.0.xsd"
+            elementFormDefault="qualified">
+    <xsd:complexType name="parameter">
+        <xsd:attribute name="key" type="xsd:string"/>
+        <xsd:attribute name="value" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="authenticationSchemeHandler">
+        <xsd:sequence maxOccurs="unbounded">
+            <xsd:element name="parameter" type="tns:parameter" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="className" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="callbackHandler">
+        <xsd:sequence maxOccurs="unbounded">
+            <xsd:element name="authenticationSchemeHandler" type="tns:authenticationSchemeHandler" minOccurs="1"
+                         maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="callbackHandler" type="tns:callbackHandler"/>
+</xsd:schema>

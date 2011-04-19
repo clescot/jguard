@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.jguard.ext.principals.PersistedOrganization" table="jg_organization">
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+       <set name="credentials"  table="jg_orga_credentials" cascade="all,delete-orphan" lazy="false">
+        <key column="id"/>
+        <many-to-many unique="true" entity-name="JGuardOrgaCredential"/>
+       </set>
+       
+      <set name="principals" table="jg_orga_principal" cascade="save-update" lazy="false">
+            <key column="organization_id"/>
+            <many-to-many column="principal_id" class="net.sf.jguard.ext.principals.PersistedPrincipal"/>
+      </set>
+      
+      <set name="users"  lazy="false" cascade="all,delete-orphan" inverse="true">
+        <key column="user_id"/>
+           <one-to-many  class="net.sf.jguard.ext.principals.PersistedSubject" />
+       </set>
+        <!-- unidirectional one-to-one association on a foreign key -->
+        <many-to-one cascade="save-update" name="persistedSubjectTemplate" class="net.sf.jguard.ext.principals.PersistedSubjectTemplate"
+         lazy="false"  column="subjectTemplateId"  unique="true" not-null="true"/>
+    </class>
+</hibernate-mapping>

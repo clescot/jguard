@@ -1,0 +1,11 @@
+*.iws
+
+.iml
+*.ipr
+*.
+target/
+/target/*
+*/target/*
+.idea/*
+*/.svn/*
+.svn

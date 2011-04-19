@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://jguard.sourceforge.net/xsd/jGuardAuthentication_2.0.0"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema"
+ xmlns:au="http://jguard.sourceforge.net/xsd/jGuardAuthentication_2.0.0"
+ elementFormDefault="qualified">
+ <!-- complex types definitions  -->
+  <xs:complexType name="authentication">
+    <xs:sequence>
+    <xs:element name="scope" type="xs:string" default="local" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="debug" type="xs:boolean" default="false" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="includeOldConfig" type="xs:boolean" default="false" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="includeConfigFromJavaParam" type="xs:boolean" default="false" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="includePolicyFromJavaParam" type="xs:boolean" default="false" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="salt" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="digestAlgorithm" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="authenticationManager" type="xs:string" />
+    <xs:element name="authenticationManagerOptions" type="au:authenticationManagerOptions"  minOccurs="0" maxOccurs="1"/>
+    <xs:element name="loginModules" type="au:loginModules" />
+    </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="authenticationManagerOptions">
+    <xs:sequence>
+    <xs:element name="option" type="au:option" minOccurs="1"   maxOccurs="unbounded"/>
+    </xs:sequence>
+    </xs:complexType>
+
+
+
+    <xs:complexType name="loginModules">
+    <xs:sequence>
+        <xs:element name="loginModule" type="au:loginModule" minOccurs="1" maxOccurs="unbounded" />
+    </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="loginModule">
+    <xs:sequence>
+    <xs:element name="name" type="xs:string" />
+    <xs:element name="flag" type="xs:string" />
+    <xs:element name="loginModuleOptions" type="au:loginModuleOptions" minOccurs="0"   maxOccurs="1"/>
+    </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="loginModuleOptions">
+        <xs:sequence>
+            <xs:element name="option" type="au:option" minOccurs="1"   maxOccurs="unbounded"/>
+            </xs:sequence>
+     </xs:complexType>
+
+    <xs:complexType name="option">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="value" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+
+
+<xs:element name="authentication" type="au:authentication" />
+</xs:schema>

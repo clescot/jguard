@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+        <!--<property name="hibernate.current_session_context_class">managed</property>-->
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+        <!-- Database connection settings -->
+        <!--<property name="connection.driver_class">org.hsqldb.jdbcDriver</property>-->
+        <!--<property name="connection.driver_class">org.apache.derby.jdbc.EmbeddedDriver</property>-->
+        <property name="connection.driver_class">org.h2.Driver</property>
+        <!--<property name="connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>-->
+        <!--<property name="connection.url">jdbc:hsqldb:mem:jguard</property>-->
+
+        <property name="connection.url">jdbc:h2:~/test</property>
+        <!--<property name="connection.url">jdbc:derby:jguard;create=true</property>-->
+        <!--<property name="connection.url">jdbc:derby://localhost:1527/jguard</property>-->
+
+        <property name="connection.username">jguard</property>
+        <property name="connection.password">jguard</property>
+
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="connection.pool_size">1</property>
+
+        <!-- SQL dialect -->
+        <!--<property name="dialect">org.hibernate.dialect.HSQLDialect</property>-->
+        <!--<property name="dialect">org.hibernate.dialect.DerbyDialect</property>-->
+        <property name="dialect">org.hibernate.dialect.H2Dialect</property>
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Disable the second-level cache  -->
+        <property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</property>
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+        <property name="hibernate.cache.use_query_cache">true</property>
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">create-drop</property>
+
+        <mapping resource="Subject.hbm.xml"/>
+        <mapping resource="Principal.hbm.xml"/>
+        <mapping resource="JGuardCredential.hbm.xml"/>
+        <mapping resource="Organization.hbm.xml"/>
+        <mapping resource="SubjectTemplate.hbm.xml"/>
+    </session-factory>
+
+</hibernate-configuration>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.jguard.ext.principals.PersistedSubjectTemplate" table="jg_st_user">
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+       <set name="SubjectTemplateCredentials" table="jg_st_credential" cascade="all,delete-orphan" lazy="false">
+        <key column="user_id"/>
+        <!-- we are adding columns to the join table of the many-to-many association between subjectTemplate and credential
+        (already used with the association between Subject and credentials, but with some extra columns on the join table -->
+        <!-- strategy used: Mapping the join table to a collection of components cf p307 (chapter 7/Advanced entity association mappings) 
+              of 'Java Persistence with hibernate' Manning editions : a must-have -->
+           <composite-element class="net.sf.jguard.ext.principals.SubjectTemplateCredential" >
+               <!--  all properties should never be nullable—otherwise you can’t identify a row in the join table -->
+               <parent name="subjectTemplate" />
+               <many-to-one name="credential" cascade="save-update" lazy="false" entity-name="JGuardStCredential" column="credential_id" not-null="true" />
+               <property name="publicVisibility" column="public_visibility" />
+               <property name="required" column="required" />
+            </composite-element>
+       </set>
+        <set name="principals" table="jg_st_principal" lazy="false" cascade="save-update">
+        <key column="user_id"/>
+           <many-to-many column="principal_id" class="net.sf.jguard.ext.principals.PersistedPrincipal"/>
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://jguard.sourceforge.net/xsd/jGuardUsersPrincipals_2.0.0.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:up="http://jguard.sourceforge.net/xsd/jGuardUsersPrincipals_2.0.0.xsd"
+           elementFormDefault="qualified">
+    <!-- complex types definitions  -->
+    <xs:complexType name="authentication">
+        <xs:sequence>
+            <xs:element name="principals" type="up:principals"/>
+            <xs:element name="users" type="up:users"/>
+            <xs:element name="organizations" type="up:organizations"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="principals">
+        <xs:sequence>
+            <xs:element name="principal" type="up:principal" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="principal">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="class" type="xs:string" default="net.sf.jguard.core.principals.RolePrincipal"/>
+            <xs:element name="applicationName" type="xs:string"/>
+            <xs:element name="organizationRef" type="xs:string" default="system"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="users">
+        <xs:sequence>
+            <xs:element name="user" type="up:user" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="userTemplate">
+        <xs:sequence>
+            <xs:element name="privateRequiredCredentials" type="up:credTemplateIds"/>
+            <xs:element name="publicRequiredCredentials" type="up:credTemplateIds"/>
+            <xs:element name="privateOptionalCredentials" type="up:credTemplateIds"/>
+            <xs:element name="publicOptionalCredentials" type="up:credTemplateIds"/>
+            <xs:element name="principalsRef" type="up:principalsRef"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="credTemplateIds">
+        <xs:sequence>
+            <xs:element name="credTemplateId" type="up:credTemplateId" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="credTemplateId">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="digestNeeded" type="xs:boolean" default="false"/>
+            </xs:extension>
+        </xs:simpleContent>
+
+    </xs:complexType>
+
+
+    <xs:complexType name="user">
+        <xs:sequence>
+            <xs:element name="privateCredentials" type="up:privateCredentials"/>
+            <xs:element name="publicCredentials" type="up:publicCredentials"/>
+            <xs:element name="principalsRef" type="up:principalsRef"/>
+            <xs:element name="organizationRef" type="xs:string" default="system"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="privateCredentials">
+        <xs:sequence>
+            <xs:element name="credential" type="up:credential" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="credential">
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="value" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="publicCredentials">
+        <xs:sequence>
+            <xs:element name="credential" type="up:credential" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="principalsRef">
+        <xs:sequence>
+            <xs:element name="principalRef" type="up:principalRef" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="principalRef">
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="applicationName" type="xs:string"/>
+        <xs:attribute name="active" type="xs:boolean" default="true"/>
+        <xs:attribute name="definition" type="xs:string" default="true"/>
+        <xs:attribute name="organization" type="xs:string" default="true"/>
+    </xs:complexType>
+    <!-- attributs definitions  -->
+    <xs:element name="authentication" type="up:authentication"/>
+
+    <xs:complexType name="organizations">
+        <xs:sequence>
+            <xs:element name="organizationTemplate" type="up:organizationTemplate" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="organization" type="up:organization" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="organization">
+        <xs:sequence>
+            <xs:element name="userTemplate" type="up:userTemplate" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="credentials" type="up:privateCredentials"/>
+            <xs:element name="principalsRef" type="up:principalsRef"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="organizationTemplate">
+        <xs:sequence>
+            <xs:element name="userTemplate" type="up:userTemplate" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="credentials" type="up:credTemplateIds"/>
+            <xs:element name="principalsRef" type="up:principalsRef"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema> 

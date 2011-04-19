@@ -1,0 +1,87 @@
+/*
+jGuard is a security framework based on top of jaas (java authentication and authorization security).
+it is written for web applications, to resolve simply, access control problems.
+version $Name$
+http://sourceforge.net/projects/jguard/
+
+Copyright (C) 2004  Charles GAY
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+jGuard project home page:
+http://sourceforge.net/projects/jguard/
+
+*/
+package net.sf.jguard.ext.principals;
+
+import net.sf.jguard.core.authentication.credentials.JGuardCredential;
+
+/**
+* Class created for ORM convenience.
+* @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+*/
+public class SubjectTemplateCredential {
+
+    private PersistedSubjectTemplate subjectTemplate;
+    private JGuardCredential credential;
+    private boolean publicVisibility;
+    private boolean required;
+    
+    public SubjectTemplateCredential(){
+        super();
+    }
+    
+    public SubjectTemplateCredential(PersistedSubjectTemplate subjectTemplate, JGuardCredential credential,boolean publicVisibility,boolean required){
+        this.subjectTemplate = subjectTemplate;
+        this.credential = credential;
+        this.publicVisibility = publicVisibility;
+        this.required = required;
+        
+    }
+
+    public PersistedSubjectTemplate getSubjectTemplate() {
+        return subjectTemplate;
+    }
+
+    public void setSubjectTemplate(PersistedSubjectTemplate subjectTemplate) {
+        this.subjectTemplate = subjectTemplate;
+    }
+
+    public JGuardCredential getCredential() {
+        return credential;
+    }
+
+    public void setCredential(JGuardCredential credential) {
+        this.credential = credential;
+    }
+
+    public boolean isPublicVisibility() {
+        return publicVisibility;
+    }
+
+    public void setPublicVisibility(boolean publicVisibility) {
+        this.publicVisibility = publicVisibility;
+    }
+
+    public boolean isRequired() {
+        return required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
+    
+}

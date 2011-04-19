@@ -1,0 +1,116 @@
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+   <tlib-version>${project.version}</tlib-version>
+   <jsp-version>1.2</jsp-version>
+   <short-name>jguard</short-name>
+   <uri>http://jguard.net/tld/jguard.tld</uri>
+   <display-name>jguard</display-name>
+   <description>jguard library</description>
+   <tag>
+      <name>authorized</name>
+      <tag-class>net.sf.jguard.jee.taglib.Authorized</tag-class>
+      <description>display only authorized content by user's permissions</description>
+      <attribute>
+         <name>uri</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>permission</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>      
+   </tag>
+   <tag>
+      <name>hasPrincipal</name>
+      <tag-class>net.sf.jguard.jee.taglib.HasPrincipal</tag-class>
+      <description>display content only if user has got the specified principal</description>
+      <attribute>
+         <name>principals</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>operator</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+            <attribute>
+         <name>applicationName</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+      </attribute>
+   <attribute>
+   		<name>className</name>
+   		<required>false</required>
+   		<rtexprvalue>false</rtexprvalue>
+   	</attribute>
+   </tag>
+     <tag>
+      <name>hasPermission</name>
+      <tag-class>net.sf.jguard.jee.taglib.HasPermission</tag-class>
+      <description>display content only if user has got the specified permisison</description>
+      <attribute>
+         <name>className</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>name</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+            <attribute>
+         <name>actions</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+   </tag>
+      <tag>
+      <name>Principals</name>
+      <tag-class>net.sf.jguard.jee.taglib.Principals</tag-class>
+      <description>expose to a variable principals owned by the subject</description>
+      <attribute>
+         <name>var</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>className</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+   </tag>
+   <tag>
+      <name>pubCredential</name>
+      <tag-class>net.sf.jguard.jee.taglib.PubCredential</tag-class>
+      <description>display the value associated with the Credential from the publicCredentials Set,
+       which has got this id.</description>
+      <attribute>
+         <name>id</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>default</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+   </tag>
+   <tag>
+      <name>privCredential</name>
+      <tag-class>net.sf.jguard.jee.taglib.PrivCredential</tag-class>
+      <description>display the value associated with the Credential from the privateCredentials Set,
+       which has got this id.</description>
+      <attribute>
+         <name>id</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>default</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+   </tag>
+</taglib>

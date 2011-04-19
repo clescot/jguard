@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<callbackHandler xmlns="http://jguard.sourceforge.net/xsd/jGuardFilter_2.0.0.xsd"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+                 xs:schemaLocation="http://jguard.sourceforge.net/xsd/jGuardFilter_2.0.0.xsd jGuardFilter_2.0.0.xsd">
+    <authenticationSchemeHandler
+            className="net.sf.jguard.jee.authentication.schemes.HttpServletLoginPasswordFormSchemeHandler">
+        <!-- Uri to access to the authentication form -->
+        <parameter key="logonURI" value="/Logon.do"/>
+        <!--  uri to be authenticated. The action property of the authentication form MUST NOT be set to j_security_check. -->
+        <parameter key="logonProcessURI" value="/LogonProcess.do*"/>
+        <!-- uri to to be unauthenticated -->
+        <parameter key="logoffURI" value="/Logoff.do*"/>
+        <parameter key="loginField" value="login"/>
+        <!-- Parameter's name of the form's field which holds the password. All values are accepted except j_password. -->
+        <parameter key="passwordField" value="password"/>
+        <parameter key="goToLastAccessDeniedUriOnSuccess" value="true"/>
+        <!-- Uri when the user authentication failed. -->
+        <parameter key="authenticationFailedURI" value="/AuthenticationFailed.do*"/>
+        <!-- Index uri of your web application. -->
+        <parameter key="authenticationSucceedURI" value="/index.jsp"/>
+        <!-- uri when access to a ressource is denied -->
+        <parameter key="accessDeniedURI" value="/AccessDenied.do*"/>
+    </authenticationSchemeHandler>
+</callbackHandler>

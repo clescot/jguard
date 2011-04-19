@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration  xmlns="http://jguard.sourceforge.net/xsd/jGuardPrincipalsPermissions_2.0.0"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"  >
+    <permissions>
+            <permission>
+                <name>/jsp/accessDenied.jsp</name>
+                <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
+                <actions/>
+            </permission>
+            <permission>
+                <name>/jsp/authenticationFailed.jsp</name>
+                <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
+                <actions/>
+            </permission>
+            <permission>
+                <name>/welcome.jsp</name>
+                <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
+                <actions/>
+            </permission>
+            <permission>
+                <name>/jsp/vipArea.jsp</name>
+                <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
+                <actions/>
+            </permission>
+            <permission>
+                <name>captcha</name>
+                <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
+                <actions/>
+            </permission>
+            <permission>
+                <name>/jsp/registration.jsp</name>
+                <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
+                <actions/>
+            </permission>
+            <permission>
+                <name>*</name>
+                <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
+                <actions/>
+            </permission>
+            <!-- only use MBeanPermission if your jre is java 5 or higher
+
+                      <permission>
+                       <name>*</name>
+                       <class>javax.management.MBeanPermission</class>
+                       <actions>
+                       <action>*</action>
+                       </actions>
+                     </permission> -->
+    </permissions>
+
+    <principals>
+        <principal>
+            <name>guest</name>
+            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <permissionsRef>
+                <permissionRef name="/jsp/accessDenied.jsp"/>
+                <permissionRef name="/jsp/authenticationFailed.jsp"/>
+                <permissionRef name="/welcome.jsp"/>
+                <permissionRef name="captcha"/>
+                <permissionRef name="registration"/>
+                <!--<permissionRef name="changeActiveStatusOnRole"/>-->
+            </permissionsRef>
+        </principal>
+
+        <principal>
+            <name>other</name>
+            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <permissionsRef/>
+        </principal>
+
+        <principal>
+            <name>admin</name>
+            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <permissionsRef>
+              <permissionRef name="allAccess" />
+            </permissionsRef>
+            <descendants>
+                <principalRef name="other"/>
+            </descendants>
+        </principal>
+    </principals>
+
+</configuration>

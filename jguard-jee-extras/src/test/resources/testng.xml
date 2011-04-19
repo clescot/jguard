@@ -1,0 +1,10 @@
+<suite name="all-jguard-jee-extras-tests" verbose="1" >
+  <test name="Regression1"   >
+    <packages>
+      <package name="net.sf.jguard.jee.jsf" />
+      <package name="net.sf.jguard.jee.jsf.authentication" />
+      <package name="net.sf.jguard.jee.jsf.authorization" />
+      <package name="net.sf.jguard.jsf.permissions" />
+   </packages>
+ </test>
+</suite>

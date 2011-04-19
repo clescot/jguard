@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<authentication xmlns="http://jguard.sourceforge.net/xsd/jGuardUsersPrincipals_2.0.0.xsd"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema-instance">
+    <principals>
+        <principal>
+            <name>admin</name>
+            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <applicationName>jguard-struts-example</applicationName>
+            <organizationRef>myenterpriseId</organizationRef>
+        </principal>
+        <principal>
+            <name>guest</name>
+            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <applicationName>jguard-struts-example</applicationName>
+            <organizationRef>system</organizationRef>
+        </principal>
+        <principal>
+            <name>role3</name>
+            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <applicationName>anotherApplication</applicationName>
+            <organizationRef>system</organizationRef>
+        </principal>
+    </principals>
+    <users>
+        <user>
+            <privateCredentials>
+
+                <credential id="password" value="admin"/>
+                <credential id="active" value="true"/>
+            </privateCredentials>
+
+            <publicCredentials>
+                <credential id="login" value="admin"/>
+                <credential id="firstname" value="Rick"/>
+                <credential id="lastname" value="Dangerous"/>
+                <credential id="location" value="Paris"/>
+            </publicCredentials>
+
+            <principalsRef>
+                <principalRef name="admin" applicationName="jguard-struts-example"
+                              definition="${subject.publicCredentials.location.contains('Paris')}" active="true"/>
+                <principalRef name="role3" applicationName="anotherApplication"/>
+            </principalsRef>
+            <organizationRef>system</organizationRef>
+        </user>
+        <user>
+            <privateCredentials>
+
+                <credential id="password" value="guest"/>
+                <credential id="active" value="true"/>
+            </privateCredentials>
+            <publicCredentials>
+                <credential id="login" value="guest"/>
+            </publicCredentials>
+            <principalsRef>
+                <principalRef name="guest" applicationName="jguard-struts-example"/>
+            </principalsRef>
+            <organizationRef>system</organizationRef>
+        </user>
+    </users>
+    <organizations>
+        <organizationTemplate>
+            <userTemplate>
+                <privateRequiredCredentials>
+                    <credTemplateId digestNeeded="true">password</credTemplateId>
+                    <credTemplateId>active</credTemplateId>
+                </privateRequiredCredentials>
+                <publicRequiredCredentials>
+                    <credTemplateId>login</credTemplateId>
+
+                </publicRequiredCredentials>
+                <privateOptionalCredentials>
+                    <credTemplateId>country</credTemplateId>
+                    <credTemplateId>religion</credTemplateId>
+                </privateOptionalCredentials>
+                <publicOptionalCredentials>
+                    <credTemplateId>hobbies</credTemplateId>
+                    <credTemplateId>firstname</credTemplateId>
+                    <credTemplateId>lastname</credTemplateId>
+                    <credTemplateId>location</credTemplateId>
+                </publicOptionalCredentials>
+                <principalsRef>
+                    <principalRef name="admin" applicationName="jguard-struts-example"/>
+                    <principalRef name="role3" applicationName="anotherApplication"/>
+                </principalsRef>
+            </userTemplate>
+            <credentials>
+                <credTemplateId>id</credTemplateId>
+            </credentials>
+            <principalsRef>
+                <principalRef name="admin" applicationName="jguard-struts-example"/>
+                <principalRef name="role3" applicationName="anotherApplication"/>
+            </principalsRef>
+        </organizationTemplate>
+        <organization>
+            <userTemplate>
+                <privateRequiredCredentials>
+                    <credTemplateId digestNeeded="true">password</credTemplateId>
+                    <credTemplateId>active</credTemplateId>
+                </privateRequiredCredentials>
+                <publicRequiredCredentials>
+                    <credTemplateId>login</credTemplateId>
+
+                </publicRequiredCredentials>
+                <privateOptionalCredentials>
+                    <credTemplateId>country</credTemplateId>
+                    <credTemplateId>religion</credTemplateId>
+                </privateOptionalCredentials>
+                <publicOptionalCredentials>
+                    <credTemplateId>firstname</credTemplateId>
+                    <credTemplateId>lastname</credTemplateId>
+                    <credTemplateId>location</credTemplateId>
+                    <credTemplateId>hobbies</credTemplateId>
+                </publicOptionalCredentials>
+                <principalsRef>
+                    <principalRef name="admin" applicationName="jguard-struts-example"/>
+                    <principalRef name="role3" applicationName="anotherApplication"/>
+                </principalsRef>
+            </userTemplate>
+            <credentials>
+                <credential id="id" value="system"/>
+                <credential id="creation date" value="1965"/>
+            </credentials>
+            <principalsRef>
+                <principalRef name="guest" applicationName="jguard-struts-example"/>
+                <principalRef name="admin" applicationName="jguard-struts-example"/>
+            </principalsRef>
+        </organization>
+        <organization>
+            <userTemplate>
+                <privateRequiredCredentials>
+                    <credTemplateId digestNeeded="true">password</credTemplateId>
+                    <credTemplateId>active</credTemplateId>
+                </privateRequiredCredentials>
+                <publicRequiredCredentials>
+                    <credTemplateId>login</credTemplateId>
+                    <credTemplateId>firstname</credTemplateId>
+                    <credTemplateId>lastname</credTemplateId>
+                    <credTemplateId>location</credTemplateId>
+                </publicRequiredCredentials>
+                <privateOptionalCredentials>
+                    <credTemplateId>country</credTemplateId>
+                    <credTemplateId>religion</credTemplateId>
+                </privateOptionalCredentials>
+                <publicOptionalCredentials>
+                    <credTemplateId>hobbies</credTemplateId>
+                </publicOptionalCredentials>
+                <principalsRef>
+                    <principalRef name="admin" applicationName="jguard-struts-example"/>
+                    <principalRef name="role3" applicationName="anotherApplication"/>
+                </principalsRef>
+            </userTemplate>
+            <credentials>
+                <credential id="id" value="myenterpriseId"/>
+                <credential id="creation date" value="1984"/>
+            </credentials>
+            <principalsRef>
+                <principalRef name="guest" applicationName="jguard-struts-example"/>
+                <principalRef name="admin" applicationName="jguard-struts-example"/>
+            </principalsRef>
+        </organization>
+    </organizations>
+</authentication>

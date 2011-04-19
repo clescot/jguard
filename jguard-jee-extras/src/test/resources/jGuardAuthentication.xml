@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<authentication xmlns="http://jguard.sourceforge.net/xsd/jGuardAuthentication_2.0.0"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" >
+        <!-- 'local' or 'jvm' -->
+        <scope>local</scope>
+        <!-- boolean option('true' or 'false'), to activate the authorization debug mode -->
+        <debug>true</debug>
+        <includeOldConfig>false</includeOldConfig>
+        <!-- java.security.auth.login.config -->
+        <includeConfigFromJavaParam>false</includeConfigFromJavaParam>
+        <includePolicyFromJavaParam>false</includePolicyFromJavaParam>
+        <!-- <digestAlgorithm>MD5</digestAlgorithm> -->
+        <!-- <salt>qsd846sdq6ds4</salt> -->
+        <authenticationManager>net.sf.jguard.ext.authentication.manager.XmlAuthenticationManager</authenticationManager>
+        <authenticationManagerOptions>
+            <option>
+                <name>authenticationXmlFileLocation</name>
+                <value>jGuardUsersPrincipals.xml</value>
+            </option>
+        </authenticationManagerOptions>
+        <loginModules>
+            <!-- specify which loginModules are used for authentication. -->
+            <!--<loginModule>
+               <name>net.sf.jguard.ext.authentication.loginmodules.JCaptchaLoginModule</name>
+                  <flag>REQUIRED</flag>
+           </loginModule>-->
+            <loginModule>
+                <name>net.sf.jguard.ext.authentication.loginmodules.AuditLoginModule</name>
+                <!-- with this flag, although if a problem occurs in the AuditLoginModule, other loginModules are processed -->
+                <flag>OPTIONAL</flag>
+            </loginModule>
+            <loginModule>
+                <name>net.sf.jguard.ext.authentication.loginmodules.XmlLoginModule</name>
+                <!-- flag :'REQUIRED','OPTIONAL','REQUISITE' or 'SUFFICIENT' -->
+                <flag>REQUIRED</flag>
+                <loginModuleOptions>
+                    <option>
+                        <name>debug</name>
+                        <value>false</value>
+                    </option>
+                    <option>
+                        <name>importXmlData</name>
+                        <value>true</value>
+                    </option>
+                </loginModuleOptions>
+            </loginModule>
+        </loginModules>
+    </authentication>

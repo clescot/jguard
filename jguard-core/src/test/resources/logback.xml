@@ -1,0 +1,61 @@
+<!--
+  ~ jGuard is a security framework based on top of jaas (java authentication and authorization security).
+  ~ it is written for web applications, to resolve simply, access control problems.
+  ~ version $Name$
+  ~ http://sourceforge.net/projects/jguard/
+  ~
+  ~ Copyright (C) 2004-2011  Charles GAY
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  ~
+  ~
+  ~ jGuard project home page:
+  ~ http://sourceforge.net/projects/jguard/
+  -->
+
+<configuration>
+    <appender name="FILE_LOG"
+              class="ch.qos.logback.core.FileAppender">
+
+        <Append>false</Append>
+        <file>target/jguard.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>-->
+            <pattern>[%thread] %-5level
+                %logger{0}-perm %X{permission}- %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>[%thread] %-5level
+                %logger{0}-perm %X{permission}- %msg%n
+            </pattern>
+            <!--<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>-->
+        </encoder>
+    </appender>
+    <logger name="net.sf.jguard" additivity="false" level="info">
+        <appender-ref ref="FILE_LOG"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <root>
+        <level value="warn"/>
+        <appender-ref ref="FILE_LOG"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<authorization xmlns="http://jguard.sourceforge.net/xsd/jGuardAuthorization_2.0.0"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema-instance">
+    <!-- 'local' or 'jvm' -->
+    <scope>local</scope>
+    <permissionResolutionCaching>true</permissionResolutionCaching>
+    <authorizationManager>net.sf.jguard.core.authorization.manager.DummyAuthorizationManager</authorizationManager>
+    <authorizationManagerOptions>
+        <option>
+            <name>authorizationXmlFileLocation</name>
+            <value>jGuardPrincipalsPermissions.xml</value>
+        </option>
+        <option>
+            <name>debug</name>
+            <value>true</value>
+        </option>
+        <option>
+            <name>importXmlData</name>
+            <value>true</value>
+        </option>
+    </authorizationManagerOptions>
+</authorization>
+  

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.jguard.ext.principals.PersistedSubject" table="jg_user">
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="login" type="string" not-null="true" unique="true"/>
+        <property name="active" type="boolean" not-null="true"/>
+        <set name="privateCredentials" table="jg_subject_priv_cred" lazy="false" cascade="save-update">
+            <key column="id"/>
+            <many-to-many column="privateCredentialId" unique="true" entity-name="JGuardUserPrivateCredential"/>
+        </set>
+        <set name="publicCredentials" table="jg_subject_pub_cred" lazy="false" cascade="save-update">
+            <key column="id"/>
+            <many-to-many unique="true" column="publicCredentialId" entity-name="JGuardUserPublicCredential"/>
+        </set>
+        <set name="principals" table="jg_user_principal" lazy="false" cascade="save-update">
+            <key column="user_id"/>
+            <many-to-many column="principal_id" class="net.sf.jguard.ext.principals.PersistedPrincipal"/>
+        </set>
+        <many-to-one cascade="save-update" name="organization"
+                     class="net.sf.jguard.ext.principals.PersistedOrganization"
+                     lazy="false" column="organizationId" not-null="true"/>
+    </class>
+</hibernate-mapping>

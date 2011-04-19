@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ jGuard is a security framework based on top of jaas (java authentication and authorization security).
+  ~ it is written for web applications, to resolve simply, access control problems.
+  ~ version $Name$
+  ~ http://sourceforge.net/projects/jguard/
+  ~
+  ~ Copyright (C) 2004-2010  Charles GAY
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  ~
+  ~
+  ~ jGuard project home page:
+  ~ http://sourceforge.net/projects/jguard/
+  -->
+
+<xsd:schema targetNamespace="http://jguard.sourceforge.net/xsd/jGuardAuthorization_2.0.0"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://jguard.sourceforge.net/xsd/jGuardAuthorization_2.0.0"
+            elementFormDefault="qualified">
+    <xsd:element name="authorization" type="tns:authorization"/>
+    <xsd:complexType name="parameter">
+        <xsd:attribute name="key" type="xsd:string"/>
+        <xsd:attribute name="value" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="authenticationSchemeHandler">
+        <xsd:sequence maxOccurs="unbounded">
+            <xsd:element name="parameter" type="tns:parameter" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="className" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="authorization">
+        <xsd:sequence>
+            <xsd:element name="scope" type="tns:scope"/>
+            <xsd:element name="permissionResolutionCaching" type="xsd:boolean"/>
+            <xsd:element name="authorizationManager" type="xsd:string"/>
+            <xsd:element name="authorizationManagerOptions" type="tns:authorizationManagerOptions"/>
+
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="scope">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="local"/>
+            <xsd:enumeration value="jvm"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="authorizationManagerOptions">
+        <xsd:sequence minOccurs="1" maxOccurs="unbounded">
+            <xsd:element name="option" type="tns:option"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="option">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="value" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
