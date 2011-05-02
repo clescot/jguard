@@ -29,10 +29,10 @@ package net.sf.jguard.core.authorization.policy;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.internal.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import javax.security.auth.Subject;
 import java.security.*;
 

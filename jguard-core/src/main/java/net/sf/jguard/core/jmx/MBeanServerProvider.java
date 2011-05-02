@@ -2,11 +2,11 @@ package net.sf.jguard.core.jmx;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.internal.Nullable;
 import net.sf.jguard.core.ApplicationName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import java.util.Arrays;

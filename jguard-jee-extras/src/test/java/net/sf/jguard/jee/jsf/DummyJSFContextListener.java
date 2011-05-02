@@ -46,7 +46,7 @@ public class DummyJSFContextListener extends ContextListener {
         return new ServletModule() {
             @Override
             protected void configureServlets() {
-                serve("/*").by(DummyServlet.class);
+                serve("/*").with(DummyServlet.class);
             }
         };
     }

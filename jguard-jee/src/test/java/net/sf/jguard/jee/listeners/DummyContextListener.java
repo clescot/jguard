@@ -38,14 +38,16 @@ import net.sf.jguard.jee.authentication.http.AccessFilter;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
  */
 public class DummyContextListener extends ContextListener {
+    private static final String ALL_URL_PATTERN = "/*";
+
     @Override
     public ServletModule getServletModule() {
 
         return new ServletModule() {
             @Override
             protected void configureServlets() {
-                filter("/*").through(AccessFilter.class);
-                serve("/*").by(DummyServlet.class);
+                filter(ALL_URL_PATTERN).through(AccessFilter.class);
+                serve(ALL_URL_PATTERN).with(DummyServlet.class);
             }
         };
     }
