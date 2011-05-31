@@ -38,8 +38,9 @@
         <property name="hibernate.cache.use_second_level_cache">true</property>
         <property name="cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
         <property name="hibernate.cache.use_query_cache">true</property>
-        <!-- Echo all executed SQL to stdout -->
-        <property name="show_sql">true</property>
+        <!-- Echo all executed SQL to stdout when set to true-->
+        <property name="show_sql">false</property>
+
 
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create-drop</property>
