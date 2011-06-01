@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.authentication.configuration;
 
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.AuthenticationScope;

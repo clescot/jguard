@@ -5,7 +5,7 @@
 
 package net.sf.jguard.jee.extras.dwr2;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.jee.authorization.HttpAccessControllerUtils;
 import org.directwebremoting.extend.Creator;
 import org.directwebremoting.impl.DefaultAccessControl;

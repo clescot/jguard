@@ -27,7 +27,7 @@
 
 package net.sf.jguard.jee.authentication.schemes;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.StatefulScopes;

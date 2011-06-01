@@ -1,6 +1,6 @@
 package net.sf.jguard.jsf.authentication.filters;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.authentication.filters.AuthenticationFiltersProvider;
 

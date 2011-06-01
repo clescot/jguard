@@ -27,7 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.jsf.authentication;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.LoginContextWrapperImpl;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;

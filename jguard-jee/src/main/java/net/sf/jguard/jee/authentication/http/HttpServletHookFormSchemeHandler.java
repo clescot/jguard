@@ -1,6 +1,6 @@
 package net.sf.jguard.jee.authentication.http;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authentication.schemes.HookFormSchemeHandler;
 
 import javax.security.auth.callback.Callback;

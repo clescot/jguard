@@ -27,7 +27,7 @@ http://sourceforge.net/projects/jguard
 */
 package net.sf.jguard.core.authorization.policy;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.ehcache.CacheException;
 import net.sf.jguard.core.PolicyEnforcementPointOptions;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;

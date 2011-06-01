@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.jee;
 
 import com.google.inject.Guice;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Injector;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.authentication.LoginContextWrapper;

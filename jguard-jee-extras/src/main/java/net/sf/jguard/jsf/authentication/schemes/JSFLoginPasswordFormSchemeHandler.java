@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 
 package net.sf.jguard.jsf.authentication.schemes;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authentication.schemes.LoginPasswordFormSchemeHandler;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedFilter;

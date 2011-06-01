@@ -1,6 +1,6 @@
 package net.sf.jguard.core.authentication.configuration;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;

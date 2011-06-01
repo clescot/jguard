@@ -1,6 +1,6 @@
 package net.sf.jguard.core.authentication.configuration;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.manager.JGuardAuthenticationManagerMarkups;
 import net.sf.jguard.core.util.XMLUtils;

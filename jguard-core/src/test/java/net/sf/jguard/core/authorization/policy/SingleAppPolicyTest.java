@@ -27,7 +27,7 @@
 
 package net.sf.jguard.core.authorization.policy;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import org.junit.Before;
 import org.junit.runner.RunWith;

@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.jee.authentication.callbacks;
 
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;

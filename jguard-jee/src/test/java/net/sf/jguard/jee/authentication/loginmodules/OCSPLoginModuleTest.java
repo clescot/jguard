@@ -27,7 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.jee.authentication.loginmodules;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authentication.configuration.JGuardConfiguration;
 import net.sf.jguard.ext.SecurityConstants;
 import net.sf.jguard.ext.authentication.loginmodules.OCSPLoginModule;

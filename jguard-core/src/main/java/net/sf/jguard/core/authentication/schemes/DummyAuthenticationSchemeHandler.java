@@ -27,7 +27,7 @@
 
 package net.sf.jguard.core.authentication.schemes;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
 import net.sf.jguard.core.lifecycle.Request;

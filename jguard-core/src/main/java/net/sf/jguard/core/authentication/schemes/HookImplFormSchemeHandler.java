@@ -1,6 +1,6 @@
 package net.sf.jguard.core.authentication.schemes;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import javax.security.auth.callback.Callback;
 import java.util.Collection;

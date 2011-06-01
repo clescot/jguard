@@ -27,7 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.ext.principals;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.principals.Organization;
 import net.sf.jguard.core.principals.RolePrincipal;

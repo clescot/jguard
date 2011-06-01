@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.ext.authentication.manager;
 
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.mycila.testing.junit.MycilaJunitRunner;

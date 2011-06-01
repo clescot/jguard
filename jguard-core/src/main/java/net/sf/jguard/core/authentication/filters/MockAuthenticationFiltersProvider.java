@@ -1,6 +1,6 @@
 package net.sf.jguard.core.authentication.filters;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockResponse;
 

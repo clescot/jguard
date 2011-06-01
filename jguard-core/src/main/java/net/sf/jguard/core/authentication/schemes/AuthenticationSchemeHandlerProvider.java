@@ -27,7 +27,7 @@
 
 package net.sf.jguard.core.authentication.schemes;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.technology.Scopes;

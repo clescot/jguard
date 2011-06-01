@@ -1,6 +1,6 @@
 package net.sf.jguard.jee.authentication.filters;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.filters.GuestAuthenticationFilter;

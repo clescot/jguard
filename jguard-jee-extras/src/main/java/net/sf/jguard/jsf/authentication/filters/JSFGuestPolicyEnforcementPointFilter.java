@@ -27,7 +27,7 @@
 
 package net.sf.jguard.jsf.authentication.filters;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
 import net.sf.jguard.core.enforcement.GuestPolicyEnforcementPointFilter;

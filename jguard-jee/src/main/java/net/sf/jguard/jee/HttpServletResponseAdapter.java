@@ -1,6 +1,6 @@
 package net.sf.jguard.jee;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import net.sf.jguard.core.lifecycle.Response;
 

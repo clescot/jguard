@@ -1,6 +1,6 @@
 package net.sf.jguard.jsf.authorization.filters;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
 import net.sf.jguard.core.authorization.filters.PolicyDecisionPoint;

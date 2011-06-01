@@ -1,6 +1,6 @@
 package net.sf.jguard.core.test;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Module;
 import com.mycila.testing.plugin.guice.ModuleProvider;
 import net.sf.jguard.core.authentication.AuthenticationScope;

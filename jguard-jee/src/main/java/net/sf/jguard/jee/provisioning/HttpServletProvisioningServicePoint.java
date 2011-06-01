@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 
 package net.sf.jguard.jee.provisioning;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;

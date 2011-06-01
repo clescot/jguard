@@ -27,7 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.ext.authorization.manager;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;

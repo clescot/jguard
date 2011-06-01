@@ -1,6 +1,6 @@
 package net.sf.jguard.ext.authentication;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Module;
 import com.mycila.testing.plugin.guice.Bind;
 import com.mycila.testing.plugin.guice.ModuleProvider;

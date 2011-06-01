@@ -27,7 +27,7 @@
 
 package net.sf.jguard.core.lifecycle;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>

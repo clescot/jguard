@@ -27,7 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authorization.policy;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import javax.security.auth.Subject;
 import java.security.*;

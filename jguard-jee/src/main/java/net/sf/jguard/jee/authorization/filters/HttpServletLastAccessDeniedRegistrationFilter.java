@@ -27,7 +27,7 @@
 
 package net.sf.jguard.jee.authorization.filters;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedRegistrationFilter;
 import net.sf.jguard.core.technology.StatefulScopes;
 

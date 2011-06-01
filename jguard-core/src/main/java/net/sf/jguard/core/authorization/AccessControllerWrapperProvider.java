@@ -1,6 +1,6 @@
 package net.sf.jguard.core.authorization;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
 import net.sf.jguard.core.authorization.policy.MultipleAppPolicy;

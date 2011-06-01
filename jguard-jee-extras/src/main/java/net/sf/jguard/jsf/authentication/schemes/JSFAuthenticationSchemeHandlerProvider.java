@@ -27,7 +27,7 @@
 
 package net.sf.jguard.jsf.authentication.schemes;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandlerProvider;
 import net.sf.jguard.core.authentication.schemes.FilterConfigurationLocation;
 import net.sf.jguard.core.technology.Scopes;

@@ -27,7 +27,7 @@
 
 package net.sf.jguard.core.authorization.filters;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockResponse;
 import net.sf.jguard.core.technology.StatefulScopes;

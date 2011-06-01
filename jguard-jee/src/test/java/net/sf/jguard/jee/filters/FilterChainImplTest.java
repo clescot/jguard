@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 
 package net.sf.jguard.jee.filters;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authentication.manager.AuthenticationManagerModule;

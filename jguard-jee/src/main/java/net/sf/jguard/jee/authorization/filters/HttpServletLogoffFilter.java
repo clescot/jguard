@@ -1,6 +1,6 @@
 package net.sf.jguard.jee.authorization.filters;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authorization.AuthorizationBindings;

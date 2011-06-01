@@ -1,6 +1,6 @@
 package net.sf.jguard.core.authentication.filters;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.filters.FilterChain;
 import net.sf.jguard.core.lifecycle.*;

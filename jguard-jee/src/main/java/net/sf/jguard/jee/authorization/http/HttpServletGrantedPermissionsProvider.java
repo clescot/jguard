@@ -1,6 +1,6 @@
 package net.sf.jguard.jee.authorization.http;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.authentication.schemes.GrantedAuthenticationSchemePermissionsProvider;
 

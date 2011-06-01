@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 
 package net.sf.jguard.jee.authorization;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedFilter;

@@ -31,7 +31,6 @@ import com.google.inject.Module;
 import com.mycila.testing.plugin.guice.ModuleProvider;
 import net.sf.jguard.core.authorization.AuthorizationModule;
 import net.sf.jguard.core.authorization.AuthorizationScope;
-import net.sf.jguard.ext.authorization.AuthorizationManagerTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,7 +40,7 @@ import java.util.List;
 
 public class XmlAuthorizationManagerTest extends AuthorizationManagerTest {
 
-    private URL applicationPath = Thread.currentThread().getContextClassLoader().getResource(".");
+
 
     @Before
     public void setUp() {
@@ -57,15 +56,8 @@ public class XmlAuthorizationManagerTest extends AuthorizationManagerTest {
         //call to setUp is implied
     }
 
-    @ModuleProvider
-    @Override
-    public Iterable<Module> providesAuthorizationModule() {
-        List<Module> modules = new ArrayList<Module>();
-        modules.add(buildAuthorizationModule());
-        return modules;
-    }
 
-    private Module buildAuthorizationModule() {
+    protected AuthorizationModule buildAuthorizationModule() {
 
         return new AuthorizationModule(AuthorizationScope.LOCAL,
                 XmlAuthorizationManager.class,

@@ -29,7 +29,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.test;
 
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Module;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;

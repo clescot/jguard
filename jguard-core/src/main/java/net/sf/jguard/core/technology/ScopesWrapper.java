@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.technology;
 
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 /**
  * this class implements the Wrapper/decorator pattern to override

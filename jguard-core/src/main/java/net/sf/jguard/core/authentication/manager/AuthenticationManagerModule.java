@@ -1,7 +1,7 @@
 package net.sf.jguard.core.authentication.manager;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.ApplicationName;
 

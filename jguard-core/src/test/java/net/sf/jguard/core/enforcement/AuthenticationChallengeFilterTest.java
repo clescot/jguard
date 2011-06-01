@@ -1,6 +1,6 @@
 package net.sf.jguard.core.enforcement;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.filters.Filter;

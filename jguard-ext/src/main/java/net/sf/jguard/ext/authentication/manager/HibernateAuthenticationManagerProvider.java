@@ -1,6 +1,6 @@
 package net.sf.jguard.ext.authentication.manager;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
