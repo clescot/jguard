@@ -3,14 +3,12 @@ package net.sf.jguard.core.authorization;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import net.sf.jguard.core.ApplicationPath;
-import net.sf.jguard.core.authorization.manager.AuthorizationConfigurationLocation;
-import net.sf.jguard.core.authorization.manager.AuthorizationManager;
-import net.sf.jguard.core.authorization.manager.AuthorizationManagerOptions;
-import net.sf.jguard.core.authorization.manager.AuthorizationManagerOptionsProvider;
+import net.sf.jguard.core.*;
+import net.sf.jguard.core.authorization.manager.*;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapper;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
 import net.sf.jguard.core.authorization.policy.MultipleAppPolicy;
+import org.dom4j.Element;
 
 import java.net.URL;
 import java.security.Policy;
@@ -43,8 +41,16 @@ public class AuthorizationModule extends AbstractModule {
         bind(MultipleAppPolicy.class).toProvider(MultipleAppPolicyProvider.class);
         bind(AuthorizationManager.class).to(authorizationManagerClass).in(Singleton.class);
         bind(URL.class).annotatedWith(AuthorizationConfigurationLocation.class).toInstance(authorizationConfigurationLocation);
-        bind(new TypeLiteral<Map<String, String>>() {
-        }).annotatedWith(AuthorizationManagerOptions.class).toProvider(AuthorizationManagerOptionsProvider.class);
+        bind(new TypeLiteral<Element>() {
+        }).annotatedWith(AuthorizationElement.class).toProvider(AuthorizationDOM4JElementProvider.class);
+        bind(new TypeLiteral<Boolean>(){
+        }).annotatedWith(NegativePermissions.class).toProvider(NegativePermissionsProvider.class);
+        bind(new TypeLiteral<Boolean>(){
+        }).annotatedWith(PermissionResolutionCaching.class).toProvider(PermissionResolutionCachingProvider.class);
+        bind(new TypeLiteral<Map<String,String>>(){
+                }).annotatedWith(AuthorizationManagerOptions.class).toProvider(AuthorizationManagerOptionsProvider.class);
+        bind(new TypeLiteral<String>(){
+                }).annotatedWith(AuthorizationXmlFileLocation.class).toProvider(AuthorizationXmlFileLocationProvider.class);
         bind(Boolean.class).annotatedWith(RedirectAfterAuthentication.class).toInstance(TRUE);
         bind(AccessControllerWrapper.class).to(AccessControllerWrapperImpl.class);
     }

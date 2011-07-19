@@ -64,7 +64,7 @@ public abstract class JGuardPolicy extends java.security.Policy {
     //old Policy instance Class replaced by JGuardPolicy
     private static Class policyClass;
     private static Logger logger = LoggerFactory.getLogger(JGuardPolicy.class.getName());
-    static final String version = "1.1.0 beta 5";
+    static final String version = "2.0.0 beta 7";
 
     //well-known java policies
     private static final String GNU_JAVA_SECURITY_POLICY_FILE = "gnu.java.security.PolicyFile";
@@ -75,6 +75,7 @@ public abstract class JGuardPolicy extends java.security.Policy {
 
     /**
      * default constructor.
+     * @param grantedPermissions
      */
     public JGuardPolicy(Permissions grantedPermissions) {
         this.grantedPermissions = grantedPermissions;

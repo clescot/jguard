@@ -111,6 +111,14 @@ public class MockAuthorizationManager implements AuthorizationManager {
         return null;
     }
 
+    public boolean isNegativePermissions() {
+        return false;
+    }
+
+    public boolean isPermissionResolutionCaching() {
+        return true;
+    }
+
     public PermissionCollection getPermissions(ProtectionDomain pDomain) {
         JGPositivePermissionCollection collection = new JGPositivePermissionCollection();
         collection.add(new MockPermission("mock"));

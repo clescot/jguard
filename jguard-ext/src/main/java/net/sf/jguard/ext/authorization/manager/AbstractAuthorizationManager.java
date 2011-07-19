@@ -30,13 +30,11 @@ package net.sf.jguard.ext.authorization.manager;
 import net.sf.ehcache.CacheException;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
-import net.sf.jguard.core.authorization.manager.JGuardAuthorizationManagerMarkups;
 import net.sf.jguard.core.authorization.permissions.*;
 import net.sf.jguard.core.authorization.policy.ProtectionDomainUtils;
 import net.sf.jguard.core.principals.PrincipalUtils;
 import net.sf.jguard.core.principals.RolePrincipal;
 import net.sf.jguard.core.principals.UserPrincipal;
-import net.sf.jguard.ext.SecurityConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,6 +67,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     protected Map<String, List<Principal>> hierarchyMap;
     protected Map options;
     private boolean negativePermissions;
+    private boolean permissionResolutionCaching;
 
     //permissions always granted set dynamically at startup
     protected Permissions alwaysGrantedPermissions = null;
@@ -78,26 +77,23 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     /**
      * initialize AuthorizationManager implementation.
      *
-     * @param options
      */
-    public AbstractAuthorizationManager(Map<String, String> options) {
-        super();
+    public AbstractAuthorizationManager(boolean negativePermissions,boolean permissionResolutionCaching) {
+        this.negativePermissions = negativePermissions;
+        this.permissionResolutionCaching = permissionResolutionCaching;
         principals = new HashMap<String, Principal>();
         principalsSet = new TreeSet<Principal>();
         permissions = new HashMap<String, Permission>();
         permissionsSet = new HashSet<Permission>();
         hierarchyMap = new HashMap<String, List<Principal>>();
         alwaysGrantedPermissions = new Permissions();
-        String negativePermission = options.get(SecurityConstants.NEGATIVE_PERMISSIONS);
-        if (negativePermission != null && negativePermission.equalsIgnoreCase("true")) {
+        if (negativePermissions) {
             this.urlp = new JGNegativePermissionCollection();
-            this.negativePermissions = true;
         } else {
             this.urlp = new JGPositivePermissionCollection();
-            this.negativePermissions = false;
         }
         //permission caching section
-        if (!(TRUE.equals(options.get(JGuardAuthorizationManagerMarkups.AUTHORIZATION_PERMISSION_RESOLUTION_CACHING.getLabel())))) {
+        if (!permissionResolutionCaching) {
             PermissionUtils.setCachesEnabled(false);
         } else {
             // by default, permission resolution caching is activated
@@ -183,7 +179,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
         Iterator definedPrincipalsIt;
 
         JGPermissionCollection urlpUser;
-        if (!negativePermissions) {
+        if (!isNegativePermissions()) {
             urlpUser = new JGPositivePermissionCollection();
         } else {
             urlpUser = new JGNegativePermissionCollection();
@@ -674,6 +670,14 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
 
     public String getApplicationName() {
         return applicationName;
+    }
+
+    public boolean isNegativePermissions() {
+        return negativePermissions;
+    }
+
+    public boolean isPermissionResolutionCaching() {
+        return permissionResolutionCaching;
     }
 }
 

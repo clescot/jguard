@@ -155,8 +155,6 @@ public interface SecurityConstants {
     static final String CAPTCHA_SERVICE = "captchaService";
 
 
-    static final String NEGATIVE_PERMISSIONS = "negativePermissions";
-
     //certificate constants
     static final String UNIQUE_ID = "uniqueID";
     static final String DN = "DN";

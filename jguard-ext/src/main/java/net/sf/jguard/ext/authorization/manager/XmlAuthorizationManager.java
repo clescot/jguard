@@ -29,9 +29,11 @@ package net.sf.jguard.ext.authorization.manager;
 
 import javax.inject.Inject;
 import net.sf.jguard.core.ApplicationName;
+import net.sf.jguard.core.AuthorizationXmlFileLocation;
+import net.sf.jguard.core.NegativePermissions;
+import net.sf.jguard.core.PermissionResolutionCaching;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
-import net.sf.jguard.core.authorization.manager.AuthorizationManagerOptions;
 import net.sf.jguard.core.authorization.manager.JGuardAuthorizationManagerMarkups;
 import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 import net.sf.jguard.core.principals.PrincipalUtils;
@@ -97,15 +99,21 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
     /**
      * initialize this XML AuthorizationManager.
      *
-     * @param options
+     * @param applicationName
+     * @param negativePermissions
+     * @param permissionResolutionCaching
+     * @param authorizationXmlFileLocation
      * @see net.sf.jguard.core.authorization.manager.AuthorizationManager #init(java.util.Properties)
      */
     @Inject
-    public XmlAuthorizationManager(@ApplicationName String applicationName, @AuthorizationManagerOptions Map<String, String> options) {
-        super(options);
+    public XmlAuthorizationManager(@ApplicationName String applicationName,
+                                   @NegativePermissions boolean negativePermissions,
+                                   @PermissionResolutionCaching boolean permissionResolutionCaching,
+                                   @AuthorizationXmlFileLocation String authorizationXmlFileLocation) {
+        super(negativePermissions,permissionResolutionCaching);
         this.setApplicationName(applicationName);
         super.options = options;
-        fileLocation = options.get(JGuardAuthorizationManagerMarkups.AUTHORIZATION_XML_FILE_LOCATION.getLabel());
+        fileLocation = authorizationXmlFileLocation;
         if (fileLocation == null || "".equals(fileLocation)) {
             throw new IllegalArgumentException(JGuardAuthorizationManagerMarkups.AUTHORIZATION_XML_FILE_LOCATION.getLabel() + " argument for XMLAuthorizationManager is null or empty " + fileLocation);
         }
@@ -190,7 +198,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
                 Element actionsElement = permissionElement.element(ACTIONS);
                 List actionsList = actionsElement.elements();
                 Iterator itActions = actionsList.iterator();
-                StringBuffer sbActions = new StringBuffer();
+                StringBuilder sbActions = new StringBuilder();
                 int i = 0;
                 while (itActions.hasNext()) {
                     String actionTemp = ((Element) itActions.next()).getText();

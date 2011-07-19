@@ -100,6 +100,11 @@
             <version>0.9.27</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-persist</artifactId>
+            <version>3.0</version>
+        </dependency>
     </dependencies>
 
     <parent>

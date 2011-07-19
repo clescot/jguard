@@ -27,17 +27,17 @@ http://sourceforge.net/projects/jguard
 */
 package net.sf.jguard.core.authorization.policy;
 
-import javax.inject.Inject;
 import net.sf.ehcache.CacheException;
+import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.PolicyEnforcementPointOptions;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
-import net.sf.jguard.core.authorization.manager.AuthorizationManagerOptions;
 import net.sf.jguard.core.authorization.manager.JGuardAuthorizationManagerMarkups;
 import net.sf.jguard.core.authorization.manager.PermissionProvider;
 import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.security.*;
 import java.util.Map;
 
@@ -71,8 +71,10 @@ public final class SingleAppPolicy extends JGuardPolicy {
 
     private static Logger logger = LoggerFactory.getLogger(SingleAppPolicy.class.getName());
     private static final String DEFAULT_POLICY_CONFIGURATION_FILE = "JGuardAuthorization.xml";
+    public static final String SLASH = "/";
 
     private PermissionProvider permissionProvider;
+    private String applicationName;
     private static String POLICY_CONFIGURATION_FILE = "net.sf.jguard.policy.configuration.file";
     private static String APPLICATION_HOME_PATH = "net.sf.jguard.application.home.path";
     public final static String APPLICATION_NAME_SYSTEM_PROPERTY = "net.sf.jguard.application.name";
@@ -80,19 +82,17 @@ public final class SingleAppPolicy extends JGuardPolicy {
 
     /**
      * @param authorizationManager
-     * @param authManagerOptions
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
      *
      */
     @Inject
     public SingleAppPolicy(AuthorizationManager authorizationManager,
-                           @AuthorizationManagerOptions Map<String, String> authManagerOptions,
                            Permissions grantedPermissions) {
         super(grantedPermissions);
 
 
-        final Map<String, String> authorizationmanagerOptions = authManagerOptions;
         permissionProvider = authorizationManager;
+
 
         // call run() method under extended privileges
         AccessController.doPrivileged(new PrivilegedAction() {
@@ -105,42 +105,6 @@ public final class SingleAppPolicy extends JGuardPolicy {
                     logger.info("No configuration file in " + POLICY_CONFIGURATION_FILE + ", using default " + DEFAULT_POLICY_CONFIGURATION_FILE + " location");
                     configurationLocation = DEFAULT_POLICY_CONFIGURATION_FILE;
                 }
-
-                String appHomePath = System.getProperty(APPLICATION_HOME_PATH);
-                if (appHomePath != null && !appHomePath.endsWith("/")) {
-                    appHomePath += "/";
-                }
-
-                if (appHomePath == null) {
-                    appHomePath = "";
-                }
-
-
-                if (authorizationmanagerOptions.get(PolicyEnforcementPointOptions.APPLICATION_NAME.getLabel()) == null) {
-                    String appNameProp = System.getProperty(APPLICATION_NAME_SYSTEM_PROPERTY);
-
-                    if (appNameProp != null) {
-                        authorizationmanagerOptions.put(PolicyEnforcementPointOptions.APPLICATION_NAME.getLabel(), appNameProp);
-                    } else {
-
-                        // use default application name.
-                        authorizationmanagerOptions.put(PolicyEnforcementPointOptions.APPLICATION_NAME.getLabel(), PolicyEnforcementPointOptions.DEFAULT_APPLICATION_NAME.getLabel());
-                    }
-                }
-
-                if (Boolean.FALSE.toString().equals(authorizationmanagerOptions.get(JGuardAuthorizationManagerMarkups.AUTHORIZATION_PERMISSION_RESOLUTION_CACHING.getLabel()))) {
-                    PermissionUtils.setCachesEnabled(false);
-                } else {
-                    // by default, permission resolution caching is activated
-                    try {
-                        PermissionUtils.createCaches();
-                        PermissionUtils.setCachesEnabled(true);
-                    } catch (CacheException e) {
-                        logger.warn("Failed to activate permission resolution caching : " + e.getMessage());
-                        PermissionUtils.setCachesEnabled(false);
-                    }
-                }
-
 
                 return permissionProvider;
             }

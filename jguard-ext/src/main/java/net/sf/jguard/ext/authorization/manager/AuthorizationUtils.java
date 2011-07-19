@@ -31,9 +31,11 @@ import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
 import net.sf.jguard.ext.authentication.manager.XmlAuthenticationManager;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Utility class dedicated to AuthorizationManager.
@@ -42,25 +44,36 @@ import java.util.Map;
  * @see AuthorizationManager
  */
 public class AuthorizationUtils {
+
+    private final static Random rnd = new Random();
     /**
      * create an empty XmlAuthorizationManager, and import the data contained in the source AuthorizationManager
      * into it.
      *
      * @param authorizationManager source owning data
-     * @param xmlAuthorizationManagerOptions options to build the XmlAuthorizationManager which will contain data imported
      * @return a new XmlAuthorizationManager containing imported data
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException thrown when the temporary XmlAuthorizationManager is created
      */
-    public static XmlAuthorizationManager exportAsXmlAuthorizationManager(AuthorizationManager authorizationManager, Map xmlAuthorizationManagerOptions) throws AuthorizationManagerException {
+    public static XmlAuthorizationManager exportAsXmlAuthorizationManager(AuthorizationManager authorizationManager, String fileLocation) throws AuthorizationManagerException {
         XmlAuthorizationManager xmlAuthorizationManager;
         if (authorizationManager instanceof XmlAuthenticationManager) {
             xmlAuthorizationManager = (XmlAuthorizationManager) authorizationManager;
 
         } else {
-            xmlAuthorizationManager = new XmlAuthorizationManager(authorizationManager.getApplicationName(),xmlAuthorizationManagerOptions);
+            xmlAuthorizationManager = new XmlAuthorizationManager(authorizationManager.getApplicationName(),authorizationManager.isNegativePermissions(),authorizationManager.isPermissionResolutionCaching(),fileLocation);
             xmlAuthorizationManager.importAuthorizationManager(authorizationManager);
         }
         return xmlAuthorizationManager;
+    }
+
+    private static File getTempFile(){
+        File file;
+        try {
+            file = File.createTempFile("xmlAuthorizationManagerTempFile"+ rnd.nextInt(),null);
+        } catch (IOException e) {
+            throw new RuntimeException("cannot create a temporary file to store XmlAuthorizationManager data", e);
+        }
+        return file;
     }
 
     /**
@@ -73,8 +86,11 @@ public class AuthorizationUtils {
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException thrown when the temporary XmlAuthorizationManager is created
      */
     public static String exportAsXMLString(AuthorizationManager authorizationManager, Map XmlAuthorizationManagerOptions) throws AuthorizationManagerException {
-        XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(authorizationManager, XmlAuthorizationManagerOptions);
-        return xmlAuthorizationManager.exportAsXMLString();
+        File file = getTempFile();
+        XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(authorizationManager,file.getAbsolutePath());
+        String xmlString =  xmlAuthorizationManager.exportAsXMLString();
+        file.delete();
+        return xmlString;
     }
 
     /**
@@ -87,8 +103,10 @@ public class AuthorizationUtils {
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException thrown when the temporary XmlAuthorizationManager is created
      */
     public static void writeAsHTML(AuthorizationManager authorizationManager, Map XmlAuthorizationManagerOptions, OutputStream outputStream) throws IOException, AuthorizationManagerException {
-        XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(authorizationManager, XmlAuthorizationManagerOptions);
+        File file = getTempFile();
+        XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(authorizationManager, file.getAbsolutePath());
         xmlAuthorizationManager.writeAsHTML(outputStream);
+        file.delete();
     }
 
     /**
@@ -101,20 +119,21 @@ public class AuthorizationUtils {
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException thrown when the temporary XmlAuthorizationManager is created
      */
     public static void writeAsXML(AuthorizationManager authorizationManager, Map XmlAuthorizationManagerOptions, OutputStream outputStream, String encodingScheme) throws IOException, AuthorizationManagerException {
-        XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(authorizationManager, XmlAuthorizationManagerOptions);
+        File file = getTempFile();
+        XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(authorizationManager, file.getAbsolutePath());
         xmlAuthorizationManager.writeAsXML(outputStream, encodingScheme);
+        file.delete();
     }
 
     /**
      *
      * @param authorizationManager source
-     * @param XmlAuthorizationManagerOptions options to build the XmlAuthorizationManager which will contain data imported
      * @param fileName path of the file containing the exported XML from the AuthorizationManager
      * @throws IOException thrown when problem occurs writing into the output stream.
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException thrown when the temporary XmlAuthorizationManager is created
      */
-    public static void exportAsXMLFile(AuthorizationManager authorizationManager, Map XmlAuthorizationManagerOptions, String fileName) throws IOException, AuthorizationManagerException {
-        XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(authorizationManager, XmlAuthorizationManagerOptions);
+    public static void exportAsXMLFile(AuthorizationManager authorizationManager, String fileName) throws IOException, AuthorizationManagerException {
+        XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(authorizationManager, fileName);
         xmlAuthorizationManager.exportAsXMLFile(fileName);
     }
 }

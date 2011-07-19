@@ -16,43 +16,20 @@ import java.util.Map;
 import static net.sf.jguard.core.authorization.manager.JGuardAuthorizationManagerMarkups.*;
 
 public class AuthorizationManagerOptionsProvider implements Provider<Map<String, String>> {
-    private static final String J_GUARD_AUTHORIZATION_2_00_XSD = "jGuardAuthorization_2.0.0.xsd";
-    private URL authorizationConfigurationLocation;
     private URL appHomePath;
+    private final Element authorizationElement;
 
     @Inject
-    public AuthorizationManagerOptionsProvider(@AuthorizationConfigurationLocation URL authorizationConfigurationLocation,
-                                               @ApplicationPath URL appHomePath) {
-        this.authorizationConfigurationLocation = authorizationConfigurationLocation;
+    public AuthorizationManagerOptionsProvider(@ApplicationPath URL appHomePath,@AuthorizationElement Element authorizationElement) {
         this.appHomePath = appHomePath;
+        this.authorizationElement = authorizationElement;
     }
 
 
     public Map<String, String> get() {
         Map<String, String> authorizationMap = new HashMap<String, String>();
-        URL xml;
-        String xmlLocation;
-        try {
-            xmlLocation = XMLUtils.resolveLocation(authorizationConfigurationLocation.toString());
-            xml = new URL(xmlLocation);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException(e);
-        }
-        Document doc = XMLUtils.read(xml, J_GUARD_AUTHORIZATION_2_00_XSD);
 
-        Element authorization = doc.getRootElement();
-        Element scope = authorization.element(SCOPE.getLabel());
-        if (scope != null) {
-            authorizationMap.put(SCOPE.getLabel(), scope.getTextTrim());
-        }
-
-        Element permissionResolutionCaching = authorization.element(AUTHORIZATION_PERMISSION_RESOLUTION_CACHING.getLabel());
-        if (permissionResolutionCaching != null) {
-            authorizationMap.put(AUTHORIZATION_PERMISSION_RESOLUTION_CACHING.getLabel(), permissionResolutionCaching.getTextTrim());
-        }
-        authorizationMap.put(AUTHORIZATION_MANAGER.getLabel(), authorization.element(AUTHORIZATION_MANAGER.getLabel()).getTextTrim());
-
-        List authorizationList = authorization.element(AUTHORIZATION_MANAGER_OPTIONS.getLabel()).elements(OPTION.getLabel());
+        List authorizationList = authorizationElement.element(AUTHORIZATION_MANAGER_OPTIONS.getLabel()).elements(OPTION.getLabel());
         for (Object anAuthorizationList : authorizationList) {
             Element option = (Element) anAuthorizationList;
             String name = option.element(NAME.getLabel()).getTextTrim();

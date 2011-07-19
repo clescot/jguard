@@ -32,7 +32,6 @@ package net.sf.jguard.core.authorization.manager;
  */
 public enum JGuardAuthorizationManagerMarkups {
 
-    AUTHORIZATION_MANAGER("authorizationManager"),
     AUTHORIZATION_MANAGER_OPTIONS("authorizationManagerOptions"),
     OPTION("option"),
     NAME("name"),
@@ -40,6 +39,7 @@ public enum JGuardAuthorizationManagerMarkups {
     SCOPE("scope"),
     AUTHORIZATION_XML_FILE_LOCATION("authorizationXmlFileLocation"),
     AUTHORIZATION_DATABASE_FILE_LOCATION("authorizationDatabaseFileLocation"),
+    NEGATIVE_PERMISSIONS("negativePermissions"),
     AUTHORIZATION_PERMISSION_RESOLUTION_CACHING("permissionResolutionCaching");
 
 

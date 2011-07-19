@@ -27,16 +27,10 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.ext.authorization.manager;
 
-import com.google.inject.Module;
-import com.mycila.testing.plugin.guice.ModuleProvider;
 import net.sf.jguard.core.authorization.AuthorizationModule;
 import net.sf.jguard.core.authorization.AuthorizationScope;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class XmlAuthorizationManagerTest extends AuthorizationManagerTest {
 

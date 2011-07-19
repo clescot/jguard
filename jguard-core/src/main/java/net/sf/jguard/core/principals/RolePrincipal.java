@@ -30,6 +30,7 @@ package net.sf.jguard.core.principals;
 import net.sf.jguard.core.PolicyEnforcementPointOptions;
 import net.sf.jguard.core.authorization.permissions.JGPermissionCollection;
 
+import javax.persistence.Entity;
 import java.security.Permission;
 import java.util.*;
 
@@ -43,6 +44,7 @@ import java.util.*;
  * @author <a href="mailto:vinipitta@users.sourceforge.net">VinÃ­cius Pitta Lima de Araujo</a>
  * @author <a href="mailto:tandilero@users.sourceforge.net">Maximiliano Batelli</a>
  */
+@Entity
 public class RolePrincipal implements BasePrincipal, Cloneable {
 
 

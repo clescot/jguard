@@ -170,4 +170,8 @@ public interface AuthorizationManager extends PermissionProvider {
      * @return
      */
     String getApplicationName();
+
+    boolean isNegativePermissions();
+
+    public boolean isPermissionResolutionCaching();
 }
