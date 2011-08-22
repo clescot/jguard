@@ -6,14 +6,21 @@ import net.sf.jguard.core.principals.Organization;
 import net.sf.jguard.core.principals.OrganizationTemplate;
 import net.sf.jguard.core.principals.SubjectTemplate;
 import net.sf.jguard.core.provisioning.RegistrationException;
+import net.sf.jguard.core.util.SubjectUtils;
 
 import javax.security.auth.Subject;
 import java.security.Principal;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 public class MockAuthenticationManager implements AuthenticationManager {
 
+    Set<Subject> subjects  = new HashSet<Subject>();
+
+    public MockAuthenticationManager(){
+        subjects.add(SubjectUtils.getGuestSubject(this));
+    }
 
     public Organization createOrganization(OrganizationTemplate organizationTemplate) throws RegistrationException {
         return null;
@@ -40,11 +47,11 @@ public class MockAuthenticationManager implements AuthenticationManager {
     }
 
     public String getCredentialId() {
-        return null;
+        return "login";
     }
 
     public String getCredentialPassword() {
-        return null;
+        return "password";
     }
 
     public void createPrincipal(Principal role) throws AuthenticationException {
@@ -104,7 +111,8 @@ public class MockAuthenticationManager implements AuthenticationManager {
     }
 
     public Set<Subject> getUsers() throws AuthenticationException {
-        return null;
+
+        return subjects;
     }
 
     public boolean isEmpty() {

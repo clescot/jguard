@@ -54,7 +54,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     private static final Logger logger = LoggerFactory.getLogger(AbstractAuthorizationManager.class.getName());
 
 
-    private String applicationName = null;
+    protected String applicationName = null;
     protected Map<String, Principal> principals;
     protected Set<Principal> principalsSet;
     //we add also this Set of domains to certify Domain unicity
@@ -78,7 +78,8 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      * initialize AuthorizationManager implementation.
      *
      */
-    public AbstractAuthorizationManager(boolean negativePermissions,boolean permissionResolutionCaching) {
+    public AbstractAuthorizationManager(String applicationName,boolean negativePermissions,boolean permissionResolutionCaching) {
+        this.applicationName = applicationName;
         this.negativePermissions = negativePermissions;
         this.permissionResolutionCaching = permissionResolutionCaching;
         principals = new HashMap<String, Principal>();
@@ -108,15 +109,30 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     }
 
     /**
+     * must be called by subclass constructors at the end to check that base objects are well initialized.
+     * @throws IllegalStateException
+     */
+    protected void checkInitialState()throws IllegalStateException{
+        if (null==applicationName||"".equals(applicationName)){
+            throw new IllegalStateException("applicationName["+applicationName+"] must not be null or empty");
+        }
+
+        if(permissions.size()==0 ||permissionsSet.size()==0){
+            throw new IllegalStateException("permissions["+permissions.size()+"] or permissionsSet["+permissionsSet.size()+"] is empty");
+        }
+
+        if(principals.size()==0 ||principalsSet.size()==0){
+            throw new IllegalStateException("principals["+principals.size()+"] or principalsSet["+principalsSet.size()+"] is empty");
+        }
+
+    }
+
+    /**
      * define the application's name, and propagate it into Principals.
-     * this mechanism is done because application's name can only be known when the
-     * first request is here.
-     *
      * @param applicationName
      */
-    protected void setApplicationName(String applicationName) {
+    protected void setApplicationNameForPrincipals(String applicationName) {
 
-        this.applicationName = applicationName;
         for (Principal aPrincipalsSet : principalsSet) {
             RolePrincipal principalTemp = (RolePrincipal) aPrincipalsSet;
             principalTemp.setApplicationName(applicationName);
@@ -292,8 +308,20 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      *
      */
     public Principal clonePrincipal(String roleName, String cloneName) throws AuthorizationManagerException {
+        
+        if(null==roleName ||"".equals(roleName)){
+            throw new IllegalArgumentException("roleName must not be null or an empty string");
+        }
+
+        if(null==cloneName ||"".equals(cloneName)){
+            throw new IllegalArgumentException("cloneName must not be null or an empty string");
+        }
+
         cloneName = RolePrincipal.getName(cloneName, applicationName);
         Principal role = principals.get(roleName);
+        if(null==role){
+            throw new IllegalStateException("role with the name "+roleName+" owning to the application "+applicationName+" cannot be found");
+        }
         Principal clone;
         if (role instanceof RolePrincipal) {
             clone = new RolePrincipal(cloneName, (RolePrincipal) role);

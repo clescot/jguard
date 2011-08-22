@@ -2,6 +2,7 @@ package net.sf.jguard.core.authentication;
 
 import javax.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import net.sf.jguard.core.lifecycle.MockRequestAdapter;
 import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 import net.sf.jguard.core.technology.ImpersonationScopes;
@@ -23,6 +24,9 @@ public class GuestSubjectProvider implements Provider<Subject> {
         if (subject == null) {
             LoginContextWrapper wrapper = authenticationServicePoint.impersonateAsGuest(request, response, impersonationScopes);
             subject = wrapper.getSubject();
+            if(null==subject){
+                throw new ProvisionException("provided subject is null");
+            }
             authenticationBindings.setApplicationAttribute(SubjectUtils.GUEST_SUBJECT, subject);
         }
     }

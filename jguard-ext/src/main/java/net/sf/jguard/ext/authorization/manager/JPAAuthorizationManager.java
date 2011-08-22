@@ -1,5 +1,6 @@
 package net.sf.jguard.ext.authorization.manager;
 
+import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.NegativePermissions;
 import net.sf.jguard.core.PermissionResolutionCaching;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
@@ -40,14 +41,16 @@ http://sourceforge.net/projects/jguard/
 public class JPAAuthorizationManager extends AbstractAuthorizationManager{
     /**
      * initialize AuthorizationManager implementation.
-     *
+     * @param applicationName
      * @param negativePermissions
      * @param permissionResolutionCaching
      */
     @Inject
-    public JPAAuthorizationManager(@NegativePermissions boolean negativePermissions,
+    public JPAAuthorizationManager(@ApplicationName String applicationName,
+                                   @NegativePermissions boolean negativePermissions,
                                    @PermissionResolutionCaching boolean permissionResolutionCaching) {
-        super(negativePermissions,permissionResolutionCaching);
+        super(applicationName,negativePermissions,permissionResolutionCaching);
+        checkInitialState();
     }
 
     @Override

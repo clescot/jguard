@@ -27,6 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.util;
 
+import net.sf.jguard.core.authentication.callbacks.GuestCallbacksProvider;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.principals.Organization;
@@ -54,8 +55,7 @@ public final class SubjectUtils {
     private static final Logger logger = LoggerFactory.getLogger(SubjectUtils.class.getName());
     private static final String USER_PRINCIPAL = "userPrincipal";
     public static final String GUEST_SUBJECT = "guestSubject";
-    public static final String IDENTITY_CREDENTIAL_NAME = "identityCredentialName";
-    public static final String IDENTITY_CREDENTIAL_VALUE = "identityCredentialValue";
+
 
     private SubjectUtils() {
 
@@ -262,6 +262,13 @@ public final class SubjectUtils {
         }
 
         return enabledPrincipals;
+    }
+
+    public static Subject getGuestSubject(AuthenticationManager authenticationManager){
+        Subject guestSubject = new Subject();
+        guestSubject.getPrivateCredentials().add(new JGuardCredential(authenticationManager.getCredentialId(),GuestCallbacksProvider.GUEST));
+        guestSubject.getPrivateCredentials().add(new JGuardCredential(authenticationManager.getCredentialPassword(), GuestCallbacksProvider.GUEST));
+        return guestSubject;
     }
 
 

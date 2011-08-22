@@ -110,8 +110,8 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
                                    @NegativePermissions boolean negativePermissions,
                                    @PermissionResolutionCaching boolean permissionResolutionCaching,
                                    @AuthorizationXmlFileLocation String authorizationXmlFileLocation) {
-        super(negativePermissions,permissionResolutionCaching);
-        this.setApplicationName(applicationName);
+        super(applicationName,negativePermissions,permissionResolutionCaching);
+
         super.options = options;
         fileLocation = authorizationXmlFileLocation;
         if (fileLocation == null || "".equals(fileLocation)) {
@@ -181,6 +181,8 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
         }
 
         assemblyHierarchy();
+        setApplicationNameForPrincipals(applicationName);
+        checkInitialState();
     }
 
 

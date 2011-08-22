@@ -88,6 +88,9 @@ public class XmlLoginModule extends UserNamePasswordLoginModule implements Login
 
         try {
             users = authenticationManager.getUsers();
+            if(null==users||users.size()==0){
+                throw new IllegalStateException("users are null or empty");
+            }
         } catch (AuthenticationException e) {
             logger.error(" initialize ", e);
         }

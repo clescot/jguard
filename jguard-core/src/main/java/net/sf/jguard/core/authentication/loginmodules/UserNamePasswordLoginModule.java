@@ -2,6 +2,7 @@ package net.sf.jguard.core.authentication.loginmodules;
 
 import net.sf.jguard.core.authentication.callbacks.GuestCallbacksProvider;
 import net.sf.jguard.core.util.CryptUtils;
+import net.sf.jguard.core.util.SubjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

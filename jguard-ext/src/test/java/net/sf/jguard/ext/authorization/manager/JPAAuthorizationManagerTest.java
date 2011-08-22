@@ -43,6 +43,8 @@ import java.util.List;
 public class JPAAuthorizationManagerTest extends AuthorizationManagerTest {
 
 
+    private static final String JGUARD_AUTHORIZATION = "jguard-authorization";
+
     @Override
     protected AuthorizationModule buildAuthorizationModule() {
 
@@ -56,7 +58,7 @@ public class JPAAuthorizationManagerTest extends AuthorizationManagerTest {
     @ModuleProvider
     protected List<Module> providesAuthorizationModule() {
        List<Module> modules = super.providesAuthorizationModule();
-        modules.add(new JpaPersistModule("jguard-authorization"));
+        modules.add(new JpaPersistModule(JGUARD_AUTHORIZATION));
         return modules;
     }
 }

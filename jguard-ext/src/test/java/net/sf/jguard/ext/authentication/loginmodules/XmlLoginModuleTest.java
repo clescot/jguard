@@ -4,6 +4,7 @@ import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authentication.manager.JGuardAuthenticationManagerMarkups;
 import net.sf.jguard.core.principals.RolePrincipal;
+import net.sf.jguard.core.util.SubjectUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,6 +52,11 @@ public class XmlLoginModuleTest {
         sharedState = new HashMap<String, Object>();
         options = new HashMap<String, Object>();
         authenticationManager = mock(AuthenticationManager.class);
+        when(authenticationManager.getCredentialId()).thenReturn("id");
+        when(authenticationManager.getCredentialPassword()).thenReturn("password");
+        Set<Subject> users= new HashSet<Subject>();
+        users.add(SubjectUtils.getGuestSubject(authenticationManager));
+        when(authenticationManager.getUsers()).thenReturn(users);
     }
 
     @Test(expected = IllegalArgumentException.class)

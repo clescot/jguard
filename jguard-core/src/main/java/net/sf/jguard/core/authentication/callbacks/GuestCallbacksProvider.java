@@ -16,13 +16,15 @@ import java.util.Collection;
 public class GuestCallbacksProvider implements Provider<Collection<Callback>> {
 
     public static final String GUEST = "guest";
+    public static final String NAME = "name";
+    public static final String PASSWORD = "password";
 
     public Collection<Callback> get() {
         Collection<Callback> callbacks = new ArrayList<Callback>();
-        NameCallback nameCallback = new NameCallback("name", GUEST);
+        NameCallback nameCallback = new NameCallback(NAME, GUEST);
         nameCallback.setName(GUEST);
         callbacks.add(nameCallback);
-        PasswordCallback passwordCallback = new PasswordCallback("password", true);
+        PasswordCallback passwordCallback = new PasswordCallback(PASSWORD, true);
         passwordCallback.setPassword(GUEST.toCharArray());
         callbacks.add(passwordCallback);
         return callbacks;
