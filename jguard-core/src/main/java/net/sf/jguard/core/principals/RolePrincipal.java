@@ -28,10 +28,11 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.principals;
 
 import net.sf.jguard.core.PolicyEnforcementPointOptions;
+import net.sf.jguard.core.authorization.Permission;
 import net.sf.jguard.core.authorization.permissions.JGPermissionCollection;
+import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 
-import javax.persistence.Entity;
-import java.security.Permission;
+import javax.persistence.*;
 import java.util.*;
 
 
@@ -59,6 +60,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     private String applicationName = PolicyEnforcementPointOptions.DEFAULT_APPLICATION_NAME.getLabel();
 
     //all the permissions  owned by this Principal
+    @OneToMany(mappedBy = "rolePrincipal")
     private Set<Permission> permissions = new HashSet<Permission>();
 
     private boolean active = true;
@@ -68,13 +70,17 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     //to multiple users of multiple organizations.
     //changes done by the owner impact all users with this RolePrincipal.
     private Organization organization = null;
+    @Id @GeneratedValue
     private Long id;
 
     /**
      * All principals that this role inherites from. This property is use to implement the General Hierarchy
      * proposed by the NIST.
      */
+    @OneToMany(mappedBy = "ascendant")
     private Set<RolePrincipal> descendants = new HashSet<RolePrincipal>();
+    @ManyToOne
+    private RolePrincipal ascendant;
     private static final String STAR = "*";
     private static final String LOCAL_NAME_APPLICATION_NAME_SEPARATOR = "#";
     private static final String FULL_NAME_LABEL = "fullName";
@@ -266,9 +272,9 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
 
     /**
      * @param fullName applicationName#localName
-     * @return list string
+     * @return list string with first name is application name, and second name is local/role name
      */
-    private List<String> extractNames(String fullName) {
+    public static List<String> extractNames(String fullName) {
         List<String> names = new ArrayList<String>(2);
         String[] tokens = fullName.split(LOCAL_NAME_APPLICATION_NAME_SEPARATOR);
         if (tokens.length == 1) {
@@ -290,10 +296,10 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
      *
      * @return permissions
      */
-    public Set<Permission> getAllPermissions() {
+    public Set<java.security.Permission> getAllPermissions() {
         //all permissions owned by this principal
-        Set<Permission> allPermissions = new HashSet<Permission>();
-        allPermissions.addAll(permissions);
+        Set<java.security.Permission> allPermissions = new HashSet<java.security.Permission>();
+        allPermissions.addAll(PermissionUtils.translateToJavaPermissions(permissions));
 
         //get inherited permissions
         for (RolePrincipal descendant : descendants) {
@@ -318,7 +324,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
      */
     public void setPermissions(Set<Permission> perms) {
         for (Permission perm1 : perms) {
-            addPermission(perm1);
+            permissions.add(perm1);
         }
     }
 
@@ -327,8 +333,8 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
      *
      * @param permission permission to add
      */
-    public void addPermission(Permission permission) {
-        permissions.add(permission);
+    public void addPermission(java.security.Permission permission) {
+        permissions.add(new Permission(permission.getClass().getName(),permission.getName(),permission.getActions()));
     }
 
 
@@ -430,4 +436,11 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     }
 
 
+    public RolePrincipal getAscendant() {
+        return ascendant;
+    }
+
+    public void setAscendant(RolePrincipal ascendant) {
+        this.ascendant = ascendant;
+    }
 }

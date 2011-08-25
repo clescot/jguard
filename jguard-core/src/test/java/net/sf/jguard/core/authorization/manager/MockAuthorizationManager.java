@@ -95,9 +95,7 @@ public class MockAuthorizationManager implements AuthorizationManager {
         return null;
     }
 
-    public Set<Permission> getPermissionsSet() {
-        return null;
-    }
+   
 
     public boolean isEmpty() {
         return false;

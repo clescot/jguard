@@ -27,7 +27,6 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.ext.authorization.manager;
 
-import javax.inject.Inject;
 import com.google.inject.Module;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import com.mycila.testing.plugin.guice.Bind;
@@ -39,10 +38,10 @@ import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
 import net.sf.jguard.core.principals.RolePrincipal;
 import net.sf.jguard.core.test.JGuardTestFiles;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import javax.inject.Inject;
 import java.io.FilePermission;
 import java.net.URL;
 import java.security.Principal;
@@ -73,10 +72,8 @@ public abstract class AuthorizationManagerTest {
     protected String applicationName = JGuardTestFiles.JGUARD_STRUTS_EXAMPLE.getLabel();
 
 
-    @Before
-    public void setUp() {
 
-    }
+   
 
     @ModuleProvider
     protected List<Module> providesAuthorizationModule() {

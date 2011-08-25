@@ -301,8 +301,8 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     /**
      * clone a RolePrincipal/Role and set its name.
      *
-     * @param roleName  RolePrincipal name to clone
-     * @param cloneName RolePrincipal cloned name
+     * @param roleName  RolePrincipal name to clone (it does not contains the application name)
+     * @param cloneName RolePrincipal cloned name (it does not contains the application name)
      * @return cloned RolePrincipal with a different name : original JguardPrincipal name + Random integer betweeen 0 and 99999
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
      *
@@ -318,7 +318,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
         }
 
         cloneName = RolePrincipal.getName(cloneName, applicationName);
-        Principal role = principals.get(roleName);
+        Principal role = this.readPrincipal(roleName);
         if(null==role){
             throw new IllegalStateException("role with the name "+roleName+" owning to the application "+applicationName+" cannot be found");
         }
@@ -382,7 +382,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
         for (Object aPrincipalsSet : principalsSet) {
             RolePrincipal principal = (RolePrincipal) aPrincipalsSet;
                 principal.getPermissions().remove(permission);
-                principal.getPermissions().add(permission);
+                principal.addPermission(permission);
 
         }
     }
@@ -628,14 +628,14 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
             return;
         }
         //import domains set and associated permissions
-        Set<Permission> permissions = authManager.getPermissionsSet();
+        Set<Permission> permissions = new HashSet<Permission>(authManager.listPermissions().getPermissions());
             for (Permission permission : permissions) {
                 createPermission(permission);
             }
 
 
         //import principal set
-        Set<Principal> principals = authManager.getPrincipalsSet();
+        Set<Principal> principals =  new HashSet<Principal>(authManager.listPrincipals());
         for (Principal principal : principals) {
             createPrincipal(principal);
         }
@@ -657,18 +657,10 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     }
 
 
-    public final Set<Permission> getPermissionsSet() {
-        return new HashSet<Permission>(permissionsSet);
-    }
-
     public final Map<String, Principal> getPrincipals() {
         return new HashMap<String, Principal>(principals);
     }
 
-
-    public final Set<Principal> getPrincipalsSet() {
-        return new HashSet<Principal>(principalsSet);
-    }
 
     protected static String getLocalName(Principal principal) {
 

@@ -149,6 +149,24 @@ public final class PermissionUtils {
     }
 
 
+    public static Permission translateToJavaPermission(net.sf.jguard.core.authorization.Permission permission) throws ClassNotFoundException {
+        return getPermission(permission.getClazz(),permission.getName(),permission.getActions());
+    }
+
+
+    public static Collection<java.security.Permission> translateToJavaPermissions(Collection<net.sf.jguard.core.authorization.Permission> permissionColl) {
+        Collection<java.security.Permission> permissions = new HashSet<java.security.Permission>();
+        for (net.sf.jguard.core.authorization.Permission permission:permissionColl){
+            try {
+                permissions.add(translateToJavaPermission(permission));
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return permissions;
+    }
+
+
     private static Set createKey(Permission unresolvedPermission, Map<String, Object> values) {
 
         Set key = new HashSet();
@@ -470,4 +488,6 @@ public final class PermissionUtils {
             permissions.add(perm);
         }
     }
+
+    
 }

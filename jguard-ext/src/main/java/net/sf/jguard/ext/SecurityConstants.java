@@ -38,11 +38,6 @@ import javax.naming.ldap.LdapContext;
 public interface SecurityConstants {
 
 
-    //database properties
-    final static String DATABASE_DRIVER = "databaseDriver";
-    final static String DATABASE_DRIVER_URL = "databaseDriverUrl";
-    final static String DATABASE_DRIVER_LOGIN = "databaseDriverLogin";
-    final static String DATABASE_DRIVER_PASSWORD = "databaseDriverPassword";
 
     //JNDI constants
     final static String DIRECTORY_SEARCH_SCOPE = "directorySearchScope";
@@ -167,8 +162,6 @@ public interface SecurityConstants {
     static final String KEY_STORE_PATH = "keyStorePath";
     static final String KEY_STORE_PASSWORD = "keyStorePassword";
     static final String KEY_STORE_TYPE = "keyStoreType";
-    static final String AUTHORIZATION_DATABASE_CREATE_REQUIRED_DATABASE_ENTITIES = "createRequiredDatabaseEntities";
     static final String AUTHORIZATION_DATABASE_IMPORT_XML_DATA = "importXmlData";
-    static final Object AUTHENTICATION_DATABASE_CREATE_REQUIRED_DATABASE_ENTITIES = "createRequiredDatabaseEntities";
 }
 

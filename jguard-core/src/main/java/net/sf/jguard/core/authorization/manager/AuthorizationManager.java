@@ -104,6 +104,10 @@ public interface AuthorizationManager extends PermissionProvider {
 
     void deletePrincipal(Principal principal) throws AuthorizationManagerException;
 
+    /**
+     * return the modifable Principal Set.
+     * @return
+     */
     Set listPrincipals();
 
     Set<Permission> getPermissions(Collection permissionNames);
@@ -142,22 +146,6 @@ public interface AuthorizationManager extends PermissionProvider {
      * @throws AuthorizationManagerException
      */
     void updatePrincipal(Principal principal) throws AuthorizationManagerException;
-
-
-
-    /**
-     * return an unmodifiable Principal Set.
-     *
-     * @return
-     */
-    Set<Principal> getPrincipalsSet();
-
-    /**
-     * return an unmodifiable Permissions Set.
-     *
-     * @return
-     */
-    Set<Permission> getPermissionsSet();
 
     boolean isEmpty();
 

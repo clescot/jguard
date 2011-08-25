@@ -47,7 +47,7 @@ public class AccessControlContextTest extends TestCase {
     public void getRestrictedAccessControlContext() {
         final String scriptText = "System.exit(0);";
         final GroovyShell gs = new GroovyShell();
-        AccessControlContext acc = null;
+        AccessControlContext acc;
         RolePrincipal principal = new RolePrincipal("toto", "sdfsdf");
         principal.setPermissions(new HashSet());
         principal.addPermission(new GroovyCodeSourcePermission("totos"));

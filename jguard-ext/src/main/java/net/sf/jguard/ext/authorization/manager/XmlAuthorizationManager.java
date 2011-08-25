@@ -118,7 +118,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
             throw new IllegalArgumentException(JGuardAuthorizationManagerMarkups.AUTHORIZATION_XML_FILE_LOCATION.getLabel() + " argument for XMLAuthorizationManager is null or empty " + fileLocation);
         }
         init();
-
+         checkInitialState();
     }
 
 

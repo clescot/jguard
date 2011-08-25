@@ -29,22 +29,52 @@ http://sourceforge.net/projects/jguard/
 
 package net.sf.jguard.ext.authorization.manager;
 
+import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 import com.mycila.testing.junit.MycilaJunitRunner;
+import com.mycila.testing.plugin.guice.Bind;
 import com.mycila.testing.plugin.guice.ModuleProvider;
 import net.sf.jguard.core.authorization.AuthorizationModule;
 import net.sf.jguard.core.authorization.AuthorizationScope;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 @RunWith(MycilaJunitRunner.class)
 public class JPAAuthorizationManagerTest extends AuthorizationManagerTest {
 
 
     private static final String JGUARD_AUTHORIZATION = "jguard-authorization";
+    @Inject
+    private  Injector injector;
+    private PersistService persistService;
+ 
 
+    @Before
+    public  void setUp(){
+        persistService = injector.getInstance(PersistService.class);
+        persistService.start();
+        EntityManagerFactory entityManagerFactory = injector.getInstance(EntityManagerFactory.class);
+        Map<String, Object> properties = entityManagerFactory.getProperties();
+    }
+
+    @After
+    public  void tearsDown(){
+        persistService.stop();
+    }
+   
     @Override
     protected AuthorizationModule buildAuthorizationModule() {
 
@@ -58,7 +88,10 @@ public class JPAAuthorizationManagerTest extends AuthorizationManagerTest {
     @ModuleProvider
     protected List<Module> providesAuthorizationModule() {
        List<Module> modules = super.providesAuthorizationModule();
-        modules.add(new JpaPersistModule(JGUARD_AUTHORIZATION));
+
+
+        JpaPersistModule jpaPersistModule =new JpaPersistModule(JGUARD_AUTHORIZATION);
+        modules.add(jpaPersistModule);
         return modules;
     }
 }
