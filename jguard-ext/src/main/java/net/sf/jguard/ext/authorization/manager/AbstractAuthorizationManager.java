@@ -36,9 +36,14 @@ import net.sf.jguard.core.authorization.policy.ProtectionDomainUtils;
 import net.sf.jguard.core.principals.PrincipalUtils;
 import net.sf.jguard.core.principals.RolePrincipal;
 import net.sf.jguard.core.principals.UserPrincipal;
+import net.sf.jguard.ext.authentication.manager.XmlAuthenticationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.RollbackException;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.security.PermissionCollection;
 import java.security.Permissions;
 import java.security.Principal;
@@ -77,7 +82,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     protected Permissions alwaysGrantedPermissions = null;
     private static final int SALT = 99999;
     private static final String TRUE = "true";
-
+    private final static Random rnd = new Random();
     /**
      * initialize AuthorizationManager implementation.
      *
@@ -119,17 +124,17 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      * must be called by subclass constructors at the end to check that base objects are well initialized.
      * @throws IllegalStateException
      */
-    protected void checkInitialState()throws IllegalStateException{
+    protected void checkInitialState(){
         if (null==applicationName||"".equals(applicationName)){
-            throw new IllegalStateException("applicationName["+applicationName+"] must not be null or empty");
+            logger.warn("applicationName[" + applicationName + "] must not be null or empty");
         }
 
         if(permissions.size()==0 ||permissionsSet.size()==0){
-            throw new IllegalStateException("permissions["+permissions.size()+"] or permissionsSet["+permissionsSet.size()+"] is empty");
+            logger.warn("permissions["+permissions.size()+"] or permissionsSet["+permissionsSet.size()+"] is empty");
         }
 
         if(principals.size()==0 ||principalsSet.size()==0){
-            throw new IllegalStateException("principals["+principals.size()+"] or principalsSet["+principalsSet.size()+"] is empty");
+           logger.warn("principals["+principals.size()+"] or principalsSet["+principalsSet.size()+"] is empty");
         }
 
     }
@@ -404,8 +409,8 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     public void addInheritance(long principalAscId, long principalDescId) throws AuthorizationManagerException {
 
         //getting the principals
-        RolePrincipal principalAsc = (RolePrincipal) principals.get(principalAscId);
-        RolePrincipal principalDesc = (RolePrincipal) principals.get(principalDescId);
+        RolePrincipal principalAsc = principals.get(principalAscId);
+        RolePrincipal principalDesc = principals.get(principalDescId);
 
         if (principalAscId==principalDescId) {
             logger.error("ascendant and descendant cannot be the same principal ");
@@ -428,7 +433,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
         }
 
         //check if the roleAsc is immediate ascendant of roleDesc
-        for (Object o : principalAsc.getDescendants()) {
+        for (RolePrincipal o : principalAsc.getDescendants()) {
             if (principalDesc.equals(o)) {
                 logger.error("Role " + principalAscId + " is immediate ascendant of role " + principalDescId + "!");
                 throw new AuthorizationManagerException("Role " + principalAscId + " is immediate ascendant of role " + principalDescId + "!");
@@ -551,18 +556,17 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      * @return principal's Set
      * @see net.sf.jguard.core.authorization.manager.AuthorizationManager#listPrincipals()
      */
-    public Set<RolePrincipal> listPrincipals() {
-        return principalsSet;
+    public List<RolePrincipal> listPrincipals() {
+        return new ArrayList<RolePrincipal>(principalsSet);
     }
 
     /**
      * return all the permissions.
      *
      * @return URLPermission container
-     * @see net.sf.jguard.core.authorization.manager.AuthorizationManager#listPermissions()
      */
-    public JGPermissionCollection listPermissions() {
-        return new JGPositivePermissionCollection(permissionsSet);
+    public List<Permission> listPermissions() {
+        return new ArrayList<Permission>(permissionsSet);
     }
 
 
@@ -580,7 +584,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
             return;
         }
         //import domains set and associated permissions
-        Set<Permission> permissions = new HashSet<Permission>(Permission.translateToJGuardPermissions(authManager.listPermissions().getPermissions()));
+        Collection<Permission> permissions = authManager.listPermissions();
             for (Permission permission : permissions) {
                 createPermission(permission);
             }
@@ -634,6 +638,94 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
         while (perms.hasMoreElements()) {
             alwaysGrantedPermissions.add(((Permission) perms.nextElement()).toJavaPermission());
         }
+    }
+
+
+     /**
+     * create an empty XmlAuthorizationManager, and import the data contained in the source AuthorizationManager
+     * into it.
+     *
+     * @param fileLocation
+      * @return a new XmlAuthorizationManager containing imported data
+     * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException thrown when the temporary XmlAuthorizationManager is created
+     */
+    public XmlAuthorizationManager exportAsXmlAuthorizationManager(String fileLocation) throws AuthorizationManagerException {
+        XmlAuthorizationManager xmlAuthorizationManager;
+        if (XmlAuthenticationManager.class.isAssignableFrom(this.getClass())) {
+            xmlAuthorizationManager = (XmlAuthorizationManager) this;
+
+        } else {
+            xmlAuthorizationManager = new XmlAuthorizationManager(this.getApplicationName(),this.isNegativePermissions(),this.isPermissionResolutionCaching(),fileLocation);
+            xmlAuthorizationManager.importAuthorizationManager(this);
+        }
+        return xmlAuthorizationManager;
+    }
+
+     /**
+     * import data contained in the Source AuthorizationManager, into an XmlAuthorizationManager and convert
+     * it into an XML String.
+     *
+     * @return new XmlAuthorizationManager containing imported data
+     * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException thrown when the temporary XmlAuthorizationManager is created
+     */
+    public String exportAsXMLString() throws AuthorizationManagerException {
+        File file = getTempFile();
+        XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(file.getAbsolutePath());
+        String xmlString =  xmlAuthorizationManager.exportAsXMLString();
+        file.delete();
+        return xmlString;
+    }
+
+    private static File getTempFile(){
+        File file;
+        try {
+            file = File.createTempFile("xmlAuthorizationManagerTempFile"+ rnd.nextInt(),null);
+        } catch (IOException e) {
+            throw new RuntimeException("cannot create a temporary file to store XmlAuthorizationManager data", e);
+        }
+        return file;
+    }
+
+
+    /**
+       * import data contained in the Source AuthorizationManager, into an XmlAuthorizationManager and convert
+       * it into an HTML stream.
+       * @param outputStream stream receiving the resulting HTML.
+       * @throws IOException thrown when problem occurs writing into the output stream.
+       * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException thrown when the temporary XmlAuthorizationManager is created
+       */
+      public void writeAsHTML(OutputStream outputStream) throws IOException, AuthorizationManagerException {
+          File file = getTempFile();
+          XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(file.getAbsolutePath());
+          xmlAuthorizationManager.writeAsHTML(outputStream);
+          file.delete();
+      }
+
+
+
+    /**
+     *
+     * @param outputStream stream receiving the resulting XML.
+     * @param encodingScheme encoding used to write into the outputStream.
+     * @throws IOException thrown when problem occurs writing into the output stream.
+     * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException thrown when the temporary XmlAuthorizationManager is created
+     */
+    public void writeAsXML(OutputStream outputStream, String encodingScheme) throws IOException, AuthorizationManagerException {
+        File file = getTempFile();
+        XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(file.getAbsolutePath());
+        xmlAuthorizationManager.writeAsXML(outputStream, encodingScheme);
+        file.delete();
+    }
+
+    /**
+     *
+     * @param fileName path of the file containing the exported XML from the AuthorizationManager
+     * @throws IOException thrown when problem occurs writing into the output stream.
+     * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException thrown when the temporary XmlAuthorizationManager is created
+     */
+    public void exportAsXMLFile(String fileName) throws IOException, AuthorizationManagerException {
+        XmlAuthorizationManager xmlAuthorizationManager = exportAsXmlAuthorizationManager(fileName);
+        xmlAuthorizationManager.exportAsXMLFile(fileName);
     }
 
 

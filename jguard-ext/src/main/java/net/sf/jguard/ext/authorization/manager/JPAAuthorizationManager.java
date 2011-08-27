@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+import javax.management.relation.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -21,7 +22,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /*
 jGuard is a security framework based on top of jaas (java authentication and authorization security).
@@ -126,14 +129,14 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
         Root<RolePrincipal> from = query.from(RolePrincipal.class);
         CriteriaQuery<RolePrincipal> selectFrom = query.select(from);
         TypedQuery<RolePrincipal> typedQuery = entityManager.createQuery(selectFrom);
-        int  principals= typedQuery.getMaxResults();
+        int  principals= typedQuery.getResultList().size();
 
 
         CriteriaQuery<Permission> query2 = criteriaBuilder.createQuery(Permission.class);
-        Root<Permission> from2 = query.from(Permission.class);
+        Root<Permission> from2 = query2.from(Permission.class);
         CriteriaQuery<Permission> selectFrom2 = query2.select(from2);
         TypedQuery<Permission> typedQuery2 = entityManager.createQuery(selectFrom2);
-        int permissions = typedQuery2.getMaxResults();
+        int permissions = typedQuery2.getResultList().size();
         return !(principals == 0 && permissions == 0);
 
     }
@@ -152,6 +155,34 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
         return entityManager.find(RolePrincipal.class,roleId);
     }
 
+
+     /**
+     * return the principal's Set.
+     *
+     * @return principal's Set
+     * @see net.sf.jguard.core.authorization.manager.AuthorizationManager#listPrincipals()
+     */
+    public List<RolePrincipal> listPrincipals() {
+        EntityManager entityManager = entityManagerProvider.get();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<RolePrincipal> rolePrincipalCriteriaQuery = criteriaBuilder.createQuery(RolePrincipal.class);
+        Root<RolePrincipal> rootRolePrincipal = rolePrincipalCriteriaQuery.from(RolePrincipal.class);
+        return entityManager.createQuery(rolePrincipalCriteriaQuery).getResultList();
+
+    }
+
+    /**
+     * return all the permissions.
+     *
+     * @return URLPermission container
+     */
+    public List<Permission> listPermissions() {
+        EntityManager entityManager = entityManagerProvider.get();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Permission> permissionCriteriaQuery = criteriaBuilder.createQuery(Permission.class);
+        Root<Permission> rootPermission = permissionCriteriaQuery.from(Permission.class);
+        return entityManager.createQuery(permissionCriteriaQuery).getResultList();
+    }
 
        /**
      * replace the inital principal with the new one.

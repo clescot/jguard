@@ -31,6 +31,8 @@ import net.sf.jguard.core.authorization.Permission;
 import net.sf.jguard.core.authorization.permissions.JGPermissionCollection;
 import net.sf.jguard.core.principals.RolePrincipal;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
@@ -67,11 +69,9 @@ public interface AuthorizationManager extends PermissionProvider {
      */
     void deletePermission(Permission permission) ;
 
-    JGPermissionCollection listPermissions();
-
     void createPrincipal(RolePrincipal principal) throws AuthorizationManagerException;
 
-
+    List<Permission> listPermissions();
 
 
     Principal readPrincipal(long roleId) throws AuthorizationManagerException;
@@ -82,7 +82,7 @@ public interface AuthorizationManager extends PermissionProvider {
      * return the modifable Principal Set.
      * @return
      */
-    Set<RolePrincipal> listPrincipals();
+    List<RolePrincipal> listPrincipals();
 
     Set<Permission> getPermissions(Collection permissionNames);
 
@@ -136,4 +136,12 @@ public interface AuthorizationManager extends PermissionProvider {
     boolean isNegativePermissions();
 
     public boolean isPermissionResolutionCaching();
+
+    String exportAsXMLString() throws AuthorizationManagerException;
+
+    void writeAsHTML(OutputStream outputStream) throws IOException, AuthorizationManagerException;
+
+    void writeAsXML(OutputStream outputStream, String encodingScheme) throws IOException, AuthorizationManagerException;
+
+    void exportAsXMLFile(String fileName) throws IOException, AuthorizationManagerException;
 }

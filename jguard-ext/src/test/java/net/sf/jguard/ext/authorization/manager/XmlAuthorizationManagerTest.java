@@ -58,4 +58,7 @@ public class XmlAuthorizationManagerTest extends AuthorizationManagerTest {
                 authorizationXmlFileLocation,
                 applicationPath);
     }
+
+
+    
 }

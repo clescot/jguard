@@ -25,7 +25,8 @@ public class AuthenticationConfigurationSettingsProvider implements Provider<Map
     public
     @AuthenticationConfigurationSettings
     Map<String, Object> get() {
-        Document doc = XMLUtils.read(configurationLocation, J_GUARD_AUTHENTICATION_200_XSD);
+        URL schemaURL = Thread.currentThread().getContextClassLoader().getResource(J_GUARD_AUTHENTICATION_200_XSD);
+        Document doc = XMLUtils.read(configurationLocation,schemaURL );
 
         //authentication part
         Element authentication = doc.getRootElement();

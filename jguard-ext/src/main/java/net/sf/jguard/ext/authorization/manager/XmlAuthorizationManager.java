@@ -28,6 +28,8 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.ext.authorization.manager;
 
 import javax.inject.Inject;
+
+import ch.qos.logback.core.util.FileUtil;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.AuthorizationXmlFileLocation;
 import net.sf.jguard.core.NegativePermissions;
@@ -47,10 +49,9 @@ import org.dom4j.util.UserDataAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.Principal;
 import java.util.*;
@@ -93,7 +94,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
     private static final String XPATH_PERMISSION_BY_ID = "//j:permission[j:id='";
     private static final String XPATH_PRINCIPAL_BY_NAME = "//j:principal[j:name='";
     private static final String XPATH_PRINCIPAL_BY_ID = "//j:principal[j:id='";
-    private static final String XPATH_ALL_PRINCIPAL_ELEMENTS = "//principal";
+    private static final String XPATH_ALL_PRINCIPAL_ELEMENTS = "//j:principal";
     private Random randomPermission;
     private Random randomPrincipal;
 
@@ -140,10 +141,20 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
         URL url;
         try {
             url = new URL(XMLUtils.resolveLocation(fileLocation));
+            File file = new File(url.toURI());
+            if(file.length()==0){
+                writeEmptyDocument(file);
+            }
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
+        } catch (URISyntaxException e) {
+           throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        document = XMLUtils.read(url, J_GUARD_PRINCIPALS_PERMISSIONS_2_00_XSD);
+
+        URL schemaUrl = Thread.currentThread().getContextClassLoader().getResource(J_GUARD_PRINCIPALS_PERMISSIONS_2_00_XSD);
+        document = XMLUtils.read(url, schemaUrl);
         root = document.getRootElement();
 
         initPermissions();
@@ -207,7 +218,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
 
         }
         if(0==permissions.size()){
-           throw new IllegalStateException(NO_PERMISSIONS_ARE_BUILT_FROM_XML_FILE);
+           logger.warn(NO_PERMISSIONS_ARE_BUILT_FROM_XML_FILE);
         }
         super.urlp.addAll(new HashSet<java.security.Permission>(Permission.translateToJavaPermissions(permissionsSet)));
     }
@@ -253,6 +264,15 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
         xp2.setNamespaceURIs(uris);
 
         return (Element) xp2.selectSingleNode(root);
+    }
+
+     private List getElements(String xpath) {
+        XPath xp2 = DocumentHelper.createXPath(xpath);
+        Map<String, String> uris = new HashMap<String, String>();
+        uris.put(STRING_NAMESPACE_PREFIX, HTTP_JGUARD_SOURCEFORGE_NET_XSD_J_GUARD_PRINCIPALS_PERMISSIONS_2_0_0);
+        xp2.setNamespaceURIs(uris);
+
+        return xp2.selectNodes(root);
     }
 
     /**
@@ -519,8 +539,8 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
      *         <i>false</i> otherwise.
      */
     public boolean isEmpty() {
-        List principalsList = root.selectNodes(XPATH_ALL_PRINCIPAL_ELEMENTS);
-        List permissions = root.selectNodes(XPATH_PERMISSIONS_ELEMENT);
+        List principalsList = getElements(XPATH_ALL_PRINCIPAL_ELEMENTS);
+        List permissions = getElements(XPATH_PERMISSIONS_ELEMENT);
         return !(!principalsList.isEmpty() && !permissions.isEmpty());
     }
 
@@ -563,6 +583,19 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
 
     public void refresh() {
 
+    }
+
+    private void writeEmptyDocument(File file) throws IOException {
+        String emptyDoc = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" +
+                "<configuration xmlns=\"http://jguard.sourceforge.net/xsd/jGuardPrincipalsPermissions_2.0.0\"\n" +
+                "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\"  >\n" +
+                "\n" +
+                "    <permissions/>"+
+                "<principals/>"+
+                "</configuration>";
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(emptyDoc.getBytes());
+        fos.close();
     }
 
 }

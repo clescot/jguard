@@ -6,11 +6,11 @@ import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollecti
 import net.sf.jguard.core.authorization.permissions.MockPermission;
 import net.sf.jguard.core.principals.RolePrincipal;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.security.*;
 import java.security.Permission;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
@@ -19,26 +19,23 @@ public class MockAuthorizationManager implements AuthorizationManager {
     
 
     public void createPermission(net.sf.jguard.core.authorization.Permission url) throws AuthorizationManagerException {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public net.sf.jguard.core.authorization.Permission readPermission(long permissionId) throws AuthorizationManagerException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public void updatePermission(net.sf.jguard.core.authorization.Permission updatedPermission) throws AuthorizationManagerException {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void deletePermission(net.sf.jguard.core.authorization.Permission permission) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
 
 
 
-    public JGPermissionCollection listPermissions() {
-        return new JGPositivePermissionCollection();
+    public List<net.sf.jguard.core.authorization.Permission> listPermissions() {
+        return new ArrayList<net.sf.jguard.core.authorization.Permission>();
     }
 
 
@@ -58,7 +55,7 @@ public class MockAuthorizationManager implements AuthorizationManager {
 
     }
 
-    public Set<RolePrincipal> listPrincipals() {
+    public List<RolePrincipal> listPrincipals() {
         return null;
     }
 
@@ -111,6 +108,19 @@ public class MockAuthorizationManager implements AuthorizationManager {
 
     public boolean isPermissionResolutionCaching() {
         return true;
+    }
+
+    public String exportAsXMLString() throws AuthorizationManagerException {
+        return null;
+    }
+
+    public void writeAsHTML(OutputStream outputStream) throws IOException, AuthorizationManagerException {
+    }
+
+    public void writeAsXML(OutputStream outputStream, String encodingScheme) throws IOException, AuthorizationManagerException {
+    }
+
+    public void exportAsXMLFile(String fileName) throws IOException, AuthorizationManagerException {
     }
 
     public PermissionCollection getPermissions(ProtectionDomain pDomain) {

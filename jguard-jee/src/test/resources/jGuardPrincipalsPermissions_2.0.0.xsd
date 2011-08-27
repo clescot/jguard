@@ -12,7 +12,7 @@
 
     <xsd:complexType name="permissions">
         <xsd:sequence>
-            <xsd:element name="permission" type="tns:permission" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="permission" type="tns:permission" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
 
@@ -37,7 +37,7 @@
 
     <xsd:complexType name="principals">
         <xsd:sequence>
-            <xsd:element name="principal" type="tns:principal" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="principal" type="tns:principal" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
 

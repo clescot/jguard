@@ -28,6 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.authorization.permissions;
 
 import java.security.Permission;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public final class JGPositivePermissionCollection extends JGPermissionCollection
 		super();
 	}
 
-	public JGPositivePermissionCollection(Set permissionsSet) {
+	public JGPositivePermissionCollection(Collection<Permission> permissionsSet) {
 		super(permissionsSet);
 	}
 

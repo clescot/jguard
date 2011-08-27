@@ -137,8 +137,9 @@ public class XmlAuthenticationManager extends AbstractAuthenticationManager impl
         if (logger.isDebugEnabled()) {
             logger.debug("initAuthenticationDAO() - fileLocation=" + fileLocation);
         }
+        URL schemaURL = Thread.currentThread().getContextClassLoader().getResource(J_GUARD_USERS_PRINCIPALS_2_2_0_XSD);
 
-        document = XMLUtils.read(fileLocation, J_GUARD_USERS_PRINCIPALS_2_2_0_XSD);
+        document = XMLUtils.read(fileLocation, schemaURL);
         root = document.getRootElement();
 
         //initialize principals WITHOUT organization references (last step)

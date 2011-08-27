@@ -31,7 +31,9 @@ public class AuthorizationDOM4JElementProvider implements Provider<Element> {
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException(e);
         }
-        Document doc = XMLUtils.read(xml, J_GUARD_AUTHORIZATION_2_00_XSD);
+        URL schemaURL = Thread.currentThread().getContextClassLoader().getResource(J_GUARD_AUTHORIZATION_2_00_XSD);
+
+        Document doc = XMLUtils.read(xml,schemaURL );
 
         return doc.getRootElement();
     }

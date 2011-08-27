@@ -252,7 +252,8 @@ public class HttpServletProvisioningServicePoint implements ProvisioningServiceP
      * @return Map containing filter configuration
      */
     private Map<String, String> loadFilterConfiguration(URL configurationLocation) {
-        Document doc = XMLUtils.read(configurationLocation, J_GUARD_FILTER_2_0_0_XSD);
+        URL url = Thread.currentThread().getContextClassLoader().getResource(J_GUARD_FILTER_2_0_0_XSD);
+        Document doc = XMLUtils.read(configurationLocation,url );
 
         Element authentication = doc.getRootElement();
         Map<String, String> filterSettings = new HashMap<String, String>();

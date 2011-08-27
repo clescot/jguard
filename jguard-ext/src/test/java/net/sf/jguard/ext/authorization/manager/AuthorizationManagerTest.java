@@ -44,11 +44,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.io.FilePermission;
+import java.io.IOException;
 import java.net.URL;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
@@ -74,7 +77,7 @@ public abstract class AuthorizationManagerTest {
     @Bind(annotatedBy = ApplicationName.class)
     protected String applicationName = JGuardTestFiles.JGUARD_STRUTS_EXAMPLE.getLabel();
 
-
+    private Random random = new Random();
 
    
 
@@ -164,4 +167,25 @@ public abstract class AuthorizationManagerTest {
         auth.deletePermission(permission);
     }
 
+    @Test
+    public void testExportASXmlFile() throws IOException, AuthorizationManagerException {
+        auth.exportAsXMLFile(File.createTempFile("temp"+random.nextInt(),null).getAbsolutePath());
+    }
+
+    @Test
+    public void testExportASXmlString() throws IOException, AuthorizationManagerException {
+        String exportedString = auth.exportAsXMLString();
+        System.out.println(exportedString);
+    }
+
+    @Test
+    public void testIsEmpty(){
+        auth.isEmpty();
+    }
+
+
+    @Test
+    public void testExportAsXmlAuthorizationManager() throws IOException, AuthorizationManagerException {
+        XmlAuthorizationManager xmlAuthorizationManager = ((AbstractAuthorizationManager)auth).exportAsXmlAuthorizationManager(File.createTempFile("temp"+random.nextInt(),null).getAbsolutePath());
+    }
 }

@@ -79,8 +79,8 @@ public class XMLUtils {
         throw new UnsupportedOperationException(); // prevents calls from subclass
     }
 
-    public static Document read(URL xml, String schema) {
-        URL schemaURL = calculateSchemaLocation(xml, schema);
+    public static Document read(URL xml, URL schemaURL) {
+        //URL schemaURL = calculateSchemaLocation(xml, schema);
         if (logger.isDebugEnabled()) {
             logger.debug("xml url=" + xml.toExternalForm() + " schema url=" + schemaURL.toExternalForm());
         }

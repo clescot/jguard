@@ -79,7 +79,8 @@ public abstract class AuthenticationSchemeHandlerProvider<Request, Response> imp
      * @return Map containing filter configuration
      */
     private List<AuthenticationSchemeHandler<Request, Response>> loadFilterConfiguration(URL configurationLocation) {
-        Document doc = XMLUtils.read(configurationLocation, J_GUARD_FILTER_2_0_0_XSD);
+        URL schemaURL = Thread.currentThread().getContextClassLoader().getResource(J_GUARD_FILTER_2_0_0_XSD);
+        Document doc = XMLUtils.read(configurationLocation, schemaURL);
 
         Element callbackHandlerElement = doc.getRootElement();
         if (doc == null || callbackHandlerElement == null) {
