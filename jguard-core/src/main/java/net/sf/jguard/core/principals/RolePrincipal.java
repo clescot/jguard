@@ -29,8 +29,6 @@ package net.sf.jguard.core.principals;
 
 import net.sf.jguard.core.PolicyEnforcementPointOptions;
 import net.sf.jguard.core.authorization.Permission;
-import net.sf.jguard.core.authorization.permissions.JGPermissionCollection;
-import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 
 import javax.persistence.*;
 import java.util.*;
@@ -71,7 +69,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     //changes done by the owner impact all users with this RolePrincipal.
     private Organization organization = null;
     @Id @GeneratedValue
-    private Long id;
+    private long id;
 
     /**
      * All principals that this role inherites from. This property is use to implement the General Hierarchy
@@ -86,6 +84,9 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     private static final String FULL_NAME_LABEL = "fullName";
     private static final String APPLICATION_NAME_LABEL = "applicationName";
     private static final String LOCAL_NAME_LABEL = "localName";
+
+
+    public RolePrincipal(){}
 
 
     /**
@@ -299,7 +300,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     public Set<java.security.Permission> getAllPermissions() {
         //all permissions owned by this principal
         Set<java.security.Permission> allPermissions = new HashSet<java.security.Permission>();
-        allPermissions.addAll(PermissionUtils.translateToJavaPermissions(permissions));
+        allPermissions.addAll(Permission.translateToJavaPermissions(permissions));
 
         //get inherited permissions
         for (RolePrincipal descendant : descendants) {
@@ -333,8 +334,18 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
      *
      * @param permission permission to add
      */
+    public void addPermission(Permission permission) {
+        permissions.add(permission);
+    }
+
+
+    /**
+     * add a permission to the RolePrincipal.
+     *
+     * @param permission permission to add
+     */
     public void addPermission(java.security.Permission permission) {
-        permissions.add(new Permission(permission.getClass().getName(),permission.getName(),permission.getActions()));
+        permissions.add(net.sf.jguard.core.authorization.Permission.translateToJGuardPermission(permission));
     }
 
 
@@ -427,11 +438,11 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
         this.organization = organization;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

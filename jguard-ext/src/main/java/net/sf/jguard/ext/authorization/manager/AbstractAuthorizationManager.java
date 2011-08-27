@@ -28,6 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.ext.authorization.manager;
 
 import net.sf.ehcache.CacheException;
+import net.sf.jguard.core.authorization.Permission;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
 import net.sf.jguard.core.authorization.permissions.*;
@@ -38,7 +39,10 @@ import net.sf.jguard.core.principals.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.security.*;
+import java.security.PermissionCollection;
+import java.security.Permissions;
+import java.security.Principal;
+import java.security.ProtectionDomain;
 import java.util.*;
 
 /**
@@ -55,16 +59,16 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
 
 
     protected String applicationName = null;
-    protected Map<String, Principal> principals;
-    protected Set<Principal> principalsSet;
+    protected Map<Long, RolePrincipal> principals;
+    protected Set<RolePrincipal> principalsSet;
     //we add also this Set of domains to certify Domain unicity
     protected JGPermissionCollection urlp;
     //store all the permissions of all the domains
-    protected Map<String, Permission> permissions;
+    protected Map<Long, Permission> permissions;
     protected Set<Permission> permissionsSet;
     //store the permissions set associated with the domain ids
     //  store the hierarcy while assembly the principals to after link
-    protected Map<String, List<Principal>> hierarchyMap;
+    protected Map<Long, List<RolePrincipal>> hierarchyMap;
     protected Map options;
     private boolean negativePermissions;
     private boolean permissionResolutionCaching;
@@ -77,16 +81,19 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     /**
      * initialize AuthorizationManager implementation.
      *
+     * @param applicationName
+     * @param negativePermissions
+     * @param permissionResolutionCaching
      */
     public AbstractAuthorizationManager(String applicationName,boolean negativePermissions,boolean permissionResolutionCaching) {
         this.applicationName = applicationName;
         this.negativePermissions = negativePermissions;
         this.permissionResolutionCaching = permissionResolutionCaching;
-        principals = new HashMap<String, Principal>();
-        principalsSet = new TreeSet<Principal>();
-        permissions = new HashMap<String, Permission>();
+        principals = new HashMap<Long, RolePrincipal>();
+        principalsSet = new TreeSet<RolePrincipal>();
+        permissions = new HashMap<Long, Permission>();
         permissionsSet = new HashSet<Permission>();
-        hierarchyMap = new HashMap<String, List<Principal>>();
+        hierarchyMap = new HashMap<Long, List<RolePrincipal>>();
         alwaysGrantedPermissions = new Permissions();
         if (negativePermissions) {
             this.urlp = new JGNegativePermissionCollection();
@@ -159,7 +166,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
             Permission perm;
             String permissionName = (String) permissionName1;
             try {
-                perm = urlp.getPermission(permissionName);
+                perm = Permission.translateToJGuardPermission(urlp.getPermission(permissionName));
                 perms.add(perm);
             } catch (NoSuchPermissionException e) {
                 logger.debug(" permission " + permissionName + " not found in JGPermissionCollection ");
@@ -282,60 +289,6 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
         return PermissionUtils.mergePermissionCollections(urlpUser, alwaysGrantedPermissions);
     }
 
-    /**
-     * clone a RolePrincipal/Role and set its name with the name of the Principal to clone plus
-     * a random number.
-     *
-     * @param roleName RolePrincipal name to clone
-     * @return cloned RolePrincipal with a different name : original JguardPrincipal name + Random integer betweeen 0 and 99999
-     * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
-     *
-     */
-    public Principal clonePrincipal(String roleName) throws AuthorizationManagerException {
-        Random rnd = new Random();
-        String cloneName = roleName + rnd.nextInt(SALT);
-
-        return clonePrincipal(roleName, cloneName);
-    }
-
-    /**
-     * clone a RolePrincipal/Role and set its name.
-     *
-     * @param roleName  RolePrincipal name to clone (it does not contains the application name)
-     * @param cloneName RolePrincipal cloned name (it does not contains the application name)
-     * @return cloned RolePrincipal with a different name : original JguardPrincipal name + Random integer betweeen 0 and 99999
-     * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
-     *
-     */
-    public Principal clonePrincipal(String roleName, String cloneName) throws AuthorizationManagerException {
-        
-        if(null==roleName ||"".equals(roleName)){
-            throw new IllegalArgumentException("roleName must not be null or an empty string");
-        }
-
-        if(null==cloneName ||"".equals(cloneName)){
-            throw new IllegalArgumentException("cloneName must not be null or an empty string");
-        }
-
-        cloneName = RolePrincipal.getName(cloneName, applicationName);
-        Principal role = this.readPrincipal(roleName);
-        if(null==role){
-            throw new IllegalStateException("role with the name "+roleName+" owning to the application "+applicationName+" cannot be found");
-        }
-        Principal clone;
-        if (role instanceof RolePrincipal) {
-            clone = new RolePrincipal(cloneName, (RolePrincipal) role);
-        } else
-            clone = PrincipalUtils.getPrincipal(role.getClass().getName(), cloneName);
-
-        //persist the newly created clone
-        createPrincipal(clone);
-
-        return clone;
-    }
-
-
-
 
     /**
      * read an URLPermission.
@@ -347,7 +300,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      */
     public Permission readPermission(String permissionName) throws AuthorizationManagerException {
         try {
-            return urlp.getPermission(permissionName);
+            return Permission.translateToJGuardPermission(urlp.getPermission(permissionName));
         } catch (NoSuchPermissionException e) {
             throw new AuthorizationManagerException(" permission " + permissionName + " not found ", e);
         }
@@ -361,10 +314,10 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      * @return role or null if not found
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
      *
-     * @see AuthorizationManager#readPrincipal(java.lang.String)
+     * @see AuthorizationManager#readPrincipal(long)
      */
-    public Principal readPrincipal(String roleName) throws AuthorizationManagerException {
-        return principals.get(roleName);
+    public Principal readPrincipal(long roleId) throws AuthorizationManagerException {
+        return principals.get(roleId);
     }
 
 
@@ -394,10 +347,10 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     /**
      * Remove the permission from all principals that have relationship with this permission.
      *
-     * @param permissionName the name of the permission that will be removed
+     * @param permissionId the name of the permission that will be removed
      */
-    protected void removePermissionFromPrincipals(String permissionName) {
-        Permission permission = permissions.get(permissionName);
+    protected void removePermissionFromPrincipals(long permissionId) {
+        Permission permission = permissions.get(permissionId);
 
         for (Principal aPrincipalsSet : principalsSet) {
             RolePrincipal principal = (RolePrincipal) aPrincipalsSet;
@@ -415,24 +368,24 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      * if the permission is not persisted, we persist it and create
      * a corresponding Domain with the same name.
      *
-     * @param roleName role updated
+     * @param roleId role updated
      * @param perm     permission to add
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
      *
      */
-    public void addToPrincipal(String roleName, Permission perm) throws AuthorizationManagerException {
-        RolePrincipal role = (RolePrincipal) principals.get(roleName);
+    public void addToPrincipal(long roleId, Permission perm) throws AuthorizationManagerException {
+        RolePrincipal role = (RolePrincipal) readPrincipal(roleId);
         if (role == null) {
-            throw new SecurityException(" Principal/role " + roleName + " does not exists ");
+            throw new SecurityException(" Principal/role " + roleId + " does not exists ");
         }
         //if permission does not exists, we add it
         // and create a corresponding domain with the same name
         if (!permissionsSet.contains(perm)) {
             permissionsSet.add(perm);
-            permissions.put(perm.getName(), perm);
+            permissions.put(perm.getId(), perm);
             createPermission(perm);
         }
-        role.addPermission(perm);
+            role.addPermission(perm);
     }
 
 
@@ -443,30 +396,30 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      * ascendant of roleDesc, and descendant does
      * not properly inherit roleAsc principal/role (in order to avoid cycle creation).
      *
-     * @param principalAscName  the principal/role <strong>local</strong> name that will inherite.
-     * @param principalDescName the principal/role <strong>local</strong> name that will be inherited.
+     * @param principalAscId  the principal/role <strong>local</strong> name that will inherite.
+     * @param principalDescId the principal/role <strong>local</strong> name that will be inherited.
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
      *          if the inheritance already exists or create a cycle.
      */
-    public void addInheritance(String principalAscName, String principalDescName) throws AuthorizationManagerException {
+    public void addInheritance(long principalAscId, long principalDescId) throws AuthorizationManagerException {
 
         //getting the principals
-        RolePrincipal principalAsc = (RolePrincipal) principals.get(principalAscName);
-        RolePrincipal principalDesc = (RolePrincipal) principals.get(principalDescName);
+        RolePrincipal principalAsc = (RolePrincipal) principals.get(principalAscId);
+        RolePrincipal principalDesc = (RolePrincipal) principals.get(principalDescId);
 
-        if (principalAscName.equals(principalDescName)) {
+        if (principalAscId==principalDescId) {
             logger.error("ascendant and descendant cannot be the same principal ");
             throw new AuthorizationManagerException("ascendant and descendant cannot be the same principal ");
         }
 
         if (principalAsc == null) {
-            logger.error("Role " + principalAscName + " not found!");
-            throw new AuthorizationManagerException("Role " + principalAscName + " not found!");
+            logger.error("Role " + principalAscId + " not found!");
+            throw new AuthorizationManagerException("Role " + principalAscId + " not found!");
         }
 
         if (principalDesc == null) {
-            logger.error("Role " + principalDescName + " not found!");
-            throw new AuthorizationManagerException("Role " + principalDescName + " not found!");
+            logger.error("Role " + principalDescId + " not found!");
+            throw new AuthorizationManagerException("Role " + principalDescId + " not found!");
         }
 
         if (!RolePrincipal.class.isAssignableFrom(principalAsc.getClass())
@@ -477,8 +430,8 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
         //check if the roleAsc is immediate ascendant of roleDesc
         for (Object o : principalAsc.getDescendants()) {
             if (principalDesc.equals(o)) {
-                logger.error("Role " + principalAscName + " is immediate ascendant of role " + principalDescName + "!");
-                throw new AuthorizationManagerException("Role " + principalAscName + " is immediate ascendant of role " + principalDescName + "!");
+                logger.error("Role " + principalAscId + " is immediate ascendant of role " + principalDescId + "!");
+                throw new AuthorizationManagerException("Role " + principalAscId + " is immediate ascendant of role " + principalDescId + "!");
             }
         }
 
@@ -492,12 +445,12 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
         while (!rolesToCheck.isEmpty()) {
             RolePrincipal role = rolesToCheck.pop();
             if (principalAsc.equals(role)) {
-                logger.error("Role " + principalAscName + " cannot inherit role "
-                        + principalDescName + " because " + principalDescName + " inherit "
-                        + principalAscName);
-                throw new AuthorizationManagerException("Role " + principalAscName + " cannot inherit role "
-                        + principalDescName + " because " + principalDescName + " inherit "
-                        + principalAscName);
+                logger.error("Role " + principalAscId + " cannot inherit role "
+                        + principalDescId + " because " + principalDescId + " inherit "
+                        + principalAscId);
+                throw new AuthorizationManagerException("Role " + principalAscId + " cannot inherit role "
+                        + principalDescId + " because " + principalDescId + " inherit "
+                        + principalAscId);
             }
 
             rolesFromNextLevel.addAll(role.getDescendants());
@@ -538,7 +491,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      *
      * @see net.sf.jguard.core.authorization.manager.AuthorizationManager
      */
-    public void updatePrincipal(Principal principal) throws AuthorizationManagerException {
+    public void updatePrincipal(RolePrincipal principal) throws AuthorizationManagerException {
         deletePrincipal(principal);
         createPrincipal(principal);
         logger.debug(" updated principal=" + principal);
@@ -549,13 +502,12 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      */
     protected void assemblyHierarchy() {
         //now that every principal is mapped, assembly the hierarchy.
-        for (String ascendantName : hierarchyMap.keySet()) {
-            RolePrincipal ascendant = (RolePrincipal) principals.get(ascendantName);
+        for (long ascendantId: hierarchyMap.keySet()) {
+            RolePrincipal ascendant = principals.get(ascendantId);
 
-            for (Object o : hierarchyMap.get(ascendantName)) {
-                RolePrincipal descendant = (RolePrincipal) o;
+            for (RolePrincipal descendant : hierarchyMap.get(ascendantId)) {
                 ascendant.getDescendants().add(descendant);
-                logger.debug("Role " + ascendantName + " inherits from role " + descendant.getLocalName());
+                logger.debug("Role " + ascendantId + " inherits from role " + descendant.getId());
             }
         }
 
@@ -565,15 +517,15 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      * @param principal
      */
     protected void deleteReferenceInHierarchy(RolePrincipal principal) {
-        String principalName = principal.getLocalName();
+        long principalId = principal.getId();
 
         //clean the hierarchy
-        for (String ascendantName : hierarchyMap.keySet()) {
-            if (principalName.equals(ascendantName)) {
+        for (long ascendantId : hierarchyMap.keySet()) {
+            if (principalId==ascendantId) {
                 //we remove in memory the deleted principal
-                hierarchyMap.remove(ascendantName);
+                hierarchyMap.remove(ascendantId);
             } else {
-                List descendants = hierarchyMap.get(ascendantName);
+                List descendants = hierarchyMap.get(ascendantId);
                 descendants.remove(principal);
             }
         }
@@ -599,7 +551,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      * @return principal's Set
      * @see net.sf.jguard.core.authorization.manager.AuthorizationManager#listPrincipals()
      */
-    public Set<Principal> listPrincipals() {
+    public Set<RolePrincipal> listPrincipals() {
         return principalsSet;
     }
 
@@ -628,37 +580,34 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
             return;
         }
         //import domains set and associated permissions
-        Set<Permission> permissions = new HashSet<Permission>(authManager.listPermissions().getPermissions());
+        Set<Permission> permissions = new HashSet<Permission>(Permission.translateToJGuardPermissions(authManager.listPermissions().getPermissions()));
             for (Permission permission : permissions) {
                 createPermission(permission);
             }
 
 
         //import principal set
-        Set<Principal> principals =  new HashSet<Principal>(authManager.listPrincipals());
-        for (Principal principal : principals) {
+        Set<RolePrincipal> principals =  new HashSet<RolePrincipal>(authManager.listPrincipals());
+        for (RolePrincipal principal : principals) {
             createPrincipal(principal);
         }
 
 
         //import principal inheritance
-        for (Principal principal : principals) {
-            if (principal instanceof RolePrincipal) {
-                RolePrincipal ppal = (RolePrincipal) principal;
-                Set descendants = ppal.getDescendants();
-                for (Object descendant : descendants) {
-                    RolePrincipal descPrincipal = (RolePrincipal) descendant;
-                    addInheritance(getLocalName(principal), getLocalName(descPrincipal));
+        for (RolePrincipal principal : principals) {
+                RolePrincipal ppal = principal;
+                Set<RolePrincipal> descendants = ppal.getDescendants();
+                for (RolePrincipal descendant : descendants) {
+                    addInheritance(principal.getId(), descendant.getId());
                 }
-            }
         }
 
 
     }
 
 
-    public final Map<String, Principal> getPrincipals() {
-        return new HashMap<String, Principal>(principals);
+    public final Map<Long, Principal> getPrincipals() {
+        return new HashMap<Long, Principal>(principals);
     }
 
 
@@ -683,7 +632,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     final public void addAlwaysGrantedPermissions(Permissions permissions) {
         Enumeration perms = permissions.elements();
         while (perms.hasMoreElements()) {
-            alwaysGrantedPermissions.add((Permission) perms.nextElement());
+            alwaysGrantedPermissions.add(((Permission) perms.nextElement()).toJavaPermission());
         }
     }
 

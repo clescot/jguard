@@ -1,7 +1,6 @@
 package net.sf.jguard.ext.authentication.jmx;
 
 import junit.framework.TestCase;
-import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 import org.junit.Test;
 
 import java.security.Permission;
@@ -12,7 +11,7 @@ public class PermissionUtiltest {
     public void testCreateMBeanPermissionTest() {
         Permission perm = null;
         try {
-            perm = PermissionUtils.getPermission("javax.management.MBeanPermission", "*", "*");
+            perm = net.sf.jguard.core.authorization.Permission.getPermission(javax.management.MBeanPermission.class, "*", "*");
         } catch (ClassNotFoundException e) {
             TestCase.fail(e.getMessage());
         }

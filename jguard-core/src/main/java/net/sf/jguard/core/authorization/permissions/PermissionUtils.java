@@ -37,9 +37,6 @@ import org.apache.commons.jexl.JexlContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.security.BasicPermission;
 import java.security.Permission;
 import java.security.PermissionCollection;
 import java.security.Permissions;
@@ -68,102 +65,6 @@ public final class PermissionUtils {
 
     private PermissionUtils() {
 
-    }
-
-    /**
-     * instantiate a java.security.Permission subclass.
-     *
-     * @param className class name
-     * @param name      permission name
-     * @param actions   actions name split by comma ','
-     * @return a java.security.Permission subclass, or a java.security.BasicPermission subclass
-     *         (which inherit java.security.Permission)
-     * @throws ClassNotFoundException
-     */
-    public static Permission getPermission(String className, String name, String actions) throws ClassNotFoundException {
-
-        Class clazz;
-        try {
-            clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
-        } catch (ClassNotFoundException e1) {
-            logger.error(" class " + className + " is not found please check your classPath \n and the permission set in the Datasource \n(either database or JGuardPrincipalsPermissions.xml file) ", e1);
-            throw e1;
-        }
-        Class[] permArgsBasicPermClass = {String.class, String.class};
-        Class[] permArgsPermClass = {String.class};
-        Object[] objBasicArray = {name, actions};
-        Permission newPerm = null;
-        try {
-            //check if className inherit from the Abstract BasicPermission class which
-            // has got a two string argument constructor to speed up the lookup
-            if (clazz.isAssignableFrom(BasicPermission.class)) {
-                newPerm = (Permission) clazz.getConstructor(permArgsBasicPermClass).newInstance(objBasicArray);
-                return newPerm;
-            }
-
-            Object[] objArray = {name};
-
-            Constructor[] constructors = clazz.getConstructors();
-            boolean constructorWithActions = false;
-            for (Constructor tempConstructor : constructors) {
-                Class[] classes = tempConstructor.getParameterTypes();
-                if (classes.length == 2 && classes[0].equals(String.class) && classes[1].equals(String.class) && !"".equals(objBasicArray[1])) {
-                    constructorWithActions = true;
-                    break;
-                }
-            }
-
-            // a class which does not inherit from BasicPermission but has got a two string arguments constructor
-            if (constructorWithActions) {
-                newPerm = (Permission) clazz.getConstructor(permArgsBasicPermClass).newInstance(objBasicArray);
-            } else {
-                //Permission subclass which has got a constructor with name argument
-                newPerm = (Permission) clazz.getConstructor(permArgsPermClass).newInstance(objArray);
-            }
-        } catch (IllegalArgumentException e) {
-            logger.error(" illegal argument ", e);
-        } catch (SecurityException e) {
-            logger.error("className=" + className);
-            logger.error("name=" + name);
-            logger.error("actions=" + actions);
-            logger.error(" you don't have right to instantiate a permission ", e);
-        } catch (InstantiationException e) {
-            logger.error("className=" + className);
-            logger.error("name=" + name);
-            logger.error("actions=" + actions);
-            logger.error(" you cannot instantiate a permission ", e);
-        } catch (IllegalAccessException e) {
-            logger.error("className=" + className);
-            logger.error("name=" + name);
-            logger.error("actions=" + actions);
-            logger.error(e.getMessage(), e);
-        } catch (InvocationTargetException e) {
-            logger.error("className=" + className);
-            logger.error("name=" + name);
-            logger.error("actions=" + actions);
-            logger.error(e.getMessage(), e);
-        } catch (NoSuchMethodException e) {
-            logger.error("method not found =", e);
-        }
-        return newPerm;
-    }
-
-
-    public static Permission translateToJavaPermission(net.sf.jguard.core.authorization.Permission permission) throws ClassNotFoundException {
-        return getPermission(permission.getClazz(),permission.getName(),permission.getActions());
-    }
-
-
-    public static Collection<java.security.Permission> translateToJavaPermissions(Collection<net.sf.jguard.core.authorization.Permission> permissionColl) {
-        Collection<java.security.Permission> permissions = new HashSet<java.security.Permission>();
-        for (net.sf.jguard.core.authorization.Permission permission:permissionColl){
-            try {
-                permissions.add(translateToJavaPermission(permission));
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return permissions;
     }
 
 
@@ -288,7 +189,7 @@ public final class PermissionUtils {
                     String resolvedName = (String) partiallyResolvedName;
                     Permission partiallyResolvedPermission;
                     try {
-                        partiallyResolvedPermission = PermissionUtils.getPermission(permission.getClass().getName(), resolvedName, unresolvedPermission.getActions());
+                        partiallyResolvedPermission = net.sf.jguard.core.authorization.Permission.getPermission(permission.getClass(), resolvedName, unresolvedPermission.getActions());
                     } catch (ClassNotFoundException e) {
                         logger.warn(e.getMessage());
                         continue;
@@ -316,7 +217,7 @@ public final class PermissionUtils {
                     String resolvedAction = (String) partiallyResolvedAction;
                     Permission partiallyResolvedPermission;
                     try {
-                        partiallyResolvedPermission = PermissionUtils.getPermission(permission.getClass().getName(), unresolvedPermission.getName(), resolvedAction);
+                        partiallyResolvedPermission = net.sf.jguard.core.authorization.Permission.getPermission(permission.getClass(), unresolvedPermission.getName(), resolvedAction);
                     } catch (ClassNotFoundException e) {
                         logger.warn(e.getMessage());
                         continue;

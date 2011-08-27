@@ -3,6 +3,7 @@
                xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance">
     <permissions>
             <permission>
+                <id>1</id>
                 <name>accessDenied</name>
                 <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
                 <actions>
@@ -12,6 +13,7 @@
                 </actions>
             </permission>
             <permission>
+                <id>2</id>
                 <name>accueil</name>
                 <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
                 <actions>
@@ -19,6 +21,7 @@
                 </actions>
             </permission>
             <permission>
+                <id>3</id>
                 <name>captcha</name>
                 <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
                 <actions>
@@ -26,6 +29,7 @@
                 </actions>
             </permission>
             <permission>
+                <id>4</id>
                 <name>registration</name>
                 <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
                 <actions>
@@ -33,6 +37,7 @@
                 </actions>
             </permission>
             <permission>
+                <id>5</id>
                 <name>changeActiveStatusOnRole</name>
                 <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
                 <actions>
@@ -40,6 +45,7 @@
                 </actions>
             </permission>
             <permission>
+                <id>6</id>
                 <name>rickSpace</name>
                 <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
                 <actions>
@@ -48,6 +54,7 @@
             </permission>
 
             <permission>
+                <id>7</id>
                 <name>allAccess</name>
                 <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
                 <actions>
@@ -78,45 +85,49 @@
 
     <principals>
         <principal>
+            <id>1</id>
             <name>guest</name>
             <class>net.sf.jguard.core.principals.RolePrincipal</class>
             <permissionsRef>
-                <permissionRef name="accessDenied"/>
-                <permissionRef name="accueil"/>
-                <permissionRef name="captcha"/>
-                <permissionRef name="registration"/>
-                <permissionRef name="changeActiveStatusOnRole"/>
-                <permissionRef name="rickSpace"/>
+                <permissionRef id="1"/>
+                <permissionRef id="2"/>
+                <permissionRef id="3"/>
+                <permissionRef id="4"/>
+                <permissionRef id="5"/>
+                <permissionRef id="6"/>
             </permissionsRef>
         </principal>
 
         <principal>
+            <id>2</id>
             <name>simple</name>
             <class>net.sf.jguard.core.principals.RolePrincipal</class>
             <permissionsRef>
-                <permissionRef name="accessDenied"/>
-                <permissionRef name="accueil"/>
-                <permissionRef name="captcha"/>
-                <permissionRef name="registration"/>
-                <permissionRef name="changeActiveStatusOnRole"/>
-                <permissionRef name="rickSpace"/>
+                <permissionRef id="1"/>
+                <permissionRef id="2"/>
+                <permissionRef id="3"/>
+                <permissionRef id="4"/>
+                <permissionRef id="5"/>
+                <permissionRef id="6"/>
             </permissionsRef>
         </principal>
 
         <principal>
+            <id>3</id>
             <name>other</name>
             <class>net.sf.jguard.core.principals.RolePrincipal</class>
             <permissionsRef/>
         </principal>
 
         <principal>
+            <id>4</id>
             <name>admin</name>
             <class>net.sf.jguard.core.principals.RolePrincipal</class>
             <permissionsRef>
-                <permissionRef name="allAccess" />
+                <permissionRef id="7" />
             </permissionsRef>
             <descendants>
-                <principalRef name="other"/>
+                <principalRef name="3"/>
             </descendants>
         </principal>
     </principals>

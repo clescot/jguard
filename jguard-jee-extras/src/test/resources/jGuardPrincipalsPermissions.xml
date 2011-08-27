@@ -3,36 +3,43 @@
 xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"  >
     <permissions>
             <permission>
+                <id>1</id>
                 <name>/jsp/accessDenied.jsp</name>
                 <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
                 <actions/>
             </permission>
             <permission>
+                <id>2</id>
                 <name>/jsp/authenticationFailed.jsp</name>
                 <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
                 <actions/>
             </permission>
             <permission>
+                <id>3</id>
                 <name>/welcome.jsp</name>
                 <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
                 <actions/>
             </permission>
             <permission>
+                <id>4</id>
                 <name>/jsp/vipArea.jsp</name>
                 <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
                 <actions/>
             </permission>
             <permission>
+                <id>5</id>
                 <name>captcha</name>
                 <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
                 <actions/>
             </permission>
             <permission>
+                <id>6</id>
                 <name>/jsp/registration.jsp</name>
                 <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
                 <actions/>
             </permission>
             <permission>
+                <id>7</id>
                 <name>*</name>
                 <class>net.sf.jguard.jsf.permissions.JSFPermission</class>
                 <actions/>
@@ -50,32 +57,35 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"  >
 
     <principals>
         <principal>
+            <id>1</id>
             <name>guest</name>
             <class>net.sf.jguard.core.principals.RolePrincipal</class>
             <permissionsRef>
-                <permissionRef name="/jsp/accessDenied.jsp"/>
-                <permissionRef name="/jsp/authenticationFailed.jsp"/>
-                <permissionRef name="/welcome.jsp"/>
-                <permissionRef name="captcha"/>
-                <permissionRef name="registration"/>
+                <permissionRef id="1"/>
+                <permissionRef id="2"/>
+                <permissionRef id="3"/>
+                <permissionRef id="5"/>
+                <permissionRef id="6"/>
                 <!--<permissionRef name="changeActiveStatusOnRole"/>-->
             </permissionsRef>
         </principal>
 
         <principal>
+            <id>2</id>
             <name>other</name>
             <class>net.sf.jguard.core.principals.RolePrincipal</class>
             <permissionsRef/>
         </principal>
 
         <principal>
+            <id>3</id>
             <name>admin</name>
             <class>net.sf.jguard.core.principals.RolePrincipal</class>
             <permissionsRef>
-              <permissionRef name="allAccess" />
+              <permissionRef id="7" />
             </permissionsRef>
             <descendants>
-                <principalRef name="other"/>
+                <principalRef id="2"/>
             </descendants>
         </principal>
     </principals>

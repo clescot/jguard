@@ -27,14 +27,14 @@ public class PermissionUtilsTest {
     @Test
     public void testGetPermission() throws ClassNotFoundException {
         URL url = Thread.currentThread().getContextClassLoader().getResource(".");
-        Permission permission = PermissionUtils.getPermission(FilePermission.class.getName(), url.toExternalForm(), "read");
+        Permission permission = net.sf.jguard.core.authorization.Permission.getPermission(FilePermission.class, url.toExternalForm(), "read");
         assertNotNull(permission);
     }
 
 
     @Test(expected = ClassNotFoundException.class)
     public void testGetPermissionWithUNknownClass() throws ClassNotFoundException {
-        PermissionUtils.getPermission(UNKNOWN_CLASS_NAME, DUMMY_PERMISSION_NAME, DUMMY_PERMISSION_ACTIONS);
+        net.sf.jguard.core.authorization.Permission.getPermission(Class.forName(UNKNOWN_CLASS_NAME), DUMMY_PERMISSION_NAME, DUMMY_PERMISSION_ACTIONS);
     }
 
     @Test

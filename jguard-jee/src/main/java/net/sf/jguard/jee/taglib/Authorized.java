@@ -29,7 +29,6 @@ package net.sf.jguard.jee.taglib;
 
 
 import com.google.inject.Injector;
-import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
 import net.sf.jguard.jee.authorization.HttpAccessControllerUtils;
 import org.apache.taglibs.standard.lang.support.ExpressionEvaluatorManager;
@@ -123,7 +122,7 @@ public class Authorized extends ConditionalTagSupport {
 
         Permission urlPermission = null;
         try {
-            urlPermission = PermissionUtils.getPermission(permission, DUMMY_NAME, actions.toString());
+            urlPermission = net.sf.jguard.core.authorization.Permission.getPermission(URLPermission.class, DUMMY_NAME, actions.toString());
         } catch (ClassNotFoundException e) {
             logger.warn("permission cannot be built ", e);
         }

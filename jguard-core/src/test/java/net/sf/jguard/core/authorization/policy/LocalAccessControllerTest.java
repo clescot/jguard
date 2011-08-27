@@ -26,7 +26,7 @@ public class LocalAccessControllerTest {
         final Subject subject = new Subject();
         Organization orga = new Organization();
         RolePrincipal principal = new RolePrincipal("dummy", "myapp", orga);
-        principal.addPermission(permission);
+        principal.addPermission(net.sf.jguard.core.authorization.Permission.translateToJGuardPermission(permission));
         subject.getPrincipals().add(principal);
 
         try {

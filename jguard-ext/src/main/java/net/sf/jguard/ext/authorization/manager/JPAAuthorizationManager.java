@@ -1,27 +1,27 @@
 package net.sf.jguard.ext.authorization.manager;
 
-import com.google.inject.persist.PersistService;
 import com.google.inject.persist.Transactional;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.NegativePermissions;
 import net.sf.jguard.core.PermissionResolutionCaching;
+import net.sf.jguard.core.authorization.Permission;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
+import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 import net.sf.jguard.core.principals.RolePrincipal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.security.Permission;
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 /*
 jGuard is a security framework based on top of jaas (java authentication and authorization security).
@@ -53,7 +53,7 @@ http://sourceforge.net/projects/jguard/
 
 public class JPAAuthorizationManager extends AbstractAuthorizationManager{
 
-
+    private static final Logger logger = LoggerFactory.getLogger(JPAAuthorizationManager.class.getName());
     private Provider<EntityManager> entityManagerProvider;
 
     /**
@@ -78,62 +78,116 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
 
     }
 
-    public List getInitParameters() {
-        return null;
+   
+
+    @Transactional
+    public void createPermission(Permission permission) throws AuthorizationManagerException {
+        EntityManager entityManager = entityManagerProvider.get();
+        entityManager.persist(permission);
     }
 
-    public void createPermission(Permission url) throws AuthorizationManagerException {
-
+    @Transactional
+    public Permission readPermission(long permissionId) throws AuthorizationManagerException {
+        EntityManager entityManager = entityManagerProvider.get();
+        return entityManager.find(Permission.class,permissionId);
     }
 
-    public void updatePermission(String oldPermissionName, Permission updatedPermission) throws AuthorizationManagerException {
-
+    @Transactional
+    public void updatePermission(Permission updatedPermission) throws AuthorizationManagerException {
+        EntityManager entityManager = entityManagerProvider.get();
+        entityManager.merge(updatedPermission);
     }
 
-    public void deletePermission(String permissionName) throws AuthorizationManagerException {
-
+    @Transactional
+    public void deletePermission(Permission permission) {
+        EntityManager entityManager = entityManagerProvider.get();
+        permission = entityManager.merge(permission);
+        entityManager.remove(permission);
     }
 
-
-    public void createPrincipal(Principal principal) throws AuthorizationManagerException {
+    @Transactional
+    public void createPrincipal(RolePrincipal principal) throws AuthorizationManagerException {
        entityManagerProvider.get().persist(principal);
     }
 
-    public void updatePrincipal(String oldPrincipalName, Principal principal) throws AuthorizationManagerException {
 
-    }
 
-    public void deletePrincipal(Principal principal) throws AuthorizationManagerException {
-
+    @Transactional
+    public void deletePrincipal(RolePrincipal principal) throws AuthorizationManagerException {
+        EntityManager entityManager = entityManagerProvider.get();
+        principal = entityManager.merge(principal);
+        entityManager.remove(principal);
     }
 
     public boolean isEmpty() {
-        return false;
-    }
-
-     /**
-     * return the corresponding application role.
-     * @param localName role name: it does not contains the application Name, because the authorization part
-      * of jguard is shared amongst one application. only the authentication part is across multiple application
-      * storing, for each application, roles owned by each users. the authenitcation part store the application name
-      * to avoid any role names conflict between applications.
-     * @return role or null if not found
-     * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
-     *
-     * @see net.sf.jguard.core.authorization.manager.AuthorizationManager#readPrincipal(java.lang.String)
-     */
-     @Transactional
-    public Principal readPrincipal(String localName) throws AuthorizationManagerException {
         EntityManager entityManager = entityManagerProvider.get();
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<RolePrincipal> query = criteriaBuilder.createQuery(RolePrincipal.class);
         Root<RolePrincipal> from = query.from(RolePrincipal.class);
         CriteriaQuery<RolePrincipal> selectFrom = query.select(from);
-        Predicate where = criteriaBuilder.equal(from.get("localName"),localName);
-        CriteriaQuery<RolePrincipal> selectFromWhere = selectFrom.where(where);
-        TypedQuery<RolePrincipal> typedQuery = entityManager.createQuery(selectFromWhere);
-        return typedQuery.getSingleResult();
+        TypedQuery<RolePrincipal> typedQuery = entityManager.createQuery(selectFrom);
+        int  principals= typedQuery.getMaxResults();
+
+
+        CriteriaQuery<Permission> query2 = criteriaBuilder.createQuery(Permission.class);
+        Root<Permission> from2 = query.from(Permission.class);
+        CriteriaQuery<Permission> selectFrom2 = query2.select(from2);
+        TypedQuery<Permission> typedQuery2 = entityManager.createQuery(selectFrom2);
+        int permissions = typedQuery2.getMaxResults();
+        return !(principals == 0 && permissions == 0);
+
     }
+
+     /**
+     * return the corresponding application role.
+     * @param roleId
+     * @return role or null if not found
+     * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
+     *
+     * @see net.sf.jguard.core.authorization.manager.AuthorizationManager#readPrincipal(long)
+     */
+     @Transactional
+    public RolePrincipal readPrincipal(long roleId) throws AuthorizationManagerException {
+        EntityManager entityManager = entityManagerProvider.get();
+        return entityManager.find(RolePrincipal.class,roleId);
+    }
+
+
+       /**
+     * replace the inital principal with the new one.
+     *
+     * @param principal RolePrincipal updated
+     * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
+     *
+     * @see net.sf.jguard.core.authorization.manager.AuthorizationManager
+     */
+    @Transactional
+    public void updatePrincipal(RolePrincipal principal) throws AuthorizationManagerException {
+        EntityManager entityManager = entityManagerProvider.get();
+        entityManager.merge(principal);
+        logger.debug(" updated principal=" + principal);
+    }
+
+
+/**
+     * add the permission to the corresponding role.
+     * if the permission is not persisted, we persist it and create
+     * a corresponding Domain with the same name.
+     *
+     * @param roleId role updated
+     * @param perm     permission to add
+     * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
+     *
+     */
+    @Transactional
+    public void addToPrincipal(long roleId, Permission perm) throws AuthorizationManagerException {
+        EntityManager entityManager = entityManagerProvider.get();
+        Permission permission = entityManager.merge(perm);
+        RolePrincipal principal = readPrincipal(roleId);
+        principal.addPermission(permission);
+        entityManager.merge(principal);
+    }
+
 
    
 }

@@ -33,8 +33,10 @@ import com.mycila.testing.plugin.guice.Bind;
 import com.mycila.testing.plugin.guice.ModuleProvider;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authorization.AuthorizationModule;
+import net.sf.jguard.core.authorization.Permission;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
+import net.sf.jguard.core.authorization.permissions.URLPermission;
 import net.sf.jguard.core.principals.RolePrincipal;
 import net.sf.jguard.core.test.JGuardTestFiles;
 import org.junit.Assert;
@@ -59,6 +61,7 @@ public abstract class AuthorizationManagerTest {
     @Inject
     protected AuthorizationManager auth;
     private static final String DUMMY_PRINCIPAL_NAME = "myLocalName";
+    private static final long DUMMY_PRINCIPAL_ID = 3764;
     private static final String DUMMY_APPLICATION_NAME = "myApplicationName";
     private static final String READ_FILE_PERMISSION_ACTION = "read";
     private static final String CURRENT_DIRECTORY_LOCATION = ".";
@@ -91,7 +94,7 @@ public abstract class AuthorizationManagerTest {
     public void testUpdateUnknownPrincipal() throws AuthorizationManagerException {
 
         RolePrincipal principal = new RolePrincipal(DUMMY_PRINCIPAL_NAME, DUMMY_APPLICATION_NAME);
-        auth.updatePrincipal(UNKNOWN_PRINCIPAL_NAME, principal);
+        auth.updatePrincipal(principal);
     }
 
     @Test
@@ -110,16 +113,6 @@ public abstract class AuthorizationManagerTest {
     }
 
 
-    @Test
-    public void testClonePrincipal() throws AuthorizationManagerException {
-        RolePrincipal principal = new RolePrincipal(DUMMY_PRINCIPAL_NAME, DUMMY_APPLICATION_NAME);
-        auth.createPrincipal(principal);
-        Principal clonedPrincipal = auth.clonePrincipal(DUMMY_PRINCIPAL_NAME, CLONED_PRINCIPAL_NAME);
-        auth.deletePrincipal(clonedPrincipal);
-        auth.deletePrincipal(principal);
-    }
-
-
 
 
     @Test
@@ -129,12 +122,12 @@ public abstract class AuthorizationManagerTest {
 
         URL url = Thread.currentThread().getContextClassLoader().getResource(CURRENT_DIRECTORY_LOCATION);
         FilePermission filePermission = new FilePermission(url.toExternalForm(), READ_FILE_PERMISSION_ACTION);
-        auth.createPermission(filePermission);
+        auth.createPermission(Permission.translateToJGuardPermission(filePermission));
 
 
-        auth.addToPrincipal(DUMMY_PRINCIPAL_NAME, filePermission);
+        auth.addToPrincipal(principal.getId(), Permission.translateToJGuardPermission(filePermission));
         auth.deletePrincipal(principal);
-        Assert.assertNull(auth.readPrincipal(DUMMY_PRINCIPAL_NAME));
+        Assert.assertNull(auth.readPrincipal(principal.getId()));
     }
 
 
@@ -145,17 +138,30 @@ public abstract class AuthorizationManagerTest {
     public void testCreatePermission() throws AuthorizationManagerException {
         URL url = Thread.currentThread().getContextClassLoader().getResource(CURRENT_DIRECTORY_LOCATION);
         FilePermission filePermission = new FilePermission(url.toExternalForm(), READ_FILE_PERMISSION_ACTION);
-        auth.createPermission(filePermission);
-        auth.deletePermission(filePermission.getName());
+        Permission permission = Permission.translateToJGuardPermission(filePermission);
+        auth.createPermission(permission);
+        auth.deletePermission(permission);
     }
 
     @Test
     public void testUpdatePermission() throws AuthorizationManagerException {
         URL url = Thread.currentThread().getContextClassLoader().getResource(CURRENT_DIRECTORY_LOCATION);
         FilePermission readFilePErmission = new FilePermission(url.toExternalForm(), READ_FILE_PERMISSION_ACTION);
-        auth.createPermission(readFilePErmission);
+        Permission jguardReadPermission = Permission.translateToJGuardPermission(readFilePErmission);
+        auth.createPermission(jguardReadPermission);
         FilePermission writeFilePermission = new FilePermission(url.toExternalForm(), WRITE_FILE_PERMISSION_ACTION);
-        auth.updatePermission(readFilePErmission.getName(), writeFilePermission);
+        Permission jguardWritePermission = Permission.translateToJGuardPermission(writeFilePermission);
+        jguardWritePermission.setId(jguardReadPermission.getId());
+        auth.updatePermission(jguardWritePermission);
+    }
+
+    @Test
+    public void testDeletePermission() throws AuthorizationManagerException {
+         URL url = Thread.currentThread().getContextClassLoader().getResource(CURRENT_DIRECTORY_LOCATION);
+        FilePermission filePermission = new FilePermission(url.toExternalForm(), READ_FILE_PERMISSION_ACTION);
+        Permission permission = Permission.translateToJGuardPermission(filePermission);
+        auth.createPermission(permission);
+        auth.deletePermission(permission);
     }
 
 }

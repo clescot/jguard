@@ -28,7 +28,6 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.jee.taglib;
 
 import com.google.inject.Injector;
-import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
 import net.sf.jguard.jee.authorization.HttpAccessControllerUtils;
 import org.apache.taglibs.standard.lang.support.ExpressionEvaluatorManager;
@@ -84,7 +83,8 @@ public class HasPermission extends ConditionalTagSupport {
 
         Permission permission = null;
         try {
-            permission = PermissionUtils.getPermission(className, name, actions);
+            Class clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
+            permission = net.sf.jguard.core.authorization.Permission.getPermission(clazz, name, actions);
         } catch (ClassNotFoundException e) {
             logger.warn("permission cannot be built ", e);
             throw new JspTagException(e.getMessage());

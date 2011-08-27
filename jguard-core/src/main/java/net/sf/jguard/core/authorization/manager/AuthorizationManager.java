@@ -27,9 +27,10 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authorization.manager;
 
+import net.sf.jguard.core.authorization.Permission;
 import net.sf.jguard.core.authorization.permissions.JGPermissionCollection;
+import net.sf.jguard.core.principals.RolePrincipal;
 
-import java.security.Permission;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
@@ -46,13 +47,6 @@ import java.util.Set;
 public interface AuthorizationManager extends PermissionProvider {
 
 
-    /**
-     * return needed initialization parameters.
-     *
-     * @return parameters list.
-     */
-    List getInitParameters();
-
 
     /**
      * create an URLPermission giving a url and a domain
@@ -62,57 +56,37 @@ public interface AuthorizationManager extends PermissionProvider {
      */
     void createPermission(Permission url) throws AuthorizationManagerException;
 
-    Permission readPermission(String permissionName) throws AuthorizationManagerException;
+    Permission readPermission(long permissionId) throws AuthorizationManagerException;
 
-    void updatePermission(String oldPermissionName, Permission updatedPermission) throws AuthorizationManagerException;
+    void updatePermission(Permission updatedPermission) throws AuthorizationManagerException;
 
-    void deletePermission(String permissionName) throws AuthorizationManagerException;
+    /**
+     *
+     * @param permission pemrission to delete
+     * @throws IllegalArgumentException when the permisison to delete is not present in the datastore
+     */
+    void deletePermission(Permission permission) ;
 
     JGPermissionCollection listPermissions();
 
-    void createPrincipal(Principal principal) throws AuthorizationManagerException;
+    void createPrincipal(RolePrincipal principal) throws AuthorizationManagerException;
 
-    /**
-     * Clone a Principal with a random name
-     *
-     * @param roleName Principal name to clone
-     * @return cloned Principal with a different name: roleName + Random integer betweeen 0 and 99999
-     * @throws AuthorizationManagerException
-     */
-    Principal clonePrincipal(String roleName) throws AuthorizationManagerException;
 
-    /**
-     * Clone a Principal. If Principal is instance of RolePrincipal makes a call to the clone method leting the clone task to RolePrincipal
-     *
-     * @param roleName  Principal name to clone
-     * @param cloneName Principal cloned name
-     * @return cloned Principal with the given cloneName
-     * @throws AuthorizationManagerException
-     */
-    Principal clonePrincipal(String roleName, String cloneName) throws AuthorizationManagerException;
 
-    Principal readPrincipal(String roleName) throws AuthorizationManagerException;
 
-    /**
-     * update the application Principal (role).
-     *
-     * @param oldPrincipalName the name the principal had
-     * @param principal        the new principal updated
-     * @throws AuthorizationManagerException
-     */
-    void updatePrincipal(String oldPrincipalName, Principal principal) throws AuthorizationManagerException;
+    Principal readPrincipal(long roleId) throws AuthorizationManagerException;
 
-    void deletePrincipal(Principal principal) throws AuthorizationManagerException;
+    void deletePrincipal(RolePrincipal principal) throws AuthorizationManagerException;
 
     /**
      * return the modifable Principal Set.
      * @return
      */
-    Set listPrincipals();
+    Set<RolePrincipal> listPrincipals();
 
     Set<Permission> getPermissions(Collection permissionNames);
 
-    void addToPrincipal(String roleName, Permission perm) throws AuthorizationManagerException;
+    void addToPrincipal(long roleId, Permission perm) throws AuthorizationManagerException;
 
 
     /* RBAC Role General Hierarchical model specific methods */
@@ -124,11 +98,11 @@ public interface AuthorizationManager extends PermissionProvider {
      * ascendant of roleDesc, and descendant does
      * not properly inherit roleAsc role (in order to avoid cycle creation).
      *
-     * @param roleAscName  the role that will inherite.
-     * @param roleDescName the role that will be inherited.
+     * @param roleAscId  the role that will inherite.
+     * @param roleDescId the role that will be inherited.
      * @throws AuthorizationManagerException if the inheritance already exists or create a cycle.
      */
-    void addInheritance(String roleAscName, String roleDescName) throws AuthorizationManagerException;
+    void addInheritance(long roleAscId, long roleDescId) throws AuthorizationManagerException;
 
     /**
      * Delete the existing inheritance beteween roleAsc and roleDesc.
@@ -145,7 +119,7 @@ public interface AuthorizationManager extends PermissionProvider {
      * @param principal RolePrincipal updated
      * @throws AuthorizationManagerException
      */
-    void updatePrincipal(Principal principal) throws AuthorizationManagerException;
+    void updatePrincipal(RolePrincipal principal) throws AuthorizationManagerException;
 
     boolean isEmpty();
 
