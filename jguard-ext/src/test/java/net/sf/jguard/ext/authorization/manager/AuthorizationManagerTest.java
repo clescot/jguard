@@ -157,6 +157,17 @@ public abstract class AuthorizationManagerTest {
         auth.updatePermission(jguardWritePermission);
     }
 
+
+    @Test
+    public void testUpdatePrincipal() throws AuthorizationManagerException {
+        RolePrincipal principal = new RolePrincipal();
+        principal.setApplicationName(DUMMY_APPLICATION_NAME);
+        auth.createPrincipal(principal);
+        principal.addPermission(new Permission(URLPermission.class,DUMMY_PERMISSION_NAME,DUMMY_PERMISSION_ACTIONS));
+
+        auth.updatePrincipal(principal);
+    }
+
     @Test
     public void testDeletePermission() throws AuthorizationManagerException {
          URL url = Thread.currentThread().getContextClassLoader().getResource(CURRENT_DIRECTORY_LOCATION);
@@ -210,7 +221,7 @@ public abstract class AuthorizationManagerTest {
         RolePrincipal descendantPrincipal = new RolePrincipal();
         descendantPrincipal.setApplicationName(DUMMY_APPLICATION_NAME);
         auth.createPrincipal(descendantPrincipal);
-        auth.addInheritance(ascendantPrincipal.getId(),descendantPrincipal.getId());
+        auth.addInheritance(ascendantPrincipal.getId(), descendantPrincipal.getId());
         RolePrincipal updatedAscendant = auth.readPrincipal(ascendantPrincipal.getId());
         RolePrincipal updatedDescendant = auth.readPrincipal(descendantPrincipal.getId());
         Assert.assertTrue(updatedAscendant.getDescendants().contains(updatedDescendant));
@@ -231,4 +242,27 @@ public abstract class AuthorizationManagerTest {
         auth.deleteInheritance(updatedAscendant.getId(),updatedDescendant.getId());
 
     }
+
+
+    @Test
+    public void testListPermissions() throws AuthorizationManagerException {
+       int permissionsSize = auth.listPermissions().size();
+       Permission permission = new Permission(URLPermission.class,DUMMY_PERMISSION_NAME,DUMMY_PERMISSION_ACTIONS);
+       auth.createPermission(permission);
+       List<Permission> permissions2= auth.listPermissions();
+       Assert.assertTrue(permissions2.size()==permissionsSize+1);
+       Assert.assertTrue(permissions2.contains(permission));
+    }
+
+    @Test
+    public void testListPrincipals() throws AuthorizationManagerException {
+       int principalsSize = auth.listPrincipals().size();
+       RolePrincipal principal= new RolePrincipal();
+       principal.setApplicationName(DUMMY_APPLICATION_NAME);
+       auth.createPrincipal(principal);
+       List<RolePrincipal> principals= auth.listPrincipals();
+       Assert.assertTrue(principals.size()==principalsSize+1);
+       Assert.assertTrue(principals.contains(principal));
+    }
+
 }

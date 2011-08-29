@@ -58,7 +58,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     private String applicationName = PolicyEnforcementPointOptions.DEFAULT_APPLICATION_NAME.getLabel();
 
     //all the permissions  owned by this Principal
-    @OneToMany(mappedBy = "rolePrincipal",fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "rolePrincipal",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private Set<Permission> permissions = new HashSet<Permission>();
 
     private boolean active = true;

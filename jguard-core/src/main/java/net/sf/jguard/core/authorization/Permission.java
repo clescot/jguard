@@ -217,7 +217,11 @@ public class Permission {
 
 
     public int hashCode(){
-        return clazz.hashCode()+name.hashCode()+actions.hashCode();
+        if(clazz==null||name==null||actions==null){
+            return 4;
+        }else{
+            return clazz.hashCode()+name.hashCode()+actions.hashCode();
+        }
     }
 
     public boolean equals(Object object){
