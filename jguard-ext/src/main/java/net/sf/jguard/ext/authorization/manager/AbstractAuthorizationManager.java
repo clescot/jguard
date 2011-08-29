@@ -427,10 +427,6 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
             throw new AuthorizationManagerException("Role " + principalDescId + " not found!");
         }
 
-        if (!RolePrincipal.class.isAssignableFrom(principalAsc.getClass())
-                || !RolePrincipal.class.isAssignableFrom(principalDesc.getClass())) {
-            throw new AuthorizationManagerException(" role inheritance is only supported by RolePrincipal \n roleAsc class=" + principalAsc.getClass().getName() + " \n roleDesc class=" + principalDesc.getClass().getName());
-        }
 
         //check if the roleAsc is immediate ascendant of roleDesc
         for (RolePrincipal o : principalAsc.getDescendants()) {
@@ -483,7 +479,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      *          if the inheritance already exists or create a cycle.
      */
     public void deleteInheritance(String roleAscName, String roleDescName) throws AuthorizationManagerException {
-        RolePrincipal roleAsc = (RolePrincipal) principals.get(roleAscName);
+        RolePrincipal roleAsc = principals.get(roleAscName);
         roleAsc.getDescendants().remove(principals.get(roleDescName));
         updatePrincipal(roleAsc);
     }
@@ -583,7 +579,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
             logger.warn(" authManager to import is empty ");
             return;
         }
-        //import domains set and associated permissions
+        //import permissions
         Collection<Permission> permissions = authManager.listPermissions();
             for (Permission permission : permissions) {
                 createPermission(permission);
@@ -591,7 +587,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
 
 
         //import principal set
-        Set<RolePrincipal> principals =  new HashSet<RolePrincipal>(authManager.listPrincipals());
+        List<RolePrincipal> principals =  authManager.listPrincipals();
         for (RolePrincipal principal : principals) {
             createPrincipal(principal);
         }
@@ -651,7 +647,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      */
     public XmlAuthorizationManager exportAsXmlAuthorizationManager(String fileLocation) throws AuthorizationManagerException {
         XmlAuthorizationManager xmlAuthorizationManager;
-        if (XmlAuthenticationManager.class.isAssignableFrom(this.getClass())) {
+        if (XmlAuthorizationManager.class.isAssignableFrom(this.getClass())) {
             xmlAuthorizationManager = (XmlAuthorizationManager) this;
 
         } else {
