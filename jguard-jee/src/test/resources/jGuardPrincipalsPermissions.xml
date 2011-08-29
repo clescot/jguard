@@ -127,7 +127,7 @@
                 <permissionRef id="7" />
             </permissionsRef>
             <descendants>
-                <principalRef name="3"/>
+                <principalRef id="3"/>
             </descendants>
         </principal>
     </principals>
