@@ -93,12 +93,7 @@ public class Permission {
             throw new IllegalArgumentException("clazz["+clazz.getName()+"] is not a subclass of java.security.Permission");
         }
         String className = clazz.getName();
-        try {
-            clazz = Thread.currentThread().getContextClassLoader().loadClass(clazz.getName());
-        } catch (ClassNotFoundException e1) {
-            logger.error(" class " + className + " is not found please check your classPath \n and the permission set in the Datasource \n(either database or JGuardPrincipalsPermissions.xml file) ", e1);
-            throw e1;
-        }
+      
         Class[] permArgsBasicPermClass = {String.class, String.class};
         Class[] permArgsPermClass = {String.class};
         Object[] objBasicArray = {name, actions};
@@ -218,5 +213,21 @@ public class Permission {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+
+    public int hashCode(){
+        return clazz.hashCode()+name.hashCode()+actions.hashCode();
+    }
+
+    public boolean equals(Object object){
+        if (!Permission.class.isAssignableFrom(object.getClass())){
+            return false;
+        }else{
+            Permission permission = (Permission)object;
+            return this.getClazz().equals(permission.getClazz())
+                    && this.getName().equals(permission.getName())
+                    && this.getActions().equals(permission.getActions());
+        }
     }
 }

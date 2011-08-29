@@ -45,7 +45,7 @@ public class MockAuthorizationManager implements AuthorizationManager {
 
    
 
-    public Principal readPrincipal(long roleId) throws AuthorizationManagerException {
+    public RolePrincipal readPrincipal(long roleId) throws AuthorizationManagerException {
         return null;
     }
 
@@ -59,7 +59,7 @@ public class MockAuthorizationManager implements AuthorizationManager {
         return null;
     }
 
-    public Set<net.sf.jguard.core.authorization.Permission> getPermissions(Collection permissionNames) {
+    public Set<net.sf.jguard.core.authorization.Permission> getPermissions(Collection<Long> permissionIds) {
         return null;
     }
 
@@ -74,7 +74,7 @@ public class MockAuthorizationManager implements AuthorizationManager {
 
     }
 
-    public void deleteInheritance(String roleAscName, String roleDescName) throws AuthorizationManagerException {
+    public void deleteInheritance(Long roleAscId, Long roleDescId) throws AuthorizationManagerException {
 
     }
 

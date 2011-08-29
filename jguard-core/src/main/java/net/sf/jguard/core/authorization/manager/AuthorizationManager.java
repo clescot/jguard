@@ -74,7 +74,7 @@ public interface AuthorizationManager extends PermissionProvider {
     List<Permission> listPermissions();
 
 
-    Principal readPrincipal(long roleId) throws AuthorizationManagerException;
+    RolePrincipal readPrincipal(long roleId) throws AuthorizationManagerException;
 
     void deletePrincipal(RolePrincipal principal) throws AuthorizationManagerException;
 
@@ -84,7 +84,7 @@ public interface AuthorizationManager extends PermissionProvider {
      */
     List<RolePrincipal> listPrincipals();
 
-    Set<Permission> getPermissions(Collection permissionNames);
+    Set<Permission> getPermissions(Collection<Long> permissionIds);
 
     void addToPrincipal(long roleId, Permission perm) throws AuthorizationManagerException;
 
@@ -107,11 +107,11 @@ public interface AuthorizationManager extends PermissionProvider {
     /**
      * Delete the existing inheritance beteween roleAsc and roleDesc.
      *
-     * @param roleAscName
-     * @param roleDescName
+     * @param roleAscId
+     * @param roleDescId
      * @throws AuthorizationManagerException
      */
-    void deleteInheritance(String roleAscName, String roleDescName) throws AuthorizationManagerException;
+    void deleteInheritance(Long roleAscId, Long roleDescId) throws AuthorizationManagerException;
 
     /**
      * replace the inital principal with the new one.

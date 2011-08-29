@@ -27,6 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.ext.authorization.manager;
 
+import com.google.inject.persist.Transactional;
 import net.sf.ehcache.CacheException;
 import net.sf.jguard.core.authorization.Permission;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
@@ -161,20 +162,19 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      * with a collection of URLPermissions names, provide the corresponding
      * set of URLPermissions.
      *
-     * @param permissionNames collection of permission names to grab.
+     * @param permissionIds collection of permission names to grab.
      * @return URLPermission's Set
      */
-    public Set<Permission> getPermissions(Collection permissionNames) {
+    public Set<Permission> getPermissions(Collection<Long> permissionIds) {
         Set<Permission> perms = new HashSet<Permission>();
 
-        for (Object permissionName1 : permissionNames) {
+        for (long permissionId : permissionIds) {
             Permission perm;
-            String permissionName = (String) permissionName1;
             try {
-                perm = Permission.translateToJGuardPermission(urlp.getPermission(permissionName));
+                perm = this.readPermission(permissionId);
                 perms.add(perm);
-            } catch (NoSuchPermissionException e) {
-                logger.debug(" permission " + permissionName + " not found in JGPermissionCollection ");
+            } catch (AuthorizationManagerException e) {
+               throw new RuntimeException(e);
             }
         }
 
@@ -295,21 +295,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     }
 
 
-    /**
-     * read an URLPermission.
-     *
-     * @param permissionName
-     * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
-     *
-     * @see AuthorizationManager
-     */
-    public Permission readPermission(String permissionName) throws AuthorizationManagerException {
-        try {
-            return Permission.translateToJGuardPermission(urlp.getPermission(permissionName));
-        } catch (NoSuchPermissionException e) {
-            throw new AuthorizationManagerException(" permission " + permissionName + " not found ", e);
-        }
-    }
+   public abstract Permission readPermission(long permissionId) throws AuthorizationManagerException;
 
 
 
@@ -321,7 +307,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      *
      * @see AuthorizationManager#readPrincipal(long)
      */
-    public Principal readPrincipal(long roleId) throws AuthorizationManagerException {
+    public RolePrincipal readPrincipal(long roleId) throws AuthorizationManagerException {
         return principals.get(roleId);
     }
 
@@ -406,11 +392,12 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
      *          if the inheritance already exists or create a cycle.
      */
+    @Transactional
     public void addInheritance(long principalAscId, long principalDescId) throws AuthorizationManagerException {
 
         //getting the principals
-        RolePrincipal principalAsc = principals.get(principalAscId);
-        RolePrincipal principalDesc = principals.get(principalDescId);
+        RolePrincipal principalAsc = readPrincipal(principalAscId);
+        RolePrincipal principalDesc = readPrincipal(principalDescId);
 
         if (principalAscId==principalDescId) {
             logger.error("ascendant and descendant cannot be the same principal ");
@@ -465,23 +452,26 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
             }
         }
 
-        //update in-memory role
         principalAsc.getDescendants().add(principalDesc);
+        principalDesc.setAscendant(principalAsc);
 
-        //update xml
         updatePrincipal(principalAsc);
+        updatePrincipal(principalDesc);
     }
 
     /**
-     * @param roleAscName  the role that inherit.
-     * @param roleDescName the role that is inherited.
+     * @param roleAscId  the role that inherit.
+     * @param roleDescId the role that is inherited.
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
      *          if the inheritance already exists or create a cycle.
      */
-    public void deleteInheritance(String roleAscName, String roleDescName) throws AuthorizationManagerException {
-        RolePrincipal roleAsc = principals.get(roleAscName);
-        roleAsc.getDescendants().remove(principals.get(roleDescName));
+    public void deleteInheritance(Long roleAscId, Long roleDescId) throws AuthorizationManagerException {
+        RolePrincipal roleAsc = readPrincipal(roleAscId);
+        RolePrincipal roleDesc = readPrincipal(roleDescId);
+        roleAsc.getDescendants().remove(roleDesc);
+        roleDesc.setAscendant(null);
         updatePrincipal(roleAsc);
+        updatePrincipal(roleDesc);
     }
 
     /**

@@ -49,9 +49,7 @@ import java.io.FilePermission;
 import java.io.IOException;
 import java.net.URL;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
@@ -78,8 +76,9 @@ public abstract class AuthorizationManagerTest {
     protected String applicationName = JGuardTestFiles.JGUARD_STRUTS_EXAMPLE.getLabel();
 
     private Random random = new Random();
+    private static final String DUMMY_PERMISSION_ACTIONS = "dummyPermissionActions";
+    private static final String DUMMY_PERMISSION_NAME = "dummyPermissionName";
 
-   
 
     @ModuleProvider
     protected List<Module> providesAuthorizationModule() {
@@ -119,7 +118,7 @@ public abstract class AuthorizationManagerTest {
 
 
     @Test
-    public void testAddToPrincipalAPermission() throws AuthorizationManagerException {
+    public void testAddToPrincipal() throws AuthorizationManagerException {
         RolePrincipal principal = new RolePrincipal(DUMMY_PRINCIPAL_NAME, DUMMY_APPLICATION_NAME);
         auth.createPrincipal(principal);
 
@@ -187,5 +186,49 @@ public abstract class AuthorizationManagerTest {
     @Test
     public void testExportAsXmlAuthorizationManager() throws IOException, AuthorizationManagerException {
         XmlAuthorizationManager xmlAuthorizationManager = ((AbstractAuthorizationManager)auth).exportAsXmlAuthorizationManager(File.createTempFile("temp"+random.nextInt(),null).getAbsolutePath());
+    }
+
+
+    @Test
+    public void testGetPermission() throws AuthorizationManagerException {
+        Permission test = new Permission(URLPermission.class,DUMMY_PERMISSION_NAME,DUMMY_PERMISSION_ACTIONS);
+        auth.createPermission(test);
+        
+        Collection<Long> ids = new ArrayList<Long>();
+        ids.add(test.getId());
+        Set<Permission> permissions =  auth.getPermissions(ids);
+        Assert.assertEquals(1,permissions.size());
+        Assert.assertEquals(test.toJavaPermission(), permissions.iterator().next().toJavaPermission());
+    }
+
+
+    @Test
+    public void testAddInheritance() throws AuthorizationManagerException {
+        RolePrincipal ascendantPrincipal = new RolePrincipal();
+        ascendantPrincipal.setApplicationName(DUMMY_APPLICATION_NAME);
+        auth.createPrincipal(ascendantPrincipal);
+        RolePrincipal descendantPrincipal = new RolePrincipal();
+        descendantPrincipal.setApplicationName(DUMMY_APPLICATION_NAME);
+        auth.createPrincipal(descendantPrincipal);
+        auth.addInheritance(ascendantPrincipal.getId(),descendantPrincipal.getId());
+        RolePrincipal updatedAscendant = auth.readPrincipal(ascendantPrincipal.getId());
+        RolePrincipal updatedDescendant = auth.readPrincipal(descendantPrincipal.getId());
+        Assert.assertTrue(updatedAscendant.getDescendants().contains(updatedDescendant));
+
+    }
+
+     @Test
+    public void testDeleteInheritance() throws AuthorizationManagerException {
+        RolePrincipal ascendantPrincipal = new RolePrincipal();
+        ascendantPrincipal.setApplicationName(DUMMY_APPLICATION_NAME);
+        auth.createPrincipal(ascendantPrincipal);
+        RolePrincipal descendantPrincipal = new RolePrincipal();
+        descendantPrincipal.setApplicationName(DUMMY_APPLICATION_NAME);
+        auth.createPrincipal(descendantPrincipal);
+        auth.addInheritance(ascendantPrincipal.getId(),descendantPrincipal.getId());
+        RolePrincipal updatedAscendant = auth.readPrincipal(ascendantPrincipal.getId());
+        RolePrincipal updatedDescendant = auth.readPrincipal(descendantPrincipal.getId());
+        auth.deleteInheritance(updatedAscendant.getId(),updatedDescendant.getId());
+
     }
 }

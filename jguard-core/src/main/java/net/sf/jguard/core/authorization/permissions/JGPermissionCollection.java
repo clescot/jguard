@@ -83,6 +83,8 @@ public abstract class JGPermissionCollection extends PermissionCollection {
     public void add(Permission permission) {
         if (permission != null) {
             permissions.add(permission);
+        }else{
+            throw new IllegalArgumentException("permission is null");
         }
 
     }

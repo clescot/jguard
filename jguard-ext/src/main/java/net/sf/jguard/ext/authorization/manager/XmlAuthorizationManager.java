@@ -323,7 +323,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
     }
 
     public Permission readPermission(long permissionId) throws AuthorizationManagerException {
-        Element permissionElement = getElement(XPATH_PRINCIPAL_BY_ID +permissionId + "']");
+        Element permissionElement = getElement(XPATH_PERMISSION_BY_ID +permissionId + "']");
         return getPermission(permissionElement);
     }
 

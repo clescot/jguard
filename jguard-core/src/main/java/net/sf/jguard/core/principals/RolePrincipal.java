@@ -58,7 +58,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     private String applicationName = PolicyEnforcementPointOptions.DEFAULT_APPLICATION_NAME.getLabel();
 
     //all the permissions  owned by this Principal
-    @OneToMany(mappedBy = "rolePrincipal")
+    @OneToMany(mappedBy = "rolePrincipal",fetch=FetchType.EAGER)
     private Set<Permission> permissions = new HashSet<Permission>();
 
     private boolean active = true;
@@ -75,7 +75,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
      * All principals that this role inherites from. This property is use to implement the General Hierarchy
      * proposed by the NIST.
      */
-    @OneToMany(mappedBy = "ascendant")
+    @OneToMany(mappedBy = "ascendant",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private Set<RolePrincipal> descendants = new HashSet<RolePrincipal>();
     @ManyToOne
     private RolePrincipal ascendant;
