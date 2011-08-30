@@ -454,4 +454,16 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     public void setAscendant(RolePrincipal ascendant) {
         this.ascendant = ascendant;
     }
+
+    @PreRemove
+    public void preRemove(){
+        for(Permission permission:permissions){
+            permission.setRolePrincipal(null);
+        }
+        permissions.clear();
+        if(getAscendant()!=null){
+            getAscendant().getDescendants().remove(this);
+            setAscendant(null);
+        }
+    }
 }

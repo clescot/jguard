@@ -277,7 +277,8 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
         }
 
         //resolve regexp in permissions
-        JGPermissionCollection resolvedPermissions = (JGPermissionCollection) PrincipalUtils.evaluatePermissionCollection(protectionDomain, (PermissionCollection) urlpUser);
+        JGPermissionCollection resolvedPermissions = (JGPermissionCollection) PrincipalUtils.evaluatePermissionCollection(protectionDomain, urlpUser);
+        //if there
         //we remove unresolved permissions
         //and replace them with the resolved one
         //we do that to preserve the JGpermissionCollection subclass
@@ -622,7 +623,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
     final public void addAlwaysGrantedPermissions(Permissions permissions) {
         Enumeration perms = permissions.elements();
         while (perms.hasMoreElements()) {
-            alwaysGrantedPermissions.add(((Permission) perms.nextElement()).toJavaPermission());
+            alwaysGrantedPermissions.add(((java.security.Permission) perms.nextElement()));
         }
     }
 

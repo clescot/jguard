@@ -273,7 +273,7 @@ public final class PrincipalUtils {
      *
      * @param protectionDomain
      * @param pc
-     * @return
+     * @return 
      */
     public static PermissionCollection evaluatePermissionCollection(ProtectionDomain protectionDomain, PermissionCollection pc) {
         final String PRIVATE_CREDENTIALS = "subject.privateCredentials";
@@ -290,12 +290,18 @@ public final class PrincipalUtils {
             hasJexlPrincipal = ppals[i] instanceof UserPrincipal;
             i++;
         }
+        PermissionCollection resolvedPc = new JGPositivePermissionCollection();
+
+        
         if (!hasJexlPrincipal) {
             logger.debug("no UserPrincipal defined, can not use regex permissions");
-            return pc;
+            //we copy the pc content into the resolvedPc and return it
+            Enumeration<Permission> e = pc.elements();
+            while(e.hasMoreElements()){
+                resolvedPc.add(e.nextElement());
+            }
+            return resolvedPc;
         } else {
-            PermissionCollection resolvedPc = new JGPositivePermissionCollection();
-
             UserPrincipal subjectPrincipal = (UserPrincipal) ppals[i - 1];
             JexlContext jc = JexlHelper.createContext();
             Map<String, Map> vars = jc.getVars();

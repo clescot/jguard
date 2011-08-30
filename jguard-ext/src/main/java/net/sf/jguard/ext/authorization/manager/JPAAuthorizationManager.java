@@ -105,6 +105,10 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
     public void deletePermission(Permission permission) {
         EntityManager entityManager = entityManagerProvider.get();
         permission = entityManager.merge(permission);
+        RolePrincipal rolePrincipal = permission.getRolePrincipal();
+        if(rolePrincipal!=null){
+            rolePrincipal.getPermissions().remove(permission);
+        }
         entityManager.remove(permission);
     }
 
@@ -118,8 +122,9 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
     @Transactional
     public void deletePrincipal(RolePrincipal principal) throws AuthorizationManagerException {
         EntityManager entityManager = entityManagerProvider.get();
-        principal = entityManager.merge(principal);
-        entityManager.remove(principal);
+        RolePrincipal mergedPrincipal = entityManager.merge(principal);
+        entityManager.remove(mergedPrincipal);
+
     }
 
     public boolean isEmpty() {
@@ -213,9 +218,11 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
     @Transactional
     public void addToPrincipal(long roleId, Permission perm) throws AuthorizationManagerException {
         EntityManager entityManager = entityManagerProvider.get();
-        Permission permission = entityManager.merge(perm);
+
         RolePrincipal principal = readPrincipal(roleId);
-        principal.addPermission(permission);
+        principal.addPermission(perm);
+        perm.setRolePrincipal(principal);
+        entityManager.merge(perm);
         entityManager.merge(principal);
     }
 

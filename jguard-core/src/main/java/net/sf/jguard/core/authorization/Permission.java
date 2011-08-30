@@ -234,4 +234,21 @@ public class Permission {
                     && this.getActions().equals(permission.getActions());
         }
     }
+
+    public RolePrincipal getRolePrincipal() {
+        return rolePrincipal;
+    }
+
+    public void setRolePrincipal(RolePrincipal rolePrincipal) {
+        this.rolePrincipal = rolePrincipal;
+    }
+
+
+    @PreRemove
+    public void preRemove(){
+        if(rolePrincipal!=null){
+            rolePrincipal.getPermissions().remove(this);
+        }
+
+    }
 }
