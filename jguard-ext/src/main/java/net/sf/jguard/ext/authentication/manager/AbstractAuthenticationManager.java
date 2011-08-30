@@ -405,7 +405,7 @@ public abstract class AbstractAuthenticationManager implements AuthenticationMan
         }
 
 
-        Set ppals = null;
+        Set ppals;
         try {
             //set OrganizationTemplate
             setOrganizationTemplate(authManager.getOrganizationTemplate());

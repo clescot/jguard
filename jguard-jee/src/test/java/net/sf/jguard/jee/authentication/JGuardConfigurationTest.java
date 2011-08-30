@@ -97,6 +97,9 @@ public class JGuardConfigurationTest extends JGuardTest {
         JGuardConfiguration jGuardConfiguration = new JGuardConfiguration(applicationName, authenticationSettings, appConfigurationEntries);
     }
 
+
+    
+
     @Test(expected = IllegalArgumentException.class)
     public void testNullAppConigurationEntries() {
         String applicationName = "dummy";

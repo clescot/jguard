@@ -29,7 +29,9 @@ package net.sf.jguard.ext.principals;
 
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.principals.SubjectTemplate;
+import org.hibernate.Session;
 
+import javax.inject.Provider;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.HashSet;
@@ -50,7 +52,7 @@ public class PersistedSubjectTemplate implements Serializable {
         principals = new HashSet<Principal>();
     }
 
-    public PersistedSubjectTemplate(SubjectTemplate subjectTemplate) {
+    public PersistedSubjectTemplate(SubjectTemplate subjectTemplate, Provider<Session> sessionProvider) {
         super();
         id = subjectTemplate.getId();
         subjectTemplateCredentials = new HashSet<SubjectTemplateCredential>();
@@ -59,8 +61,9 @@ public class PersistedSubjectTemplate implements Serializable {
         addCredentialSet(subjectTemplate.getPublicOptionalCredentials(), true, false);
         addCredentialSet(subjectTemplate.getPrivateOptionalCredentials(), false, false);
 
-        principals = new HibernatePrincipalUtils().getPersistedPrincipals(subjectTemplate.getPrincipals());
+        principals = new HibernatePrincipalUtils(sessionProvider).getPersistedPrincipals(subjectTemplate.getPrincipals());
     }
+
 
     public Long getId() {
         return id;

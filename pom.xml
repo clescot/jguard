@@ -460,7 +460,6 @@
         <module>jguard-core</module>
         <module>jguard-ext</module>
         <module>jguard-jee</module>
-        <module>jguard-jee-4</module>
         <module>jguard-jee-extras</module>
     </modules>
     <repositories>

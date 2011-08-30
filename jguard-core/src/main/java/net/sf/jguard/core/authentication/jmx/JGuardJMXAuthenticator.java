@@ -59,7 +59,7 @@ public class JGuardJMXAuthenticator implements JMXAuthenticator {
     private String applicationName;
     private ClassLoader classLoader; // only used in jee
     private Configuration configuration = null;
-    private static String JGUARD_APPLICATION_NAME = "net.sf.jguard.application.name";
+    public static String JGUARD_APPLICATION_NAME = "net.sf.jguard.application.name";
 
     /**
      * Creates a JGuardJMXAuthentication <strong>for standalone applications</strong>
@@ -69,11 +69,10 @@ public class JGuardJMXAuthenticator implements JMXAuthenticator {
      * <li>or com.sun.management.jmxremote.login.config</li>
      * </ul>
      */
-    private JGuardJMXAuthenticator() {
+    public JGuardJMXAuthenticator() {
 
         logger.info("JGuardJMXAuthentication for j2se environnement");
         String appNameProp = System.getProperty(JGUARD_APPLICATION_NAME);
-
         if (appNameProp != null) {
             // use system property net.sf.jguard.application.name
             applicationName = appNameProp;
@@ -102,15 +101,22 @@ public class JGuardJMXAuthenticator implements JMXAuthenticator {
         logger.info("authentication scope is local");
         this.applicationName = appName;
         this.classLoader = contextClassLoader;
+        if(conf==null){
+            throw new IllegalArgumentException("configuration is null");
+        }
         configuration = conf;
     }
 
     public Subject authenticate(Object credentials) {
 
-        Subject subject;
-
+        Subject subject = null;
+        if(credentials==null){
+            throw new IllegalArgumentException("credentials are null or empty. authentication cannot be done");
+        }
         if (configuration == null) {
             try {
+                //like configuration is null, we hope that a global configuration has been set
+                //and grabbed by the logincontext constructor
                 logger.info("logging in application : " + applicationName);
                 LoginContext lc = new LoginContext(applicationName, new JMXCallbackHandler((String[]) credentials));
                 lc.login();
@@ -118,6 +124,9 @@ public class JGuardJMXAuthenticator implements JMXAuthenticator {
             } catch (LoginException e) {
                 logger.error("loginException : " + e.getMessage());
                 throw new SecurityException(e.getMessage(), e);
+            }catch (SecurityException sex){
+                 logger.error("SecurityException : " + sex.getMessage());
+                throw sex;
             }
         } else {
             //'local' mode

@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.ext.principals;
 
 import javax.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import net.sf.jguard.core.principals.Organization;
 import net.sf.jguard.core.principals.RolePrincipal;
 import org.hibernate.Session;
@@ -41,8 +41,13 @@ import java.util.Set;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
  */
 public class HibernatePrincipalUtils {
+
+    private Provider<Session> session;
+
     @Inject
-    Provider<Session> session;
+    public HibernatePrincipalUtils(Provider<Session> session){
+        this.session = session;
+    }
 
     public PersistedPrincipal getPersistedPrincipal(Principal ppal) {
 

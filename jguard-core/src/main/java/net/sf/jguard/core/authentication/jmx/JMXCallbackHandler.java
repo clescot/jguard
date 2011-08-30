@@ -40,6 +40,9 @@ class JMXCallbackHandler implements CallbackHandler {
 
 
     public JMXCallbackHandler(String[] credentials) {
+        if(credentials==null||credentials.length==0){
+            throw new IllegalArgumentException("credentials provided are null or empty");
+        }
         int length = credentials.length;
         String[] copies = new String[length];
         System.arraycopy(credentials, 0, copies, 0, length);

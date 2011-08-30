@@ -234,7 +234,7 @@ abstract class AbstractAuthorizationManager implements AuthorizationManager {
                 logger.debug(" user's principal applicationName="
                         + tempUserPrincipal.getApplicationName());
             }
-            definedPrincipalsIt = principalsSet.iterator();
+            definedPrincipalsIt = listPrincipals().iterator();
             //we search the corresponding defined Principal
             while (definedPrincipalsIt.hasNext()) {
                 tempDefinedPrincipal = (RolePrincipal) definedPrincipalsIt.next();

@@ -137,34 +137,8 @@ public abstract class PolicyEnforcementPointFilter<Req, Res> implements Filter<R
     }
 
 
-    /**
-     * filter call in a secure way.
-     * note that this method can throw {@link Exception} or {@link Error}.
-     *
-     * @param request
-     * @param response
-     * @param callbackHandler
-     * @param chain           invocation Filter chain
-     */
-    private void doInternalFilter(Request<Req> request, Response<Res> response, JGuardCallbackHandler<Req, Res> callbackHandler, FilterChain chain) {
-        Permission permission = null;//authorizationBindings.getPermissionRequested(request);
 
-
-        //grab the current subject
-        Subject subject;
-
-        subject = authenticationServicePoint.getCurrentSubject();
-        if (subject == null) {
-            subject = authenticationServicePoint.getGuestSubject(request, response, impersonationScopes, callbackHandler);
-        }
-//        if (authenticationServicePoint.userTriesToLogout(subject, permission)) {
-//            authenticationServicePoint.logout();
-//            authenticationServicePoint.impersonateAsGuest(request, response, impersonationScopes);
-//
-//        }
-
-
-    }
+    
 
 
 }

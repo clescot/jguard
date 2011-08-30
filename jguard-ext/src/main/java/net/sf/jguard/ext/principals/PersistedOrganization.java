@@ -34,7 +34,9 @@ package net.sf.jguard.ext.principals;
 
 import net.sf.jguard.core.principals.Organization;
 import net.sf.jguard.core.principals.SubjectTemplate;
+import org.hibernate.Session;
 
+import javax.inject.Provider;
 import java.util.Set;
 
 /**
@@ -48,12 +50,12 @@ public class PersistedOrganization extends Organization {
         super();
     }
 
-    public PersistedOrganization(Organization organization) {
+    public PersistedOrganization(Organization organization,Provider<Session> sessionProvider) {
         super();
 
         this.id = organization.getId();
-        this.principals = new HibernatePrincipalUtils().getPersistedPrincipals(organization.getPrincipals());
-        this.persistedSubjectTemplate = new PersistedSubjectTemplate(organization.getSubjectTemplate());
+        this.principals = new HibernatePrincipalUtils(sessionProvider).getPersistedPrincipals(organization.getPrincipals());
+        this.persistedSubjectTemplate = new PersistedSubjectTemplate(organization.getSubjectTemplate(),sessionProvider);
 
         this.credentials = organization.getCredentials();
         this.users = organization.getUsers();

@@ -99,7 +99,7 @@ public class HibernateAuthenticationManager extends AbstractAuthenticationManage
     protected void persistUser(Subject user) throws AuthenticationException {
 
         PersistedOrganization pOrga = getPersistedOrganizationFromSubject(user);
-        PersistedSubject persistedSubject = new PersistedSubject(user, pOrga);
+        PersistedSubject persistedSubject = new PersistedSubject(user, pOrga,sessionProvider);
         sessionProvider.get().saveOrUpdate(persistedSubject);
         if (persistedSubject.getId() != null && !persistedSubject.getId().toString().equals("0")) {
             //this credential is used to keep track of the database row in an Object not related with datéabase in its API
@@ -111,7 +111,7 @@ public class HibernateAuthenticationManager extends AbstractAuthenticationManage
 
     protected void persistPrincipal(Principal principal) throws AuthenticationException {
 
-        PersistedPrincipal ppal = new HibernatePrincipalUtils().getPersistedPrincipal(principal);
+        PersistedPrincipal ppal = new HibernatePrincipalUtils(sessionProvider).getPersistedPrincipal(principal);
         if (ppal != null) {
             sessionProvider.get().saveOrUpdate(ppal);
         }
@@ -120,7 +120,7 @@ public class HibernateAuthenticationManager extends AbstractAuthenticationManage
 
     protected void persistOrganization(Organization organization) throws AuthenticationException {
         PersistedOrganization orga;
-        orga = new PersistedOrganization(organization);
+        orga = new PersistedOrganization(organization,sessionProvider);
 
         sessionProvider.get().saveOrUpdate(orga);
         organization.setId(orga.getId());
@@ -317,7 +317,7 @@ public class HibernateAuthenticationManager extends AbstractAuthenticationManage
 
     public void updatePrincipal(String oldPrincipalName, Principal principal) throws AuthenticationException {
 
-        PersistedPrincipal ppal = new HibernatePrincipalUtils().getPersistedPrincipal(principal);
+        PersistedPrincipal ppal = new HibernatePrincipalUtils(sessionProvider).getPersistedPrincipal(principal);
         if (ppal != null && ppal.getId() != null) {
             sessionProvider.get().update(ppal);
         } else {
@@ -329,7 +329,7 @@ public class HibernateAuthenticationManager extends AbstractAuthenticationManage
 
     public boolean deletePrincipal(Principal principal) throws AuthenticationException {
 
-        PersistedPrincipal ppal = new HibernatePrincipalUtils().getPersistedPrincipal(principal);
+        PersistedPrincipal ppal = new HibernatePrincipalUtils(sessionProvider).getPersistedPrincipal(principal);
         if (ppal != null) {
             sessionProvider.get().delete(ppal);
         }
@@ -361,14 +361,14 @@ public class HibernateAuthenticationManager extends AbstractAuthenticationManage
         PersistedOrganization orga = (PersistedOrganization) query.uniqueResult();
 
         if (orga != null) {
-            PersistedOrganization convertedOrga = new PersistedOrganization(organizationTemplate.toOrganization());
+            PersistedOrganization convertedOrga = new PersistedOrganization(organizationTemplate.toOrganization(),sessionProvider);
             //organizationTemplate is already present; we update it
             orga.setCredentials(convertedOrga.getCredentials());
             orga.setPrincipals(convertedOrga.getPrincipals());
             orga.setSubjectTemplate(convertedOrga.getSubjectTemplate());
             hibernateSession.update(orga);
         } else {
-            PersistedOrganization newOrga = new PersistedOrganization(organizationTemplate.toOrganization());
+            PersistedOrganization newOrga = new PersistedOrganization(organizationTemplate.toOrganization(),sessionProvider);
             hibernateSession.save(newOrga);
         }
 

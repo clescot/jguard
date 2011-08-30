@@ -27,8 +27,10 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.ext.principals;
 
+import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.util.SubjectUtils;
+import org.hibernate.Session;
 
 import javax.security.auth.Subject;
 import java.security.Principal;
@@ -53,12 +55,14 @@ public class PersistedSubject {
     public static final String ACTIVE = "active";
     public final static String PERSISTENCE_ID = "persistenceId";
     private static final String ZERO = "0";
+    private Provider<Session> sessionProvider;
 
     PersistedSubject() {
 
     }
 
-    public PersistedSubject(javax.security.auth.Subject subject, PersistedOrganization organization) {
+    public PersistedSubject(Subject subject, PersistedOrganization organization, Provider<Session> sessionProvider) {
+        this.sessionProvider = sessionProvider;
 
         //grab the persistence id from jguardCredentials to set it directly in the class
         String idToString = SubjectUtils.getCredentialValueAsString(subject, false, PERSISTENCE_ID);
@@ -86,7 +90,7 @@ public class PersistedSubject {
         privateCredentials.remove(new JGuardCredential(ACTIVE, active));
 
 
-        principals = new HibernatePrincipalUtils().getPersistedPrincipals(subject.getPrincipals());
+        principals = new HibernatePrincipalUtils(sessionProvider).getPersistedPrincipals(subject.getPrincipals());
 
     }
 

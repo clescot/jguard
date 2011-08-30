@@ -332,6 +332,7 @@ public abstract class AuthorizationManagerTest {
         Set<Permission> permissions = new HashSet<Permission>();
         Permission dummyPermission = createDummyPermission();
         permissions.add(dummyPermission);
+        dummyPermission.setRolePrincipal(admin);
         admin.setPermissions(permissions);
         auth.createPrincipal(admin);
         ProtectionDomain protectionDomain = ProtectionDomainUtils.getEmptyProtectionDomain(admin);
