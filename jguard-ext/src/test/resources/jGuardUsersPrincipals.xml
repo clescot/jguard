@@ -24,7 +24,6 @@
     <users>
         <user>
             <privateCredentials>
-
                 <credential id="password" value="admin"/>
                 <credential id="active" value="true"/>
             </privateCredentials>
@@ -67,7 +66,6 @@
                 </privateRequiredCredentials>
                 <publicRequiredCredentials>
                     <credTemplateId>login</credTemplateId>
-
                 </publicRequiredCredentials>
                 <privateOptionalCredentials>
                     <credTemplateId>country</credTemplateId>
@@ -100,7 +98,6 @@
                 </privateRequiredCredentials>
                 <publicRequiredCredentials>
                     <credTemplateId>login</credTemplateId>
-
                 </publicRequiredCredentials>
                 <privateOptionalCredentials>
                     <credTemplateId>country</credTemplateId>

@@ -120,7 +120,7 @@ public class XmlLoginModule extends UserNamePasswordLoginModule implements Login
             user = (Subject) it.next();
             Set privateCredentialsTemp = user.getPrivateCredentials(JGuardCredential.class);
             Set publicCredentialsTemp = user.getPublicCredentials(JGuardCredential.class);
-            if (privateCredentialsTemp.contains(loginCredential)) {
+            if (publicCredentialsTemp.contains(loginCredential)) {
                 if ((privateCredentialsTemp.contains(passwordCredential)) || skipPasswordCheck) {
 
                     //authentication succeed because one user has got cred1 and cred2

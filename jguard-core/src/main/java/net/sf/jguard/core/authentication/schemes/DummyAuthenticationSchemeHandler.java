@@ -30,6 +30,7 @@ package net.sf.jguard.core.authentication.schemes;
 import javax.inject.Inject;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
+import net.sf.jguard.core.authorization.permissions.URLPermission;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 
@@ -45,17 +46,21 @@ import java.util.Collection;
 
 @Singleton
 public class DummyAuthenticationSchemeHandler<Req, Res> implements StatefulAuthenticationSchemeHandler<Req, Res> {
+    public static final String DUMMY_FILE = "toto.txt";
+    public static final String READ_OPERATION = "read";
     private PermissionCollection grantedPermissions;
     private static final String MOCK_AUTHENTICATION_SCHEME_HANDLER_NAME = "MOCK";
     private static final String DUMMY_NAME_PERMISSION = "dummy";
     private static final String DUMMY_ACTIONS_PERMISSION = "dummy";
     private boolean answerToChallenge = true;
     private boolean challengeNeeded = true;
+    private static final String GRANTED_PERMISSION_NAME = "grantedName";
+    private static final String GRANTED_PERMISSION_ACTIONS = "grantedActions";
 
     @Inject
     public DummyAuthenticationSchemeHandler() {
         grantedPermissions = new JGPositivePermissionCollection();
-        grantedPermissions.add(new AllPermission());
+        grantedPermissions.add(new URLPermission(GRANTED_PERMISSION_NAME, GRANTED_PERMISSION_ACTIONS));
     }
 
     public Permission getLogoffPermission() {

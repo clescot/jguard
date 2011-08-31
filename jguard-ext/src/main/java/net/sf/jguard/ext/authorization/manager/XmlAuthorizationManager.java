@@ -411,9 +411,9 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
             Permission perm = (Permission) orphanedPerm;
             Element permRef = permsRefElement.addElement(PERMISSION_REF);
             //add the name attribute
-            Attribute nameAttribute = new UserDataAttribute(new QName(NAME));
-            nameAttribute.setValue(perm.getName());
-            permRef.add(nameAttribute);
+            Attribute idAttribute = new UserDataAttribute(new QName(ID));
+            idAttribute.setValue(""+perm.getId());
+            permRef.add(idAttribute);
         }
 
 
@@ -426,9 +426,9 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
             for (RolePrincipal o : ppal.getDescendants()) {
                 Element principalRef = descendants.addElement(PRINCIPAL_REF);
 
-                Attribute nameAttribute = new UserDataAttribute(new QName(NAME));
-                nameAttribute.setValue(o.getLocalName());
-                principalRef.add(nameAttribute);
+                Attribute idAttribute = new UserDataAttribute(new QName(ID));
+                idAttribute.setValue(""+o.getId());
+                principalRef.add(idAttribute);
             }
         }
     }

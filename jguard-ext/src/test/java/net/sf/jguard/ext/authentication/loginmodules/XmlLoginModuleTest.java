@@ -97,9 +97,10 @@ public class XmlLoginModuleTest {
         Set<JGuardCredential> privateCredentials = new HashSet<JGuardCredential>();
         JGuardCredential login = new JGuardCredential(LOGIN, ADMIN_LOGIN);
         JGuardCredential password = new JGuardCredential(PASSWORD, ADMIN_PASSWORD);
-        privateCredentials.add(login);
+        Set<JGuardCredential> publicCredentials = new HashSet<JGuardCredential>();
+        publicCredentials .add(login);
         privateCredentials.add(password);
-        Subject adminSubject = new Subject(false, new HashSet<RolePrincipal>(), new HashSet(), privateCredentials);
+        Subject adminSubject = new Subject(false, new HashSet<RolePrincipal>(), publicCredentials , privateCredentials);
         users.add(adminSubject);
         when(authenticationManager.getUsers()).thenReturn(users);
         options.put(JGuardAuthenticationManagerMarkups.AUTHENTICATION_MANAGER.getLabel(), authenticationManager);

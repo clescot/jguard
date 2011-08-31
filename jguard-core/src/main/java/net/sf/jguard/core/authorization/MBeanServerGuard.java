@@ -50,24 +50,24 @@ public class MBeanServerGuard implements MBeanServerForwarder {
     private static final Logger logger = LoggerFactory.getLogger(MBeanServerGuard.class.getName());
     private MBeanServer mbs = null;
     private LocalAccessController accessController = null;
-    private static final String ADD_NOTIFICATION_LISTENER = "addNotificationListener";
-    private static final String INSTANTIATE = "instantiate";
-    private static final String REGISTER_MBEAN = "registerMBean";
-    private static final String REGISTER = "register";
-    private static final String GET_CLASS_LOADER_FOR = "getClassLoaderFor";
-    private static final String GET_CLASS_LOADER_REPOSITORY = "getClassLoaderRepository";
-    private static final String GET_CLASS_LOADER = "getClassLoader";
-    private static final String GET_ATTRIBUTE = "getAttribute";
-    private static final String GET_DOMAINS = "getDomains";
-    private static final String GET_MBEAN_INFO = "getMBeanInfo";
-    private static final String GET_OBJECT_INSTANCE = "getObjectInstance";
-    private static final String INVOKE = "invoke";
-    private static final String IS_INSTANCE_OF = "isInstanceOf";
-    private static final String QUERY_MBEANS = "queryMBeans";
-    private static final String QUERY_NAMES = "queryNames";
-    private static final String REMOVE_NOTIFICATION_LISTENER = "removeNotificationListener";
-    private static final String SET_ATTRIBUTE = "setAttribute";
-    private static final String UNREGISTER_MBEAN = "unregisterMBean";
+    public static final String ADD_NOTIFICATION_LISTENER = "addNotificationListener";
+    public static final String INSTANTIATE = "instantiate";
+    public static final String REGISTER_MBEAN = "registerMBean";
+    public static final String REGISTER = "register";
+    public static final String GET_CLASS_LOADER_FOR = "getClassLoaderFor";
+    public static final String GET_CLASS_LOADER_REPOSITORY = "getClassLoaderRepository";
+    public static final String GET_CLASS_LOADER = "getClassLoader";
+    public static final String GET_ATTRIBUTE = "getAttribute";
+    public static final String GET_DOMAINS = "getDomains";
+    public static final String GET_MBEAN_INFO = "getMBeanInfo";
+    public static final String GET_OBJECT_INSTANCE = "getObjectInstance";
+    public static final String INVOKE = "invoke";
+    public static final String IS_INSTANCE_OF = "isInstanceOf";
+    public static final String QUERY_MBEANS = "queryMBeans";
+    public static final String QUERY_NAMES = "queryNames";
+    public  static final String REMOVE_NOTIFICATION_LISTENER = "removeNotificationListener";
+    public static final String SET_ATTRIBUTE = "setAttribute";
+    public static final String UNREGISTER_MBEAN = "unregisterMBean";
 
     public MBeanServerGuard(LocalAccessController lac) {
         accessController = lac;
@@ -342,7 +342,7 @@ public class MBeanServerGuard implements MBeanServerForwarder {
         return mbs.isRegistered(name);
     }
 
-    public Set queryMBeans(ObjectName name, QueryExp query) {
+    public Set<ObjectInstance> queryMBeans(ObjectName name, QueryExp query) {
         accessController.checkPermission(new MBeanPermission(null, null, name, QUERY_MBEANS));
         Set<ObjectInstance> mbeans = mbs.queryMBeans(name, query);
 
@@ -354,14 +354,11 @@ public class MBeanServerGuard implements MBeanServerForwarder {
                 mbeansToRemove.add(oi);
             }
         }
-        boolean success = mbeans.removeAll(mbeansToRemove);
-        if (!success) {
-            throw new AccessControlException("mbeans cannot be removed from the returned Set when access is denied to them with the queryMbeans operation ");
-        }
+        mbeans.removeAll(mbeansToRemove);
         return mbeans;
     }
 
-    public Set queryNames(ObjectName name, QueryExp query) {
+    public Set<ObjectName> queryNames(ObjectName name, QueryExp query) {
         accessController.checkPermission(new MBeanPermission(null, null, name, QUERY_NAMES));
         Set<ObjectName> mbeans = mbs.queryNames(name, query);
         Set<ObjectName> mbeansToRemove = new HashSet<ObjectName>();
@@ -405,7 +402,7 @@ public class MBeanServerGuard implements MBeanServerForwarder {
             }
             accessController.checkPermission(new MBeanPermission(className, null, name, REGISTER_MBEAN));
         }
-        Class clazz = null;
+        Class clazz;
         try {
             clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
             if (!clazz.getProtectionDomain().implies(new MBeanTrustPermission(REGISTER))) {

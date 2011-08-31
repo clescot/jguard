@@ -24,12 +24,12 @@ xmlns="http://jguard.sourceforge.net/xsd/jGuardUsersPrincipals_2.0.0.xsd">
   <users>
       <user>
      <privateCredentials>
-       <credential id="login" value="admin" />
        <credential id="password" value="admin"/>
        <credential id="active" value="true"/>
      </privateCredentials>
 
      <publicCredentials>
+         <credential id="login" value="admin" />
        <credential id="firstname" value="Rick" />
        <credential id="lastname" value="Dangerous" />
        <credential id="location" value="Paris" />
@@ -43,11 +43,12 @@ xmlns="http://jguard.sourceforge.net/xsd/jGuardUsersPrincipals_2.0.0.xsd">
    </user>
    <user>
    <privateCredentials>
-  <credential id="login" value="guest" />
        <credential id="password" value="guest"/>
        <credential id="active" value="true"/>
    </privateCredentials>
-   <publicCredentials/>
+   <publicCredentials>
+                <credential id="login" value="guest" />
+   </publicCredentials>
         <principalsRef>
           <principalRef name="guest" applicationName="jguard-jsf-example" />
         </principalsRef>
@@ -58,11 +59,11 @@ xmlns="http://jguard.sourceforge.net/xsd/jGuardUsersPrincipals_2.0.0.xsd">
     <organizationTemplate>
         <userTemplate>
                 <privateRequiredCredentials>
-                          <credTemplateId>login</credTemplateId>
                           <credTemplateId digestNeeded="true">password</credTemplateId>
                           <credTemplateId>active</credTemplateId>
                   </privateRequiredCredentials>
                   <publicRequiredCredentials>
+                       <credTemplateId>login</credTemplateId>
                         <credTemplateId>firstname</credTemplateId>
                     <credTemplateId>lastname</credTemplateId>
                         <credTemplateId>location</credTemplateId>
@@ -90,11 +91,11 @@ xmlns="http://jguard.sourceforge.net/xsd/jGuardUsersPrincipals_2.0.0.xsd">
     <organization>
           <userTemplate>
                   <privateRequiredCredentials>
-                          <credTemplateId>login</credTemplateId>
                           <credTemplateId digestNeeded="true">password</credTemplateId>
                           <credTemplateId>active</credTemplateId>
                   </privateRequiredCredentials>
                   <publicRequiredCredentials>
+                       <credTemplateId>login</credTemplateId>
                         <credTemplateId>firstname</credTemplateId>
                     <credTemplateId>lastname</credTemplateId>
                         <credTemplateId>location</credTemplateId>
