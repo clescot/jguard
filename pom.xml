@@ -242,7 +242,9 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.2.1</version>
                 <configuration>
-                    <tagBase>https://jguard.svn.sourceforge.net/svnroot/jguard/jguard/tags</tagBase>
+                   <goal>deploy</goal>
+                    <pushChanges>false</pushChanges>
+                    <scmCommentPrefix>[RELEASE]</scmCommentPrefix>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
             </plugin>
