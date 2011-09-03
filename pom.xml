@@ -147,11 +147,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:https://jguard.svn.sourceforge.net/svnroot/jguard/jguard/tags/jguard-2.0.0-beta-6
-        </connection>
-        <developerConnection>scm:svn:https://jguard.svn.sourceforge.net/svnroot/jguard/jguard/tags/jguard-2.0.0-beta-6
-        </developerConnection>
-        <url>http://jguard.svn.sourceforge.net/viewvc/jguard/jguard/tags/jguard-2.0.0-beta-6</url>
+        <connection>scm:git://jguard.git.sourceforge.net/gitroot/jguard/jguard</connection>
+        <developerConnection>scm:git:ssh://jguard.git.sourceforge.net/gitroot/jguard/jguard</developerConnection>
+        <url>http://jguard.git.sourceforge.net/git/gitweb.cgi?p=jguard/jguard;a=tree</url>
     </scm>
     <dependencies>
         <dependency>
@@ -242,7 +240,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.1</version>
+                <version>2.2.1</version>
                 <configuration>
                     <tagBase>https://jguard.svn.sourceforge.net/svnroot/jguard/jguard/tags</tagBase>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
