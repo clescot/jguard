@@ -1,4 +1,63 @@
-v1.1.0-beta1
+v2.0.0-beta-8
+
+v2.0.0-beta-7(2011-09-06)
+-remove domain on the authorization field for simplicity
+-replace JDBCAuthorizationmanager by JPAAuthorizationManager for simplicity
+-fix some bugs on the JMX side
+
+v2.0.0-beta-6(2011-04-01)
+-integrate Guice for dependency injection
+-add many unit tests
+v2.0.0-beta-5(2009-02-16)
+
+- upgrade to java 5
+- upgrade to JCapthca 1.0-RC6
+- add authenticationSchemeHandler interface and the  related authentication lifecycle
+- fix a bug about CryptUtils : in a concurrency use case, some password check can fail.
+=> thanks to Lars Feistner
+-migrate from java.util.logging to SLF4J(logging facade) to permit for the end user to choose its logging library
+- add a 'propagateThrowable' option (thanks to Lars Feistner for the idea) to permit to not catch any exception for a debugging purpose
+- fix the setAttributes and setAttribute method in MbeanServerGuard (JMX)
+=> thanks to Andriy Gapon
+- add regexp support in JSFPermission
+=> thanks to Victor Bucutea
+- add more unit tests including JSF tests
+-upgrade release number to 2.0 to reflect major API changes
+
+
+
+v1.1.0-beta-4(2008-07-05)
+- exclude from last accessDeniedPermission logonPermission, logoffPermission, logonprocessPermission,authenticationFailedPermission,registerPermission,registerProcessPermission.
+if registration is configured, registration permission and registrationProcess Permission are also excluded.
+thanks to Sereno Mendes (loquaz)!
+- enhance documentation
+-change IndexURI into authenticationSucceedURI for a better meaning
+- fix authentication part in jguard-swing-example
+- change a unidiretionnal one-to-many between subject and credentials by using a join table like recommended by Hibernate (thanks to pascal poussard)
+- return false when the HibernateLoginModule has got a technical problem (fals e implies it is ignored):thanks to pascal poussard
+- auto-authenticate as a guest just after a user logoff (useful for taglibs which render a page after logoff): thanks to Mahyar SEPEHR.
+- add a 'login' field in persistedSubject as a trade-off between object model (credential can have any key and value) and database model (named credential present in subject permit easy indexation)
+- add 'active' status: only active users can authenticate
+
+v1.1.0-beta-3(2008-05-04)
+this third beta release include add:
+- multi-organizations support
+- many JUNIT tests
+- JdbcAuthenticationManager is replaced by HibernateAuthenticationManager
+- fix some bugs on the JSF example
+
+remaining tasks before the final release:
+- re-establish other http authentication schemes(only FORM is supported in 1.1 beta release)
+- complete the jGuard reference documentation
+
+v1.1.0-beta-2(2007-10-01)
+- integrate DBCP pool library when JDBC connections are defined in a Driver Manager way
+- fix a bug in CRLLoginModule
+- add support for JSF security through a PhaseListener implementation (see jguard-jsf-example for more details)
+- add a redirectFilter in the jguard-jsf-example to prevent direct access to jsp
+- only FORM authentication is supported in this release (other authentication schemes should be supported again in the next release)
+
+v1.1.0-beta-1
 - rewrite documentation on docbook to generate different output formats 
 - decouple HTTP protocol from accessFilter for a future easy JSF integration
 - provide audit foundation

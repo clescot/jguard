@@ -1,12 +1,12 @@
-jGuard v2.2.0-beta-7 released!
+jGuard v2.0.0-beta-8 released!
 
-the jGuard team is pleased to announce a new  'experimental' release(2.2.0-beta-7) of the java security library (http://www.jguard.net).
+the jGuard team is pleased to announce a new  'experimental' release(2.2.0-beta-8) of the java security library (http://www.jguard.net).
 
 this library is build on top of JAAS, to securize web applications and standalone applications.
 his goal is to provide for developers, an easy way to manage authentication and authorizations.
 
-enhancements since the last 'experimental' release (v2.0.0-beta-6):
--
+enhancements since the last 'experimental' release (v2.0.0-beta-7):
+
 
 
 the main jGuard features are :
@@ -18,9 +18,7 @@ the main jGuard features are :
 - authentications and authorizations are handled by pluggable mechanisms
 - changes take effects 'on the fly' (dynamic configuration)
 - each webapp has its own authentications and authorizations configuration
-- authentications can be configured through XML or databases (Oracle, MySQL,PostgreSQL,DB2,SQL Server)
 - support encryption in authentication
-- authorizations can be configured through XML or databases(Oracle, MySQL,PostgreSQL,DB2,SQL Server)
 - a taglib is provided to protect jsp fragment
 - support security manager
 
@@ -33,7 +31,7 @@ http://www.jguard.net
 the jGuard homePage on sourceforge:
 http://sourceforge.net/projects/jguard/
 
-jGuard forums are open:
+jGuard forums:
 http://sourceforge.net/forum/?group_id=107276
 
 easy JAAS integration for j2ee and j2se is present!
