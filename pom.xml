@@ -196,11 +196,11 @@
             <scope>test</scope>
         </dependency>
 
-      <dependency>
+        <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>3.0</version>
-       </dependency>
+        </dependency>
 
 
         <dependency>
@@ -242,8 +242,9 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.2.1</version>
                 <configuration>
-                   <goal>deploy</goal>
-                    <pushChanges>false</pushChanges>
+                    <preparationGoals>clean verify install</preparationGoals>
+                    <goal>deploy</goal>
+                    <!--<pushChanges>false</pushChanges>-->
                     <scmCommentPrefix>[RELEASE]</scmCommentPrefix>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
@@ -369,10 +370,10 @@
                     <fop1Extensions>1</fop1Extensions>
                 </configuration>
             </plugin>
-              <plugin>
-           <artifactId>maven-install-plugin</artifactId>
-           <version>2.3.1</version>
-         </plugin>
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.3.1</version>
+            </plugin>
         </plugins>
     </build>
 
