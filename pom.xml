@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sf.jguard</groupId>
     <artifactId>jguard</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.0.beta-7</version>
+    <version>2.0.0.beta-7-SNAPSHOT</version>
     <name>TRUNK jGuard</name>
     <url>http://jguard.net</url>
     <description>jGuard is a library that provides EASY security (authentication and authorization) for Java web and
@@ -324,7 +325,7 @@
                             <!-- This copies content (images, etc) for the HTML version -->
                             <preProcess>
                                 <copy todir="target/site">
-                                    <fileset dir="src/site/resources" />
+                                    <fileset dir="src/site/resources"/>
                                 </copy>
                             </preProcess>
                             <!-- Any parameters specific to HTML version go here -->
