@@ -27,14 +27,15 @@
 
 package net.sf.jguard.jee.authentication.schemes;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpConstants;
 import net.sf.jguard.jee.JGuardJEETest;
+import org.junit.Assert;
 import org.junit.Test;
 
+import javax.inject.Inject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
@@ -50,6 +51,8 @@ import static org.mockito.Mockito.when;
  */
 public class HttpServletLoginPasswordFormSchemeHandlerTest extends JGuardJEETest {
 
+    public static final String AUTHENTICATION_FAILED_JSP = "/authenticationFailed.jsp";
+    public static final String AUTHENTICATION_SUCCEED_JSP = "/authenticationSucceed.jsp";
     @Inject
     StatefulScopes authenticationBindings;
 
@@ -59,8 +62,8 @@ public class HttpServletLoginPasswordFormSchemeHandlerTest extends JGuardJEETest
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(HttpServletLoginPasswordFormSchemeHandler.LOGIN_FIELD, "login");
         parameters.put(HttpServletLoginPasswordFormSchemeHandler.PASSWORD_FIELD, "password");
-        parameters.put(HttpServletLoginPasswordFormSchemeHandler.AUTHENTICATION_SUCCEED_URI, "/authenticationSucceed.jsp");
-        parameters.put(HttpServletLoginPasswordFormSchemeHandler.AUTHENTICATION_FAILED_URI, "/authenticationFailed.jsp");
+        parameters.put(HttpServletLoginPasswordFormSchemeHandler.AUTHENTICATION_SUCCEED_URI, AUTHENTICATION_SUCCEED_JSP);
+        parameters.put(HttpServletLoginPasswordFormSchemeHandler.AUTHENTICATION_FAILED_URI, AUTHENTICATION_FAILED_JSP);
         parameters.put(HttpServletLoginPasswordFormSchemeHandler.LOGON_PROCESS_URI, "/logonProcess.do");
         parameters.put(HttpConstants.LOGON_URI, "/logon.do");
         parameters.put(HttpConstants.LOGOFF_URI, "/logoff.do");
@@ -75,6 +78,7 @@ public class HttpServletLoginPasswordFormSchemeHandlerTest extends JGuardJEETest
         callbacks[0] = new NameCallback("login");
         callbacks[1] = new PasswordCallback("password", true);
         schemeHandler.handleSchemeCallbacks(request, response, callbacks);
+        Assert.assertEquals(AUTHENTICATION_FAILED_JSP, httpServletResponse.getForwardedUrl());
 
     }
 

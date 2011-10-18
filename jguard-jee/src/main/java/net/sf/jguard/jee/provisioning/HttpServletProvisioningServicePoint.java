@@ -28,7 +28,6 @@ http://sourceforge.net/projects/jguard/
 
 package net.sf.jguard.jee.provisioning;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
@@ -49,6 +48,8 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -102,12 +103,18 @@ public class HttpServletProvisioningServicePoint implements ProvisioningServiceP
 
             if (!response.isCommitted()) {
                 try {
+                    if(URLPermission.REDIRECT.equalsIgnoreCase(registerPermission.getDispatch())){
                     response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + registerURI));
+                    }else{
+                        request.getRequestDispatcher(registerURI).forward(request,response);
+                    }
                 } catch (IOException e) {
-                    logger.warn(" we cannot redirect to " + request.getContextPath() + registerURI + " because " + e.getMessage());
+                    logger.warn(" we cannot dispatch to " + request.getContextPath() + registerURI + " because " + e.getMessage());
+                } catch (ServletException e) {
+                    logger.warn(" we cannot dispatch to " + request.getContextPath() + registerURI + " because " + e.getMessage());
                 }
             } else {
-                logger.warn(" we cannot redirect to " + request.getContextPath() + registerURI + " because response is already commited ");
+                logger.warn(" we cannot dispatch to " + request.getContextPath() + registerURI + " because response is already commited ");
             }
             result = false;
         } else {

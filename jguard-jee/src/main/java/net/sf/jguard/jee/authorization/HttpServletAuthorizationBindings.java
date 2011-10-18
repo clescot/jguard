@@ -28,7 +28,6 @@ http://sourceforge.net/projects/jguard/
 
 package net.sf.jguard.jee.authorization;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedFilter;
@@ -40,6 +39,8 @@ import net.sf.jguard.core.technology.StatefulScopes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -112,10 +113,17 @@ public class HttpServletAuthorizationBindings implements AuthorizationBindings<H
             URLPermission urlPermission = (URLPermission) permission;
             String uri = urlPermission.getURI();
             try {
-                response.get().sendRedirect(response.get().encodeRedirectURL(request.get().getContextPath() + uri));
+                if(URLPermission.REDIRECT.equalsIgnoreCase(urlPermission.getDispatch())){
+                    response.get().sendRedirect(response.get().encodeRedirectURL(request.get().getContextPath() + uri));
+                }else{
+                    request.get().getRequestDispatcher(uri).forward(request.get(),response.get());
+                }
             } catch (IOException ex) {
                 logger.error(ex.getMessage(), ex);
                 throw new AuthenticationException(ex);
+            } catch (ServletException e) {
+                logger.error(e.getMessage(), e);
+                throw new AuthenticationException(e);
             }
         }
     }

@@ -52,7 +52,7 @@ import java.util.Collection;
  */
 public interface AuthenticationSchemeHandler<Req, Res> {
 
-    String REDIRECT = "redirect";
+
 
     /**
      * unique name of the Authentication Scheme.

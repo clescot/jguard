@@ -52,7 +52,7 @@ public abstract class LastAccessDeniedRegistrationFilter<Req, Res> implements La
             chain.doFilter(request, response);
         } catch (AccessControlException e) {
             //we store the last access denied URI before authentication
-            //to redirect to this permission after successful authentication
+            //to dispatch to this permission after successful authentication
             statefulScopes.setSessionAttribute(LAST_ACCESS_DENIED_PERMISSION, e.getPermission());
         }
     }

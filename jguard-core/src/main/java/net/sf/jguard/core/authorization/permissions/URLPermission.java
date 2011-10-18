@@ -109,8 +109,8 @@ public final class URLPermission extends java.security.BasicPermission implement
      * actions
      */
     private String actions = "";
-    private static final String FORWARD = "forward";
-    private static final String REDIRECT = "redirect";
+    public static final String FORWARD = "forward";
+    public static final String REDIRECT = "redirect";
 
     private String dispatch=FORWARD;
 

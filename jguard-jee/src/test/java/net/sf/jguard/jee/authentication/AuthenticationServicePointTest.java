@@ -112,7 +112,7 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         AuthenticationStatus status = authenticationServicePoint.authenticate(requestAdapter, responseAdapter, callbackHandler).getStatus();
 
         assertEquals(AuthenticationStatus.FAILURE, status);
-        assertEquals(APPLICATION_NAME + "/Logon.do", response.getRedirectedUrl());
+        assertEquals("/Logon.do", response.getForwardedUrl());
         System.out.println(status);
     }
 

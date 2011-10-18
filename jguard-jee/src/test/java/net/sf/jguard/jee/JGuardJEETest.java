@@ -24,8 +24,8 @@ import java.util.List;
  */
 public abstract class JGuardJEETest extends JGuardTest {
     protected boolean propagateThrowable = true;
-    protected HttpServletRequest httpServletRequest = new MockHttpServletRequest();
-    protected HttpServletResponse httpServletResponse = new MockHttpServletResponse();
+    protected MockHttpServletRequest httpServletRequest = new MockHttpServletRequest();
+    protected MockHttpServletResponse httpServletResponse = new MockHttpServletResponse();
     protected FilterChain filterChain = new MockFilterChain();
 
     protected Iterable<Module> provideModules(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, final FilterChain filterChain) {

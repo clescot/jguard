@@ -175,7 +175,7 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
         response = new MockHttpServletResponse();
         try {
             guiceFilter.doFilter(request, response, filterChain);
-            assertTrue("response doesn't contain a redirect url to " + LOGON_DO, LOGON_DO.equals(((MockHttpServletResponse) response).getRedirectedUrl()));
+            assertTrue("response doesn't contain a redirect url to " + LOGON_DO, LOGON_DO.equals(((MockHttpServletResponse) response).getForwardedUrl()));
         } catch (Throwable e) {
             fail(e.getMessage());
         }
@@ -307,7 +307,8 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
         guiceFilter.doFilter(requestLogonProcess, responseLogonProcess, filterChain);
         Cookie[] cookies2 = responseLogonProcess.getCookies();
         assertTrue(HttpServletResponse.SC_OK == responseLogonProcess.getStatus());
-        assertTrue(AUTHENTICATION_FAILED.equals(responseLogonProcess.getRedirectedUrl().toString()));
+        //default dispatch mode is forward.redirect can be set in the permission.
+        assertTrue(AUTHENTICATION_FAILED.equals(responseLogonProcess.getForwardedUrl().toString()));
 
     }
 
@@ -332,7 +333,7 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
         filterChain = new MockFilterChain();
         guiceFilter.doFilter(requestLogonProcess, responseLogonProcess, filterChain);
         assertTrue("response status to a logonProcess request is not OK (200) but " + responseLogonProcess.getStatus(), HttpServletResponse.SC_OK == responseLogonProcess.getStatus());
-        assertTrue(AUTHENTICATION_SUCCEED.equals(responseLogonProcess.getRedirectedUrl()));
+        assertTrue(AUTHENTICATION_SUCCEED.equals(responseLogonProcess.getForwardedUrl()));
     }
 
 

@@ -69,7 +69,8 @@ public interface AuthorizationBindings<Req, Res> {
 
     /**
      * translate into the request or the response the permission to follow.
-     *
+     * this method permit to dispatch to the lastAccessDeniedPermission for example, when
+     * authentication succeed.
      * @param request
      * @param response
      * @param permission

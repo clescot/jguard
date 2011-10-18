@@ -28,7 +28,6 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.jee.authentication.schemes;
 
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
-import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.authentication.schemes.LoginPasswordFormSchemeHandler;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedFilter;
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
@@ -42,6 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.Subject;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -60,11 +60,10 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
     private String passwordField;
     private String authenticationSucceedURI;
     private String logonProcessURI;
-    private Permission logonProcessPermission;
-    private String logonURI;
-    private Permission logonPermission;
+    private URLPermission logonProcessPermission;
+    private URLPermission logonPermission;
     private String logoffURI;
-    private Permission logoffPermission;
+    private URLPermission logoffPermission;
 
 
     private static final Logger logger = LoggerFactory.getLogger(HttpServletLoginPasswordFormSchemeHandler.class.getName());
@@ -104,7 +103,7 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
         logonProcessPermission = new URLPermission(LOGON_PROCESS_URI, logonProcessURI);
 
         //logonURI
-        logonURI = parameters.get(HttpConstants.LOGON_URI);
+        String logonURI = parameters.get(HttpConstants.LOGON_URI);
         if (logonURI == null || "".equals(logonURI)) {
             throw new IllegalArgumentException("logonURI parameter is null but is required to instantiate HttpServletLoginPasswordFormSchemeHandler");
         }
@@ -144,19 +143,39 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
     protected PermissionFactory<HttpServletRequest> getPermissionFactory() {
         return new HttpPermissionFactory();
     }
+    private void handleDispatch(HttpServletRequest request,HttpServletResponse response,URLPermission permission){
+
+          if(response.isCommitted()){
+              logger.warn("response is already committed");
+              return;
+          }
+          if(URLPermission.FORWARD.equals(permission.getDispatch())){
+              try {
+                  request.getRequestDispatcher(permission.getURI()).forward(request,response);
+              } catch (ServletException ex) {
+                    logger.error(ex.getMessage(), ex);
+                  throw new AuthenticationException(ex);
+              } catch (IOException ex) {
+                     logger.error(ex.getMessage(), ex);
+                  throw new AuthenticationException(ex);
+              }
+          }else{
+               try {
+                  response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + permission.getURI()));
+              } catch (IOException ex) {
+                  logger.error(ex.getMessage(), ex);
+                  throw new AuthenticationException(ex);
+              }
+          }
+
+      }
+
 
 
     public void buildChallenge(Request<HttpServletRequest> req, Response<HttpServletResponse> res) {
         HttpServletRequest request = req.get();
         HttpServletResponse response = res.get();
-        if (!response.isCommitted()) {
-            try {
-                response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + logonURI));
-            } catch (IOException ex) {
-                logger.error(ex.getMessage(), ex);
-                throw new AuthenticationException(ex);
-            }
-        }
+        handleDispatch(request,response,logonPermission);
     }
 
 
@@ -170,63 +189,30 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
      *
      */
     public void authenticationSucceed(Subject subject, Request<HttpServletRequest> servletRequest, Response<HttpServletResponse> servletResponse) {
-        authenticationBindings.setSessionAttribute(AuthenticationSchemeHandler.REDIRECT, "true");
         HttpServletRequest request = servletRequest.get();
         HttpServletResponse response = servletResponse.get();
-        String redirectURI = authenticationSucceedURI;
         URLPermission lastAccessDeniedPermission = (URLPermission) authenticationBindings.getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION);
-        String lastAccessDeniedURI;
-        if (lastAccessDeniedPermission == null) {
-            lastAccessDeniedURI = authenticationSucceedURI;
-        } else {
-            lastAccessDeniedURI = lastAccessDeniedPermission.getURI();
-        }
-
-
-        //we redirect to the last 'access denied' URI before authentication
-        if (lastAccessDeniedURI != null && !"".equals(lastAccessDeniedURI)) {
-            if (goToLastAccessDeniedUriOnSuccess) {
-                redirectURI = lastAccessDeniedURI;
-                request.getSession(true).setAttribute(HttpConstants.GO_TO_LAST_ACCESS_DENIED_URI_ON_SUCCESS, Boolean.TRUE.toString());
-            } else {
-                redirectURI = logonURI;
-            }
-        }
-
-
-        logger.debug(" user is authenticated ", " redirect to " + redirectURI);
-        if (!response.isCommitted()) {
-            try {
-                response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + redirectURI));
-            } catch (IOException ex) {
-                logger.error(ex.getMessage(), ex);
-                throw new AuthenticationException(ex);
-            }
+        
+        if (!goToLastAccessDeniedUriOnSuccess){
+            handleDispatch(request,response,logonPermission);
+        }else if (lastAccessDeniedPermission == null ) {
+            handleDispatch(request,response,authenticationSucceedPermission);
+            request.getSession(true).setAttribute(HttpConstants.GO_TO_LAST_ACCESS_DENIED_URI_ON_SUCCESS, Boolean.TRUE.toString());
+        } else if(lastAccessDeniedPermission!=null){
+            handleDispatch(request,response,lastAccessDeniedPermission);
+            request.getSession(true).setAttribute(HttpConstants.GO_TO_LAST_ACCESS_DENIED_URI_ON_SUCCESS, Boolean.TRUE.toString());
         }
 
     }
 
 
     public void authenticationFailed(Request<HttpServletRequest> req, Response<HttpServletResponse> res) {
-        authenticationBindings.setSessionAttribute(AuthenticationSchemeHandler.REDIRECT, "true");
         HttpServletRequest request = req.get();
         HttpServletResponse response = res.get();
-
-        if (response.isCommitted()) {
-            logger.warn(" response is already committed ");
-            return;
-        }
-
         //an URL for authentication failure event has been set
         if (authenticationFailedPermission != null && !authenticationFailedPermission.getURI().equals("")) {
-            try {
-                response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + authenticationFailedPermission.getURI()));
-                logger.debug("authentication failed redirect to " + authenticationFailedPermission.getURI());
-            } catch (IOException ex) {
-                logger.error(ex.getMessage(), ex);
-                throw new AuthenticationException(ex);
-            }
-            logger.debug(" user is not authenticated  and redirected to " + request.getContextPath() + authenticationFailedPermission.getURI());
+            handleDispatch(request,response,authenticationFailedPermission);
+            logger.debug(" user is not authenticated  and dispatched to " + request.getContextPath() + authenticationFailedPermission.getURI());
 
         }
     }
