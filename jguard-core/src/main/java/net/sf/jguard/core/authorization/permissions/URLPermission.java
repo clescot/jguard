@@ -109,6 +109,10 @@ public final class URLPermission extends java.security.BasicPermission implement
      * actions
      */
     private String actions = "";
+    private static final String FORWARD = "forward";
+    private static final String REDIRECT = "redirect";
+
+    private String dispatch=FORWARD;
 
     /**
      * Creates a new instance of URLPermission.
@@ -142,8 +146,8 @@ public final class URLPermission extends java.security.BasicPermission implement
 
         String[] actionsArray = actions.split(",");
 
-        if (actionsArray.length > 4) {
-            throw new IllegalArgumentException(" 'actions' argument can contain a maximum of three elements separated by ',' ");
+        if (actionsArray.length > 5) {
+            throw new IllegalArgumentException(" 'actions' argument can contain a maximum of five elements separated by ',' ");
         }
         try {
             setURI(actionsArray[0]);
@@ -166,7 +170,9 @@ public final class URLPermission extends java.security.BasicPermission implement
                     || URLPermission.TRACE.equalsIgnoreCase(actionsArray[i])) {
                 methods.add(actionsArray[i]);
 
-            } else {
+            } else if(URLPermission.FORWARD.equalsIgnoreCase(actionsArray[i])||URLPermission.REDIRECT.equalsIgnoreCase(actionsArray[i])){
+                dispatch = actionsArray[i];
+            }else if(description==null){
                 this.description = actionsArray[i];
             }
 
@@ -555,4 +561,7 @@ public final class URLPermission extends java.security.BasicPermission implement
         return scheme;
     }
 
+    public String getDispatch() {
+        return dispatch;
+    }
 }

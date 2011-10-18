@@ -445,4 +445,15 @@ public class URLPermissionTest {
         assertEquals(urlWithoutRegexp, permission.getURI());
     }
 
+    @Test
+    public void testURLPermissionWith5Actions(){
+        URLPermission permission = new URLPermission("name","action1,action2,action3,action4,action5");
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testURLPermissionWith6Actions(){
+        URLPermission permission = new URLPermission("name","action1,action2,action3,action4,action5,action6");
+    }
+
 }
