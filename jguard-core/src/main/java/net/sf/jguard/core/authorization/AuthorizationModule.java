@@ -14,8 +14,6 @@ import java.net.URL;
 import java.security.Policy;
 import java.util.Map;
 
-import static java.lang.Boolean.TRUE;
-
 
 public class AuthorizationModule extends AbstractModule {
     private AuthorizationScope authorizationScope;
@@ -51,7 +49,6 @@ public class AuthorizationModule extends AbstractModule {
                 }).annotatedWith(AuthorizationManagerOptions.class).toProvider(AuthorizationManagerOptionsProvider.class);
         bind(new TypeLiteral<String>(){
                 }).annotatedWith(AuthorizationXmlFileLocation.class).toProvider(AuthorizationXmlFileLocationProvider.class);
-        bind(Boolean.class).annotatedWith(RedirectAfterAuthentication.class).toInstance(TRUE);
         bind(AccessControllerWrapper.class).to(AccessControllerWrapperImpl.class);
     }
 }
