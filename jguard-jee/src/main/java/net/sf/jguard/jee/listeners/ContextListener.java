@@ -32,8 +32,8 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
-import net.sf.jguard.core.authentication.AuthenticationModule;
 import net.sf.jguard.core.FilterChainModule;
+import net.sf.jguard.core.authentication.AuthenticationModule;
 import net.sf.jguard.core.authentication.AuthenticationScope;
 import net.sf.jguard.core.authentication.manager.AuthenticationManagerModule;
 import net.sf.jguard.core.authorization.AuthorizationModule;
@@ -172,6 +172,9 @@ public abstract class ContextListener extends GuiceServletContextListener {
             throw new IllegalArgumentException(HttpConstants.AUTHENTICATION_CONFIGURATION_LOCATION + INIT_PARAMETER_IS_NULL);
         }
         checkFileExists(authenticationConfigurationURL);
+
+
+        //JMX
         //rmiRegistryHost
         rmiRegistryHost = JMXParameters.DEFAULT_RMI_REGISTRY_HOST.getLabel();
         if (context.getInitParameter(JMXParameters.RMI_REGISTRY_HOST.getLabel()) != null) {
@@ -187,6 +190,8 @@ public abstract class ContextListener extends GuiceServletContextListener {
 
         mbeanServerForConnector = context.getInitParameter(JMXParameters.MBEAN_SERVER_FOR_CONNECTOR.getLabel());
         enableJMX = Boolean.parseBoolean(context.getInitParameter(JMXParameters.MBEAN_SERVER_FOR_CONNECTOR.getLabel()));
+
+        
 
         injector = getInjector();
 
