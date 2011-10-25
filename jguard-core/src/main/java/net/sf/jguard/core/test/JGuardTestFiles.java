@@ -36,6 +36,7 @@ public enum JGuardTestFiles {
     J_GUARD_USERS_PRINCIPALS_XML("jGuardUsersPrincipals.xml"),
     J_GUARD_PRINCIPALS_PERMISSIONS_XML("jGuardPrincipalsPermissions.xml"),
     J_GUARD_FILTER_XML("jGuardFilter.xml"),
+    J_GUARD_FILTER_WITH_REDIRECT_XML("jGuardFilterWithRedirect.xml"),
     J_GUARD_AUTHENTICATION_XML("jGuardAuthentication.xml"),
     J_GUARD_AUTHORIZATION_XML("jGuardAuthorization.xml");
 

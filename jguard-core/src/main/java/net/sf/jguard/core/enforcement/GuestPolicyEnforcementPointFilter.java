@@ -32,6 +32,8 @@ import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
 import net.sf.jguard.core.filters.FilterChain;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.AccessControlException;
 import java.util.List;
@@ -47,6 +49,7 @@ import java.util.List;
 public abstract class GuestPolicyEnforcementPointFilter<Req, Res> extends AuthenticationFilter<Req, Res> {
     private GuestFilterChain guestFilterChain;
     private AuthenticationFilterChain authenticationFilterChain;
+      private static final Logger logger = LoggerFactory.getLogger(GuestPolicyEnforcementPointFilter.class.getName());
 
     public GuestPolicyEnforcementPointFilter(List<AuthenticationFilter<Req, Res>> guestAuthenticationFilters,
                                              List<AuthorizationFilter<Req, Res>> guestAuthorizationFilters,
@@ -62,6 +65,7 @@ public abstract class GuestPolicyEnforcementPointFilter<Req, Res> extends Authen
         try {
             guestFilterChain.doFilter(request, response);
         } catch (AccessControlException ace) {
+            logger.info("access is denied with user authenticated as guest. we try to authenticate it");
             authenticationFilterChain.doFilter(request, response);
         }
 

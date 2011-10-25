@@ -28,7 +28,6 @@ http://sourceforge.net/projects/jguard/
 
 package net.sf.jguard.jee.filters;
 
-import javax.inject.Inject;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authentication.manager.AuthenticationManagerModule;
@@ -46,12 +45,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
@@ -71,6 +72,8 @@ public class FilterChainImplTest extends JGuardJEETest {
         List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> authorizationFilters = new ArrayList<AuthorizationFilter<HttpServletRequest, HttpServletResponse>>();
         final AuthenticationFilter mock = mock(AuthenticationFilter.class);
         authenticationFilters.add(mock);
+        final AuthorizationFilter mock2 = mock(AuthorizationFilter.class);
+        authorizationFilters.add(mock2);
         final Request request = mock(Request.class);
         final Response response = mock(Response.class);
         HttpServletPolicyEnforcementPoint policyEnforcementPoint = new HttpServletPolicyEnforcementPoint(authenticationFilters, authorizationFilters, propagateThrowable);
@@ -95,6 +98,8 @@ public class FilterChainImplTest extends JGuardJEETest {
         List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> authorizationFilters = new ArrayList<AuthorizationFilter<HttpServletRequest, HttpServletResponse>>();
         final AuthenticationFilter mock = mock(AuthenticationFilter.class);
         authenticationFilters.add(mock);
+        final AuthorizationFilter mock2 = mock(AuthorizationFilter.class);
+        authorizationFilters.add(mock2);
         final Request request = mock(Request.class);
         final Response response = mock(Response.class);
         final FilterChain chain = new HttpServletPolicyEnforcementPoint(authenticationFilters, authorizationFilters, propagateThrowable);
@@ -106,8 +111,8 @@ public class FilterChainImplTest extends JGuardJEETest {
             chain.doFilter(request, response);
             chain.doFilter(request, response);
             chain.doFilter(request, response);
-            //we want the filterChain call once the filter
-            verify(mock, times(3)).doFilter(request, response, chain);
+            chain.doFilter(request, response);
+          
 
             Assert.fail();
         } catch (IllegalStateException ise) {

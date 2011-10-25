@@ -88,7 +88,7 @@ public abstract class PolicyDecisionPoint<Req, Res> implements AuthorizationFilt
 
                 logger.debug(" access is denied ");
                 //403 for HTTP
-                throw new AccessControlException("access denied to Permission ", authorizationBindings.getPermissionRequested(request));
+                throw new AccessControlException("access denied to Permission ", permissionRequested);
             } else {
                 //access granted
                 logger.debug(" authorize access to resource protected by permission " + permissionRequested.getClass().getName() + " name=" + permissionRequested.getName() + " actions=" + permissionRequested.getActions());

@@ -63,27 +63,26 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
     protected MockFilterChain filterChain;
     protected MockServletContext context;
     protected MockHttpSession session;
-    private static final String GET = "GET";
-    private static final String POST = "POST";
-    private static final String ADMIN = "admin";
-    private static final String GUEST = "guest";
+    protected static final String GET = "GET";
+    protected static final String POST = "POST";
+    protected static final String ADMIN = "admin";
+    protected static final String GUEST = "guest";
 
 
     @SuppressWarnings({"PublicMethodNotExposedInInterface"})
 
-    private static final String WELCOME_DO = "/Welcome.do";
-    private static final String LOGON_DO = "/Logon.do";
-    private static final String LOGON_PROCESS_DO = "/LogonProcess.do";
-    private static final String LOGOFF_DO = "/Logoff.do";
-    private static final String UNKNOWN_DO = "/Unknown.do";
-    private static final String LOGIN = "login";
-    private static final String PASSWORD = "password";
-    //private static final String J_GUARD_FILTER_XML = "jGuardFilter.xml";
+    protected static final String WELCOME_DO = "/Welcome.do";
+    protected static final String LOGON_DO = "/Logon.do";
+    protected static final String LOGON_PROCESS_DO = "/LogonProcess.do";
+    protected static final String LOGOFF_DO = "/Logoff.do";
+    protected static final String UNKNOWN_DO = "/Unknown.do";
+    protected static final String LOGIN = "login";
+    protected static final String PASSWORD = "password";
 
-    private static final String WEIRD_JSP = "/weird.jsp";
-    private static final int HTTP_CODE_401 = 401;
-    private static final int HTTP_CODE_403 = 403;
-    private static final String RICK_SPACE_DO = "/RickSpace.do";
+    protected static final String WEIRD_JSP = "/weird.jsp";
+    protected static final int HTTP_CODE_401 = 401;
+    protected static final int HTTP_CODE_403 = 403;
+    protected static final String RICK_SPACE_DO = "/RickSpace.do";
 
     public MockHttpServletRequest request = new MockHttpServletRequest(context, GET, WELCOME_DO);
     protected GuiceFilter guiceFilter = new GuiceFilter();
@@ -93,10 +92,11 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
 
 
     public Injector injector;
-    private static final String FIXED_HTTP_SESSION_ID = "47";
-    private static final String DUMMY = "dummy";
-    private static final String AUTHENTICATION_FAILED = "/AuthenticationFailed.do";
-    private static final String AUTHENTICATION_SUCCEED = "/index.jsp";
+    protected static final String FIXED_HTTP_SESSION_ID = "47";
+    protected static final String DUMMY = "dummy";
+    protected static final String AUTHENTICATION_FAILED = "/AuthenticationFailed.do";
+    protected static final String AUTHENTICATION_SUCCEED = "/index.jsp";
+    protected static final String ACCESS_DENIED = "/AccessDenied.do";
 
     protected static String authorizationXmlFileLocation = JGuardTestFiles.J_GUARD_AUTHORIZATION_XML.getLabel();
     protected static String authenticationXmlFileLocation = JGuardTestFiles.J_GUARD_USERS_PRINCIPALS_XML.getLabel();
@@ -175,22 +175,22 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
         response = new MockHttpServletResponse();
         try {
             guiceFilter.doFilter(request, response, filterChain);
-            assertTrue("response doesn't contain a redirect url to " + LOGON_DO, LOGON_DO.equals(((MockHttpServletResponse) response).getForwardedUrl()));
+            assertTrue("response doesn't contain a forward url to " + LOGON_DO, LOGON_DO.equals(((MockHttpServletResponse) response).getForwardedUrl()));
         } catch (Throwable e) {
             fail(e.getMessage());
         }
     }
 
-    private MockHttpSession authenticateAsAdminSuccessfully() throws IOException, ServletException {
+    protected MockHttpSession authenticateAsAdminSuccessfully() throws IOException, ServletException {
         return authenticate(ADMIN, ADMIN);
     }
 
-    private HttpSession authenticateAsGuestSuccessfully() throws IOException, ServletException {
+    protected HttpSession authenticateAsGuestSuccessfully() throws IOException, ServletException {
         return authenticate(GUEST, GUEST);
     }
 
 
-    private MockHttpSession authenticate(String login, String password) throws IOException, ServletException {
+    protected MockHttpSession authenticate(String login, String password) throws IOException, ServletException {
         //get the login FORM
         MockHttpServletRequest request = new MockHttpServletRequest(context, GET, LOGON_DO);
         request.setServletPath(LOGON_DO);
@@ -227,7 +227,6 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
             guiceFilter.doFilter(request, response, filterChain);
 
             assertTrue("HTTP status code is not 403 but " + response.getStatus(), HTTP_CODE_403 == response.getStatus());
-
         } catch (IOException e) {
             fail(e.getMessage());
         } catch (ServletException e) {
@@ -344,7 +343,7 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
         MockHttpServletRequest logoffRequest = new MockHttpServletRequest(context, GET, LOGOFF_DO);
         logoffRequest.setServletPath(LOGOFF_DO);
         logoffRequest.setSession(session);
-        HttpServletResponse response = new MockHttpServletResponse();
+        MockHttpServletResponse response = new MockHttpServletResponse();
 
         Assert.assertFalse(session.isInvalid());
         filterChain = new MockFilterChain();

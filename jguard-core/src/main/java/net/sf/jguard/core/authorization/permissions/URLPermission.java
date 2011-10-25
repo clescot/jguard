@@ -524,6 +524,9 @@ public final class URLPermission extends java.security.BasicPermission implement
         sb.append(",description: ");
         sb.append(this.description);
         sb.append("\n");
+        sb.append(",dispatch: ");
+        sb.append(this.dispatch);
+        sb.append("\n");
 
         return sb.toString();
     }
