@@ -144,11 +144,11 @@ public abstract class PolicyEnforcementPoint<Req, Res> implements FilterChain<Re
             Filter<Req, Res> filter = getFilters().get(counter);
             counter++;
             if (logger.isDebugEnabled()) {
-                logger.debug(" in FilterChain : before filter " + filter.getClass().getSimpleName());
+                logger.debug(" in FilterChain : before filter " +getFilterNames());
             }
             filter.doFilter(request, response, this);
             if (logger.isDebugEnabled()) {
-                logger.debug(" in FilterChain : after filter " + filter.getClass().getSimpleName());
+                logger.debug(" in FilterChain : after filter " + getFilterNames());
             }
         } else if (counter > filterSize) {
             //we try to reach a filter but the tail of the filterChain has been reached
@@ -158,6 +158,20 @@ public abstract class PolicyEnforcementPoint<Req, Res> implements FilterChain<Re
         }
 
         //if (counter == filter size): the last filter has been reached, so we stop to call the filter chain
+    }
+
+    private String getFilterNames(){
+        StringBuilder filterNames = new StringBuilder();
+        filterNames.append('[');
+        for(int i=0;i<counter;i++){
+            if(counter>filters.size()){
+                break;
+            }
+            filterNames.append('/');
+            filterNames.append(filters.get(i).getClass().getSimpleName());
+        }
+        filterNames.append(']');
+        return filterNames.toString();
     }
 
 
