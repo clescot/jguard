@@ -49,7 +49,7 @@
             <!--<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>-->
         </encoder>
     </appender>
-    <logger name="net.sf.jguard" additivity="false" level="debug">
+    <logger name="net.sf.jguard" additivity="false" level="info">
         <appender-ref ref="FILE_LOG"/>
         <appender-ref ref="STDOUT"/>
     </logger>
