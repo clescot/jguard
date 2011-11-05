@@ -40,14 +40,12 @@ import javax.servlet.http.HttpServletRequestWrapper;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
  */
 public class AnonymizerRequestWrapper extends HttpServletRequestWrapper {
-    private HttpServletRequest req;
     private String loginField = "login";
     private String passwordField = "password";
     private static final String AUTHORIZATION = "authorization";
 
     public AnonymizerRequestWrapper(HttpServletRequest req) {
         super(req);
-        this.req = req;
     }
 
     public String getParameter(String parameterName) {
