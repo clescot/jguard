@@ -61,6 +61,13 @@ public class JEERequestWrapperUtil {
      */
     public static String getRemoteUser(LoginContextWrapper loginContextWrapper, AuthenticationManager authManager) {
         String remoteUser = null;
+        if(loginContextWrapper==null){
+            return remoteUser;
+        }
+
+        if(authManager==null){
+            throw new IllegalArgumentException("authenticationManager is null");
+        }
         Subject subject = loginContextWrapper.getSubject();
         if (subject == null) {
             return remoteUser;
@@ -79,17 +86,29 @@ public class JEERequestWrapperUtil {
         return remoteUser;
     }
 
+    /**
+     *
+     * @param applicationName
+     * @param role
+     * @param loginContextWrapper
+     * @return
+     */
     public static boolean isUserInRole(String applicationName, String role, LoginContextWrapper loginContextWrapper) {
         if (applicationName == null || "".equals(applicationName)) {
-            logger.error("applicationName is null or empty = " + applicationName);
-            applicationName = "";
+           throw new IllegalArgumentException("applicationName is null");
         }
         if (role == null || "".equals(role)) {
-            logger.error("role is null or empty = " + role);
-            role = "";
+           throw new IllegalArgumentException("role is null");
+        }
+
+        if (loginContextWrapper == null) {
+           throw new IllegalArgumentException("loginContextWrapper is null");
         }
         String composedRoleName = new StringBuffer(applicationName).append('#').append(role).toString();
         Subject subject = loginContextWrapper.getSubject();
+        if(subject == null){
+            throw new IllegalArgumentException("subject in loginContextWrapper is null");
+        }
         Set principals = subject.getPrincipals(RolePrincipal.class);
         for (Object principal1 : principals) {
             Principal principal = (Principal) principal1;
@@ -103,14 +122,14 @@ public class JEERequestWrapperUtil {
     /**
      * return a {@link UserPrincipal} which embeds a {@link Subject}.
      *
-     * @param authUtils
+     * @param loginContextWrapper
      * @return
      */
-    public static Principal getUserPrincipal(LoginContextWrapper authUtils) {
-        if (authUtils == null) {
-            return null;
+    public static Principal getUserPrincipal(LoginContextWrapper loginContextWrapper) {
+        if (loginContextWrapper == null) {
+            throw new IllegalArgumentException("loginContextWrapper is null");
         }
-        Subject subject = authUtils.getSubject();
+        Subject subject = loginContextWrapper.getSubject();
         return new UserPrincipal(subject);
     }
 
