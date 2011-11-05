@@ -5,6 +5,9 @@
     <packaging>jar</packaging>
     <name>TRUNK jGuard jee</name>
     <url>http://jguard.net</url>
+    <properties>
+    <powermock.version>1.4.10</powermock.version>
+</properties>
     <dependencies>
         <dependency>
             <groupId>servletunit</groupId>
@@ -104,6 +107,18 @@
             <version>2.5.6</version>
             <scope>test</scope>
         </dependency>
+          <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+   </dependency>
+   <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+   </dependency>
     </dependencies>
     <build>
         <plugins>
