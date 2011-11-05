@@ -50,18 +50,12 @@ public class AnonymizerRequestWrapper extends HttpServletRequestWrapper {
         this.req = req;
     }
 
-    public AnonymizerRequestWrapper(HttpServletRequest req, String loginField, String passwordField) {
-        super(req);
-        this.loginField = loginField;
-        this.passwordField = passwordField;
-    }
-
     public String getParameter(String parameterName) {
 
         if (loginField.equals(parameterName) || passwordField.equals(parameterName)) {
             return GuestCallbacksProvider.GUEST;
         } else {
-            return req.getParameter(parameterName);
+            return super.getParameter(parameterName);
         }
     }
 
@@ -71,7 +65,7 @@ public class AnonymizerRequestWrapper extends HttpServletRequestWrapper {
             return CallbackHandlerUtils.buildBasicAuthHeader(GuestCallbacksProvider.GUEST, GuestCallbacksProvider.GUEST, req.getCharacterEncoding());
         }
 
-        return req.getHeader(headerName);
+        return super.getHeader(headerName);
     }
 
 }
