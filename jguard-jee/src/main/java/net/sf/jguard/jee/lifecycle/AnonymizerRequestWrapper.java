@@ -62,7 +62,7 @@ public class AnonymizerRequestWrapper extends HttpServletRequestWrapper {
     public String getHeader(String headerName) {
 
         if (AUTHORIZATION.equalsIgnoreCase(headerName)) {
-            return CallbackHandlerUtils.buildBasicAuthHeader(GuestCallbacksProvider.GUEST, GuestCallbacksProvider.GUEST, req.getCharacterEncoding());
+            return CallbackHandlerUtils.buildBasicAuthHeader(GuestCallbacksProvider.GUEST, GuestCallbacksProvider.GUEST, super.getCharacterEncoding());
         }
 
         return super.getHeader(headerName);
