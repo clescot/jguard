@@ -53,7 +53,7 @@ public class SessionAttributeListener implements HttpSessionAttributeListener {
 
     public void attributeAdded(HttpSessionBindingEvent event) {
         if (event.getName().equals(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER)) {
-            JGuardCredential identity = null;
+            JGuardCredential identity;
             try {
                 identity = getIdentityCredential(event);
                 logger.info("subject with identityCredential=" + identity + " is created ");
