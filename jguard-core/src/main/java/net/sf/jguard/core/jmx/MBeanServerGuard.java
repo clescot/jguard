@@ -46,7 +46,7 @@ import java.util.Set;
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
  */
-public class MBeanServerGuard implements MBeanServerForwarder {
+ class MBeanServerGuard implements MBeanServerForwarder {
     private static final Logger logger = LoggerFactory.getLogger(MBeanServerGuard.class.getName());
     private MBeanServer mbs = null;
     private LocalAccessController accessController = null;

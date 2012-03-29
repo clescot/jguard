@@ -25,7 +25,10 @@ jGuard project home page:
 http://sourceforge.net/projects/jguard/
 
 */
-package net.sf.jguard.core.principals;
+package net.sf.jguard.core.jmx;
+
+import net.sf.jguard.core.authorization.policy.ClassloaderAware;
+import net.sf.jguard.core.principals.BasePrincipal;
 
 /**
  * This principal is added in JMX connection to keep a reference of the objectID used in Policy.
@@ -33,21 +36,21 @@ package net.sf.jguard.core.principals;
  * @author <a href="mailto:vberetti@users.sourceforge.net">Vincent Beretti</a>
  * @see net.sf.jguard.core.authorization.policy.MultipleAppPolicy#implies(java.security.ProtectionDomain domain, java.security.Permission)
  */
-public class JMXPrincipal implements BasePrincipal, Cloneable {
+public class JMXPrincipal implements BasePrincipal, Cloneable,ClassloaderAware {
 
     private static final long serialVersionUID = -7340042412040356992L;
 
     private final String applicationName;
-    private final Object objectID;
+    private final ClassLoader classLoader;
 
-    public JMXPrincipal(String applicationName, Object objectID) {
+    public JMXPrincipal(String applicationName, ClassLoader classLoader) {
         this.applicationName = applicationName;
-        this.objectID = objectID;
+        this.classLoader = classLoader;
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        return new JMXPrincipal(this.applicationName, this.objectID);
+        return new JMXPrincipal(this.applicationName, this.classLoader);
     }
 
     public int compareTo(Object arg) {
@@ -68,19 +71,19 @@ public class JMXPrincipal implements BasePrincipal, Cloneable {
         JMXPrincipal that = (JMXPrincipal) o;
 
         if (!applicationName.equals(that.applicationName)) return false;
-        return objectID.equals(that.objectID);
+        return classLoader.equals(that.classLoader);
 
     }
 
     @Override
     public int hashCode() {
         int result = applicationName.hashCode();
-        result = 31 * result + objectID.hashCode();
+        result = 31 * result + classLoader.hashCode();
         return result;
     }
 
     public String getName() {
-        return applicationName + objectID.getClass().getName();
+        return applicationName + classLoader.getClass().getName();
     }
 
     String getApplicationName() {
@@ -88,8 +91,8 @@ public class JMXPrincipal implements BasePrincipal, Cloneable {
     }
 
 
-    public Object getObjectID() {
-        return objectID;
+    public ClassLoader getClassloader() {
+        return classLoader;
     }
 
 }

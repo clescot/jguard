@@ -1,16 +1,14 @@
-package net.sf.jguard.ext.authentication.jmx;
+package net.sf.jguard.core.jmx;
 
 import com.google.inject.Module;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import com.mycila.testing.plugin.guice.ModuleProvider;
 import net.sf.jguard.core.authentication.AuthenticationScope;
 import net.sf.jguard.core.authentication.configuration.JGuardConfiguration;
-import net.sf.jguard.core.authentication.jmx.JGuardJMXAuthenticator;
 import net.sf.jguard.core.authentication.manager.AuthenticationManagerModule;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.policy.LocalAccessController;
 import net.sf.jguard.core.authorization.policy.MultipleAppPolicy;
-import net.sf.jguard.core.jmx.MBeanServerGuard;
 import net.sf.jguard.core.principals.RolePrincipal;
 import net.sf.jguard.core.test.JGuardTest;
 import net.sf.jguard.core.test.MockModule;

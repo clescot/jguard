@@ -1,11 +1,10 @@
 package net.sf.jguard.core.jmx;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.AuthenticationScope;
-import net.sf.jguard.core.authentication.jmx.JGuardJMXAuthenticator;
 
+import javax.inject.Inject;
 import javax.management.remote.JMXAuthenticator;
 import javax.security.auth.login.Configuration;
 

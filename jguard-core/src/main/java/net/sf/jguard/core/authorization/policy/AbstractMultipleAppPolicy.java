@@ -28,7 +28,6 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.authorization.policy;
 
 import net.sf.jguard.core.authorization.manager.PermissionProvider;
-import net.sf.jguard.core.principals.JMXPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -217,10 +216,10 @@ abstract class AbstractMultipleAppPolicy extends JGuardPolicy {
             ProtectionDomain newDomain = null;
 
             while (i < principals.length && !jmxHandled) {
-                if (principals[i] instanceof JMXPrincipal) {
+                if (principals[i] instanceof ClassloaderAware) {
                     newDomain = new ProtectionDomain(domain.getCodeSource(),
                             domain.getPermissions(),
-                            (ClassLoader) ((JMXPrincipal) principals[i]).getObjectID(),
+                            (ClassLoader) ((ClassloaderAware) principals[i]).getClassloader(),
                             domain.getPrincipals());
                     jmxHandled = true;
                 }

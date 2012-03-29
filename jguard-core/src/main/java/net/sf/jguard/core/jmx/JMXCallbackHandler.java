@@ -25,7 +25,7 @@ jGuard project home page:
 http://sourceforge.net/projects/jguard/
 
 */
-package net.sf.jguard.core.authentication.jmx;
+package net.sf.jguard.core.jmx;
 
 import javax.security.auth.callback.*;
 import java.io.IOException;
