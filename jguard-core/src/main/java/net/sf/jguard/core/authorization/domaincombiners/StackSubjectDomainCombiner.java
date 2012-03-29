@@ -38,7 +38,7 @@ import java.security.cert.Certificate;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
  * @author <a href="mailto:vberetti@users.sourceforge.net">Vincent Beretti</a>
  */
-public class StackSubjectDomainCombiner implements DomainCombiner {
+ class StackSubjectDomainCombiner implements DomainCombiner {
     private Subject subject;
 
     public StackSubjectDomainCombiner(Subject subj) {

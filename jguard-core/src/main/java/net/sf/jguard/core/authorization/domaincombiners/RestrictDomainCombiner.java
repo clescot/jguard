@@ -38,7 +38,7 @@ import java.security.ProtectionDomain;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
  */
-public class RestrictDomainCombiner implements DomainCombiner {
+class RestrictDomainCombiner implements DomainCombiner {
 
     private static final Logger logger = LoggerFactory.getLogger(RestrictDomainCombiner.class.getName());
 
