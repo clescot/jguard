@@ -1,14 +1,13 @@
 package net.sf.jguard.core.jmx;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authorization.AuthorizationScope;
-import net.sf.jguard.core.authorization.MBeanServerGuard;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
 import net.sf.jguard.core.authorization.policy.LocalAccessController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.management.MBeanServer;
 import javax.management.remote.*;
 import javax.management.remote.rmi.RMIConnectorServer;
