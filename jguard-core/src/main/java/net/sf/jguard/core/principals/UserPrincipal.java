@@ -203,7 +203,7 @@ public class UserPrincipal implements Principal, Serializable {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("UserPrincipal ");
         sb.append(name);
         sb.append(this.hashCode());
