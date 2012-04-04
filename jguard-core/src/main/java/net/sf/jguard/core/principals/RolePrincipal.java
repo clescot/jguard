@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.principals;
 
 import net.sf.jguard.core.PolicyEnforcementPointOptions;
-import net.sf.jguard.core.authorization.Permission;
+import net.sf.jguard.core.authorization.permissions.Permission;
 
 import javax.persistence.*;
 import java.util.*;

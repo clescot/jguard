@@ -27,7 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authorization.manager;
 
-import net.sf.jguard.core.authorization.Permission;
+import net.sf.jguard.core.authorization.permissions.Permission;
 import net.sf.jguard.core.principals.RolePrincipal;
 
 import java.io.IOException;

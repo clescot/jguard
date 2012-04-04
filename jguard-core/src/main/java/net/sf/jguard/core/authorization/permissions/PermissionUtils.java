@@ -189,7 +189,7 @@ public final class PermissionUtils {
                     String resolvedName = (String) partiallyResolvedName;
                     Permission partiallyResolvedPermission;
                     try {
-                        partiallyResolvedPermission = net.sf.jguard.core.authorization.Permission.getPermission(permission.getClass(), resolvedName, unresolvedPermission.getActions());
+                        partiallyResolvedPermission = net.sf.jguard.core.authorization.permissions.Permission.getPermission(permission.getClass(), resolvedName, unresolvedPermission.getActions());
                     } catch (ClassNotFoundException e) {
                         logger.warn(e.getMessage());
                         continue;
@@ -217,7 +217,7 @@ public final class PermissionUtils {
                     String resolvedAction = (String) partiallyResolvedAction;
                     Permission partiallyResolvedPermission;
                     try {
-                        partiallyResolvedPermission = net.sf.jguard.core.authorization.Permission.getPermission(permission.getClass(), unresolvedPermission.getName(), resolvedAction);
+                        partiallyResolvedPermission = net.sf.jguard.core.authorization.permissions.Permission.getPermission(permission.getClass(), unresolvedPermission.getName(), resolvedAction);
                     } catch (ClassNotFoundException e) {
                         logger.warn(e.getMessage());
                         continue;

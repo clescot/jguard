@@ -29,7 +29,7 @@ jGuard project home page:
 http://sourceforge.net/projects/jguard/
 
 */
-package net.sf.jguard.core.authorization;
+package net.sf.jguard.core.authorization.permissions;
 
 import net.sf.jguard.core.principals.RolePrincipal;
 import org.slf4j.Logger;

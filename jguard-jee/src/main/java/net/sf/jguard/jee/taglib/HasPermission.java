@@ -84,7 +84,7 @@ public class HasPermission extends ConditionalTagSupport {
         Permission permission = null;
         try {
             Class clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
-            permission = net.sf.jguard.core.authorization.Permission.getPermission(clazz, name, actions);
+            permission = net.sf.jguard.core.authorization.permissions.Permission.getPermission(clazz, name, actions);
         } catch (ClassNotFoundException e) {
             logger.warn("permission cannot be built ", e);
             throw new JspTagException(e.getMessage());

@@ -11,7 +11,7 @@ public class PermissionUtiltest {
     public void testCreateMBeanPermissionTest() {
         Permission perm = null;
         try {
-            perm = net.sf.jguard.core.authorization.Permission.getPermission(javax.management.MBeanPermission.class, "*", "*");
+            perm = net.sf.jguard.core.authorization.permissions.Permission.getPermission(javax.management.MBeanPermission.class, "*", "*");
         } catch (ClassNotFoundException e) {
             TestCase.fail(e.getMessage());
         }

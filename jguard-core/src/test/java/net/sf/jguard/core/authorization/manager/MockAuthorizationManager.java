@@ -2,6 +2,7 @@ package net.sf.jguard.core.authorization.manager;
 
 import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
 import net.sf.jguard.core.authorization.permissions.MockPermission;
+import net.sf.jguard.core.authorization.permissions.Permission;
 import net.sf.jguard.core.principals.RolePrincipal;
 
 import java.io.IOException;
@@ -20,24 +21,24 @@ import java.util.Set;
 public class MockAuthorizationManager implements AuthorizationManager {
     
 
-    public void createPermission(net.sf.jguard.core.authorization.Permission url) throws AuthorizationManagerException {
+    public void createPermission(Permission url) throws AuthorizationManagerException {
     }
 
-    public net.sf.jguard.core.authorization.Permission readPermission(long permissionId) throws AuthorizationManagerException {
+    public Permission readPermission(long permissionId) throws AuthorizationManagerException {
         return null;
     }
 
-    public void updatePermission(net.sf.jguard.core.authorization.Permission updatedPermission) throws AuthorizationManagerException {
+    public void updatePermission(Permission updatedPermission) throws AuthorizationManagerException {
     }
 
-    public void deletePermission(net.sf.jguard.core.authorization.Permission permission) {
+    public void deletePermission(Permission permission) {
     }
 
 
 
 
-    public List<net.sf.jguard.core.authorization.Permission> listPermissions() {
-        return new ArrayList<net.sf.jguard.core.authorization.Permission>();
+    public List<Permission> listPermissions() {
+        return new ArrayList<Permission>();
     }
 
 
@@ -61,12 +62,12 @@ public class MockAuthorizationManager implements AuthorizationManager {
         return null;
     }
 
-    public Set<net.sf.jguard.core.authorization.Permission> getPermissions(Collection<Long> permissionIds) {
+    public Set<Permission> getPermissions(Collection<Long> permissionIds) {
         return null;
     }
 
 
-    public void addToPrincipal(long roleId, net.sf.jguard.core.authorization.Permission perm) throws AuthorizationManagerException {
+    public void addToPrincipal(long roleId, Permission perm) throws AuthorizationManagerException {
     }
 
 

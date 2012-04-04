@@ -7,7 +7,7 @@
     <persistence-unit name="jguard-authorization" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>net.sf.jguard.core.principals.RolePrincipal</class>
-        <class>net.sf.jguard.core.authorization.Permission</class>
+        <class>net.sf.jguard.core.authorization.permissions.Permission</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:jguard"/>

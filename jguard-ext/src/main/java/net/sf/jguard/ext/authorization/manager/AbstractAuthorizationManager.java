@@ -29,13 +29,9 @@ package net.sf.jguard.ext.authorization.manager;
 
 import com.google.inject.persist.Transactional;
 import net.sf.ehcache.CacheException;
-import net.sf.jguard.core.authorization.Permission;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
-import net.sf.jguard.core.authorization.permissions.JGNegativePermissionCollection;
-import net.sf.jguard.core.authorization.permissions.JGPermissionCollection;
-import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
-import net.sf.jguard.core.authorization.permissions.PermissionUtils;
+import net.sf.jguard.core.authorization.permissions.*;
 import net.sf.jguard.core.authorization.policy.ProtectionDomainUtils;
 import net.sf.jguard.core.principals.PrincipalUtils;
 import net.sf.jguard.core.principals.RolePrincipal;
