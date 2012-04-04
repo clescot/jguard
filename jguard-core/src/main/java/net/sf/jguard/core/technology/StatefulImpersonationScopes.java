@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,15 +27,15 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.technology;
 
-import javax.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @RequestScoped
 public class StatefulImpersonationScopes extends ImpersonationScopes implements StatefulScopes {

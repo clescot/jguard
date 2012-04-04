@@ -1,7 +1,6 @@
 package net.sf.jguard.core.authentication.configuration;
 
 import javax.inject.Inject;
-
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.ListIterator;
  * Provides a Configuration which exposes a subset of LoginModules and with some
  * specific options.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @see javax.security.auth.login.Configuration
  */
 public class FilteredConfiguration extends Configuration {

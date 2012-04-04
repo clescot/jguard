@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -44,7 +44,7 @@ import java.util.WeakHashMap;
  * This implementation handles multiple policies. It is designed for
  * multiple apps requiring different policies among the same VM. Exemple : webapps.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @author <a href="mailto:zelfdoen@users.sourceforge.net">Theo Niemeijer</a>
  * @author <a href="mailto:vberetti@users.sourceforge.net">Vincent Beretti</a>
  */

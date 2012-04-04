@@ -4,7 +4,7 @@
  version $Name$
  http://sourceforge.net/projects/jguard/
 
- Copyright (C) 2004  Charles GAY
+ Copyright (C) 2004  Charles Lescot
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -39,7 +39,7 @@ import java.util.ResourceBundle;
  * Subclass of {@link LoginException} which provide a <strong>localized</strong> message.
  *
  * @author <a href="mailto:tandilero@users.sourceforge.net">Maximiliano Batelli</a>
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class LocalizedThrowable extends Throwable implements Serializable {
 

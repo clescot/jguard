@@ -1,6 +1,5 @@
 package net.sf.jguard.core.authentication;
 
-import javax.inject.Inject;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
@@ -11,12 +10,13 @@ import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.MockScopes;
 
+import javax.inject.Inject;
 import javax.security.auth.Subject;
 import javax.security.auth.login.Configuration;
 import java.util.List;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @Singleton
 public class MockAuthenticationServicePoint extends AbstractAuthenticationServicePoint<MockRequest, MockResponse> {

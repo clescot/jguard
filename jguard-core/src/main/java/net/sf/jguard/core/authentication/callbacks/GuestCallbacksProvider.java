@@ -11,7 +11,7 @@ import java.util.Collection;
 /**
  * provides callbacks which maps to  an authentication as a guest.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class GuestCallbacksProvider implements Provider<Collection<Callback>> {
 

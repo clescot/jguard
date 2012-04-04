@@ -4,7 +4,7 @@
  version $Name$
  http://sourceforge.net/projects/jguard/
 
- Copyright (C) 2004  Charles GAY
+ Copyright (C) 2004  Charles Lescot
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -54,7 +54,7 @@ import java.util.Map;
  * <a href="http://www.gnu.org/copyleft/lesser.html">LGPL</a> licence. licence, like the jGuard project.
  *
  * @author <a href="mailto:simon.lebettre[at)gmail.com">Simon Lebettre</a>
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class OCSPLoginModule extends CertificateLoginModule implements LoginModule {
 

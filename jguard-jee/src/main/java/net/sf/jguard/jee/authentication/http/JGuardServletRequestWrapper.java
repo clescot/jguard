@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.jee.authentication.http;
 
-import javax.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.LoginContextWrapper;
@@ -35,6 +34,7 @@ import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.principals.RolePrincipal;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.security.Principal;
@@ -45,7 +45,7 @@ import java.util.Map;
  * wrap the ServletRequest object to 'decorate' it to
  * respect the JAAS mechanism present in j2se.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @RequestScoped
 public class JGuardServletRequestWrapper extends HttpServletRequestWrapper {

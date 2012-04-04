@@ -1,6 +1,5 @@
 package net.sf.jguard.core.authorization;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
@@ -8,6 +7,7 @@ import net.sf.jguard.core.authorization.policy.MultipleAppPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.security.Permissions;
 import java.security.Policy;
@@ -17,7 +17,7 @@ import java.util.Properties;
 /**
  * Provides a {@link java.security.Policy} implementation.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @Singleton
 class MultipleAppPolicyProvider implements Provider<MultipleAppPolicy> {

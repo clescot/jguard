@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public abstract class JGuardTagCredential extends TagSupport implements HttpConstants {
     protected String id = "";

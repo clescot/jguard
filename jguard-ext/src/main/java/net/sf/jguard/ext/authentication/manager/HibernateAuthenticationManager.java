@@ -8,7 +8,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -31,7 +31,6 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.ext.authentication.manager;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
@@ -49,6 +48,7 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.security.auth.Subject;
 import java.net.URL;
 import java.security.Principal;
@@ -57,7 +57,7 @@ import java.util.*;
 /**
  * Hibernate AuthenticationManager implementation.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HibernateAuthenticationManager extends AbstractAuthenticationManager {
 

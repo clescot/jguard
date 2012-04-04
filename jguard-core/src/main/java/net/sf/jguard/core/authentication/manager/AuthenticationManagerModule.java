@@ -1,14 +1,14 @@
 package net.sf.jguard.core.authentication.manager;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Inject;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.ApplicationName;
 
+import javax.inject.Inject;
 import java.net.URL;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class AuthenticationManagerModule extends AbstractModule {
     private String applicationName;

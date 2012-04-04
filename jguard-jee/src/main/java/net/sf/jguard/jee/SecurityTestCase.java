@@ -6,7 +6,7 @@ import org.junit.Test;
  * TestCase for callers of PolicyEnforcementPoint like AccessFilter
  * and AccessListener.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 
 public interface SecurityTestCase {

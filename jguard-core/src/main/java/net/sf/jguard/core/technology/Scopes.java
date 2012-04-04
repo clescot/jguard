@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -36,7 +36,7 @@ package net.sf.jguard.core.technology;
  * Note that implementation of this interface <strong>DOES NOT</strong>
  * authenticate any entity.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @see net.sf.jguard.core.enforcement.PolicyEnforcementPoint
  * @see net.sf.jguard.core.authentication.AbstractAuthenticationServicePoint
  * @since 2.0

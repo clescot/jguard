@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2011  Charles GAY
+ * Copyright (C) 2004-2011  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,18 +27,18 @@
 
 package net.sf.jguard.jee.authentication.filters;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
 import net.sf.jguard.core.enforcement.GuestPolicyEnforcementPointFilter;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HttpServletGuestPolicyEnforcementPointFilter extends GuestPolicyEnforcementPointFilter<HttpServletRequest, HttpServletResponse> {
     @Inject

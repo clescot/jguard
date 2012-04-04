@@ -14,7 +14,7 @@ import static net.sf.jguard.core.authentication.loginmodules.UserLoginModule.SKI
  * Filter used to remove loginModules not involved in population of a Subject,
  * and to put some special options to disable authentication checking, to authenticate as Guest.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class GuestAppConfigurationEntryFilter implements AppConfigurationEntryFilter {
 

@@ -2,7 +2,7 @@ package net.sf.jguard.core.authentication;
 
 /**
  * define scope of authentication.
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public enum AuthenticationScope {
     LOCAL("local"),

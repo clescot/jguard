@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HttpServletAuditSchemeHandler extends AuditSchemeHandler<HttpServletRequest, HttpServletResponse> {
     public HttpServletAuditSchemeHandler(Map<String, String> parameters,

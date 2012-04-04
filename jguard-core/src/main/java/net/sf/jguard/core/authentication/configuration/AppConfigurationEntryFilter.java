@@ -5,7 +5,7 @@ import javax.security.auth.login.AppConfigurationEntry;
 /**
  * An AppConfigurationEntryFilter can be used to provide fine grain control over what is used ina Configuration instance for Authentication.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public interface AppConfigurationEntryFilter {
 

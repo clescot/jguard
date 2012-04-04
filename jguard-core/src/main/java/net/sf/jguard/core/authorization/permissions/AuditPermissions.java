@@ -8,7 +8,7 @@ import java.util.Enumeration;
 /**
  * wrap a Permissions instance.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 class AuditPermissions extends PermissionCollection {
 

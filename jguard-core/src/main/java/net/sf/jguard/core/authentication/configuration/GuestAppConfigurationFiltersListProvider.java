@@ -1,13 +1,13 @@
 package net.sf.jguard.core.authentication.configuration;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class GuestAppConfigurationFiltersListProvider implements Provider<List<AppConfigurationEntryFilter>> {
     private AppConfigurationEntryFilter appConfigurationEntryFilter;

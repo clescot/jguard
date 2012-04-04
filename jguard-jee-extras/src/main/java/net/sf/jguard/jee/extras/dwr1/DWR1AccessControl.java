@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -44,7 +44,7 @@ import java.util.logging.Logger;
  * link DWR with jguard to unify access control in jguard.
  * this implementation works in DWR 1.x.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class DWR1AccessControl extends DefaultAccessControl implements AccessControl {
     private static final Logger logger = Logger.getLogger(DWR1AccessControl.class.getName());

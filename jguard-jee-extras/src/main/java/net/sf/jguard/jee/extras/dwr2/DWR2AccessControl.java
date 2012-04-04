@@ -5,12 +5,12 @@
 
 package net.sf.jguard.jee.extras.dwr2;
 
-import javax.inject.Inject;
 import net.sf.jguard.jee.authorization.HttpAccessControllerUtils;
 import org.directwebremoting.extend.Creator;
 import org.directwebremoting.impl.DefaultAccessControl;
 import uk.ltd.getahead.dwr.WebContextFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
@@ -21,7 +21,7 @@ import java.security.PrivilegedActionException;
  * link DWR with jguard to unify access control in jguard.
  * this implementation works in DWR 2.x.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class DWR2AccessControl extends DefaultAccessControl {
     private HttpAccessControllerUtils httpAccessControllerUtils;

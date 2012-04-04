@@ -5,7 +5,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -34,23 +34,17 @@ import com.google.inject.Module;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 import com.mycila.testing.junit.MycilaJunitRunner;
-import com.mycila.testing.plugin.guice.Bind;
 import com.mycila.testing.plugin.guice.ModuleProvider;
 import net.sf.jguard.core.authorization.AuthorizationModule;
 import net.sf.jguard.core.authorization.AuthorizationScope;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 @RunWith(MycilaJunitRunner.class)
 public class JPAAuthorizationManagerTest extends AuthorizationManagerTest {

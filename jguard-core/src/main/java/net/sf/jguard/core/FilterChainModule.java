@@ -5,7 +5,7 @@ import com.google.inject.AbstractModule;
 /**
  * Guice module dedicated to set bindings to the Filterchain implementation (i.e, PolicyEnforcementPoint).
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class FilterChainModule extends AbstractModule {
 

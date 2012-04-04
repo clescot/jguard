@@ -6,25 +6,18 @@ import net.sf.jguard.core.NegativePermissions;
 import net.sf.jguard.core.PermissionResolutionCaching;
 import net.sf.jguard.core.authorization.Permission;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
-import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 import net.sf.jguard.core.principals.RolePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
-import javax.management.relation.Role;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.security.Principal;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /*
 jGuard is a security framework based on top of jaas (java authentication and authorization security).
@@ -32,7 +25,7 @@ it is written for web applications, to resolve simply, access control problems.
 
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public

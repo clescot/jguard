@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.security.auth.Subject;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public abstract class GuestAuthenticationFilter<Req, Res> extends AuthenticationFilter<Req, Res> {
     private Subject guestSubject;

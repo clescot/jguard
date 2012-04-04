@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2011  Charles GAY
+ * Copyright (C) 2004-2011  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,7 +33,7 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 /**
  * extends {@link PatternLayout} to add the pattern <b>jid</b> mapped to the JGuardCredentialConverter.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class JGuardEncoder extends PatternLayoutEncoder {
 

@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2009  Charles GAY
+ * Copyright (C) 2004-2009  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -53,7 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class AuthenticationModule extends AbstractModule {
     private AuthenticationScope authenticationScope;

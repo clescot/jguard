@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -37,7 +37,7 @@ import javax.security.auth.callback.UnsupportedCallbackException;
  * to respect javadoc from callbackHandler, and to highlight the callback (or more but javadoc only permits one)
  * which need one more interaction with the client. This exception will be grabbed from the LoginModule and 
  * rethrown as a special LoginException subclass.
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @since 1.1
  * @see UnsupportedCallbackException
  * @see CallbackHandler

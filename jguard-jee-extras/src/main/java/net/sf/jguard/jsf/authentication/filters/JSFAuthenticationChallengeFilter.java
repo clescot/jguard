@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2011  Charles GAY
+ * Copyright (C) 2004-2011  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@
 
 package net.sf.jguard.jsf.authentication.filters;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
@@ -35,9 +34,10 @@ import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class JSFAuthenticationChallengeFilter extends AuthenticationChallengeFilter<FacesContext, FacesContext> {
 

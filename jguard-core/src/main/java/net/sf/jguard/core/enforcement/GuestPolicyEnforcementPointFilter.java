@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2011  Charles GAY
+ * Copyright (C) 2004-2011  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -44,7 +44,7 @@ import java.util.List;
  * (access denied), to use the restful authenticationFilters.
  * Guest permits to delay authentication.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public abstract class GuestPolicyEnforcementPointFilter<Req, Res> extends AuthenticationFilter<Req, Res> {
     private GuestFilterChain guestFilterChain;

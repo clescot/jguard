@@ -8,7 +8,7 @@ import java.net.SocketPermission;
 import java.util.Date;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class DurationDecoratorTest {
     private SocketPermission permission1;

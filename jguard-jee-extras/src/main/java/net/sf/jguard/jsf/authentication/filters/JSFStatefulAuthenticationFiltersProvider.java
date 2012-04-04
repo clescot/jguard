@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2011  Charles GAY
+ * Copyright (C) 2004-2011  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@
 
 package net.sf.jguard.jsf.authentication.filters;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.LoginContextWrapper;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
@@ -39,11 +38,12 @@ import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class JSFStatefulAuthenticationFiltersProvider extends StatefulAuthenticationFiltersProvider<FacesContext, FacesContext> {
 

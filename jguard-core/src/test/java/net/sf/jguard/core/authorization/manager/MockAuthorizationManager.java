@@ -1,19 +1,21 @@
 package net.sf.jguard.core.authorization.manager;
 
-import net.sf.jguard.core.authorization.*;
-import net.sf.jguard.core.authorization.permissions.JGPermissionCollection;
 import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
 import net.sf.jguard.core.authorization.permissions.MockPermission;
 import net.sf.jguard.core.principals.RolePrincipal;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.security.*;
-import java.security.Permission;
-import java.util.*;
+import java.security.PermissionCollection;
+import java.security.Permissions;
+import java.security.ProtectionDomain;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class MockAuthorizationManager implements AuthorizationManager {
     

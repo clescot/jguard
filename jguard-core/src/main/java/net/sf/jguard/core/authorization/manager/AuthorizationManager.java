@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -28,12 +28,10 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.authorization.manager;
 
 import net.sf.jguard.core.authorization.Permission;
-import net.sf.jguard.core.authorization.permissions.JGPermissionCollection;
 import net.sf.jguard.core.principals.RolePrincipal;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +40,7 @@ import java.util.Set;
 /**
  * retrieve user's permissions.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @author <a href="mailto:vinipitta@users.sourceforge.net">Vinicius Pitta Lima de Araujo</a>
  * @author <a href="mailto:tandilero@users.sourceforge.net">Maximiliano Batelli</a>
  */

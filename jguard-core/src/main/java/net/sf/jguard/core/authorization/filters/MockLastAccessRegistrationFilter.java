@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2011  Charles GAY
+ * Copyright (C) 2004-2011  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,10 +27,11 @@
 
 package net.sf.jguard.core.authorization.filters;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockResponse;
 import net.sf.jguard.core.technology.StatefulScopes;
+
+import javax.inject.Inject;
 
 public class MockLastAccessRegistrationFilter extends LastAccessDeniedRegistrationFilter<MockRequest, MockResponse> {
     @Inject

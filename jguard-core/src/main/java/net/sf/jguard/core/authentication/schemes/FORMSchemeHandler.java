@@ -1,12 +1,12 @@
 package net.sf.jguard.core.authentication.schemes;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.StatefulScopes;
 
+import javax.inject.Inject;
 import javax.security.auth.callback.Callback;
 import java.security.Permission;
 import java.security.PermissionCollection;
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * grab informations from a FORM to permit authentication.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public abstract class FORMSchemeHandler<Req, Res> implements StatefulAuthenticationSchemeHandler<Req, Res> {
 

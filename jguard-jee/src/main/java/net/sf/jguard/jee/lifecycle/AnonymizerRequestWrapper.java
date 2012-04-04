@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
  * wrap the ServletRequest object to 'decorate' it to
  * anonymize the user by hiding some request parameters and identifying as GUEST.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class AnonymizerRequestWrapper extends HttpServletRequestWrapper {
     private String loginField = "login";

@@ -8,7 +8,7 @@ import java.security.Permission;
 /**
  * wrap a Permission instance to audit its checks.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 class AuditPermission extends Permission {
 

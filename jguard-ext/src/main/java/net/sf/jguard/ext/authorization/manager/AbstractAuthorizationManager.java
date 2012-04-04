@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -32,16 +32,17 @@ import net.sf.ehcache.CacheException;
 import net.sf.jguard.core.authorization.Permission;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
-import net.sf.jguard.core.authorization.permissions.*;
+import net.sf.jguard.core.authorization.permissions.JGNegativePermissionCollection;
+import net.sf.jguard.core.authorization.permissions.JGPermissionCollection;
+import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
+import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 import net.sf.jguard.core.authorization.policy.ProtectionDomainUtils;
 import net.sf.jguard.core.principals.PrincipalUtils;
 import net.sf.jguard.core.principals.RolePrincipal;
 import net.sf.jguard.core.principals.UserPrincipal;
-import net.sf.jguard.ext.authentication.manager.XmlAuthenticationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.RollbackException;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -54,7 +55,7 @@ import java.util.*;
 /**
  * Abstract class inherited by all the AuthorizationManager implementations.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @author <a href="mailto:tandilero@users.sourceforge.net">Maximiliano Batelli</a>
  */
 abstract class AbstractAuthorizationManager implements AuthorizationManager {

@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
  * test {@link net.sf.jguard.core.authorization.permissions.PermissionUtils} with dependencies
  * towards jguard-extras in its use.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class PermissionUtilsTest {
     private static final String UNKNOWN_CLASS_NAME = "unknownClassName";

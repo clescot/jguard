@@ -2,8 +2,8 @@ package net.sf.jguard.core.test;
 
 import com.google.inject.Module;
 import com.mycila.testing.junit.MycilaJunitRunner;
-import net.sf.jguard.core.authentication.AuthenticationModule;
 import net.sf.jguard.core.FilterChainModule;
+import net.sf.jguard.core.authentication.AuthenticationModule;
 import net.sf.jguard.core.authentication.AuthenticationScope;
 import net.sf.jguard.core.authentication.manager.AuthenticationManagerModule;
 import net.sf.jguard.core.authorization.AuthorizationModule;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Base class of JGuard tests, especially to initialize guice modules.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @RunWith(MycilaJunitRunner.class)
 public abstract class JGuardTest {

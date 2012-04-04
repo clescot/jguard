@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2009  Charles GAY
+ * Copyright (C) 2004-2009  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@
 
 package net.sf.jguard.core.authentication.schemes;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.technology.Scopes;
@@ -37,6 +36,7 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;

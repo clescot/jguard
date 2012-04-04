@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2011  Charles GAY
+ * Copyright (C) 2004-2011  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * provider which supercedes the {@link net.sf.jguard.core.authentication.Restful} {@link RestfulAuthenticationFiltersProvider}.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public abstract class StatefulAuthenticationFiltersProvider<Req, Res> extends RestfulAuthenticationFiltersProvider<Req, Res> {
 

@@ -3,7 +3,7 @@
  * for web applications, to resolve simply, access control problems. version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004 Charles GAY
+ * Copyright (C) 2004 Charles Lescot
  *
  * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
  * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
@@ -35,7 +35,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * also the LGPL. this class is loaded by the application server classloader.
  *
  * @author <a href="mailto:andy@tagish.com">Andy Armstrong</a>
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @author Lars Feistner
  */
 public final class CryptUtils {

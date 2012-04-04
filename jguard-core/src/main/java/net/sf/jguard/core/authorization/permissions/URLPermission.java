@@ -4,7 +4,7 @@
  version $Name$
  http://sourceforge.net/projects/jguard/
 
- Copyright (C) 2004  Charles GAY
+ Copyright (C) 2004  Charles Lescot
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
  * on one or more URLs via one or more protocols identified by their schemes.
  * this permission, <strong>only</strong> implies URLPermission.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @see java.lang.IllegalArgumentException which wrap the
  * @see java.net.URISyntaxException thrown if the URI is not correct.
  */

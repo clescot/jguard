@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -39,8 +39,8 @@ import java.util.*;
  * it is owned by an Organization.
  * it is the link between Authentication and Authorization parts.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
- * @author <a href="mailto:vinipitta@users.sourceforge.net">VinÃ­cius Pitta Lima de Araujo</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
+ * @author <a href="mailto:vinipitta@users.sourceforge.net">Vinicius Pitta Lima de Araujo</a>
  * @author <a href="mailto:tandilero@users.sourceforge.net">Maximiliano Batelli</a>
  */
 @Entity

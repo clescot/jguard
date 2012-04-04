@@ -4,7 +4,7 @@
  version $Name$
  http://sourceforge.net/projects/jguard/
 
- Copyright (C) 2004  Charles GAY
+ Copyright (C) 2004  Charles Lescot
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@
  */
 package net.sf.jguard.ext.authentication;
 
-import javax.inject.Inject;
 import com.google.inject.Module;
 import com.mycila.testing.plugin.guice.ModuleProvider;
 import junit.framework.TestCase;
@@ -41,6 +40,7 @@ import net.sf.jguard.core.test.AuthenticationManagerTest;
 import net.sf.jguard.ext.authentication.manager.XmlAuthenticationManager;
 import org.junit.Test;
 
+import javax.inject.Inject;
 import javax.security.auth.Subject;
 import java.security.Principal;
 import java.util.ArrayList;

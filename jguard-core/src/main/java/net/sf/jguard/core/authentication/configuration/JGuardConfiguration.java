@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -28,13 +28,13 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.authentication.configuration;
 
 
-import javax.inject.Inject;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.AuthenticationScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.security.auth.AuthPermission;
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;
@@ -51,7 +51,7 @@ import static net.sf.jguard.core.authentication.configuration.JGuardAuthenticati
  * Configuration</a>
  * this class is used to define the authentication stack scheme per application.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @Singleton
 public final class JGuardConfiguration extends Configuration {

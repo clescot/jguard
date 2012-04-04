@@ -15,7 +15,7 @@ import java.security.Permission;
 import java.util.Map;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HttpServletJcaptchaAuthenticationSchemeHandler extends JCaptchaAuthenticationSchemeHandler<HttpServletRequest, HttpServletResponse> {
 

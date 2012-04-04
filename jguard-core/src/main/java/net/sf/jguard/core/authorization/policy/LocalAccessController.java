@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name:  $
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,6 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.authorization.policy;
 
 import javax.inject.Inject;
-
 import javax.security.auth.Subject;
 import java.security.*;
 import java.util.Set;
@@ -39,7 +38,7 @@ import java.util.Set;
  * not tight to the system Policy.
  * this implementation permits to do some checks when no java SecurityManager is in place.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @see java.security.AccessController
  * @since 1.0
  */

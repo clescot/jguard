@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2009  Charles GAY
+ * Copyright (C) 2004-2009  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,18 +27,17 @@
 
 package net.sf.jguard.core.authentication.schemes;
 
-import javax.inject.Inject;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 
+import javax.inject.Inject;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import java.io.FilePermission;
-import java.security.AllPermission;
 import java.security.Permission;
 import java.security.PermissionCollection;
 import java.util.ArrayList;

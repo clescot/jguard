@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.ext.authentication.manager;
 
-import javax.inject.Inject;
 import com.google.inject.Module;
 import com.mycila.testing.plugin.guice.Bind;
 import com.mycila.testing.plugin.guice.ModuleProvider;
@@ -39,6 +38,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;

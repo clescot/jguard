@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,6 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.jee;
 
 import com.google.inject.Guice;
-import javax.inject.Inject;
 import com.google.inject.Injector;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.authentication.LoginContextWrapper;
@@ -50,6 +49,7 @@ import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;

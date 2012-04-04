@@ -4,7 +4,7 @@
  version $Name$
  http://sourceforge.net/projects/jguard/
 
- Copyright (C) 2004  Charles GAY
+ Copyright (C) 2004  Charles Lescot
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -45,7 +45,7 @@ import java.util.Properties;
 /**
  * JGuard Policy abstract implementation.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @author <a href="mailto:vberetti@users.sourceforge.net">Vincent Beretti</a>
  * @see AbstractMultipleAppPolicy
  * @see MultipleAppPolicy

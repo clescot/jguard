@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,13 +27,13 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.jee.authorization;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.LoginContextWrapperImpl;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.security.auth.Subject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -44,7 +44,7 @@ import java.security.PrivilegedActionException;
 /**
  * grab the {@link net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl} tied with the current {@link HttpSession}.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HttpAccessControllerUtils {
 

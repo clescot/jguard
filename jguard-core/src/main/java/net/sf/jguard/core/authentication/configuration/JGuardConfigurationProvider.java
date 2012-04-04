@@ -1,12 +1,12 @@
 package net.sf.jguard.core.authentication.configuration;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.AuthenticationScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Provides a {@link net.sf.jguard.core.authentication.configuration.JGuardConfiguration} instance.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class JGuardConfigurationProvider implements Provider<JGuardConfiguration> {
 

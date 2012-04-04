@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,11 +27,11 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authentication.schemes;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.StatefulScopes;
 
+import javax.inject.Inject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
@@ -42,7 +42,7 @@ import java.util.Map;
 /**
  * HTTP FORM which requires a login (NameCallback) and a password (PasswordCallback).
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @see NameCallback
  * @see PasswordCallback
  * @since 2.0

@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 /**
  * return an URLPermission.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HttpPermissionFactory implements PermissionFactory<HttpServletRequest> {
 

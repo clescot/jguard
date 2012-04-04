@@ -1,16 +1,16 @@
 package net.sf.jguard.ext.authentication.manager;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authentication.manager.AuthenticationXmlStoreFileLocation;
 import org.hibernate.Session;
 
+import javax.inject.Inject;
 import java.net.URL;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HibernateAuthenticationManagerProvider implements Provider<AuthenticationManager> {
     private String applicationName;

@@ -1,6 +1,5 @@
 package net.sf.jguard.core.enforcement;
 
-import javax.inject.Inject;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.filters.Filter;
@@ -15,8 +14,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import javax.inject.Inject;
+
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @RunWith(MycilaJunitRunner.class)
 public class AuthenticationChallengeFilterTest extends FilterTest {

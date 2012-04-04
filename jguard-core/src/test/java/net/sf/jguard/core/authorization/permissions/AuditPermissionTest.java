@@ -9,7 +9,7 @@ import java.net.URL;
 import java.security.Permission;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class AuditPermissionTest {
     private Permission perm1;

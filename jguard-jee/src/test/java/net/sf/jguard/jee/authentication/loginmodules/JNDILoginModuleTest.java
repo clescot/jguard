@@ -4,7 +4,7 @@
  version $Name$
  http://sourceforge.net/projects/jguard/
 
- Copyright (C) 2004  Charles GAY
+ Copyright (C) 2004  Charles Lescot
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -50,7 +50,7 @@ import java.util.logging.Logger;
  * a better unit test would be based on
  * <a href="http://directory.apache.org/apacheds/1.0/using-apacheds-for-unit-tests.html">this page</a>
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles GAY</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class JNDILoginModuleTest extends TestCase {
 

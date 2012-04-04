@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -28,13 +28,11 @@ http://sourceforge.net/projects/jguard/
 
 package net.sf.jguard.core;
 
-import javax.inject.Inject;
 import com.google.inject.Injector;
 import net.sf.jguard.core.authentication.AuthenticationStatus;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.filters.Filter;
-import net.sf.jguard.core.filters.FilterChain;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.provisioning.ProvisioningServicePoint;
@@ -42,9 +40,8 @@ import net.sf.jguard.core.technology.ImpersonationScopes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.security.auth.Subject;
+import javax.inject.Inject;
 import java.net.URL;
-import java.security.Permission;
 
 
 /**
@@ -52,7 +49,7 @@ import java.security.Permission;
  * authentication of the call, authorization enforcement, check integrity and confidentiality.
  * this class must be a singleton.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public abstract class PolicyEnforcementPointFilter<Req, Res> implements Filter<Req, Res> {
 

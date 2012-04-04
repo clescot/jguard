@@ -1,6 +1,5 @@
 package net.sf.jguard.core.test;
 
-import javax.inject.Inject;
 import com.google.inject.Module;
 import com.mycila.testing.plugin.guice.ModuleProvider;
 import net.sf.jguard.core.authentication.AuthenticationScope;
@@ -20,6 +19,7 @@ import net.sf.jguard.core.lifecycle.Response;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import static org.mockito.Mockito.mock;
 /**
  * base test class dedicated to test {@link net.sf.jguard.core.filters.Filter} implementations.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public abstract class FilterTest extends JGuardTest {
     @Inject

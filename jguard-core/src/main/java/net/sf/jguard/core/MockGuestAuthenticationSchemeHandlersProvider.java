@@ -1,17 +1,17 @@
 package net.sf.jguard.core;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockResponse;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class MockGuestAuthenticationSchemeHandlersProvider implements Provider<Collection<AuthenticationSchemeHandler<MockRequest, MockResponse>>> {
     private AuthenticationSchemeHandler<MockRequest, MockResponse> authenticationSchemeHandler;

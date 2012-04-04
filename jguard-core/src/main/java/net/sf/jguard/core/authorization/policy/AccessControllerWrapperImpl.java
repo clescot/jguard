@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,12 +27,12 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authorization.policy;
 
-import javax.inject.Inject;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 import javax.security.auth.Subject;
 import java.security.*;
 
@@ -41,7 +41,7 @@ import java.security.*;
  * Facade class used to bound control check to either the legacy {@link java.security.AccessController} bound to the global JVM security,
  * or to the {@link LocalAccessController} 'isolated'.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @author <a href="mailto:vberetti@users.sourceforge.net">Vincent Beretti</a>
  * @see java.security.AccessControlContext
  * @see java.security.AccessController

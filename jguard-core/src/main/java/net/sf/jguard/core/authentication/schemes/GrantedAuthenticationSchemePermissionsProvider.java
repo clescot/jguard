@@ -12,7 +12,7 @@ import java.util.Enumeration;
  * return {@link Permissions} which must be granted by the {@link java.security.Policy},
  * according to the {@link net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler} list.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public abstract class GrantedAuthenticationSchemePermissionsProvider<Req, Res> implements Provider<Permissions> {
     private Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers;

@@ -1,13 +1,14 @@
 package net.sf.jguard.core.authorization.filters;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapper;
 import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockResponse;
 
+import javax.inject.Inject;
+
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class MockPolicyDecisionPoint extends PolicyDecisionPoint<MockRequest, MockResponse> {
     /**

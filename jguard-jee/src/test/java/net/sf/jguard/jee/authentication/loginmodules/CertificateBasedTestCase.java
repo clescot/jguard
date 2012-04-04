@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name: v080beta1 $
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.jee.authentication.loginmodules;
 
-import javax.inject.Inject;
 import junit.framework.TestCase;
 import net.sf.jguard.core.authentication.configuration.AuthenticationConfigurationSettings;
 import net.sf.jguard.core.authentication.configuration.JGuardConfiguration;
@@ -37,6 +36,7 @@ import net.sf.jguard.ext.authentication.loginmodules.OCSPLoginModule;
 import net.sf.jguard.jee.authentication.callbacks.HttpServletCallbackHandler;
 import net.sf.jguard.jee.authentication.http.HttpServletRequestSimulator;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.security.cert.X509Certificate;
 import java.util.Map;

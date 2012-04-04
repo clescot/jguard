@@ -1,6 +1,5 @@
 package net.sf.jguard.ext.authentication;
 
-import javax.inject.Inject;
 import com.google.inject.Module;
 import com.mycila.testing.plugin.guice.Bind;
 import com.mycila.testing.plugin.guice.ModuleProvider;
@@ -24,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.inject.Inject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
@@ -32,7 +32,7 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class FilteredConfigurationWithRealExtClassesTest extends JGuardTest {
 

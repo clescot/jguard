@@ -1,6 +1,5 @@
 package net.sf.jguard.core.authentication.filters;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
@@ -8,8 +7,10 @@ import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockResponse;
 
+import javax.inject.Inject;
+
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class MockAuthenticationChallengeFilter extends AuthenticationChallengeFilter<MockRequest, MockResponse> {
 

@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -51,7 +51,7 @@ import java.util.*;
  * validate certificates: validate their certPath and checks if
  * some of them are revoked against CRL(Certificate Revocation list).
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net ">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net ">Charles Lescot</a>
  */
 public class CRLLoginModule extends CertificateLoginModule implements LoginModule {
 

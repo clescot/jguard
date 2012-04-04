@@ -1,6 +1,5 @@
 package net.sf.jguard.jee.authentication.filters;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.LoginContextWrapper;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
@@ -11,13 +10,14 @@ import net.sf.jguard.core.filters.FilterChain;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HttpServletStatefulAuthenticationFiltersProvider extends StatefulAuthenticationFiltersProvider<HttpServletRequest, HttpServletResponse> {
 

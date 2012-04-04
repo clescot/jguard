@@ -1,15 +1,15 @@
 package net.sf.jguard.jee.authorization;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.filters.PolicyDecisionPoint;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HttpServletPolicyDecisionPoint extends PolicyDecisionPoint<HttpServletRequest, HttpServletResponse> {
     /**

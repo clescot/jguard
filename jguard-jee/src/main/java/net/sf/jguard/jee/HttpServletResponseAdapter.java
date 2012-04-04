@@ -1,13 +1,13 @@
 package net.sf.jguard.jee;
 
-import javax.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import net.sf.jguard.core.lifecycle.Response;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @RequestScoped
 public class HttpServletResponseAdapter implements Response<HttpServletResponse> {

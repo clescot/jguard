@@ -1,6 +1,5 @@
 package net.sf.jguard.core.authentication.filters;
 
-import javax.inject.Inject;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.filters.FilterChain;
 import net.sf.jguard.core.lifecycle.*;
@@ -9,10 +8,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import javax.inject.Inject;
 import javax.security.auth.Subject;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @RunWith(MycilaJunitRunner.class)
 public class GuestAuthenticationFilterTest extends FilterTest {

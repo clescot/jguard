@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2010  Charles GAY
+ * Copyright (C) 2004-2010  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@
 
 package net.sf.jguard.core.enforcement;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.Stateful;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
@@ -36,10 +35,11 @@ import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockResponse;
 import net.sf.jguard.core.lifecycle.Response;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class MockPolicyEnforcementPoint extends PolicyEnforcementPoint<MockRequest, MockResponse> {
     @Inject

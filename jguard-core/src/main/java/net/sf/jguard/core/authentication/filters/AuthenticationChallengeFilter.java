@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * if authentication succeed, the resulting Subject is used to pass through the call the
  * access control rights acquired.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public abstract class AuthenticationChallengeFilter<Req, Res> extends AuthenticationFilter<Req, Res> {
 

@@ -4,7 +4,7 @@
  * version $Name$
  * http://sourceforge.net/projects/jguard/
  *
- * Copyright (C) 2004-2011  Charles GAY
+ * Copyright (C) 2004-2011  Charles Lescot
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,17 +27,17 @@
 
 package net.sf.jguard.jee.authentication.filters;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HttpServletGuestAuthenticationFiltersProvider implements Provider<List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>> {
     private List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>> authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>();

@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,13 +27,13 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authentication.callbackhandler;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockResponse;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 
+import javax.inject.Inject;
 import javax.security.auth.callback.CallbackHandler;
 import java.util.Collection;
 
@@ -41,7 +41,7 @@ import java.util.Collection;
  * this MockCallbackHandler is only a naive subclass of the common JGuardCallbackHandler.
  * callback detection and filling IS devoted to authenticationSchemeHandler.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class MockCallbackHandler extends JGuardCallbackHandler<MockRequest, MockResponse> implements CallbackHandler {
 

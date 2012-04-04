@@ -2,7 +2,6 @@ package net.sf.jguard.core.authentication.loginmodules;
 
 import net.sf.jguard.core.authentication.callbacks.GuestCallbacksProvider;
 import net.sf.jguard.core.util.CryptUtils;
-import net.sf.jguard.core.util.SubjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +17,7 @@ import java.util.List;
 /**
  * super class of classes which permits to query against different stores (database, xml..).
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class UserNamePasswordLoginModule extends UserLoginModule {
     private static final Logger logger = LoggerFactory.getLogger(UserNamePasswordLoginModule.class.getName());

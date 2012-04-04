@@ -1,14 +1,15 @@
 package net.sf.jguard.core.authorization;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
 import net.sf.jguard.core.authorization.policy.MultipleAppPolicy;
 
+import javax.inject.Inject;
+
 /**
  * Provides a {@link net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl} instance.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 class AccessControllerWrapperProvider implements Provider<AccessControllerWrapperImpl> {
     private AuthorizationScope authorizationScope;

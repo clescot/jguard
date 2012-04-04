@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,6 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.jsf.authentication;
 
 
-import javax.inject.Inject;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.AbstractScopes;
@@ -36,6 +35,7 @@ import net.sf.jguard.core.technology.StatefulScopes;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +46,7 @@ import java.util.Iterator;
 /**
  * Java Server Faces authentication bindings implementation.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class JSFScopes extends AbstractScopes implements StatefulScopes {
 

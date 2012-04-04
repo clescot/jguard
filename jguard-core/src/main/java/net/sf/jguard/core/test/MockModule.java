@@ -26,7 +26,7 @@ import java.util.List;
  * bindings to dummy implementations for testing purpose.
  * configure all
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class MockModule extends AbstractModule {
     @Override

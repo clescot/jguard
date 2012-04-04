@@ -4,7 +4,7 @@ it is written for web applications, to resolve simply, access control problems.
 version $Name$
 http://sourceforge.net/projects/jguard/
 
-Copyright (C) 2004  Charles GAY
+Copyright (C) 2004  Charles Lescot
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.ext.authentication.manager;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
@@ -43,6 +42,7 @@ import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.security.auth.Subject;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -54,7 +54,7 @@ import java.util.*;
 /**
  * AuthenticationManager implementation which persists in an XML repository file.
  *
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @author <a href="mailto:tandilero@users.sourceforge.net">Maximiliano Batelli</a>
  */
 public class XmlAuthenticationManager extends AbstractAuthenticationManager implements AuthenticationManager {

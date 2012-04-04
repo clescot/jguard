@@ -1,6 +1,5 @@
 package net.sf.jguard.jee;
 
-import javax.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import net.sf.jguard.core.authentication.Stateful;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
@@ -10,13 +9,14 @@ import net.sf.jguard.core.lifecycle.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
 /**
- * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Gay</a>
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @RequestScoped
 public class HttpServletPolicyEnforcementPoint extends PolicyEnforcementPoint<HttpServletRequest, HttpServletResponse> {
