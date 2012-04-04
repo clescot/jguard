@@ -64,7 +64,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     private boolean active = true;
     private String definition = "true";
     //define the owner of the RolePrincipal, which is the only one which can modify the
-    //RolePrincipal.Note taht a RolePrincipal can only be owned by one Organization, but be granted
+    //RolePrincipal.Note that a RolePrincipal can only be owned by one Organization, but be granted
     //to multiple users of multiple organizations.
     //changes done by the owner impact all users with this RolePrincipal.
     private Organization organization = null;
