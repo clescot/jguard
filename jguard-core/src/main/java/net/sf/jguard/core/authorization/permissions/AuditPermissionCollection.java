@@ -73,11 +73,11 @@ public class AuditPermissionCollection extends PermissionCollection {
         protectionDomainMode = false;
     }
 
-    public void add(Permission permission) {
+    public void add(java.security.Permission permission) {
         pm.add(permission);
     }
 
-    public boolean implies(Permission permission) {
+    public boolean implies(java.security.Permission permission) {
         boolean result = pm.implies(permission);
         if (protectionDomainMode) {
             //we audit user permissions check
@@ -93,7 +93,7 @@ public class AuditPermissionCollection extends PermissionCollection {
 
     }
 
-    public final Enumeration<Permission> elements() {
+    public final Enumeration<java.security.Permission> elements() {
         return pm.elements();
     }
 
