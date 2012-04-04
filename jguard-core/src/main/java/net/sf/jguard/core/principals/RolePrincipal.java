@@ -155,6 +155,18 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
         this.descendants = principalToCopy.getDescendants();
     }
 
+    public static Permission translateToJGuardPermission(java.security.Permission permission){
+        return new Permission(permission.getClass(),permission.getName(),permission.getActions());
+    }
+
+    public static Collection<java.security.Permission> translateToJavaPermissions(Collection<Permission> permissionColl) {
+        Collection<java.security.Permission> permissions = new HashSet<java.security.Permission>();
+        for (Permission permission:permissionColl){
+                permissions.add(permission.toJavaPermission());
+        }
+        return permissions;
+    }
+
 
     private void checkNullOrEmptyParameter(String localName, String label) {
         if (localName == null || "".equals(localName)) {
@@ -300,7 +312,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     public Set<java.security.Permission> getAllPermissions() {
         //all permissions owned by this principal
         Set<java.security.Permission> allPermissions = new HashSet<java.security.Permission>();
-        allPermissions.addAll(Permission.translateToJavaPermissions(permissions));
+        allPermissions.addAll(translateToJavaPermissions(permissions));
 
         //get inherited permissions
         for (RolePrincipal descendant : descendants) {
@@ -345,7 +357,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
      * @param permission permission to add
      */
     public void addPermission(java.security.Permission permission) {
-        permissions.add(net.sf.jguard.core.authorization.Permission.translateToJGuardPermission(permission));
+        permissions.add(translateToJGuardPermission(permission));
     }
 
 

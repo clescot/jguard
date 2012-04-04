@@ -27,9 +27,6 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.ext.authorization.manager;
 
-import javax.inject.Inject;
-
-import ch.qos.logback.core.util.FileUtil;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.AuthorizationXmlFileLocation;
 import net.sf.jguard.core.NegativePermissions;
@@ -49,6 +46,7 @@ import org.dom4j.util.UserDataAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -220,7 +218,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
         if(0==permissions.size()){
            logger.warn(NO_PERMISSIONS_ARE_BUILT_FROM_XML_FILE);
         }
-        super.urlp.addAll(new HashSet<java.security.Permission>(Permission.translateToJavaPermissions(permissionsSet)));
+        super.urlp.addAll(new HashSet<java.security.Permission>(RolePrincipal.translateToJavaPermissions(permissionsSet)));
     }
 
 
@@ -247,7 +245,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
 
         try {
             Class clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
-            perm = Permission.translateToJGuardPermission(Permission.getPermission(clazz, permissionName, actions));
+            perm = RolePrincipal.translateToJGuardPermission(Permission.getPermission(clazz, permissionName, actions));
             perm.setId(id);
         } catch (ClassNotFoundException e) {
             logger.warn(e.getMessage());

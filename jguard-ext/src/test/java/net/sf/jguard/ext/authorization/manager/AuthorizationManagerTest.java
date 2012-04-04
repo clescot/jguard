@@ -36,8 +36,6 @@ import net.sf.jguard.core.authorization.AuthorizationModule;
 import net.sf.jguard.core.authorization.Permission;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
-import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
-import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
 import net.sf.jguard.core.authorization.policy.ProtectionDomainUtils;
 import net.sf.jguard.core.principals.RolePrincipal;
@@ -53,7 +51,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.security.PermissionCollection;
 import java.security.Permissions;
-import java.security.Principal;
 import java.security.ProtectionDomain;
 import java.util.*;
 
@@ -137,10 +134,10 @@ public abstract class AuthorizationManagerTest {
         //Create a permission
         URL url = Thread.currentThread().getContextClassLoader().getResource(CURRENT_DIRECTORY_LOCATION);
         FilePermission filePermission = new FilePermission(url.toExternalForm(), READ_FILE_PERMISSION_ACTION);
-        auth.createPermission(Permission.translateToJGuardPermission(filePermission));
+        auth.createPermission(RolePrincipal.translateToJGuardPermission(filePermission));
 
         //add permission alredy persisted to principal
-        Permission translatedPermission =Permission.translateToJGuardPermission(filePermission);
+        Permission translatedPermission = RolePrincipal.translateToJGuardPermission(filePermission);
         auth.addToPrincipal(principal.getId(), translatedPermission);
         RolePrincipal updatedPrincipal = auth.readPrincipal(principal.getId());
         Assert.assertTrue(updatedPrincipal.getPermissions().contains(translatedPermission));
@@ -178,7 +175,7 @@ public abstract class AuthorizationManagerTest {
     public void testCreatePermission() throws AuthorizationManagerException {
         URL url = Thread.currentThread().getContextClassLoader().getResource(CURRENT_DIRECTORY_LOCATION);
         FilePermission filePermission = new FilePermission(url.toExternalForm(), READ_FILE_PERMISSION_ACTION);
-        Permission permission = Permission.translateToJGuardPermission(filePermission);
+        Permission permission = RolePrincipal.translateToJGuardPermission(filePermission);
         auth.createPermission(permission);
         auth.deletePermission(permission);
     }
@@ -187,10 +184,10 @@ public abstract class AuthorizationManagerTest {
     public void testUpdatePermission() throws AuthorizationManagerException {
         URL url = Thread.currentThread().getContextClassLoader().getResource(CURRENT_DIRECTORY_LOCATION);
         FilePermission readFilePErmission = new FilePermission(url.toExternalForm(), READ_FILE_PERMISSION_ACTION);
-        Permission jguardReadPermission = Permission.translateToJGuardPermission(readFilePErmission);
+        Permission jguardReadPermission = RolePrincipal.translateToJGuardPermission(readFilePErmission);
         auth.createPermission(jguardReadPermission);
         FilePermission writeFilePermission = new FilePermission(url.toExternalForm(), WRITE_FILE_PERMISSION_ACTION);
-        Permission jguardWritePermission = Permission.translateToJGuardPermission(writeFilePermission);
+        Permission jguardWritePermission = RolePrincipal.translateToJGuardPermission(writeFilePermission);
         jguardWritePermission.setId(jguardReadPermission.getId());
         auth.updatePermission(jguardWritePermission);
     }
@@ -208,7 +205,7 @@ public abstract class AuthorizationManagerTest {
     public void testDeletePermission() throws AuthorizationManagerException {
         URL url = Thread.currentThread().getContextClassLoader().getResource(CURRENT_DIRECTORY_LOCATION);
         FilePermission filePermission = new FilePermission(url.toExternalForm(), READ_FILE_PERMISSION_ACTION);
-        Permission permission = Permission.translateToJGuardPermission(filePermission);
+        Permission permission = RolePrincipal.translateToJGuardPermission(filePermission);
         auth.createPermission(permission);
         auth.deletePermission(permission);
     }

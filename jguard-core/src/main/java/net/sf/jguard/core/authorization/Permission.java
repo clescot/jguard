@@ -39,8 +39,6 @@ import javax.persistence.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.security.BasicPermission;
-import java.util.Collection;
-import java.util.HashSet;
 
 /**
 * POJO counterpart of {@link java.security.Permission}.
@@ -162,26 +160,6 @@ public class Permission {
         }
     }
 
-    public static Permission translateToJGuardPermission(java.security.Permission permission){
-        return new Permission(permission.getClass(),permission.getName(),permission.getActions());
-    }
-
-    public static Collection<Permission> translateToJGuardPermissions(Collection<java.security.Permission> permissions){
-        Collection<Permission> jguardPermissions = new HashSet<Permission>();
-        for(java.security.Permission permission:permissions){
-            jguardPermissions.add(translateToJGuardPermission(permission));
-        }
-
-        return jguardPermissions;
-    }
-
-    public static Collection<java.security.Permission> translateToJavaPermissions(Collection<Permission> permissionColl) {
-        Collection<java.security.Permission> permissions = new HashSet<java.security.Permission>();
-        for (Permission permission:permissionColl){
-                permissions.add(permission.toJavaPermission());
-        }
-        return permissions;
-    }
 
     public String getName() {
         return name;
