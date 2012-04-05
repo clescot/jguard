@@ -110,6 +110,14 @@ public class PermissionTest {
     }
 
 
+    @Test
+    public void test_equals_with_instances_fdrom_different_classes() throws Exception {
+        Permission permission = new Permission(AudioPermission.class,PLAY_AUDIO_PERMISSION_ACTION,EMPTY);
+        assertThat(permission.equals(""),is(false));
+    }
+
+
+
 
 
     @Test(expected = IllegalArgumentException.class)
