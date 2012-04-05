@@ -47,7 +47,7 @@ import java.security.BasicPermission;
  */
 @Entity
 @Table(name = "jg_permission")
-public class Permission {
+public class Permission<T extends java.security.Permission> {
 
 
     private static final Logger logger = LoggerFactory.getLogger(Permission.class.getName());
@@ -75,7 +75,7 @@ public class Permission {
 
     }
 
-    public Permission(Class clazz, String name, String actions) {
+    public Permission(Class<T> clazz, String name, String actions) {
         if(clazz==null){
             throw new IllegalArgumentException("clazz must not be null to instantiate Permission");
         }
@@ -167,10 +167,10 @@ public class Permission {
         return newPerm;
     }
 
-    public java.security.Permission toJavaPermission() {
+    public T toJavaPermission() {
         try {
             Class cl = Thread.currentThread().getContextClassLoader().loadClass(clazz);
-            return getPermission(cl, this.getName(), this.getActions());
+            return (T) getPermission(cl, this.getName(), this.getActions());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

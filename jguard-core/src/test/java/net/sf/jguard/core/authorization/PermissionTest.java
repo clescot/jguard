@@ -65,6 +65,21 @@ public class PermissionTest {
         assertThat(permission.hashCode(),is(not(permission2.hashCode())));
     }
 
+    @Test
+    public void test_hashcode_with_different_actions_but_same_clazz_and_name() throws Exception {
+        Permission permission = new Permission(AudioPermission.class,PLAY_AUDIO_PERMISSION_ACTION,EMPTY);
+        Permission permission2 = new Permission(AudioPermission.class,PLAY_AUDIO_PERMISSION_ACTION,ALL_PERMISSIONS_PERMISSION_ACTIONS);
+        assertThat(permission.hashCode(),is(not(permission2.hashCode())));
+    }
+
+
+    @Test
+    public void test_hashcode_with_differentclazz_but_same_name_and_actions() throws Exception {
+        Permission permission = new Permission(AudioPermission.class,PLAY_AUDIO_PERMISSION_ACTION,EMPTY);
+        Permission permission2 = new Permission(AllPermission.class,PLAY_AUDIO_PERMISSION_ACTION,PLAY_AUDIO_PERMISSION_ACTION);
+        assertThat(permission.hashCode(),is(not(permission2.hashCode())));
+    }
+
 
 
     @Test(expected = IllegalArgumentException.class)
@@ -85,5 +100,13 @@ public class PermissionTest {
     @Test
     public void test_constructor_with_actions_parameter_as_a_null_value() throws Exception {
         new Permission(AllPermission.class,ALL_PERMISSIONS_PERMISSION_NAME,null);
+    }
+
+
+    @Test
+    public void test_to_java_permission() throws Exception {
+        Permission<AllPermission> permission = new Permission(AllPermission.class, ALL_PERMISSIONS_PERMISSION_NAME, ALL_PERMISSIONS_PERMISSION_ACTIONS);
+        AllPermission allPermission = permission.toJavaPermission();
+        assertThat(allPermission,is(not(nullValue())));
     }
 }
