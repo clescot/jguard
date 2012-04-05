@@ -81,6 +81,36 @@ public class PermissionTest {
     }
 
 
+    @Test
+    public void test_equals_is_constant() throws Exception {
+        Permission permission = new Permission(AudioPermission.class,PLAY_AUDIO_PERMISSION_ACTION,EMPTY);
+        assertThat(permission.equals(permission),is(true));
+    }
+
+    @Test
+    public void test_equals_with_different_permissions() throws Exception {
+        Permission permission = new Permission(AudioPermission.class,PLAY_AUDIO_PERMISSION_ACTION,EMPTY);
+        Permission permission2 = new Permission(AllPermission.class,ALL_PERMISSIONS_PERMISSION_NAME,ALL_PERMISSIONS_PERMISSION_ACTIONS);
+        assertThat(permission.equals(permission2),is(false));
+    }
+
+    @Test
+    public void test_equals_with_different_actions_but_same_clazz_and_name() throws Exception {
+        Permission permission = new Permission(AudioPermission.class,PLAY_AUDIO_PERMISSION_ACTION,EMPTY);
+        Permission permission2 = new Permission(AudioPermission.class,PLAY_AUDIO_PERMISSION_ACTION,ALL_PERMISSIONS_PERMISSION_ACTIONS);
+        assertThat(permission.equals(permission2),is(false));
+    }
+
+
+    @Test
+    public void test_equals_with_differentclazz_but_same_name_and_actions() throws Exception {
+        Permission permission = new Permission(AudioPermission.class,PLAY_AUDIO_PERMISSION_ACTION,EMPTY);
+        Permission permission2 = new Permission(AllPermission.class,PLAY_AUDIO_PERMISSION_ACTION,PLAY_AUDIO_PERMISSION_ACTION);
+        assertThat(permission.equals(permission2),is(false));
+    }
+
+
+
 
     @Test(expected = IllegalArgumentException.class)
     public void test_constructor_with_null_values() throws Exception {
