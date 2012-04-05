@@ -141,7 +141,7 @@ public class AuditPermissionCollection extends PermissionCollection {
         Enumeration enumPerm = permissionCollection.elements();
         logger.debug("@@ user has got ");
         while (enumPerm.hasMoreElements()) {
-            Permission perm = (Permission) enumPerm.nextElement();
+            java.security.Permission perm = (java.security.Permission) enumPerm.nextElement();
             logger.debug("{}[" + "name={{}},actions={{}}]", new Object[]{perm.getClass().getSimpleName(), perm.getName(), perm.getActions()});
         }
     }
