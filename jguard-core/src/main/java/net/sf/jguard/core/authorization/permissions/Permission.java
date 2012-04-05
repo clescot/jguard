@@ -41,19 +41,23 @@ import java.lang.reflect.InvocationTargetException;
 import java.security.BasicPermission;
 
 /**
-* POJO counterpart of {@link java.security.Permission}.
-* @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
-*/
+ * POJO counterpart of {@link java.security.Permission}.
+ *
+ * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
+ */
 @Entity
 @Table(name = "jg_permission")
 public class Permission {
 
 
-
     private static final Logger logger = LoggerFactory.getLogger(Permission.class.getName());
+    public static final int BASIC_PERMISSION_PARAMETERS_NUMBER_CONS = 2;
+    public static final int FIRST_CONSTRUCTOR_PARAMETER_INDEX = 0;
+    public static final int SECOND_CONSTRUCTOR_PARAMETER_INDEX = 1;
 
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private long id;
 
     private String name;
@@ -65,33 +69,43 @@ public class Permission {
     @ManyToOne
     @JoinColumn(nullable = true)
     private RolePrincipal rolePrincipal;
-    
-    public Permission(){
-        
+    private static final int BASIC_PERMISSION_PARAMETERS_CONSTRUCTOR_NUMBER = 2;
+
+    public Permission() {
+
     }
 
-    public Permission(Class clazz, String name,String actions){
+    public Permission(Class clazz, String name, String actions) {
+        if(clazz==null){
+            throw new IllegalArgumentException("clazz must not be null to instantiate Permission");
+        }
+        if(name==null){
+            throw new IllegalArgumentException("name  must not be null to instantiate Permission");
+        }
         this.clazz = clazz.getName();
         this.name = name;
         this.actions = actions;
+        if(actions==null){
+            actions = "";
+        }
     }
 
     /**
      * instantiate a java.security.Permission subclass.
      *
-     * @param clazz class name
-     * @param name      permission name
-     * @param actions   actions name split by comma ','
+     * @param clazz   class name
+     * @param name    permission name
+     * @param actions actions name split by comma ','
      * @return a java.security.Permission subclass, or a java.security.BasicPermission subclass
      *         (which inherit java.security.Permission)
      * @throws ClassNotFoundException
      */
     public static java.security.Permission getPermission(Class clazz, String name, String actions) throws ClassNotFoundException {
-        if(!java.security.Permission.class.isAssignableFrom(clazz)){
-            throw new IllegalArgumentException("clazz["+clazz.getName()+"] is not a subclass of java.security.Permission");
+        if (!java.security.Permission.class.isAssignableFrom(clazz)) {
+            throw new IllegalArgumentException("clazz[" + clazz.getName() + "] is not a subclass of java.security.Permission");
         }
         String className = clazz.getName();
-      
+
         Class[] permArgsBasicPermClass = {String.class, String.class};
         Class[] permArgsPermClass = {String.class};
         Object[] objBasicArray = {name, actions};
@@ -99,7 +113,7 @@ public class Permission {
         try {
             //check if className inherit from the Abstract BasicPermission class which
             // has got a two string argument constructor to speed up the lookup
-            if (clazz.isAssignableFrom(BasicPermission.class)) {
+            if (BasicPermission.class.isAssignableFrom(clazz)) {
                 newPerm = (java.security.Permission) clazz.getConstructor(permArgsBasicPermClass).newInstance(objBasicArray);
                 return newPerm;
             }
@@ -110,7 +124,9 @@ public class Permission {
             boolean constructorWithActions = false;
             for (Constructor tempConstructor : constructors) {
                 Class[] classes = tempConstructor.getParameterTypes();
-                if (classes.length == 2 && classes[0].equals(String.class) && classes[1].equals(String.class) && !"".equals(objBasicArray[1])) {
+                if (classes.length == BASIC_PERMISSION_PARAMETERS_CONSTRUCTOR_NUMBER
+                        && classes[FIRST_CONSTRUCTOR_PARAMETER_INDEX].equals(String.class)
+                        && classes[SECOND_CONSTRUCTOR_PARAMETER_INDEX].equals(String.class) && !"".equals(objBasicArray[1])) {
                     constructorWithActions = true;
                     break;
                 }
@@ -151,10 +167,10 @@ public class Permission {
         return newPerm;
     }
 
-    public java.security.Permission toJavaPermission()  {
+    public java.security.Permission toJavaPermission() {
         try {
             Class cl = Thread.currentThread().getContextClassLoader().loadClass(clazz);
-            return getPermission(cl,this.getName(),this.getActions());
+            return getPermission(cl, this.getName(), this.getActions());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -194,19 +210,15 @@ public class Permission {
     }
 
 
-    public int hashCode(){
-        if(clazz==null||name==null||actions==null){
-            return 4;
-        }else{
-            return clazz.hashCode()+name.hashCode()+actions.hashCode();
-        }
+    public int hashCode() {
+            return clazz.hashCode() + name.hashCode() + actions.hashCode();
     }
 
-    public boolean equals(Object object){
-        if (!Permission.class.isAssignableFrom(object.getClass())){
+    public boolean equals(Object object) {
+        if (!Permission.class.isAssignableFrom(object.getClass())) {
             return false;
-        }else{
-            Permission permission = (Permission)object;
+        } else {
+            Permission permission = (Permission) object;
             return this.getClazz().equals(permission.getClazz())
                     && this.getName().equals(permission.getName())
                     && this.getActions().equals(permission.getActions());
@@ -223,8 +235,8 @@ public class Permission {
 
 
     @PreRemove
-    public void preRemove(){
-        if(rolePrincipal!=null){
+    public void preRemove() {
+        if (rolePrincipal != null) {
             rolePrincipal.getPermissions().remove(this);
         }
 
