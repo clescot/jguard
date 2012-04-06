@@ -155,7 +155,7 @@ public class JGuardCredential implements Serializable, Cloneable {
             return clone;
         }
         if (value instanceof Cloneable) {
-            Class[] clazz = new Class[]{null};
+            Class[] clazz = new Class[]{};
             try {
                 Method cloneMethod = value.getClass().getMethod(CLONE, clazz);
                 Object clonedValue = cloneMethod.invoke(value, null);
