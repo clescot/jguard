@@ -105,7 +105,7 @@ abstract class AbstractMultipleAppPolicy extends JGuardPolicy {
      * @param objectID webapplication's classloader
      * @see AbstractMultipleAppPolicy#refresh()
      */
-    void refresh(Object objectID) {
+    private void refresh(Object objectID) {
         //we get the webapp corresponding permission manager
         // and call its refresh method
         PermissionProvider pm = getContextPermissionProvider(objectID);
