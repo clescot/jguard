@@ -3,6 +3,7 @@ package net.sf.jguard.core.authentication.credentials;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -82,6 +83,21 @@ public class JGuardCredentialTest {
         //given
         JGuardCredential dummyCredential = getDummyCredential();
         dummyCredential.setValue(null);
+        //when
+        JGuardCredential clone = (JGuardCredential) dummyCredential.clone();
+        clone.setName(DIFFERENT_CREDENTIAL_NAME);
+        clone.setValue(DIFFERENT_CREDENTIAL_VALUE);
+
+        //then
+        assertThat(clone.getName(), is(not(dummyCredential.getName())));
+        assertThat(clone.getValue(), is(not(dummyCredential.getValue())));
+    }
+
+    @Test(expected = CloneNotSupportedException.class)
+    public void test_clone_with_non_cloneable_value() throws Exception {
+        //given
+        JGuardCredential dummyCredential = getDummyCredential();
+        dummyCredential.setValue(new BigInteger("3"));
         //when
         JGuardCredential clone = (JGuardCredential) dummyCredential.clone();
         clone.setName(DIFFERENT_CREDENTIAL_NAME);
