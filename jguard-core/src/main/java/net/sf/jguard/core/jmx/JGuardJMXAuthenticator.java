@@ -100,7 +100,7 @@ public class JGuardJMXAuthenticator implements JMXAuthenticator {
         logger.info("authentication scope is local");
         this.applicationName = appName;
         this.classLoader = contextClassLoader;
-        if(conf==null){
+        if (conf == null) {
             throw new IllegalArgumentException("configuration is null");
         }
         configuration = conf;
@@ -108,8 +108,8 @@ public class JGuardJMXAuthenticator implements JMXAuthenticator {
 
     public Subject authenticate(Object credentials) {
 
-        Subject subject = null;
-        if(credentials==null){
+        Subject subject;
+        if (credentials == null) {
             throw new IllegalArgumentException("credentials are null or empty. authentication cannot be done");
         }
         if (configuration == null) {
@@ -123,8 +123,8 @@ public class JGuardJMXAuthenticator implements JMXAuthenticator {
             } catch (LoginException e) {
                 logger.error("loginException : " + e.getMessage());
                 throw new SecurityException(e.getMessage(), e);
-            }catch (SecurityException sex){
-                 logger.error("SecurityException : " + sex.getMessage());
+            } catch (SecurityException sex) {
+                logger.error("SecurityException : " + sex.getMessage());
                 throw sex;
             }
         } else {
