@@ -1,7 +1,6 @@
 package net.sf.jguard.jee.authentication;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Inject;
 import com.google.inject.Module;
 import com.mycila.testing.plugin.guice.Bind;
 import com.mycila.testing.plugin.guice.ModuleProvider;
@@ -21,9 +20,11 @@ import net.sf.jguard.ext.authorization.manager.XmlAuthorizationManager;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.inject.Inject;
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;
 import java.net.URL;
+import java.security.AccessControlException;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -78,15 +79,15 @@ public class JGuardConfigurationTest extends JGuardTest {
         String applicationName = null;
         Map<String, Object> authenticationSettings = new HashMap();
         List<AppConfigurationEntry> appConfigurationEntries = new ArrayList();
-        JGuardConfiguration jGuardConfiguration = new JGuardConfiguration(applicationName, authenticationSettings, appConfigurationEntries);
+        new JGuardConfiguration(applicationName, authenticationSettings, appConfigurationEntries);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testEmptyApplciationName() {
+    public void testEmptyApplicationName() {
         String applicationName = "";
         Map<String, Object> authenticationSettings = new HashMap();
         List<AppConfigurationEntry> appConfigurationEntries = new ArrayList();
-        JGuardConfiguration jGuardConfiguration = new JGuardConfiguration(applicationName, authenticationSettings, appConfigurationEntries);
+        new JGuardConfiguration(applicationName, authenticationSettings, appConfigurationEntries);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -94,18 +95,21 @@ public class JGuardConfigurationTest extends JGuardTest {
         String applicationName = "dummy";
         Map<String, Object> authenticationSettings = null;
         List<AppConfigurationEntry> appConfigurationEntries = new ArrayList();
-        JGuardConfiguration jGuardConfiguration = new JGuardConfiguration(applicationName, authenticationSettings, appConfigurationEntries);
+        new JGuardConfiguration(applicationName, authenticationSettings, appConfigurationEntries);
     }
 
-
-    
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullAppConigurationEntries() {
         String applicationName = "dummy";
         Map<String, Object> authenticationSettings = new HashMap();
         List<AppConfigurationEntry> appConfigurationEntries = null;
-        JGuardConfiguration jGuardConfiguration = new JGuardConfiguration(applicationName, authenticationSettings, appConfigurationEntries);
+        new JGuardConfiguration(applicationName, authenticationSettings, appConfigurationEntries);
+    }
+
+    @Test(expected = AccessControlException.class)
+    public void testRefresh_without_auth_permission() {
+        jGuardConfiguration.refresh();
     }
 
 
