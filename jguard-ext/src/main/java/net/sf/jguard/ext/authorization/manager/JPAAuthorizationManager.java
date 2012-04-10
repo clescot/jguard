@@ -6,7 +6,7 @@ import net.sf.jguard.core.NegativePermissions;
 import net.sf.jguard.core.PermissionResolutionCaching;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
 import net.sf.jguard.core.authorization.permissions.Permission;
-import net.sf.jguard.core.principals.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,15 +47,16 @@ http://sourceforge.net/projects/jguard/
 
 */
 
-public class JPAAuthorizationManager extends AbstractAuthorizationManager{
+public class JPAAuthorizationManager extends AbstractAuthorizationManager {
 
     private static final Logger logger = LoggerFactory.getLogger(JPAAuthorizationManager.class.getName());
     private Provider<EntityManager> entityManagerProvider;
 
     /**
      * initialize AuthorizationManager implementation.
+     *
      * @param applicationName
-     * @param negativePermissions true if permissions are negative, i.e, are interdictions.
+     * @param negativePermissions         true if permissions are negative, i.e, are interdictions.
      * @param permissionResolutionCaching true if a cache must be activated to boost performance
      * @param entityManagerProvider
      */
@@ -64,8 +65,8 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
                                    @NegativePermissions boolean negativePermissions,
                                    @PermissionResolutionCaching boolean permissionResolutionCaching,
                                    Provider<EntityManager> entityManagerProvider
-                                  ) {
-        super(applicationName,negativePermissions,permissionResolutionCaching);
+    ) {
+        super(applicationName, negativePermissions, permissionResolutionCaching);
         this.entityManagerProvider = entityManagerProvider;
     }
 
@@ -74,7 +75,6 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
 
     }
 
-   
 
     @Transactional
     public void createPermission(Permission permission) throws AuthorizationManagerException {
@@ -85,7 +85,7 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
     @Transactional
     public Permission readPermission(long permissionId) throws AuthorizationManagerException {
         EntityManager entityManager = entityManagerProvider.get();
-        return entityManager.find(Permission.class,permissionId);
+        return entityManager.find(Permission.class, permissionId);
     }
 
     @Transactional
@@ -99,7 +99,7 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
         EntityManager entityManager = entityManagerProvider.get();
         permission = entityManager.merge(permission);
         RolePrincipal rolePrincipal = permission.getRolePrincipal();
-        if(rolePrincipal!=null){
+        if (rolePrincipal != null) {
             rolePrincipal.getPermissions().remove(permission);
         }
         entityManager.remove(permission);
@@ -107,9 +107,8 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
 
     @Transactional
     public void createPrincipal(RolePrincipal principal) throws AuthorizationManagerException {
-       entityManagerProvider.get().persist(principal);
+        entityManagerProvider.get().persist(principal);
     }
-
 
 
     @Transactional
@@ -127,7 +126,7 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
         Root<RolePrincipal> from = query.from(RolePrincipal.class);
         CriteriaQuery<RolePrincipal> selectFrom = query.select(from);
         TypedQuery<RolePrincipal> typedQuery = entityManager.createQuery(selectFrom);
-        int  principals= typedQuery.getResultList().size();
+        int principals = typedQuery.getResultList().size();
 
 
         CriteriaQuery<Permission> query2 = criteriaBuilder.createQuery(Permission.class);
@@ -139,22 +138,23 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
 
     }
 
-     /**
+    /**
      * return the corresponding application role.
+     *
      * @param roleId
      * @return role or null if not found
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
      *
      * @see net.sf.jguard.core.authorization.manager.AuthorizationManager#readPrincipal(long)
      */
-     @Transactional
+    @Transactional
     public RolePrincipal readPrincipal(long roleId) throws AuthorizationManagerException {
         EntityManager entityManager = entityManagerProvider.get();
-        return entityManager.find(RolePrincipal.class,roleId);
+        return entityManager.find(RolePrincipal.class, roleId);
     }
 
 
-     /**
+    /**
      * return the principal's Set.
      *
      * @return principal's Set
@@ -182,7 +182,7 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
         return entityManager.createQuery(permissionCriteriaQuery).getResultList();
     }
 
-       /**
+    /**
      * replace the inital principal with the new one.
      *
      * @param principal RolePrincipal updated
@@ -198,13 +198,13 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
     }
 
 
-/**
+    /**
      * add the permission to the corresponding role.
      * if the permission is not persisted, we persist it and create
      * a corresponding Domain with the same name.
      *
      * @param roleId role updated
-     * @param perm     permission to add
+     * @param perm   permission to add
      * @throws net.sf.jguard.core.authorization.manager.AuthorizationManagerException
      *
      */
@@ -220,5 +220,4 @@ public class JPAAuthorizationManager extends AbstractAuthorizationManager{
     }
 
 
-   
 }

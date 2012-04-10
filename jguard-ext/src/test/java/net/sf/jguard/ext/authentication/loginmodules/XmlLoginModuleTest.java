@@ -3,7 +3,7 @@ package net.sf.jguard.ext.authentication.loginmodules;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authentication.manager.JGuardAuthenticationManagerMarkups;
-import net.sf.jguard.core.principals.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.util.SubjectUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -54,7 +54,7 @@ public class XmlLoginModuleTest {
         authenticationManager = mock(AuthenticationManager.class);
         when(authenticationManager.getCredentialId()).thenReturn("id");
         when(authenticationManager.getCredentialPassword()).thenReturn("password");
-        Set<Subject> users= new HashSet<Subject>();
+        Set<Subject> users = new HashSet<Subject>();
         users.add(SubjectUtils.getGuestSubject(authenticationManager));
         when(authenticationManager.getUsers()).thenReturn(users);
     }
@@ -98,9 +98,9 @@ public class XmlLoginModuleTest {
         JGuardCredential login = new JGuardCredential(LOGIN, ADMIN_LOGIN);
         JGuardCredential password = new JGuardCredential(PASSWORD, ADMIN_PASSWORD);
         Set<JGuardCredential> publicCredentials = new HashSet<JGuardCredential>();
-        publicCredentials .add(login);
+        publicCredentials.add(login);
         privateCredentials.add(password);
-        Subject adminSubject = new Subject(false, new HashSet<RolePrincipal>(), publicCredentials , privateCredentials);
+        Subject adminSubject = new Subject(false, new HashSet<RolePrincipal>(), publicCredentials, privateCredentials);
         users.add(adminSubject);
         when(authenticationManager.getUsers()).thenReturn(users);
         options.put(JGuardAuthenticationManagerMarkups.AUTHENTICATION_MANAGER.getLabel(), authenticationManager);

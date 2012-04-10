@@ -1,7 +1,7 @@
 package net.sf.jguard.ext.log.logback;
 
 import ch.qos.logback.core.pattern.DynamicConverter;
-import net.sf.jguard.core.principals.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 
 import javax.security.auth.Subject;
 import java.security.AccessController;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 
 /**
- * grab from the current Subject, names of {@link RolePrincipal}.
+ * grab from the current Subject, names of {@link net.sf.jguard.core.authorization.permissions.RolePrincipal}.
  */
 public class RolesConverter extends DynamicConverter {
     private static final char ROLE_SEPARATOR = ',';

@@ -1540,19 +1540,19 @@
                                         &lt;principals&gt;
                                         &lt;principal&gt;
                                         &lt;name&gt;admin&lt;/name&gt;
-                                        &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                                        &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                                         &lt;applicationName&gt;jguard-struts-example&lt;/applicationName&gt;
                                         &lt;organizationRef&gt;myenterpriseId&lt;/organizationRef&gt;
                                         &lt;/principal&gt;
                                         &lt;principal&gt;
                                         &lt;name&gt;guest&lt;/name&gt;
-                                        &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                                        &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                                         &lt;applicationName&gt;jguard-struts-example&lt;/applicationName&gt;
                                         &lt;organizationRef&gt;system&lt;/organizationRef&gt;
                                         &lt;/principal&gt;
                                         &lt;principal&gt;
                                         &lt;name&gt;role3&lt;/name&gt;
-                                        &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                                        &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                                         &lt;applicationName&gt;anotherApplication&lt;/applicationName&gt;
                                         &lt;organizationRef&gt;system&lt;/organizationRef&gt;
                                         &lt;/principal&gt;
@@ -2866,7 +2866,7 @@
                     <para>subject, which represents authenticated user, contains its own
                         credentials, and also some Principals. the main implementation of
                         principal provided in Subject by jGuard is
-                        <classname>net.sf.jguard.core.principals.RolePrincipal</classname>;
+                        <classname>net.sf.jguard.core.authorization.permissions.RolePrincipal</classname>;
                         this class represent a<emphasis>role</emphasis>, a responsability
                         granted to the user.
                     </para>
@@ -2905,19 +2905,19 @@
                     &lt;principals&gt;
                     &lt;principal&gt;
                     &lt;name&gt;admin&lt;/name&gt;
-                    &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                    &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                     &lt;applicationName&gt;jguard-struts-example&lt;/applicationName&gt;
                     &lt;organizationRef&gt;myenterpriseId&lt;/organizationRef&gt;
                     &lt;/principal&gt;
                     &lt;principal&gt;
                     &lt;name&gt;guest&lt;/name&gt;
-                    &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                    &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                     &lt;applicationName&gt;jguard-struts-example&lt;/applicationName&gt;
                     &lt;organizationRef&gt;system&lt;/organizationRef&gt;
                     &lt;/principal&gt;
                     &lt;principal&gt;
                     &lt;name&gt;role3&lt;/name&gt;
-                    &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                    &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                     &lt;applicationName&gt;anotherApplication&lt;/applicationName&gt;
                     &lt;organizationRef&gt;system&lt;/organizationRef&gt;
                     &lt;/principal&gt;
@@ -5424,12 +5424,12 @@
                                     &lt;principals&gt;
                                     &lt;principal&gt;
                                     &lt;name&gt;admin&lt;/name&gt;
-                                    &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                                    &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                                     &lt;applicationName&gt;jGuardSwingExample&lt;/applicationName&gt;
                                     &lt;/principal&gt;
                                     &lt;principal&gt;
                                     &lt;name&gt;guest&lt;/name&gt;
-                                    &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                                    &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                                     &lt;applicationName&gt;jGuardSwingExample&lt;/applicationName&gt;
                                     &lt;/principal&gt;
                                     &lt;/principals&gt;
@@ -5560,7 +5560,7 @@
                     permission javax.security.auth.AuthPermission "createLoginContext.jGuardSwingExample";
                     permission javax.security.auth.PrivateCredentialPermission
                     "net.sf.jguard.core.authentication.credentials.JGuardCredential
-                    net.sf.jguard.core.principals.RolePrincipal "*"","read";
+                    net.sf.jguard.core.authorization.permissions.RolePrincipal "*"","read";
                     permission javax.security.auth.AuthPermission "modifyPrincipals";
                     permission javax.security.auth.AuthPermission "modifyPrivateCredentials";
                     permission javax.security.auth.AuthPermission "modifyPublicCredentials";
@@ -5586,7 +5586,7 @@
 
                     permission javax.security.auth.PrivateCredentialPermission
                     "net.sf.jguard.core.authentication.credentials.JGuardCredential
-                    net.sf.jguard.core.principals.RolePrincipal "*"","read";
+                    net.sf.jguard.core.authorization.permissions.RolePrincipal "*"","read";
                     permission javax.security.auth.AuthPermission "modifyPrincipals";
                     permission javax.security.auth.AuthPermission "modifyPrivateCredentials";
                     permission javax.security.auth.AuthPermission "modifyPublicCredentials";
@@ -5597,7 +5597,7 @@
 
                     permission javax.security.auth.PrivateCredentialPermission
                     "net.sf.jguard.core.authentication.credentials.JGuardCredential
-                    net.sf.jguard.core.principals.RolePrincipal "*"","read";
+                    net.sf.jguard.core.authorization.permissions.RolePrincipal "*"","read";
                     permission javax.security.auth.AuthPermission "modifyPrincipals";
                     permission javax.security.auth.AuthPermission "modifyPrivateCredentials";
                     permission javax.security.auth.AuthPermission "modifyPublicCredentials";

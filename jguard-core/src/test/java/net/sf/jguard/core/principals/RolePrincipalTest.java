@@ -1,5 +1,6 @@
 package net.sf.jguard.core.principals;
 
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import org.junit.Test;
 
 public class RolePrincipalTest {

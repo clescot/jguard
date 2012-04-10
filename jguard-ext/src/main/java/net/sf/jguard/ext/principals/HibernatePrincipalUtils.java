@@ -27,8 +27,8 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.ext.principals;
 
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.principals.Organization;
-import net.sf.jguard.core.principals.RolePrincipal;
 import org.hibernate.Session;
 
 import javax.inject.Inject;
@@ -45,7 +45,7 @@ public class HibernatePrincipalUtils {
     private Provider<Session> session;
 
     @Inject
-    public HibernatePrincipalUtils(Provider<Session> session){
+    public HibernatePrincipalUtils(Provider<Session> session) {
         this.session = session;
     }
 

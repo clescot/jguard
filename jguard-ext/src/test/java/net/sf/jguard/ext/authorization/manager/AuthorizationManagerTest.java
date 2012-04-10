@@ -36,9 +36,9 @@ import net.sf.jguard.core.authorization.AuthorizationModule;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
 import net.sf.jguard.core.authorization.permissions.Permission;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
 import net.sf.jguard.core.authorization.policy.ProtectionDomainUtils;
-import net.sf.jguard.core.principals.RolePrincipal;
 import net.sf.jguard.core.test.JGuardTestFiles;
 import org.junit.Assert;
 import org.junit.Test;
@@ -83,7 +83,7 @@ public abstract class AuthorizationManagerTest {
     private static final String DUMMY_PERMISSION_NAME = "dummyPermissionName";
     private static final long DUMMY_ID = 444;
     private static final String DUMMY_PERMISSION_NAME_2 = "dummyPermissionName2";
-    private static final String DUMMY_PERMISSION_ACTIONS_2 ="sdfsdfsdfsdf" ;
+    private static final String DUMMY_PERMISSION_ACTIONS_2 = "sdfsdfsdfsdf";
 
 
     @ModuleProvider
@@ -121,8 +121,6 @@ public abstract class AuthorizationManagerTest {
     }
 
 
-
-
     @Test
     public void testAddToPrincipal() throws AuthorizationManagerException {
 
@@ -143,30 +141,29 @@ public abstract class AuthorizationManagerTest {
         Assert.assertTrue(updatedPrincipal.getPermissions().contains(translatedPermission));
 
         //we add to principal a permission not yet persisted in the datastore
-        Permission permissionNotYetPersisted = new Permission(URLPermission.class,DUMMY_PERMISSION_NAME,DUMMY_PERMISSION_ACTIONS);
+        Permission permissionNotYetPersisted = new Permission(URLPermission.class, DUMMY_PERMISSION_NAME, DUMMY_PERMISSION_ACTIONS);
         //permissionNotYetPersisted.setId(DUMMY_ID);
         permissionNotYetPersisted.setRolePrincipal(updatedPrincipal);
-        auth.addToPrincipal(updatedPrincipal.getId(),permissionNotYetPersisted);
+        auth.addToPrincipal(updatedPrincipal.getId(), permissionNotYetPersisted);
         RolePrincipal updatedPrincipal2 = auth.readPrincipal(updatedPrincipal.getId());
         Assert.assertTrue(updatedPrincipal2.getPermissions().contains(permissionNotYetPersisted));
 
         //we check that the permission is persisted with the principal
-        Set<Permission> permissions=updatedPrincipal2.getPermissions();
+        Set<Permission> permissions = updatedPrincipal2.getPermissions();
         Permission permissionPersisted = null;
-        for (Permission perm:permissions){
-            if(URLPermission.class.getName().equals(perm.getClazz())){
+        for (Permission perm : permissions) {
+            if (URLPermission.class.getName().equals(perm.getClazz())) {
                 permissionPersisted = perm;
                 break;
             }
         }
         Permission permission = auth.readPermission(permissionPersisted.getId());
-        Assert.assertTrue(null!=permission);
+        Assert.assertTrue(null != permission);
 
         RolePrincipal updatedPrincipal3 = auth.readPrincipal(updatedPrincipal2.getId());
         updatedPrincipal3.getPermissions().clear();
         auth.updatePrincipal(updatedPrincipal3);
     }
-
 
 
     //permission tests region
@@ -196,7 +193,7 @@ public abstract class AuthorizationManagerTest {
     @Test
     public void testUpdatePrincipal() throws AuthorizationManagerException {
         RolePrincipal principal = createDummyPrincipal();
-        principal.addPermission(new Permission(URLPermission.class,DUMMY_PERMISSION_NAME,DUMMY_PERMISSION_ACTIONS));
+        principal.addPermission(new Permission(URLPermission.class, DUMMY_PERMISSION_NAME, DUMMY_PERMISSION_ACTIONS));
 
         auth.updatePrincipal(principal);
     }
@@ -219,7 +216,7 @@ public abstract class AuthorizationManagerTest {
 
     @Test
     public void testExportASXmlFile() throws IOException, AuthorizationManagerException {
-        auth.exportAsXMLFile(File.createTempFile("temp"+random.nextInt(),null).getAbsolutePath());
+        auth.exportAsXMLFile(File.createTempFile("temp" + random.nextInt(), null).getAbsolutePath());
     }
 
     @Test
@@ -229,26 +226,26 @@ public abstract class AuthorizationManagerTest {
     }
 
     @Test
-    public void testIsEmpty(){
+    public void testIsEmpty() {
         auth.isEmpty();
     }
 
 
     @Test
     public void testExportAsXmlAuthorizationManager() throws IOException, AuthorizationManagerException {
-        XmlAuthorizationManager xmlAuthorizationManager = ((AbstractAuthorizationManager)auth).exportAsXmlAuthorizationManager(File.createTempFile("temp"+random.nextInt(),null).getAbsolutePath());
+        XmlAuthorizationManager xmlAuthorizationManager = ((AbstractAuthorizationManager) auth).exportAsXmlAuthorizationManager(File.createTempFile("temp" + random.nextInt(), null).getAbsolutePath());
     }
 
 
     @Test
     public void testGetPermission() throws AuthorizationManagerException {
-        Permission test = new Permission(URLPermission.class,DUMMY_PERMISSION_NAME,DUMMY_PERMISSION_ACTIONS);
+        Permission test = new Permission(URLPermission.class, DUMMY_PERMISSION_NAME, DUMMY_PERMISSION_ACTIONS);
         auth.createPermission(test);
-        
+
         Collection<Long> ids = new ArrayList<Long>();
         ids.add(test.getId());
-        Set<Permission> permissions =  auth.getPermissions(ids);
-        Assert.assertEquals(1,permissions.size());
+        Set<Permission> permissions = auth.getPermissions(ids);
+        Assert.assertEquals(1, permissions.size());
         Assert.assertEquals(test.toJavaPermission(), permissions.iterator().next().toJavaPermission());
     }
 
@@ -264,39 +261,39 @@ public abstract class AuthorizationManagerTest {
 
     }
 
-     @Test
+    @Test
     public void testDeleteInheritance() throws AuthorizationManagerException {
-         RolePrincipal ascendantPrincipal = createDummyPrincipal();
-         RolePrincipal descendantPrincipal = createDummyPrincipal();
-        auth.addInheritance(ascendantPrincipal.getId(),descendantPrincipal.getId());
+        RolePrincipal ascendantPrincipal = createDummyPrincipal();
+        RolePrincipal descendantPrincipal = createDummyPrincipal();
+        auth.addInheritance(ascendantPrincipal.getId(), descendantPrincipal.getId());
         RolePrincipal updatedAscendant = auth.readPrincipal(ascendantPrincipal.getId());
         RolePrincipal updatedDescendant = auth.readPrincipal(descendantPrincipal.getId());
-        auth.deleteInheritance(updatedAscendant.getId(),updatedDescendant.getId());
+        auth.deleteInheritance(updatedAscendant.getId(), updatedDescendant.getId());
 
     }
 
 
     @Test
     public void testListPermissions() throws AuthorizationManagerException {
-       int permissionsSize = auth.listPermissions().size();
-       Permission permission = new Permission(URLPermission.class,DUMMY_PERMISSION_NAME,DUMMY_PERMISSION_ACTIONS);
-       auth.createPermission(permission);
-       List<Permission> permissions2= auth.listPermissions();
-       Assert.assertTrue(permissions2.size()==permissionsSize+1);
-       Assert.assertTrue(permissions2.contains(permission));
+        int permissionsSize = auth.listPermissions().size();
+        Permission permission = new Permission(URLPermission.class, DUMMY_PERMISSION_NAME, DUMMY_PERMISSION_ACTIONS);
+        auth.createPermission(permission);
+        List<Permission> permissions2 = auth.listPermissions();
+        Assert.assertTrue(permissions2.size() == permissionsSize + 1);
+        Assert.assertTrue(permissions2.contains(permission));
     }
 
     @Test
     public void testListPrincipals() throws AuthorizationManagerException {
-       int principalsSize = auth.listPrincipals().size();
+        int principalsSize = auth.listPrincipals().size();
         RolePrincipal principal = createDummyPrincipal();
-       List<RolePrincipal> principals= auth.listPrincipals();
-       Assert.assertTrue(principals.size()==principalsSize+1);
-       Assert.assertTrue(principals.contains(principal));
+        List<RolePrincipal> principals = auth.listPrincipals();
+        Assert.assertTrue(principals.size() == principalsSize + 1);
+        Assert.assertTrue(principals.contains(principal));
     }
 
     private RolePrincipal createDummyPrincipal() throws AuthorizationManagerException {
-        RolePrincipal principal= new RolePrincipal();
+        RolePrincipal principal = new RolePrincipal();
         principal.setApplicationName(DUMMY_APPLICATION_NAME);
         auth.createPrincipal(principal);
         return principal;
@@ -306,18 +303,18 @@ public abstract class AuthorizationManagerTest {
     public void testReadPrincipal() throws AuthorizationManagerException {
         RolePrincipal rolePrincipal = createDummyPrincipal();
         RolePrincipal rolePrincipal2 = auth.readPrincipal(rolePrincipal.getId());
-        Assert.assertEquals(rolePrincipal,rolePrincipal2);
+        Assert.assertEquals(rolePrincipal, rolePrincipal2);
     }
 
     @Test
-    public void testAddAlwaysGrantedPermissions(){
+    public void testAddAlwaysGrantedPermissions() {
         Permissions permissions = new Permissions();
-        URLPermission dummyPermission = new URLPermission(DUMMY_PERMISSION_NAME,DUMMY_PERMISSION_ACTIONS);
+        URLPermission dummyPermission = new URLPermission(DUMMY_PERMISSION_NAME, DUMMY_PERMISSION_ACTIONS);
         permissions.add(dummyPermission);
         auth.addAlwaysGrantedPermissions(permissions);
         ProtectionDomain protectionDomain = this.getClass().getProtectionDomain();
         Assert.assertTrue(auth.getPermissions(protectionDomain).implies(dummyPermission));
-        URLPermission dummyPermission2 = new URLPermission(DUMMY_PERMISSION_NAME_2,DUMMY_PERMISSION_ACTIONS_2);
+        URLPermission dummyPermission2 = new URLPermission(DUMMY_PERMISSION_NAME_2, DUMMY_PERMISSION_ACTIONS_2);
         Assert.assertFalse(auth.getPermissions(protectionDomain).implies(dummyPermission2));
     }
 
@@ -334,13 +331,13 @@ public abstract class AuthorizationManagerTest {
         auth.createPrincipal(admin);
         ProtectionDomain protectionDomain = ProtectionDomainUtils.getEmptyProtectionDomain(admin);
         PermissionCollection collection = auth.getPermissions(protectionDomain);
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             Assert.assertTrue(collection.implies(permission.toJavaPermission()));
         }
     }
 
     private Permission createDummyPermission() {
-        return new Permission(URLPermission.class,DUMMY_PERMISSION_NAME,DUMMY_PERMISSION_ACTIONS);
+        return new Permission(URLPermission.class, DUMMY_PERMISSION_NAME, DUMMY_PERMISSION_ACTIONS);
     }
 
 

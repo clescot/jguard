@@ -1,8 +1,8 @@
 package net.sf.jguard.core.authorization.policy;
 
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
 import net.sf.jguard.core.principals.Organization;
-import net.sf.jguard.core.principals.RolePrincipal;
 import org.junit.Test;
 
 import javax.security.auth.Subject;

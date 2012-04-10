@@ -25,11 +25,9 @@ jGuard project home page:
 http://sourceforge.net/projects/jguard/
 
 */
-package net.sf.jguard.core.principals;
+package net.sf.jguard.core.authorization.permissions;
 
 
-import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
-import net.sf.jguard.core.authorization.permissions.PermissionUtils;
 import org.apache.commons.jexl.Expression;
 import org.apache.commons.jexl.ExpressionFactory;
 import org.apache.commons.jexl.JexlContext;
@@ -43,7 +41,9 @@ import java.security.Permission;
 import java.security.PermissionCollection;
 import java.security.Principal;
 import java.security.ProtectionDomain;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -144,42 +144,6 @@ public final class PrincipalUtils {
         return ppal;
     }
 
-    /**
-     * clone deeply a set of {@link BasePrincipal} subclasses instances.
-     *
-     * @param principals
-     * @return
-     * @throws CloneNotSupportedException
-     */
-    public static Set<Principal> clonePrincipalsSet(Set<? extends Principal> principals) throws CloneNotSupportedException {
-        Set<Principal> clonedPrincipals = new HashSet<Principal>();
-        for (Principal principal : principals) {
-            BasePrincipal ppal = (BasePrincipal) principal;
-            clonedPrincipals.add((Principal) ppal.clone());
-        }
-        return clonedPrincipals;
-    }
-
-    /**
-     * check principal Set against global Permissions.
-     *
-     * @param globalPermissions
-     * @param principals
-     */
-    public static void checkPrincipals(Set globalPermissions, Set<RolePrincipal> principals) {
-        Iterator<RolePrincipal> itPrincipals = principals.iterator();
-        while (itPrincipals.hasNext()) {
-            RolePrincipal tempPrincipal = itPrincipals.next();
-            Set permissionsFromTemplate = tempPrincipal.getAllPermissions();
-            if (!globalPermissions.containsAll(permissionsFromTemplate)) {
-                //we remove this principal which contains permissions not present in globalPermissions
-                logger.warn(" principal called " + tempPrincipal.getLocalName() + " has been removed from the SubjectTemplate ");
-                logger.warn(" because it contains permissions not owned by this organization throw its Principals ");
-                itPrincipals.remove();
-            }
-
-        }
-    }
 
     /**
      * Evaluate jexlExpression using UserPrincipal as context.<br>
@@ -273,7 +237,7 @@ public final class PrincipalUtils {
      *
      * @param protectionDomain
      * @param pc
-     * @return 
+     * @return
      */
     public static PermissionCollection evaluatePermissionCollection(ProtectionDomain protectionDomain, PermissionCollection pc) {
         final String PRIVATE_CREDENTIALS = "subject.privateCredentials";
@@ -292,12 +256,12 @@ public final class PrincipalUtils {
         }
         PermissionCollection resolvedPc = new JGPositivePermissionCollection();
 
-        
+
         if (!hasJexlPrincipal) {
             logger.debug("no UserPrincipal defined, can not use regex permissions");
             //we copy the pc content into the resolvedPc and return it
             Enumeration<Permission> e = pc.elements();
-            while(e.hasMoreElements()){
+            while (e.hasMoreElements()) {
                 resolvedPc.add(e.nextElement());
             }
             return resolvedPc;

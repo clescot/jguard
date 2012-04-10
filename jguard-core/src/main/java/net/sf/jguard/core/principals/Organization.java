@@ -28,11 +28,10 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.principals;
 
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
-import net.sf.jguard.core.authentication.exception.AuthenticationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.security.auth.Subject;
 import java.security.Principal;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -46,6 +45,7 @@ import java.util.Set;
 public class Organization implements BasePrincipal, Cloneable {
 
     public static final String ID = "id";
+    private static final Logger logger = LoggerFactory.getLogger(Organization.class.getName());
     private SubjectTemplate subjectTemplate;
     /**
      * these objects are some references to principals present in the AuthenticationManager.
@@ -61,7 +61,7 @@ public class Organization implements BasePrincipal, Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         Organization clonedOrg = (Organization) super.clone();
-        Set<Principal> clonedPrincipals = PrincipalUtils.clonePrincipalsSet(principals);
+        Set<Principal> clonedPrincipals = clonePrincipalsSet(principals);
         clonedOrg.setPrincipals(clonedPrincipals);
 
         Iterator<JGuardCredential> credentialsIterator = credentials.iterator();
@@ -118,22 +118,6 @@ public class Organization implements BasePrincipal, Cloneable {
     }
 
 
-    public void removePrincipal(Principal principal) throws AuthenticationException {
-        //remove this Principal
-        // in the users which contains the Principal
-        Collection u = getUsers();
-        for (Object anU : u) {
-            Subject user = (Subject) anU;
-            Set ppals = user.getPrincipals();
-            if (ppals.contains(principal)) {
-                ppals.remove(principal);
-            }
-        }
-        this.principals.remove(principal);
-
-
-    }
-
     /**
      * return a <b>deep copy</b> of the subjectTemplate of the Organization.
      *
@@ -148,7 +132,7 @@ public class Organization implements BasePrincipal, Cloneable {
     }
 
     public void setSubjectTemplate(SubjectTemplate subjectTemplate) {
-        OrganizationUtils.checkSubjectTemplatePrincipals(subjectTemplate, principals);
+        checkSubjectTemplatePrincipals(subjectTemplate);
         this.subjectTemplate = subjectTemplate;
     }
 
@@ -206,4 +190,69 @@ public class Organization implements BasePrincipal, Cloneable {
     public void setUsers(Set users) {
         this.users = users;
     }
+
+    /**
+     * like multiple role inheritance can be enabled, we should check that
+     * every Permissions Set owned by the generic candidate principal is not
+     * a superset of the Permissions Set owned by Principals of the Organization.
+     * in this case, we remove principals which exceed grants owned by the organisation.
+     *
+     * @param template SubjectTemplate to filter
+     */
+    private void checkSubjectTemplatePrincipals(SubjectTemplate template) {
+        if (principals == null) {
+            throw new IllegalStateException(" no principals have been defined for this organization." +
+                    " validation of a subjectTemplate cannot be done against an empty principal list ");
+        }
+        Iterator<? extends Principal> itPrincipalsOwned = principals.iterator();
+        Set globalPermissions = new HashSet();
+        //we make the globalPermissions Set
+        while (itPrincipalsOwned.hasNext()) {
+            PermissionContainer tempPrincipal = (PermissionContainer) itPrincipalsOwned.next();
+            globalPermissions.addAll(tempPrincipal.getAllPermissions());
+        }
+
+        //check principals from template
+        Set principalsFromTemplate = template.getPrincipals();
+        checkPrincipals(globalPermissions, principalsFromTemplate);
+
+    }
+
+    /**
+     * clone deeply a set of {@link net.sf.jguard.core.principals.BasePrincipal} subclasses instances.
+     *
+     * @param principals
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    public static Set<Principal> clonePrincipalsSet(Set<? extends Principal> principals) throws CloneNotSupportedException {
+        Set<Principal> clonedPrincipals = new HashSet<Principal>();
+        for (Principal principal : principals) {
+            BasePrincipal ppal = (BasePrincipal) principal;
+            clonedPrincipals.add((Principal) ppal.clone());
+        }
+        return clonedPrincipals;
+    }
+
+    /**
+     * check principal Set against global Permissions.
+     *
+     * @param globalPermissions
+     * @param principals
+     */
+    private static void checkPrincipals(Set globalPermissions, Set<PermissionContainer> principals) {
+        Iterator<PermissionContainer> itPrincipals = principals.iterator();
+        while (itPrincipals.hasNext()) {
+            PermissionContainer tempPrincipal = itPrincipals.next();
+            Set permissionsFromTemplate = tempPrincipal.getAllPermissions();
+            if (!globalPermissions.containsAll(permissionsFromTemplate)) {
+                //we remove this principal which contains permissions not present in globalPermissions
+                logger.warn(" principal called " + tempPrincipal.getName() + " has been removed from the SubjectTemplate ");
+                logger.warn(" because it contains permissions not owned by this organization throw its Principals ");
+                itPrincipals.remove();
+            }
+
+        }
+    }
+
 }

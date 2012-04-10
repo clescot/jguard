@@ -21,7 +21,8 @@
     <xs:complexType name="principal">
         <xs:sequence>
             <xs:element name="name" type="xs:string"/>
-            <xs:element name="class" type="xs:string" default="net.sf.jguard.core.principals.RolePrincipal"/>
+            <xs:element name="class" type="xs:string"
+                        default="net.sf.jguard.core.authorization.permissions.RolePrincipal"/>
             <xs:element name="applicationName" type="xs:string"/>
             <xs:element name="organizationRef" type="xs:string" default="system"/>
         </xs:sequence>

@@ -1,6 +1,6 @@
 package net.sf.jguard.ext.log.logback;
 
-import net.sf.jguard.core.principals.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import org.junit.Assert;
 import org.junit.Test;
 

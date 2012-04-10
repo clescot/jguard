@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.authorization.manager;
 
 import net.sf.jguard.core.authorization.permissions.Permission;
-import net.sf.jguard.core.principals.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -47,7 +47,6 @@ import java.util.Set;
 public interface AuthorizationManager extends PermissionProvider {
 
 
-
     /**
      * create an URLPermission giving a url and a domain
      *
@@ -61,11 +60,10 @@ public interface AuthorizationManager extends PermissionProvider {
     void updatePermission(Permission updatedPermission) throws AuthorizationManagerException;
 
     /**
-     *
      * @param permission pemrission to delete
      * @throws IllegalArgumentException when the permisison to delete is not present in the datastore
      */
-    void deletePermission(Permission permission) ;
+    void deletePermission(Permission permission);
 
     void createPrincipal(RolePrincipal principal) throws AuthorizationManagerException;
 
@@ -78,6 +76,7 @@ public interface AuthorizationManager extends PermissionProvider {
 
     /**
      * return the modifable Principal Set.
+     *
      * @return
      */
     List<RolePrincipal> listPrincipals();

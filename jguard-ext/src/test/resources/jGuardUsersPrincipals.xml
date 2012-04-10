@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <authentication xmlns="http://jguard.sourceforge.net/xsd/jGuardUsersPrincipals_2.0.0.xsd"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema-instance">
+        >
     <principals>
         <principal>
             <name>admin</name>
-            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <class>net.sf.jguard.core.authorization.permissions.RolePrincipal</class>
             <applicationName>jguard-struts-example</applicationName>
             <organizationRef>myenterpriseId</organizationRef>
         </principal>
         <principal>
             <name>guest</name>
-            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <class>net.sf.jguard.core.authorization.permissions.RolePrincipal</class>
             <applicationName>jguard-struts-example</applicationName>
             <organizationRef>system</organizationRef>
         </principal>
         <principal>
             <name>role3</name>
-            <class>net.sf.jguard.core.principals.RolePrincipal</class>
+            <class>net.sf.jguard.core.authorization.permissions.RolePrincipal</class>
             <applicationName>anotherApplication</applicationName>
             <organizationRef>system</organizationRef>
         </principal>

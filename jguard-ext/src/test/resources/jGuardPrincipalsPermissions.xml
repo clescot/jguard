@@ -1,111 +1,111 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <configuration xmlns="http://jguard.sourceforge.net/xsd/jGuardPrincipalsPermissions_2.0.0"
-xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"  >
+        >
 
     <permissions>
-	              <permission>
-                      <id>1</id>
-	                  <name>accessDenied</name>
-	                  <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
-	                  <actions>
-	                  <action>/AccessDenied.do</action>
-	                  <action>http</action>
-	                  <action>ressource where you are redirected when access to another ressource is denied</action>
-	                  </actions>
-	              </permission>
-                       <permission>
-                           <id>2</id>
-	                <name>accueil</name>
-                    <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+        <permission>
+            <id>1</id>
+            <name>accessDenied</name>
+            <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+            <actions>
+                <action>/AccessDenied.do</action>
+                <action>http</action>
+                <action>ressource where you are redirected when access to another ressource is denied</action>
+            </actions>
+        </permission>
+        <permission>
+            <id>2</id>
+            <name>accueil</name>
+            <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+            <actions>
+                <action>/Welcome.do</action>
+            </actions>
+        </permission>
+        <permission>
+            <id>3</id>
+            <name>captcha</name>
+            <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+            <actions>
+                <action>/Captcha.do</action>
+            </actions>
+        </permission>
+        <permission>
+            <id>4</id>
+            <name>registration</name>
+            <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+            <actions>
+                <action>/Registration.do</action>
+            </actions>
+        </permission>
+        <permission>
+            <id>5</id>
+            <name>changeActiveStatusOnRole</name>
+            <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+            <actions>
+                <action>/User.do?method=setActiveOnRolePrincipal&amp;*</action>
+            </actions>
+        </permission>
+        <permission>
+            <id>6</id>
+            <name>allAccess</name>
+            <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
+            <actions>
+                <action>/*</action>
+                <action>full access to any ressource</action>
+            </actions>
+        </permission>
+        <!-- only use MBeanPermission if your jre is java 5 or higher
+
+                     <permission>
+                      <name>*</name>
+                      <class>javax.management.MBeanPermission</class>
                       <actions>
-	                  <action>/Welcome.do</action>
-	                  </actions>
-	                </permission>
-	              <permission>
-                      <id>3</id>
-	                <name>captcha</name>
-                    <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
-                      <actions>
-	                  <action>/Captcha.do</action>
-	                  </actions>
-	                </permission>
-	              <permission>
-                      <id>4</id>
-	                <name>registration</name>
-                    <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
-                      <actions>
-	                  <action>/Registration.do</action>
-	                  </actions>
-	                </permission>
-                  <permission>
-                      <id>5</id>
-                    <name>changeActiveStatusOnRole</name>
-                    <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
-                      <actions>
-                      <action>/User.do?method=setActiveOnRolePrincipal&amp;*</action>
+                      <action>*</action>
                       </actions>
-                    </permission>                    
-	              <permission>
-                      <id>6</id>
-	                <name>allAccess</name>
-                    <class>net.sf.jguard.core.authorization.permissions.URLPermission</class>
-	                <actions>
-	                  <action>/*</action>
-	                  <action>full access to any ressource</action>
-	                </actions>
-	              </permission>
-			     <!-- only use MBeanPermission if your jre is java 5 or higher
-                 
-                   <permission>
-			        <name>*</name>
-			        <class>javax.management.MBeanPermission</class>
-			        <actions>
-			        <action>*</action>
-			        </actions>
-			      </permission> -->
-                  
-               <!--   <permission>
-                    <name>dummy</name>
-                    <class>net.sf.jguard.jee.extras.dwr1.DWR1Permission</class>
-                    <actions>
-                      <action>uk.ltd.getahead.dwr.create.NewCreator</action>
-                      <action>net.sf.jguard.example.dwr.Dummy</action>
-                      <action>getHello</action>
-                    </actions>
-                  </permission>-->
+                    </permission> -->
+
+        <!--   <permission>
+          <name>dummy</name>
+          <class>net.sf.jguard.jee.extras.dwr1.DWR1Permission</class>
+          <actions>
+            <action>uk.ltd.getahead.dwr.create.NewCreator</action>
+            <action>net.sf.jguard.example.dwr.Dummy</action>
+            <action>getHello</action>
+          </actions>
+        </permission>-->
     </permissions>
 
-  <principals>
-      <principal>
-          <id>1</id>
-        <name>guest</name>
-        <class>net.sf.jguard.core.principals.RolePrincipal</class>
-        <permissionsRef>
-          <permissionRef id="1"/>
-          <permissionRef id="2"/>
-          <permissionRef id="3"/>
-          <permissionRef id="4"/>
-          <permissionRef id="5"/>
-        </permissionsRef>
-      </principal>
+    <principals>
+        <principal>
+            <id>1</id>
+            <name>guest</name>
+            <class>net.sf.jguard.core.authorization.permissions.RolePrincipal</class>
+            <permissionsRef>
+                <permissionRef id="1"/>
+                <permissionRef id="2"/>
+                <permissionRef id="3"/>
+                <permissionRef id="4"/>
+                <permissionRef id="5"/>
+            </permissionsRef>
+        </principal>
 
-      <principal>
-          <id>2</id>
-        <name>other</name>
-        <class>net.sf.jguard.core.principals.RolePrincipal</class>
-        <permissionsRef/>
-      </principal>
+        <principal>
+            <id>2</id>
+            <name>other</name>
+            <class>net.sf.jguard.core.authorization.permissions.RolePrincipal</class>
+            <permissionsRef/>
+        </principal>
 
-      <principal>
-          <id>3</id>
-        <name>admin</name>
-        <class>net.sf.jguard.core.principals.RolePrincipal</class>
-        <permissionsRef>
-        <permissionRef id="6"/>
-        </permissionsRef>
-        <descendants>
-          <principalRef id="2"/>
-        </descendants>
-      </principal>
-</principals>
+        <principal>
+            <id>3</id>
+            <name>admin</name>
+            <class>net.sf.jguard.core.authorization.permissions.RolePrincipal</class>
+            <permissionsRef>
+                <permissionRef id="6"/>
+            </permissionsRef>
+            <descendants>
+                <principalRef id="2"/>
+            </descendants>
+        </principal>
+    </principals>
 </configuration>

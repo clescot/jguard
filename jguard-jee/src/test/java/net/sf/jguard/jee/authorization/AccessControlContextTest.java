@@ -32,7 +32,7 @@ import groovy.security.GroovyCodeSourcePermission;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import net.sf.jguard.core.authorization.domaincombiners.AccessControlContextUtils;
-import net.sf.jguard.core.principals.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import org.codehaus.groovy.control.CompilationFailedException;
 
 import java.security.*;

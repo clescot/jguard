@@ -7,9 +7,9 @@ import net.sf.jguard.core.authentication.AuthenticationScope;
 import net.sf.jguard.core.authentication.configuration.JGuardConfiguration;
 import net.sf.jguard.core.authentication.manager.AuthenticationManagerModule;
 import net.sf.jguard.core.authorization.manager.AuthorizationManager;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.authorization.policy.LocalAccessController;
 import net.sf.jguard.core.authorization.policy.MultipleAppPolicy;
-import net.sf.jguard.core.principals.RolePrincipal;
 import net.sf.jguard.core.test.JGuardTest;
 import net.sf.jguard.core.test.MockModule;
 import net.sf.jguard.ext.authentication.manager.XmlAuthenticationManager;
@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Set;
 
 @RunWith(MycilaJunitRunner.class)
-public class JGuardJMXAuthenticatorTest extends JGuardTest{
+public class JGuardJMXAuthenticatorTest extends JGuardTest {
 
 
     public static final String ADMIN_LOGIN = "admin";
@@ -41,7 +41,7 @@ public class JGuardJMXAuthenticatorTest extends JGuardTest{
 
     @Inject
     private MultipleAppPolicy multipleAppPolicy;
-    
+
     @Inject
     private LocalAccessController localAccessController;
 
@@ -55,17 +55,17 @@ public class JGuardJMXAuthenticatorTest extends JGuardTest{
     public void testAuthenticateWithoutCredentials() throws Exception {
         JMXConnectorServer connectorServer = createMBeanServer(new JGuardJMXAuthenticator());
         JMXConnector cc = null;
-       try {
+        try {
 
-        JMXServiceURL addr = connectorServer.getAddress();
-        // Now make a connector client using the server's address without credentials....
-        cc = JMXConnectorFactory.connect(addr);
-        MBeanServerConnection mbsc = cc.getMBeanServerConnection();
-        Set<ObjectInstance> instances = mbsc.queryMBeans(null,null);
-            
-         }catch(Exception e){
-           System.out.println(e.getMessage());
-           throw e;
+            JMXServiceURL addr = connectorServer.getAddress();
+            // Now make a connector client using the server's address without credentials....
+            cc = JMXConnectorFactory.connect(addr);
+            MBeanServerConnection mbsc = cc.getMBeanServerConnection();
+            Set<ObjectInstance> instances = mbsc.queryMBeans(null, null);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
         } finally {
             if (cc != null)
                 cc.close();
@@ -77,40 +77,41 @@ public class JGuardJMXAuthenticatorTest extends JGuardTest{
     @Test(expected = SecurityException.class)
     public void testAuthenticateWithDummyCredentials() throws Exception {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        JMXConnectorServer connectorServer = createMBeanServer(new JGuardJMXAuthenticator(JGuardTest.APPLICATION_NAME,cl,jGuardConfiguration));
-        
+        JMXConnectorServer connectorServer = createMBeanServer(new JGuardJMXAuthenticator(JGuardTest.APPLICATION_NAME, cl, jGuardConfiguration));
+
         JMXConnector cc = null;
-       try {
+        try {
 
-        JMXServiceURL addr = connectorServer.getAddress();
-        // Now make a connector client using the server's address with dummy credentials
-        Map<String,Object> env = new HashMap<String,Object>();
-           String[] credentials = new String[] {DUMMY_LOGIN, DUMMY_PASSWORD};
-           env.put(JMXConnector.CREDENTIALS, credentials);
+            JMXServiceURL addr = connectorServer.getAddress();
+            // Now make a connector client using the server's address with dummy credentials
+            Map<String, Object> env = new HashMap<String, Object>();
+            String[] credentials = new String[]{DUMMY_LOGIN, DUMMY_PASSWORD};
+            env.put(JMXConnector.CREDENTIALS, credentials);
 
-        cc = JMXConnectorFactory.connect(addr,env);
-        MBeanServerConnection mbsc = cc.getMBeanServerConnection();
-        Set<ObjectInstance> instances = mbsc.queryMBeans(null,null);
+            cc = JMXConnectorFactory.connect(addr, env);
+            MBeanServerConnection mbsc = cc.getMBeanServerConnection();
+            Set<ObjectInstance> instances = mbsc.queryMBeans(null, null);
 
-         }catch(Exception e){
-           System.out.println(e.getMessage());
-           throw e;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
         } finally {
             if (cc != null)
                 cc.close();
             connectorServer.stop();
         }
     }
-    private JMXConnector connectToMbeanServerAs(JMXConnectorServer connectorServer, String login, String password){
+
+    private JMXConnector connectToMbeanServerAs(JMXConnectorServer connectorServer, String login, String password) {
 
         JMXServiceURL addr = connectorServer.getAddress();
         // Now make a connector client using the server's address with dummy credentials
-        Map<String,Object> env = new HashMap<String,Object>();
-           String[] credentials = new String[] {login, password};
-           env.put(JMXConnector.CREDENTIALS, credentials);
+        Map<String, Object> env = new HashMap<String, Object>();
+        String[] credentials = new String[]{login, password};
+        env.put(JMXConnector.CREDENTIALS, credentials);
 
         try {
-            return JMXConnectorFactory.connect(addr,env);
+            return JMXConnectorFactory.connect(addr, env);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -120,16 +121,16 @@ public class JGuardJMXAuthenticatorTest extends JGuardTest{
     @Test
     public void testAuthenticateWithRightCredentials() throws Throwable {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        JMXConnectorServer connectorServer = createMBeanServer(new JGuardJMXAuthenticator(JGuardTest.APPLICATION_NAME,cl,jGuardConfiguration));
+        JMXConnectorServer connectorServer = createMBeanServer(new JGuardJMXAuthenticator(JGuardTest.APPLICATION_NAME, cl, jGuardConfiguration));
         JMXConnector cc = connectToMbeanServerAs(connectorServer, ADMIN_LOGIN, ADMIN_PASSWORD);
-       try {
+        try {
 
-         MBeanServerConnection mbsc = cc.getMBeanServerConnection();
-         mbsc.queryMBeans(null,null);
-       
-         }catch(Throwable e){
-           System.out.println(e.getMessage());
-           throw e;
+            MBeanServerConnection mbsc = cc.getMBeanServerConnection();
+            mbsc.queryMBeans(null, null);
+
+        } catch (Throwable e) {
+            System.out.println(e.getMessage());
+            throw e;
         } finally {
             if (cc != null)
                 cc.close();
@@ -141,18 +142,18 @@ public class JGuardJMXAuthenticatorTest extends JGuardTest{
     @Test(expected = AccessControlException.class)
     public void testUserAuthenticatedButNotAuthorized() throws Throwable {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        JMXConnectorServer connectorServer = createMBeanServer(new JGuardJMXAuthenticator(JGuardTest.APPLICATION_NAME,cl,jGuardConfiguration));
-         connectorServer.setMBeanServerForwarder(new MBeanServerGuard(localAccessController));
+        JMXConnectorServer connectorServer = createMBeanServer(new JGuardJMXAuthenticator(JGuardTest.APPLICATION_NAME, cl, jGuardConfiguration));
+        connectorServer.setMBeanServerForwarder(new MBeanServerGuard(localAccessController));
         JMXConnector cc = connectToMbeanServerAs(connectorServer, GUEST_LOGIN, GUEST_PASSWORD);
 
-       try {
+        try {
 
-         MBeanServerConnection mbsc = cc.getMBeanServerConnection();
-         mbsc.queryMBeans(null,null);
+            MBeanServerConnection mbsc = cc.getMBeanServerConnection();
+            mbsc.queryMBeans(null, null);
 
-         }catch(Throwable e){
-           System.out.println(e.getMessage());
-           throw e;
+        } catch (Throwable e) {
+            System.out.println(e.getMessage());
+            throw e;
         } finally {
             if (cc != null)
                 cc.close();
@@ -161,25 +162,25 @@ public class JGuardJMXAuthenticatorTest extends JGuardTest{
     }
 
 
-     @Test
+    @Test
     public void testUserAuthenticatedAndAuthorized() throws Throwable {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        JMXConnectorServer connectorServer = createMBeanServer(new JGuardJMXAuthenticator(JGuardTest.APPLICATION_NAME,cl,jGuardConfiguration));
-         connectorServer.setMBeanServerForwarder(new MBeanServerGuard(localAccessController));
+        JMXConnectorServer connectorServer = createMBeanServer(new JGuardJMXAuthenticator(JGuardTest.APPLICATION_NAME, cl, jGuardConfiguration));
+        connectorServer.setMBeanServerForwarder(new MBeanServerGuard(localAccessController));
         JMXConnector cc = connectToMbeanServerAs(connectorServer, ADMIN_LOGIN, ADMIN_PASSWORD);
-         MBeanPermission permission = new MBeanPermission("*","*",null,MBeanServerGuard.QUERY_MBEANS);
-         RolePrincipal seekPrincipal = findRole("admin");
+        MBeanPermission permission = new MBeanPermission("*", "*", null, MBeanServerGuard.QUERY_MBEANS);
+        RolePrincipal seekPrincipal = findRole("admin");
         seekPrincipal.addPermission(permission);
         authorizationManager.updatePrincipal(seekPrincipal);
 
-       try {
+        try {
 
-         MBeanServerConnection mbsc = cc.getMBeanServerConnection();
-         mbsc.queryMBeans(null,null);
+            MBeanServerConnection mbsc = cc.getMBeanServerConnection();
+            mbsc.queryMBeans(null, null);
 
-         }catch(Throwable e){
-           System.out.println(e.getMessage());
-           throw e;
+        } catch (Throwable e) {
+            System.out.println(e.getMessage());
+            throw e;
         } finally {
             if (cc != null)
                 cc.close();
@@ -190,8 +191,8 @@ public class JGuardJMXAuthenticatorTest extends JGuardTest{
     private RolePrincipal findRole(String roleName) {
         List<RolePrincipal> principals = authorizationManager.listPrincipals();
         RolePrincipal seekPrincipal = null;
-        for(RolePrincipal rolePrincipal:principals){
-            if(rolePrincipal.getLocalName().equals(roleName)){
+        for (RolePrincipal rolePrincipal : principals) {
+            if (rolePrincipal.getLocalName().equals(roleName)) {
                 seekPrincipal = rolePrincipal;
                 break;
             }
@@ -204,11 +205,11 @@ public class JGuardJMXAuthenticatorTest extends JGuardTest{
         System.setProperty(JGuardJMXAuthenticator.JGUARD_APPLICATION_NAME, JGuardTest.APPLICATION_NAME);
         MBeanServer mbs = MBeanServerFactory.createMBeanServer(JGuardTest.APPLICATION_NAME);
         //create connector's options
-        Map opt=new HashMap();
-        opt.put(JMXConnectorServer.AUTHENTICATOR,authenticator);
+        Map opt = new HashMap();
+        opt.put(JMXConnectorServer.AUTHENTICATOR, authenticator);
         //create JMXConnector
         JMXServiceURL url = new JMXServiceURL("service:jmx:rmi://");
-        JMXConnectorServer connectorServer= JMXConnectorServerFactory.newJMXConnectorServer(url, opt, mbs);
+        JMXConnectorServer connectorServer = JMXConnectorServerFactory.newJMXConnectorServer(url, opt, mbs);
         connectorServer.start();
         return connectorServer;
     }
@@ -216,7 +217,7 @@ public class JGuardJMXAuthenticatorTest extends JGuardTest{
     @Override
     @ModuleProvider
     protected AuthenticationManagerModule buildAuthenticationManagerModule() {
-       return new AuthenticationManagerModule(APPLICATION_NAME, authenticationXmlFileLocation, XmlAuthenticationManager.class);
+        return new AuthenticationManagerModule(APPLICATION_NAME, authenticationXmlFileLocation, XmlAuthenticationManager.class);
     }
 
 

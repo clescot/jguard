@@ -31,7 +31,6 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authorization.permissions;
 
-import net.sf.jguard.core.principals.RolePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,16 +75,16 @@ public class Permission<T extends java.security.Permission> {
     }
 
     public Permission(Class<T> clazz, String name, String actions) {
-        if(clazz==null){
+        if (clazz == null) {
             throw new IllegalArgumentException("clazz must not be null to instantiate Permission");
         }
-        if(name==null){
+        if (name == null) {
             throw new IllegalArgumentException("name  must not be null to instantiate Permission");
         }
         this.clazz = clazz.getName();
         this.name = name;
         this.actions = actions;
-        if(actions==null){
+        if (actions == null) {
             actions = "";
         }
     }
@@ -211,7 +210,7 @@ public class Permission<T extends java.security.Permission> {
 
 
     public int hashCode() {
-            return clazz.hashCode() + name.hashCode() + actions.hashCode();
+        return clazz.hashCode() + name.hashCode() + actions.hashCode();
     }
 
     public boolean equals(Object object) {

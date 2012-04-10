@@ -35,8 +35,8 @@ import net.sf.jguard.core.authorization.manager.AuthorizationManager;
 import net.sf.jguard.core.authorization.manager.AuthorizationManagerException;
 import net.sf.jguard.core.authorization.manager.JGuardAuthorizationManagerMarkups;
 import net.sf.jguard.core.authorization.permissions.Permission;
-import net.sf.jguard.core.principals.PrincipalUtils;
-import net.sf.jguard.core.principals.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.PrincipalUtils;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.util.XMLUtils;
 import org.dom4j.*;
 import org.dom4j.io.HTMLWriter;
@@ -110,7 +110,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
                                    @NegativePermissions boolean negativePermissions,
                                    @PermissionResolutionCaching boolean permissionResolutionCaching,
                                    @AuthorizationXmlFileLocation String authorizationXmlFileLocation) {
-        super(applicationName,negativePermissions,permissionResolutionCaching);
+        super(applicationName, negativePermissions, permissionResolutionCaching);
 
         fileLocation = authorizationXmlFileLocation;
         if (fileLocation == null || "".equals(fileLocation)) {
@@ -140,13 +140,13 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
         try {
             url = new URL(XMLUtils.resolveLocation(fileLocation));
             File file = new File(url.toURI());
-            if(file.length()==0){
+            if (file.length() == 0) {
                 writeEmptyDocument(file);
             }
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         } catch (URISyntaxException e) {
-           throw new RuntimeException(e);
+            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -181,10 +181,10 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
             } else {
                 name = principalElement.element(NAME).getStringValue();
             }
-             RolePrincipal ppal = (RolePrincipal) PrincipalUtils.getPrincipal(className, name);
+            RolePrincipal ppal = (RolePrincipal) PrincipalUtils.getPrincipal(className, name);
             long id = Long.parseLong(principalElement.element(ID).getStringValue());
             ppal.setId(id);
-             buildJGuardPrincipal(principalElement, ppal);
+            buildJGuardPrincipal(principalElement, ppal);
             //add principal created to the Principals Set
             principalsSet.add(ppal);
             //add principal created to the principals map
@@ -215,14 +215,14 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
             permissionsSet.add(perm);
 
         }
-        if(0==permissions.size()){
-           logger.warn(NO_PERMISSIONS_ARE_BUILT_FROM_XML_FILE);
+        if (0 == permissions.size()) {
+            logger.warn(NO_PERMISSIONS_ARE_BUILT_FROM_XML_FILE);
         }
         super.urlp.addAll(new HashSet<java.security.Permission>(RolePrincipal.translateToJavaPermissions(permissionsSet)));
     }
 
 
-    private Permission getPermission(Element permissionElement){
+    private Permission getPermission(Element permissionElement) {
         Element actionsElement = permissionElement.element(ACTIONS);
         List actionsList = actionsElement.elements();
         Iterator itActions = actionsList.iterator();
@@ -252,7 +252,6 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
         }
         return perm;
     }
-   
 
 
     private Element getElement(String xpath) {
@@ -264,7 +263,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
         return (Element) xp2.selectSingleNode(root);
     }
 
-     private List getElements(String xpath) {
+    private List getElements(String xpath) {
         XPath xp2 = DocumentHelper.createXPath(xpath);
         Map<String, String> uris = new HashMap<String, String>();
         uris.put(STRING_NAMESPACE_PREFIX, HTTP_JGUARD_SOURCEFORGE_NET_XSD_J_GUARD_PRINCIPALS_PERMISSIONS_2_0_0);
@@ -288,15 +287,14 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
         //add the permissionElement reference to the permissionsElement
         Element permissionElement = permissionsElement.addElement(PERMISSION);
         Element idElement = permissionElement.addElement(ID);
-        if(permission.getId()==0){
+        if (permission.getId() == 0) {
             permission.setId(Math.abs(randomPermission.nextLong()));
         }
-        idElement.setText(""+permission.getId());
+        idElement.setText("" + permission.getId());
         Element nameElement = permissionElement.addElement(NAME);
         nameElement.setText(permission.getName());
         Element classElement = permissionElement.addElement(CLASS);
         classElement.setText(permission.getClazz());
-
 
 
         Element actionsElement = permissionElement.addElement(ACTIONS);
@@ -321,7 +319,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
     }
 
     public Permission readPermission(long permissionId) throws AuthorizationManagerException {
-        Element permissionElement = getElement(XPATH_PERMISSION_BY_ID +permissionId + "']");
+        Element permissionElement = getElement(XPATH_PERMISSION_BY_ID + permissionId + "']");
         return getPermission(permissionElement);
     }
 
@@ -347,8 +345,8 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
      */
     public void deletePermission(Permission permission) {
         Element permissionElement = getElement(XPATH_PERMISSION_BY_ID + permission.getId() + "']");
-        if(permissionElement == null){
-            throw new IllegalStateException("permission with id '"+permission.getId()+"' is not found in the xml file");
+        if (permissionElement == null) {
+            throw new IllegalStateException("permission with id '" + permission.getId() + "' is not found in the xml file");
         }
         permissionElement.remove(permissionElement);
         Permission oldPermission = permissions.remove(permission.getId());
@@ -365,13 +363,11 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
     }
 
 
-
-
     /**
      * create a new Role/principal
      *
      * @param principal principal/role to create
-     * @see net.sf.jguard.core.authorization.manager.AuthorizationManager #createPrincipal(net.sf.jguard.core.principals.RolePrincipal)
+     * @see net.sf.jguard.core.authorization.manager.AuthorizationManager #createPrincipal(net.sf.jguard.core.authorization.permissions.RolePrincipal)
      */
     public void createPrincipal(RolePrincipal principal) throws AuthorizationManagerException {
 
@@ -379,10 +375,10 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
         //add the permissionElement reference to the domainElement
         Element principalElement = principalsElement.addElement(PRINCIPAL);
         Element idElement = principalElement.addElement(ID);
-        if(principal.getId()==0){
+        if (principal.getId() == 0) {
             principal.setId(Math.abs(randomPrincipal.nextLong()));
         }
-        idElement.setText(""+principal.getId());
+        idElement.setText("" + principal.getId());
         Element nameElement = principalElement.addElement(NAME);
         //add 'class' Element
         Element classElement = principalElement.addElement(CLASS);
@@ -410,10 +406,9 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
             Element permRef = permsRefElement.addElement(PERMISSION_REF);
             //add the name attribute
             Attribute idAttribute = new UserDataAttribute(new QName(ID));
-            idAttribute.setValue(""+perm.getId());
+            idAttribute.setValue("" + perm.getId());
             permRef.add(idAttribute);
         }
-
 
 
         //role inheritance is only supported by RolePrincipal
@@ -425,7 +420,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
                 Element principalRef = descendants.addElement(PRINCIPAL_REF);
 
                 Attribute idAttribute = new UserDataAttribute(new QName(ID));
-                idAttribute.setValue(""+o.getId());
+                idAttribute.setValue("" + o.getId());
                 principalRef.add(idAttribute);
             }
         }
@@ -466,7 +461,7 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
      * update a principal
      *
      * @param principal updated principal
-     * @see net.sf.jguard.core.authorization.manager.AuthorizationManager #updatePrincipal(java.lang.String, net.sf.jguard.core.principals.RolePrincipal)
+     * @see net.sf.jguard.core.authorization.manager.AuthorizationManager #updatePrincipal(java.lang.String, net.sf.jguard.core.authorization.permissions.RolePrincipal)
      */
     public void updatePrincipal(RolePrincipal principal) throws AuthorizationManagerException {
         Principal oldPal = principals.remove(principal.getLocalName());
@@ -588,8 +583,8 @@ public class XmlAuthorizationManager extends AbstractAuthorizationManager implem
                 "<configuration xmlns=\"http://jguard.sourceforge.net/xsd/jGuardPrincipalsPermissions_2.0.0\"\n" +
                 "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\"  >\n" +
                 "\n" +
-                "    <permissions/>"+
-                "<principals/>"+
+                "    <permissions/>" +
+                "<principals/>" +
                 "</configuration>";
         FileOutputStream fos = new FileOutputStream(file);
         fos.write(emptyDoc.getBytes());

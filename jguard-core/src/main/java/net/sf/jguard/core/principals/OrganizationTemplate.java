@@ -130,7 +130,7 @@ public class OrganizationTemplate extends EntityTemplate {
     public Object clone() throws CloneNotSupportedException {
         OrganizationTemplate clone = (OrganizationTemplate) super.clone();
         clone.setSubjectTemplate((SubjectTemplate) subjectTemplate.clone());
-        clone.setPrincipals(PrincipalUtils.clonePrincipalsSet(principals));
+        clone.setPrincipals(Organization.clonePrincipalsSet(principals));
         clone.setCredentials(JGuardCredential.cloneCredentialsSet(credentials));
         return clone;
     }

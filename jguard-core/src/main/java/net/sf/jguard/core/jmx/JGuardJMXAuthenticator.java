@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.jmx;
 
 import net.sf.jguard.core.PolicyEnforcementPointOptions;
-import net.sf.jguard.core.principals.UserPrincipal;
+import net.sf.jguard.core.authorization.permissions.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

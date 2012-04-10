@@ -32,7 +32,6 @@ import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.LoginContextWrapper;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
-import net.sf.jguard.core.principals.RolePrincipal;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -70,7 +69,7 @@ public class JGuardServletRequestWrapper extends HttpServletRequestWrapper {
 
     /**
      * wrap the isUserInRole method to check against
-     * all the {@link RolePrincipal}'s set of the Subject object.
+     * all the {@link net.sf.jguard.core.authorization.permissions.RolePrincipal}'s set of the Subject object.
      *
      * @param role : name of the principal(role) we are looking for
      * @return boolean :return 'true' if one of the principal the Subject

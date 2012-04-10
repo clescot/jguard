@@ -25,9 +25,10 @@ jGuard project home page:
 http://sourceforge.net/projects/jguard/
 
 */
-package net.sf.jguard.core.principals;
+package net.sf.jguard.core.authorization.permissions;
 
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
+import net.sf.jguard.core.principals.Organization;
 
 import javax.security.auth.Subject;
 import java.io.Serializable;
@@ -157,7 +158,7 @@ public class UserPrincipal implements Principal, Serializable {
 
 
     /**
-     * return {@link RolePrincipal} present in subject.
+     * return {@link net.sf.jguard.core.authorization.permissions.RolePrincipal} present in subject.
      *
      * @return
      */
@@ -166,7 +167,7 @@ public class UserPrincipal implements Principal, Serializable {
     }
 
     /**
-     * return {@link RolePrincipal} present in subject.
+     * return {@link net.sf.jguard.core.authorization.permissions.RolePrincipal} present in subject.
      *
      * @return
      */

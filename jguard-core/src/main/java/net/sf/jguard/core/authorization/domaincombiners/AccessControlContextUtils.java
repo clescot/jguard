@@ -27,8 +27,8 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authorization.domaincombiners;
 
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.authorization.policy.ProtectionDomainUtils;
-import net.sf.jguard.core.principals.RolePrincipal;
 
 import javax.security.auth.Subject;
 import java.security.*;

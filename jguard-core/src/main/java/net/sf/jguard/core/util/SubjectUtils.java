@@ -30,10 +30,10 @@ package net.sf.jguard.core.util;
 import net.sf.jguard.core.authentication.callbacks.GuestCallbacksProvider;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
+import net.sf.jguard.core.authorization.permissions.PrincipalUtils;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.UserPrincipal;
 import net.sf.jguard.core.principals.Organization;
-import net.sf.jguard.core.principals.PrincipalUtils;
-import net.sf.jguard.core.principals.RolePrincipal;
-import net.sf.jguard.core.principals.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -264,9 +264,9 @@ public final class SubjectUtils {
         return enabledPrincipals;
     }
 
-    public static Subject getGuestSubject(AuthenticationManager authenticationManager){
+    public static Subject getGuestSubject(AuthenticationManager authenticationManager) {
         Subject guestSubject = new Subject();
-        guestSubject.getPrivateCredentials().add(new JGuardCredential(authenticationManager.getCredentialId(),GuestCallbacksProvider.GUEST));
+        guestSubject.getPrivateCredentials().add(new JGuardCredential(authenticationManager.getCredentialId(), GuestCallbacksProvider.GUEST));
         guestSubject.getPrivateCredentials().add(new JGuardCredential(authenticationManager.getCredentialPassword(), GuestCallbacksProvider.GUEST));
         return guestSubject;
     }

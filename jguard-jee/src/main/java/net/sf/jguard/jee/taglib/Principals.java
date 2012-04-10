@@ -27,7 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.jee.taglib;
 
-import net.sf.jguard.core.principals.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

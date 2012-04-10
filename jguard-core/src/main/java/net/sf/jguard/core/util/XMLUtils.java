@@ -27,7 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.util;
 
-import net.sf.jguard.core.principals.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;

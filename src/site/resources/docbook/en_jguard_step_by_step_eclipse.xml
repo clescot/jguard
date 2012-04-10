@@ -743,13 +743,13 @@
                 &lt;principals&gt;
                 &lt;principal&gt;
                 &lt;name&gt;admin&lt;/name&gt;
-                &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                 &lt;applicationName&gt;Basic1&lt;/applicationName&gt; &lt;!-- this value must be exacly the same as
                 web.xml´s display-name --&gt;
                 &lt;/principal&gt;
                 &lt;principal&gt;
                 &lt;name&gt;guest&lt;/name&gt;
-                &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                 &lt;applicationName&gt;Basic1&lt;/applicationName&gt;
                 &lt;/principal&gt;
                 &lt;/principals&gt;
@@ -893,7 +893,7 @@
                 &lt;principals&gt;
                 &lt;principal&gt;
                 &lt;name&gt;guest&lt;/name&gt;
-                &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                 &lt;permissionsRef&gt;
                 &lt;permissionRef name="LoginForm"/&gt;
                 &lt;permissionRef name="LogonProcess"/&gt;
@@ -902,7 +902,7 @@
                 &lt;/principal&gt;
                 &lt;principal&gt;
                 &lt;name&gt;admin&lt;/name&gt;
-                &lt;class&gt;net.sf.jguard.core.principals.RolePrincipal&lt;/class&gt;
+                &lt;class&gt;net.sf.jguard.core.authorization.permissions.RolePrincipal&lt;/class&gt;
                 &lt;permissionsRef&gt;
                 &lt;domainRef name="secured"/&gt;
                 &lt;/permissionsRef&gt;

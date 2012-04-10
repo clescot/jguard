@@ -30,11 +30,7 @@ package net.sf.jguard.ext.principals;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
-import net.sf.jguard.core.authorization.permissions.PermissionUtils;
-import net.sf.jguard.core.authorization.permissions.URLPermission;
-import net.sf.jguard.core.principals.PrincipalUtils;
-import net.sf.jguard.core.principals.RolePrincipal;
-import net.sf.jguard.core.principals.UserPrincipal;
+import net.sf.jguard.core.authorization.permissions.*;
 import org.bouncycastle.jce.X509Principal;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -44,6 +40,7 @@ import javax.security.auth.Subject;
 import javax.security.auth.kerberos.KerberosPrincipal;
 import javax.security.auth.x500.X500Principal;
 import java.io.FilePermission;
+import java.security.Permission;
 import java.security.*;
 import java.util.Enumeration;
 
@@ -60,7 +57,7 @@ public class PrincipalUtilsTest extends TestCase {
     private static final String DUMMY_AGE = "100";
 
     /*
-      * Test method for 'net.sf.jguard.core.principals.PrincipalUtils.getPrincipal(String, String)'
+      * Test method for 'net.sf.jguard.core.authorization.permissions.PrincipalUtils.getPrincipal(String, String)'
       */
     @Test
     public void testGetPrincipal() {

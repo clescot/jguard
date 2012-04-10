@@ -3,8 +3,8 @@ package net.sf.jguard.jee.authentication.http;
 import net.sf.jguard.core.authentication.LoginContextWrapper;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
-import net.sf.jguard.core.principals.RolePrincipal;
-import net.sf.jguard.core.principals.UserPrincipal;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.UserPrincipal;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,13 +39,14 @@ public class JEERequestWrapperUtilTest {
     private Set<JGuardCredential> publicCredentials = new HashSet<JGuardCredential>();
     private Set<JGuardCredential> privateCredentials = new HashSet<JGuardCredential>();
     private Set principals = new HashSet();
+
     @Before
-    public void setUp(){
-        JGuardCredential identityCredential = new JGuardCredential(IDENTITY_KEY,MY_LOGIN);
+    public void setUp() {
+        JGuardCredential identityCredential = new JGuardCredential(IDENTITY_KEY, MY_LOGIN);
         publicCredentials.add(identityCredential);
-        RolePrincipal rolePrincipal = new RolePrincipal(DUMMY_ROLE,DUMMY_APPLICATION_NAME);
+        RolePrincipal rolePrincipal = new RolePrincipal(DUMMY_ROLE, DUMMY_APPLICATION_NAME);
         principals.add(rolePrincipal);
-        subject = new Subject(false,principals,publicCredentials,privateCredentials);
+        subject = new Subject(false, principals, publicCredentials, privateCredentials);
         when(mockLoginContextWrapper.getSubject()).thenReturn(subject);
         when(mockAuthenticationManager.getCredentialId()).thenReturn(IDENTITY_KEY);
 
@@ -55,7 +56,7 @@ public class JEERequestWrapperUtilTest {
     @Test
     public void testGetRemoteUserWithNullLoginContextWrapper() throws Exception {
         String user = JEERequestWrapperUtil.getRemoteUser(null, mockAuthenticationManager);
-        Assert.assertThat(user,is(nullValue()));
+        Assert.assertThat(user, is(nullValue()));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -65,21 +66,21 @@ public class JEERequestWrapperUtilTest {
 
     @Test
     public void testGetRemoteUserWithNullArguments() throws Exception {
-        String user = JEERequestWrapperUtil.getRemoteUser(null,null);
-        Assert.assertThat(user,is(nullValue()));
+        String user = JEERequestWrapperUtil.getRemoteUser(null, null);
+        Assert.assertThat(user, is(nullValue()));
     }
 
     @Test
     public void testGetRemoteUserWithNullSubject() throws Exception {
-         when(mockLoginContextWrapper.getSubject()).thenReturn(null);
+        when(mockLoginContextWrapper.getSubject()).thenReturn(null);
         String user = JEERequestWrapperUtil.getRemoteUser(mockLoginContextWrapper, mockAuthenticationManager);
-        Assert.assertThat(user,is(nullValue()));
+        Assert.assertThat(user, is(nullValue()));
     }
 
-     @Test
+    @Test
     public void testGetRemoteUser() throws Exception {
         String user = JEERequestWrapperUtil.getRemoteUser(mockLoginContextWrapper, mockAuthenticationManager);
-        Assert.assertThat(user,is(MY_LOGIN));
+        Assert.assertThat(user, is(MY_LOGIN));
     }
 
     @Test
@@ -87,12 +88,11 @@ public class JEERequestWrapperUtilTest {
         when(mockLoginContextWrapper.getSubject()).thenReturn(subject);
         subject.getPublicCredentials().clear();
         String user = JEERequestWrapperUtil.getRemoteUser(mockLoginContextWrapper, mockAuthenticationManager);
-        Assert.assertThat(user,is(nullValue()));
+        Assert.assertThat(user, is(nullValue()));
     }
 
 
-
-     //end getRemoteUser tests
+    //end getRemoteUser tests
 
     //isUserInRole tests
     @Test(expected = IllegalArgumentException.class)
@@ -103,7 +103,7 @@ public class JEERequestWrapperUtilTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIsUserInRoleWithNullApplicationName() throws Exception {
-        JEERequestWrapperUtil.isUserInRole(null,DUMMY_ROLE, mockLoginContextWrapper);
+        JEERequestWrapperUtil.isUserInRole(null, DUMMY_ROLE, mockLoginContextWrapper);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -122,33 +122,33 @@ public class JEERequestWrapperUtilTest {
         JEERequestWrapperUtil.isUserInRole(DUMMY_APPLICATION_NAME, DUMMY_ROLE, null);
     }
 
-     @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testIsUserInRoleWithNullSubject() throws Exception {
-         when(mockLoginContextWrapper.getSubject()).thenReturn(null);
-        JEERequestWrapperUtil.isUserInRole(DUMMY_APPLICATION_NAME,DUMMY_ROLE,mockLoginContextWrapper);
+        when(mockLoginContextWrapper.getSubject()).thenReturn(null);
+        JEERequestWrapperUtil.isUserInRole(DUMMY_APPLICATION_NAME, DUMMY_ROLE, mockLoginContextWrapper);
     }
 
 
-     @Test
+    @Test
     public void testIsUserInRole() throws Exception {
         when(mockLoginContextWrapper.getSubject()).thenReturn(subject);
-        boolean isUserInRole = JEERequestWrapperUtil.isUserInRole(DUMMY_APPLICATION_NAME,DUMMY_ROLE,mockLoginContextWrapper);
-        Assert.assertThat(isUserInRole,is(true));
+        boolean isUserInRole = JEERequestWrapperUtil.isUserInRole(DUMMY_APPLICATION_NAME, DUMMY_ROLE, mockLoginContextWrapper);
+        Assert.assertThat(isUserInRole, is(true));
     }
 
     @Test
     public void testIsUserInRoleWithGoodApplicationNameAndBadRoleName() throws Exception {
         when(mockLoginContextWrapper.getSubject()).thenReturn(subject);
-        boolean isUserInRole = JEERequestWrapperUtil.isUserInRole(DUMMY_APPLICATION_NAME,UNKNOWN_ROLE,mockLoginContextWrapper);
-        Assert.assertThat(isUserInRole,is(false));
+        boolean isUserInRole = JEERequestWrapperUtil.isUserInRole(DUMMY_APPLICATION_NAME, UNKNOWN_ROLE, mockLoginContextWrapper);
+        Assert.assertThat(isUserInRole, is(false));
     }
 
 
     @Test
     public void testIsUserInRoleWithBadApplicationNameAndGoodRoleName() throws Exception {
         when(mockLoginContextWrapper.getSubject()).thenReturn(subject);
-        boolean isUserInRole = JEERequestWrapperUtil.isUserInRole(UNKNOWN_APPLICATION_NAME,DUMMY_ROLE,mockLoginContextWrapper);
-        Assert.assertThat(isUserInRole,is(false));
+        boolean isUserInRole = JEERequestWrapperUtil.isUserInRole(UNKNOWN_APPLICATION_NAME, DUMMY_ROLE, mockLoginContextWrapper);
+        Assert.assertThat(isUserInRole, is(false));
     }
 
     //end test isUserInRole

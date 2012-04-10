@@ -27,7 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authorization.workflow;
 
-import net.sf.jguard.core.principals.UserPrincipal;
+import net.sf.jguard.core.authorization.permissions.UserPrincipal;
 
 import java.security.Permission;
 

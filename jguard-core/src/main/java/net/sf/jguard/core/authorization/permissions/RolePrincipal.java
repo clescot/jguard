@@ -25,10 +25,11 @@ jGuard project home page:
 http://sourceforge.net/projects/jguard/
 
 */
-package net.sf.jguard.core.principals;
+package net.sf.jguard.core.authorization.permissions;
 
 import net.sf.jguard.core.PolicyEnforcementPointOptions;
-import net.sf.jguard.core.authorization.permissions.Permission;
+import net.sf.jguard.core.principals.Organization;
+import net.sf.jguard.core.principals.PermissionContainer;
 
 import javax.persistence.*;
 import java.util.*;
@@ -44,7 +45,7 @@ import java.util.*;
  * @author <a href="mailto:tandilero@users.sourceforge.net">Maximiliano Batelli</a>
  */
 @Entity
-public class RolePrincipal implements BasePrincipal, Cloneable {
+public class RolePrincipal implements PermissionContainer, Cloneable {
 
 
     /**
@@ -58,7 +59,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     private String applicationName = PolicyEnforcementPointOptions.DEFAULT_APPLICATION_NAME.getLabel();
 
     //all the permissions  owned by this Principal
-    @OneToMany(mappedBy = "rolePrincipal",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "rolePrincipal", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Permission> permissions = new HashSet<Permission>();
 
     private boolean active = true;
@@ -68,14 +69,15 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     //to multiple users of multiple organizations.
     //changes done by the owner impact all users with this RolePrincipal.
     private Organization organization = null;
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private long id;
 
     /**
      * All principals that this role inherites from. This property is use to implement the General Hierarchy
      * proposed by the NIST.
      */
-    @OneToMany(mappedBy = "ascendant",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "ascendant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<RolePrincipal> descendants = new HashSet<RolePrincipal>();
     @ManyToOne
     private RolePrincipal ascendant;
@@ -86,7 +88,8 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     private static final String LOCAL_NAME_LABEL = "localName";
 
 
-    public RolePrincipal(){}
+    public RolePrincipal() {
+    }
 
 
     /**
@@ -155,14 +158,14 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
         this.descendants = principalToCopy.getDescendants();
     }
 
-    public static Permission translateToJGuardPermission(java.security.Permission permission){
-        return new Permission(permission.getClass(),permission.getName(),permission.getActions());
+    public static Permission translateToJGuardPermission(java.security.Permission permission) {
+        return new Permission(permission.getClass(), permission.getName(), permission.getActions());
     }
 
     public static Collection<java.security.Permission> translateToJavaPermissions(Collection<Permission> permissionColl) {
         Collection<java.security.Permission> permissions = new HashSet<java.security.Permission>();
-        for (Permission permission:permissionColl){
-                permissions.add(permission.toJavaPermission());
+        for (Permission permission : permissionColl) {
+            permissions.add(permission.toJavaPermission());
         }
         return permissions;
     }
@@ -323,7 +326,7 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     }
 
     /**
-     * return the permissions bounded to a domain plus orphanedPermisions.
+     * return the permissions bounded to a domain plus orphanedPermssions.
      *
      * @return
      */
@@ -378,9 +381,6 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     }
 
 
-
-
-
     /**
      * method used to compare two objects.
      * this method is used in Collection to <strong>order</strong> items, and MUST be
@@ -401,7 +401,6 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
 
         return this.getName().compareTo(principal.getName());
     }
-
 
 
     public Set<RolePrincipal> getDescendants() {
@@ -468,12 +467,12 @@ public class RolePrincipal implements BasePrincipal, Cloneable {
     }
 
     @PreRemove
-    public void preRemove(){
-        for(Permission permission:permissions){
+    public void preRemove() {
+        for (Permission permission : permissions) {
             permission.setRolePrincipal(null);
         }
         permissions.clear();
-        if(getAscendant()!=null){
+        if (getAscendant() != null) {
             getAscendant().getDescendants().remove(this);
             setAscendant(null);
         }

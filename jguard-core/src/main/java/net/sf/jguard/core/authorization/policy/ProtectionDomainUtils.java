@@ -27,7 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authorization.policy;
 
-import net.sf.jguard.core.principals.UserPrincipal;
+import net.sf.jguard.core.authorization.permissions.UserPrincipal;
 
 import javax.security.auth.Subject;
 import java.lang.reflect.Array;

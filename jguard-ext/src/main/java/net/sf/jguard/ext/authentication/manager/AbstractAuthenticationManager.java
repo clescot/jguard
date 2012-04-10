@@ -31,7 +31,12 @@ import net.sf.jguard.core.authentication.callbacks.GuestCallbacksProvider;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
-import net.sf.jguard.core.principals.*;
+import net.sf.jguard.core.authorization.permissions.PrincipalUtils;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.UserPrincipal;
+import net.sf.jguard.core.principals.Organization;
+import net.sf.jguard.core.principals.OrganizationTemplate;
+import net.sf.jguard.core.principals.SubjectTemplate;
 import net.sf.jguard.core.provisioning.RegistrationException;
 import net.sf.jguard.core.util.SubjectUtils;
 import net.sf.jguard.core.util.XMLUtils;
@@ -683,5 +688,28 @@ public abstract class AbstractAuthenticationManager implements AuthenticationMan
     public String getCredentialPassword() {
         return credentialPassword;
     }
+
+    /**
+     * find the first organization with an id equals to the organizationId param
+     *
+     * @param organizations  collection used to search organization
+     * @param organizationId id of the organization
+     * @return first organization found or null if no one is found
+     * @throws IllegalArgumentException
+     */
+    public static Organization findOrganization(Collection<Organization> organizations, String organizationId) throws IllegalArgumentException {
+        Organization organization = null;
+        for (Organization orga : organizations) {
+            if (organizationId.equals(orga.getName())) {
+                organization = orga;
+                break;
+            }
+        }
+        if (organization == null) {
+            throw new IllegalArgumentException("organization not found with id=" + organizationId);
+        }
+        return organization;
+    }
+
 
 }

@@ -30,8 +30,8 @@ package net.sf.jguard.jee.authentication.http;
 import net.sf.jguard.core.authentication.LoginContextWrapper;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
-import net.sf.jguard.core.principals.RolePrincipal;
-import net.sf.jguard.core.principals.UserPrincipal;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.UserPrincipal;
 import net.sf.jguard.core.util.SubjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,11 +61,11 @@ public class JEERequestWrapperUtil {
      */
     public static String getRemoteUser(LoginContextWrapper loginContextWrapper, AuthenticationManager authManager) {
         String remoteUser = null;
-        if(loginContextWrapper==null){
+        if (loginContextWrapper == null) {
             return remoteUser;
         }
 
-        if(authManager==null){
+        if (authManager == null) {
             throw new IllegalArgumentException("authenticationManager is null");
         }
         Subject subject = loginContextWrapper.getSubject();
@@ -87,7 +87,6 @@ public class JEERequestWrapperUtil {
     }
 
     /**
-     *
      * @param applicationName
      * @param role
      * @param loginContextWrapper
@@ -95,18 +94,18 @@ public class JEERequestWrapperUtil {
      */
     public static boolean isUserInRole(String applicationName, String role, LoginContextWrapper loginContextWrapper) {
         if (applicationName == null || "".equals(applicationName)) {
-           throw new IllegalArgumentException("applicationName is null");
+            throw new IllegalArgumentException("applicationName is null");
         }
         if (role == null || "".equals(role)) {
-           throw new IllegalArgumentException("role is null");
+            throw new IllegalArgumentException("role is null");
         }
 
         if (loginContextWrapper == null) {
-           throw new IllegalArgumentException("loginContextWrapper is null");
+            throw new IllegalArgumentException("loginContextWrapper is null");
         }
         String composedRoleName = new StringBuffer(applicationName).append('#').append(role).toString();
         Subject subject = loginContextWrapper.getSubject();
-        if(subject == null){
+        if (subject == null) {
             throw new IllegalArgumentException("subject in loginContextWrapper is null");
         }
         Set principals = subject.getPrincipals(RolePrincipal.class);

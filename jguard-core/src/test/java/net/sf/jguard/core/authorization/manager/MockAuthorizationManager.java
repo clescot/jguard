@@ -3,7 +3,7 @@ package net.sf.jguard.core.authorization.manager;
 import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
 import net.sf.jguard.core.authorization.permissions.MockPermission;
 import net.sf.jguard.core.authorization.permissions.Permission;
-import net.sf.jguard.core.principals.RolePrincipal;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -19,7 +19,7 @@ import java.util.Set;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class MockAuthorizationManager implements AuthorizationManager {
-    
+
 
     public void createPermission(Permission url) throws AuthorizationManagerException {
     }
@@ -35,8 +35,6 @@ public class MockAuthorizationManager implements AuthorizationManager {
     }
 
 
-
-
     public List<Permission> listPermissions() {
         return new ArrayList<Permission>();
     }
@@ -46,12 +44,10 @@ public class MockAuthorizationManager implements AuthorizationManager {
 
     }
 
-   
 
     public RolePrincipal readPrincipal(long roleId) throws AuthorizationManagerException {
         return null;
     }
-
 
 
     public void deletePrincipal(RolePrincipal principal) throws AuthorizationManagerException {
@@ -71,8 +67,6 @@ public class MockAuthorizationManager implements AuthorizationManager {
     }
 
 
-
-
     public void addInheritance(long roleAscName, long roleDescName) throws AuthorizationManagerException {
 
     }
@@ -86,12 +80,10 @@ public class MockAuthorizationManager implements AuthorizationManager {
     }
 
 
-
     public Set<RolePrincipal> getPrincipalsSet() {
         return null;
     }
 
-   
 
     public boolean isEmpty() {
         return false;

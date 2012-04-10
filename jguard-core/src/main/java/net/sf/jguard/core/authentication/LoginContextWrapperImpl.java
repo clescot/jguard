@@ -28,7 +28,7 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.authentication;
 
 import net.sf.jguard.core.ApplicationName;
-import net.sf.jguard.core.principals.UserPrincipal;
+import net.sf.jguard.core.authorization.permissions.UserPrincipal;
 import net.sf.jguard.core.util.ThrowableUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

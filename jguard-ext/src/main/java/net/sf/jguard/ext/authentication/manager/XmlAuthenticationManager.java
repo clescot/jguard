@@ -32,7 +32,10 @@ import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authentication.manager.AuthenticationXmlStoreFileLocation;
-import net.sf.jguard.core.principals.*;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
+import net.sf.jguard.core.principals.Organization;
+import net.sf.jguard.core.principals.OrganizationTemplate;
+import net.sf.jguard.core.principals.SubjectTemplate;
 import net.sf.jguard.core.util.SubjectUtils;
 import net.sf.jguard.core.util.XMLUtils;
 import org.dom4j.*;
@@ -980,7 +983,7 @@ public class XmlAuthenticationManager extends AbstractAuthenticationManager impl
         for (Map.Entry<RolePrincipal, String> entry : principalsAndOwners.entrySet()) {
             RolePrincipal principal = entry.getKey();
             String organizationId = entry.getValue();
-            Organization orgaFound = OrganizationUtils.findOrganization(organizations, organizationId);
+            Organization orgaFound = findOrganization(organizations, organizationId);
             principal.setOrganization(orgaFound);
         }
     }
