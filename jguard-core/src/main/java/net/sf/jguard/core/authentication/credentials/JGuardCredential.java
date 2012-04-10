@@ -215,7 +215,7 @@ public class JGuardCredential implements Serializable, Cloneable {
     }
 
     /**
-     * only present of rpersistence.
+     * only present for persistence.
      * we restrict its access to package private.
      *
      * @param publicVisibility
