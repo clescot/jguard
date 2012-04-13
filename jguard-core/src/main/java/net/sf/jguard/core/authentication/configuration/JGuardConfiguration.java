@@ -59,10 +59,11 @@ public final class JGuardConfiguration extends Configuration {
 
     private static Logger logger = LoggerFactory.getLogger(JGuardConfiguration.class.getName());
 
+    public static final String REFRESH_LOGIN_CONFIGURATION = "refreshLoginConfiguration";
+    private static final String COM_SUN_SECURITY_AUTH_LOGIN_CONFIG_FILE = "com.sun.security.auth.login.ConfigFile";
     private static boolean configurationInstalled = false;
     private final Collection<Configuration> internalConfigs;
     private final Map<String, List<AppConfigurationEntry>> appConfigurations;
-    private static final String COM_SUN_SECURITY_AUTH_LOGIN_CONFIG_FILE = "com.sun.security.auth.login.ConfigFile";
 
 
     /**
@@ -155,7 +156,7 @@ public final class JGuardConfiguration extends Configuration {
      * @see javax.security.auth.login.Configuration#refresh()
      */
     public void refresh() {
-        AccessController.checkPermission(new AuthPermission("refreshLoginConfiguration"));
+        AccessController.checkPermission(new AuthPermission(REFRESH_LOGIN_CONFIGURATION));
 
         if (internalConfigs.size() > 0) {
             for (Object internalConfig : internalConfigs) {

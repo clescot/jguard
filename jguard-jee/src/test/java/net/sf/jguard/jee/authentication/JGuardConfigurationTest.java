@@ -9,6 +9,7 @@ import net.sf.jguard.core.authentication.configuration.JGuardAuthenticationMarku
 import net.sf.jguard.core.authentication.configuration.JGuardConfiguration;
 import net.sf.jguard.core.authentication.loginmodules.UserNamePasswordLoginModule;
 import net.sf.jguard.core.authentication.manager.AuthenticationManagerModule;
+import net.sf.jguard.core.authorization.policy.AllAccessPolicy;
 import net.sf.jguard.core.lifecycle.*;
 import net.sf.jguard.core.technology.MockScopes;
 import net.sf.jguard.core.technology.Scopes;
@@ -25,6 +26,8 @@ import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;
 import java.net.URL;
 import java.security.AccessControlException;
+import java.security.Policy;
+import java.security.PrivilegedActionException;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -113,6 +116,32 @@ public class JGuardConfigurationTest extends JGuardTest {
     }
 
 
+    @Test
+    public void testRefresh_with_auth_permission() throws PrivilegedActionException {
+
+        //given
+        Policy.setPolicy(new AllAccessPolicy());
+
+        //when
+        jGuardConfiguration.refresh();
+        //then
+        //no exception thrown
+    }
+
+
+    @Test
+    public void test_addConfigurationEntriesForApplication() throws Exception {
+
+        //given
+        ArrayList<AppConfigurationEntry> entries = new ArrayList<AppConfigurationEntry>();
+        entries.add(new AppConfigurationEntry("dummyLoginmoduleName", AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, new HashMap()));
+        //when
+        jGuardConfiguration.addConfigEntriesForApplication("dummyApplicationName", entries);
+
+        //then
+
+    }
+
     @Override
     protected AuthenticationManagerModule buildAuthenticationManagerModule() {
         return new AuthenticationManagerModule(APPLICATION_NAME, authenticationXmlFileLocation, XmlAuthenticationManager.class);
@@ -134,4 +163,6 @@ public class JGuardConfigurationTest extends JGuardTest {
 
         Assert.assertNotSame(jGuardConfiguration, configuration);
     }
+
+
 }
