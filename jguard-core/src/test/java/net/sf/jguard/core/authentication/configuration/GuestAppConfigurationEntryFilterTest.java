@@ -1,5 +1,6 @@
 package net.sf.jguard.core.authentication.configuration;
 
+import com.sun.security.auth.module.KeyStoreLoginModule;
 import net.sf.jguard.core.authentication.loginmodules.UserLoginModule;
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,7 +26,7 @@ public class GuestAppConfigurationEntryFilterTest {
     public void testFilterWithExistingClassButNotASubclassOfUserLoginModule() {
         GuestAppConfigurationEntryFilter filter = new GuestAppConfigurationEntryFilter();
         Map<String, ?> options = new HashMap<String, Object>();
-        AppConfigurationEntry entry = new AppConfigurationEntry("com.sun.security.auth.module.KeyStoreLoginModule", AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, options);
+        AppConfigurationEntry entry = new AppConfigurationEntry(KeyStoreLoginModule.class.getName(), AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, options);
         Assert.assertTrue(filter.filter(entry) == null);
     }
 
@@ -33,7 +34,7 @@ public class GuestAppConfigurationEntryFilterTest {
     public void testFilterWithExistingClassAndASubclassOfUserLoginModule() {
         GuestAppConfigurationEntryFilter filter = new GuestAppConfigurationEntryFilter();
         Map<String, ?> options = new HashMap<String, Object>();
-        AppConfigurationEntry entry = new AppConfigurationEntry("net.sf.jguard.core.authentication.loginmodules.UserLoginModule", AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, options);
+        AppConfigurationEntry entry = new AppConfigurationEntry(UserLoginModule.class.getName(), AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, options);
         AppConfigurationEntry returnedEntry = filter.filter(entry);
         Assert.assertTrue(returnedEntry != null);
         Assert.assertTrue(returnedEntry.getOptions().containsKey(UserLoginModule.SKIP_CREDENTIAL_CHECK));
