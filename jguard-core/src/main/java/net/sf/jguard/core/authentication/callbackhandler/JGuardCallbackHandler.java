@@ -73,7 +73,7 @@ public abstract class JGuardCallbackHandler<Req, Res> implements CallbackHandler
     }
 
 
-    private Collection<Class> getCallbacksTypes(List<Callback> cbks) {
+    private Collection<Class> getCallbacksClasses(List<Callback> cbks) {
         Set<Class> types = new HashSet<Class>();
         for (Callback cbk : cbks) {
             types.add(cbk.getClass());
@@ -95,7 +95,7 @@ public abstract class JGuardCallbackHandler<Req, Res> implements CallbackHandler
      */
     private AuthenticationSchemeHandler<Req, Res> getAuthenticationSchemeHandler(Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers, List<Callback> callbacks) {
         //callbacks required by the current LoginModule (which can contains callbacks not directly related to authenticationSchemeHandler)
-        Collection<Class> requiredCallbackTypes = getCallbacksTypes(callbacks);
+        Collection<Class> requiredCallbackTypes = getCallbacksClasses(callbacks);
         for (AuthenticationSchemeHandler<Req, Res> authSchemeHandler : authenticationSchemeHandlers) {
             //callbacks which can be filled by the current AuthenticationSchemeHandler
             Collection<Class<? extends Callback>> callbackTypes = authSchemeHandler.getCallbackTypes();
@@ -115,7 +115,7 @@ public abstract class JGuardCallbackHandler<Req, Res> implements CallbackHandler
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
         List<Callback> callbackList = Arrays.asList(callbacks);
 
-        //we select among available authenticationSchemeHandler, and with the supported callbacks requirement,
+        //we select among available authenticationSchemeHandlers, and with the supported callbacks requirement,
         //the best authenticationSchemeHandler
         AuthenticationSchemeHandler<Req, Res> authenticationSchemeHandler = getAuthenticationSchemeHandler(registeredAuthenticationSchemeHandlers, callbackList);
         usedAuthenticationSchemeHandlers.add(authenticationSchemeHandler);
@@ -125,14 +125,8 @@ public abstract class JGuardCallbackHandler<Req, Res> implements CallbackHandler
             return;
         }
 
-        //we set the AuthenticationSchemeHandlerCallback
-        for (Callback callback : callbacks) {
-            if (callback instanceof AuthenticationSchemeHandlerCallback) {
-                AuthenticationSchemeHandlerCallback cbk = (AuthenticationSchemeHandlerCallback) callback;
-                cbk.setAuthenticationSchemeHandlerName(authenticationSchemeHandler.getName());
-                break;
-            }
-        }
+        populateAuthenticationSchemeHandlerCallbackIfPresent(callbacks, authenticationSchemeHandler);
+
 
         if (!authenticationSchemeHandler.answerToChallenge(request, response)
                 && authenticationSchemeHandler.challengeNeeded(request, response)) {
@@ -148,6 +142,17 @@ public abstract class JGuardCallbackHandler<Req, Res> implements CallbackHandler
 
         //user answer to an authentication challenge, so we grab required callbacks
         authenticationSchemeHandler.handleSchemeCallbacks(request, response, callbacks);
+    }
+
+    private void populateAuthenticationSchemeHandlerCallbackIfPresent(Callback[] callbacks, AuthenticationSchemeHandler<Req, Res> authenticationSchemeHandler) {
+        //we set the AuthenticationSchemeHandlerCallback
+        for (Callback callback : callbacks) {
+            if (callback instanceof AuthenticationSchemeHandlerCallback) {
+                AuthenticationSchemeHandlerCallback cbk = (AuthenticationSchemeHandlerCallback) callback;
+                cbk.setAuthenticationSchemeHandlerName(authenticationSchemeHandler.getName());
+                break;
+            }
+        }
     }
 
     /**
