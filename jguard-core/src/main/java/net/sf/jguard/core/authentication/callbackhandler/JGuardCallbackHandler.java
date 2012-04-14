@@ -118,12 +118,12 @@ public abstract class JGuardCallbackHandler<Req, Res> implements CallbackHandler
         //we select among available authenticationSchemeHandlers, and with the supported callbacks requirement,
         //the best authenticationSchemeHandler
         AuthenticationSchemeHandler<Req, Res> authenticationSchemeHandler = getAuthenticationSchemeHandler(registeredAuthenticationSchemeHandlers, callbackList);
-        usedAuthenticationSchemeHandlers.add(authenticationSchemeHandler);
         //handle method is called multiple times by loginModules
         //some LoginModules does not put in place any authenticationSchemeHandler
         if (authenticationSchemeHandler == null) {
             return;
         }
+        usedAuthenticationSchemeHandlers.add(authenticationSchemeHandler);
 
         populateAuthenticationSchemeHandlerCallbackIfPresent(callbacks, authenticationSchemeHandler);
 
