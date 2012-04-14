@@ -65,7 +65,7 @@ public class LoginContextWrapperImpl implements LoginContextWrapper {
     }
 
     /**
-     * authenticate SUbject
+     * authenticate Subject
      *
      * @param callbackHandler
      * @param configuration   can be the global Configuration or a filtered one for impersonation
