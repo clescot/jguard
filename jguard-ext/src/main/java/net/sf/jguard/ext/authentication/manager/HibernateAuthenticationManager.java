@@ -35,10 +35,13 @@ import com.google.inject.Provider;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
+import net.sf.jguard.core.authentication.manager.AbstractAuthenticationManager;
+import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authentication.manager.AuthenticationXmlStoreFileLocation;
 import net.sf.jguard.core.principals.Organization;
 import net.sf.jguard.core.principals.OrganizationTemplate;
 import net.sf.jguard.core.util.SubjectUtils;
+import net.sf.jguard.core.util.XMLUtils;
 import net.sf.jguard.ext.principals.HibernatePrincipalUtils;
 import net.sf.jguard.ext.principals.PersistedOrganization;
 import net.sf.jguard.ext.principals.PersistedPrincipal;
@@ -50,6 +53,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.security.auth.Subject;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.Principal;
 import java.util.*;
@@ -66,8 +71,10 @@ public class HibernateAuthenticationManager extends AbstractAuthenticationManage
     private static final String ACTIVE = "active";
     private static final String NAME = "name";
     private static final String VALUE = "value";
-    private Provider<Session> sessionProvider;
     private static final String SELECT_ORGA_TEMPLATE = " select orga from net.sf.jguard.ext.principals.PersistedOrganization as orga inner join orga.credentials as creds where creds.name='id' and creds.value='template' ";
+    private static final String J_GUARD_USERS_PRINCIPALS_XML = "/" + "jGuardUsersPrincipals.xml";
+    private static final char SLASH = '/';
+    private Provider<Session> sessionProvider;
 
     @Inject
     public HibernateAuthenticationManager(@ApplicationName String applicationName,
@@ -95,11 +102,36 @@ public class HibernateAuthenticationManager extends AbstractAuthenticationManage
 
     }
 
+    private void importXmlData(URL dbPropertiesLocation) {
+
+        if (dbPropertiesLocation == null) {
+            throw new IllegalArgumentException(AUTHENTICATION_XML_FILE_LOCATION + " parameter =null");
+        }
+        String dbPath;
+        try {
+            dbPath = XMLUtils.resolveLocation(dbPropertiesLocation.toURI().toString());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        String xmlFileLocation = dbPath.substring(0, dbPath.lastIndexOf(SLASH)) + J_GUARD_USERS_PRINCIPALS_XML;
+        URL url;
+        try {
+            url = new URL(XMLUtils.resolveLocation(xmlFileLocation));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        AuthenticationManager authentManager = new XmlAuthenticationManager(applicationName, url);
+        importAuthenticationManager(authentManager);
+
+    }
+
 
     protected void persistUser(Subject user) throws AuthenticationException {
 
         PersistedOrganization pOrga = getPersistedOrganizationFromSubject(user);
-        PersistedSubject persistedSubject = new PersistedSubject(user, pOrga,sessionProvider);
+        PersistedSubject persistedSubject = new PersistedSubject(user, pOrga, sessionProvider);
         sessionProvider.get().saveOrUpdate(persistedSubject);
         if (persistedSubject.getId() != null && !persistedSubject.getId().toString().equals("0")) {
             //this credential is used to keep track of the database row in an Object not related with datéabase in its API
@@ -120,7 +152,7 @@ public class HibernateAuthenticationManager extends AbstractAuthenticationManage
 
     protected void persistOrganization(Organization organization) throws AuthenticationException {
         PersistedOrganization orga;
-        orga = new PersistedOrganization(organization,sessionProvider);
+        orga = new PersistedOrganization(organization, sessionProvider);
 
         sessionProvider.get().saveOrUpdate(orga);
         organization.setId(orga.getId());
@@ -361,14 +393,14 @@ public class HibernateAuthenticationManager extends AbstractAuthenticationManage
         PersistedOrganization orga = (PersistedOrganization) query.uniqueResult();
 
         if (orga != null) {
-            PersistedOrganization convertedOrga = new PersistedOrganization(organizationTemplate.toOrganization(),sessionProvider);
+            PersistedOrganization convertedOrga = new PersistedOrganization(organizationTemplate.toOrganization(), sessionProvider);
             //organizationTemplate is already present; we update it
             orga.setCredentials(convertedOrga.getCredentials());
             orga.setPrincipals(convertedOrga.getPrincipals());
             orga.setSubjectTemplate(convertedOrga.getSubjectTemplate());
             hibernateSession.update(orga);
         } else {
-            PersistedOrganization newOrga = new PersistedOrganization(organizationTemplate.toOrganization(),sessionProvider);
+            PersistedOrganization newOrga = new PersistedOrganization(organizationTemplate.toOrganization(), sessionProvider);
             hibernateSession.save(newOrga);
         }
 

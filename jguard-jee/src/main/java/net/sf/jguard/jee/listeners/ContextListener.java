@@ -35,6 +35,7 @@ import com.google.inject.servlet.ServletModule;
 import net.sf.jguard.core.FilterChainModule;
 import net.sf.jguard.core.authentication.AuthenticationModule;
 import net.sf.jguard.core.authentication.AuthenticationScope;
+import net.sf.jguard.core.authentication.manager.AbstractAuthenticationManager;
 import net.sf.jguard.core.authentication.manager.AuthenticationManagerModule;
 import net.sf.jguard.core.authorization.AuthorizationModule;
 import net.sf.jguard.core.authorization.AuthorizationScope;
@@ -43,7 +44,6 @@ import net.sf.jguard.core.authorization.policy.MultipleAppPolicy;
 import net.sf.jguard.core.jmx.JMXModule;
 import net.sf.jguard.core.jmx.JMXParameters;
 import net.sf.jguard.ext.SecurityConstants;
-import net.sf.jguard.ext.authentication.manager.AbstractAuthenticationManager;
 import net.sf.jguard.ext.authentication.manager.XmlAuthenticationManager;
 import net.sf.jguard.ext.authorization.manager.XmlAuthorizationManager;
 import net.sf.jguard.jee.HttpConstants;
@@ -191,7 +191,6 @@ public abstract class ContextListener extends GuiceServletContextListener {
         mbeanServerForConnector = context.getInitParameter(JMXParameters.MBEAN_SERVER_FOR_CONNECTOR.getLabel());
         enableJMX = Boolean.parseBoolean(context.getInitParameter(JMXParameters.MBEAN_SERVER_FOR_CONNECTOR.getLabel()));
 
-        
 
         injector = getInjector();
 

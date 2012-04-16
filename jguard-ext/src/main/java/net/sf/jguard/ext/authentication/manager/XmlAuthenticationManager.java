@@ -30,6 +30,7 @@ package net.sf.jguard.ext.authentication.manager;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
+import net.sf.jguard.core.authentication.manager.AbstractAuthenticationManager;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authentication.manager.AuthenticationXmlStoreFileLocation;
 import net.sf.jguard.core.authorization.permissions.RolePrincipal;

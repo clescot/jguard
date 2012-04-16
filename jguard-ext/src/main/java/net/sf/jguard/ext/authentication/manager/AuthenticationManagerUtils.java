@@ -1,5 +1,6 @@
 package net.sf.jguard.ext.authentication.manager;
 
+import net.sf.jguard.core.authentication.manager.AbstractAuthenticationManager;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.util.XMLUtils;
 import org.slf4j.Logger;

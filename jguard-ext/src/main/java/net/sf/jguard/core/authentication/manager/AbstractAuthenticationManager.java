@@ -25,12 +25,11 @@ jGuard project home page:
 http://sourceforge.net/projects/jguard/
 
 */
-package net.sf.jguard.ext.authentication.manager;
+package net.sf.jguard.core.authentication.manager;
 
 import net.sf.jguard.core.authentication.callbacks.GuestCallbacksProvider;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
-import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authorization.permissions.PrincipalUtils;
 import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.authorization.permissions.UserPrincipal;
@@ -39,14 +38,10 @@ import net.sf.jguard.core.principals.OrganizationTemplate;
 import net.sf.jguard.core.principals.SubjectTemplate;
 import net.sf.jguard.core.provisioning.RegistrationException;
 import net.sf.jguard.core.util.SubjectUtils;
-import net.sf.jguard.core.util.XMLUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.Subject;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.security.Principal;
 import java.util.*;
 
@@ -75,8 +70,7 @@ public abstract class AbstractAuthenticationManager implements AuthenticationMan
     protected Set<Principal> localPrincipalsSet;
     protected Map<String, Principal> localPrincipals;
     protected Set<Organization> organizations;
-    private static final String J_GUARD_USERS_PRINCIPALS_XML = "/" + "jGuardUsersPrincipals.xml";
-    private static final char SLASH = '/';
+
     public final static String AUTHENTICATION_XML_FILE_LOCATION = "authenticationXmlFileLocation";
 
     public AbstractAuthenticationManager(String applicationName) {
@@ -91,32 +85,6 @@ public abstract class AbstractAuthenticationManager implements AuthenticationMan
         return applicationName;
     }
 
-
-    protected void importXmlData(URL dbPropertiesLocation) {
-
-        if (dbPropertiesLocation == null) {
-            throw new IllegalArgumentException(AUTHENTICATION_XML_FILE_LOCATION + " parameter =null");
-        }
-        String dbPath;
-        try {
-            dbPath = XMLUtils.resolveLocation(dbPropertiesLocation.toURI().toString());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        String xmlFileLocation = dbPath.substring(0, dbPath.lastIndexOf(SLASH))
-                + J_GUARD_USERS_PRINCIPALS_XML;
-        URL url;
-        try {
-            url = new URL(XMLUtils.resolveLocation(xmlFileLocation));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-        AuthenticationManager authentManager = new XmlAuthenticationManager(applicationName, url);
-        importAuthenticationManager(authentManager);
-
-    }
 
     public Organization getDefaultOrganization() {
         //we check that a default organization exists
@@ -190,7 +158,7 @@ public abstract class AbstractAuthenticationManager implements AuthenticationMan
      * @see net.sf.jguard.core.authentication.manager.AuthenticationManager
      */
     public Subject createUser(Subject user, Organization organization) {
-        Set missingCredentials = null;
+        Set missingCredentials;
         if (organization != null) {
             //we remove unknown credential and return missing credentials
             missingCredentials = organization.getSubjectTemplate().validateRequiredCredentialsFromUser(user);
@@ -199,7 +167,7 @@ public abstract class AbstractAuthenticationManager implements AuthenticationMan
         }
         //we remove unknown principals
         user.getPrincipals(RolePrincipal.class).retainAll(localPrincipalsSet);
-        if (missingCredentials.size() == 0) {
+        if (missingCredentials.isEmpty()) {
             persistUser(user);
         } else {
             throw new AuthenticationException(" the user cannot be created :some credentials are missing " + missingCredentials);
