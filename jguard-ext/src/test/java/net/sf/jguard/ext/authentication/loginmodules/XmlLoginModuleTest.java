@@ -53,6 +53,7 @@ public class XmlLoginModuleTest {
         authenticationManager = mock(AuthenticationManager.class);
         when(authenticationManager.getCredentialId()).thenReturn("id");
         when(authenticationManager.getCredentialPassword()).thenReturn("password");
+        when(authenticationManager.getGuestSubject()).thenReturn(new Subject());
         Set<Subject> users = new HashSet<Subject>();
         users.add(authenticationManager.getGuestSubject());
         when(authenticationManager.getUsers()).thenReturn(users);
