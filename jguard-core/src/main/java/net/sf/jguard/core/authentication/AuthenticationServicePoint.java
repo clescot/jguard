@@ -83,7 +83,7 @@ public interface AuthenticationServicePoint<Req, Res> {
                                            ImpersonationScopes impersonationScopes);
 
     /**
-     * utility method rapping impersonateAsGuest method to not handle {@link net.sf.jguard.core.authentication.LoginContextWrapper}
+     * utility method wrapping impersonateAsGuest method to not handle {@link net.sf.jguard.core.authentication.LoginContextWrapper}
      * and its {@Link net.sf.jguard.core.authentication.AuthenticationStatus}.
      *
      * @param request
