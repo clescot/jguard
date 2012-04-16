@@ -27,9 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.util;
 
-import net.sf.jguard.core.authentication.callbacks.GuestCallbacksProvider;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
-import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authorization.permissions.PrincipalUtils;
 import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.authorization.permissions.UserPrincipal;
@@ -193,50 +191,6 @@ public final class SubjectUtils {
     }
 
 
-    /**
-     * return a copy of the {link {@link JGuardCredential} identifying uniquely the user.
-     *
-     * @param subject
-     * @param authenticationManager
-     * @return
-     * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
-     *
-     */
-    public static JGuardCredential getIdentityCredential(Subject subject, AuthenticationManager authenticationManager) {
-        String userCredentialId = authenticationManager.getCredentialId();
-        if (subject == null) {
-            throw new IllegalArgumentException("'subject' parameter is null");
-        }
-
-        return getIdentityCredentialValue(subject, userCredentialId);
-    }
-
-    /**
-     * return as a string the identity crednetial, part of the public credential set.
-     *
-     * @param subject
-     * @param userCredentialId
-     * @return
-     */
-    public static JGuardCredential getIdentityCredentialValue(Subject subject, String userCredentialId) {
-        Set<JGuardCredential> publicCredentials = subject.getPublicCredentials(JGuardCredential.class);
-        Set<JGuardCredential> credentialsFound = new HashSet<JGuardCredential>();
-        for (JGuardCredential credential : publicCredentials) {
-            if (userCredentialId.equals(credential.getName())) {
-                credentialsFound.add(credential);
-            }
-        }
-
-        if (credentialsFound.isEmpty()) {
-            return null;
-        }
-        if (credentialsFound.size() > 1) {
-            throw new IllegalStateException(credentialsFound.size() + " values found. there must be only one value for identity credential.");
-        }
-        return credentialsFound.iterator().next();
-    }
-
-
     public static Set getEnabledPrincipals(Set<Principal> userPrincipals) {
         Set<RolePrincipal> enabledPrincipals = new HashSet<RolePrincipal>();
         // Find the UserPrincipal to evaluate principal definition
@@ -262,13 +216,6 @@ public final class SubjectUtils {
         }
 
         return enabledPrincipals;
-    }
-
-    public static Subject getGuestSubject(AuthenticationManager authenticationManager) {
-        Subject guestSubject = new Subject();
-        guestSubject.getPrivateCredentials().add(new JGuardCredential(authenticationManager.getCredentialId(), GuestCallbacksProvider.GUEST));
-        guestSubject.getPrivateCredentials().add(new JGuardCredential(authenticationManager.getCredentialPassword(), GuestCallbacksProvider.GUEST));
-        return guestSubject;
     }
 
 

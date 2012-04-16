@@ -37,7 +37,6 @@ import net.sf.jguard.core.principals.Organization;
 import net.sf.jguard.core.principals.OrganizationTemplate;
 import net.sf.jguard.core.principals.SubjectTemplate;
 import net.sf.jguard.core.provisioning.RegistrationException;
-import net.sf.jguard.core.util.SubjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,6 +78,13 @@ public abstract class AbstractAuthenticationManager implements AuthenticationMan
         localPrincipals = new HashMap<String, Principal>();
         organizations = new HashSet<Organization>();
         this.applicationName = applicationName;
+    }
+
+    public Subject getGuestSubject() {
+        Subject guestSubject = new Subject();
+        guestSubject.getPrivateCredentials().add(new JGuardCredential(getCredentialId(), GuestCallbacksProvider.GUEST));
+        guestSubject.getPrivateCredentials().add(new JGuardCredential(getCredentialPassword(), GuestCallbacksProvider.GUEST));
+        return guestSubject;
     }
 
     public String getApplicationName() {
@@ -603,7 +609,7 @@ public abstract class AbstractAuthenticationManager implements AuthenticationMan
     public void updateRoleDefinition(Subject subject, String roleName, String applicationName, String definition) throws AuthenticationException {
         RolePrincipal ppal = (RolePrincipal) getRole(subject, roleName, applicationName);
         ppal.setDefinition(definition);
-        JGuardCredential identity = SubjectUtils.getIdentityCredential(subject, this);
+        JGuardCredential identity = getIdentityCredential(subject);
         updateUser(identity, subject);
 
     }
@@ -679,5 +685,46 @@ public abstract class AbstractAuthenticationManager implements AuthenticationMan
         return organization;
     }
 
+    /**
+     * return a copy of the {link {@link JGuardCredential} identifying uniquely the user.
+     *
+     * @param subject
+     * @return
+     * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
+     *
+     */
+    public JGuardCredential getIdentityCredential(Subject subject) {
+        String userCredentialId = getCredentialId();
+        if (subject == null) {
+            throw new IllegalArgumentException("'subject' parameter is null");
+        }
+
+        return getIdentityCredentialValue(subject, userCredentialId);
+    }
+
+    /**
+     * return as a string the identity crednetial, part of the public credential set.
+     *
+     * @param subject
+     * @param userCredentialId
+     * @return
+     */
+    public static JGuardCredential getIdentityCredentialValue(Subject subject, String userCredentialId) {
+        Set<JGuardCredential> publicCredentials = subject.getPublicCredentials(JGuardCredential.class);
+        Set<JGuardCredential> credentialsFound = new HashSet<JGuardCredential>();
+        for (JGuardCredential credential : publicCredentials) {
+            if (userCredentialId.equals(credential.getName())) {
+                credentialsFound.add(credential);
+            }
+        }
+
+        if (credentialsFound.isEmpty()) {
+            return null;
+        }
+        if (credentialsFound.size() > 1) {
+            throw new IllegalStateException(credentialsFound.size() + " values found. there must be only one value for identity credential.");
+        }
+        return credentialsFound.iterator().next();
+    }
 
 }

@@ -282,4 +282,8 @@ public interface AuthenticationManager {
      * @return
      */
     String getApplicationName();
+
+
+    public Subject getGuestSubject();
+
 }

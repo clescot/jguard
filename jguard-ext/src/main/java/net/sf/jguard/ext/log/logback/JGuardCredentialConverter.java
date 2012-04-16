@@ -29,7 +29,7 @@ package net.sf.jguard.ext.log.logback;
 
 import ch.qos.logback.core.pattern.DynamicConverter;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
-import net.sf.jguard.core.util.SubjectUtils;
+import net.sf.jguard.core.authentication.manager.AbstractAuthenticationManager;
 
 import javax.security.auth.Subject;
 import java.security.AccessController;
@@ -52,7 +52,7 @@ public class JGuardCredentialConverter extends DynamicConverter {
             throw new IllegalArgumentException("firstOption is null. you must specify with this pattern the name of the jGuardCredential to return %jgc{chosenJguardCredentialName}");
         }
         if (null != subject) {
-            JGuardCredential jGuardCredential = SubjectUtils.getIdentityCredentialValue(subject, firstOption);
+            JGuardCredential jGuardCredential = AbstractAuthenticationManager.getIdentityCredentialValue(subject, firstOption);
             if (null != jGuardCredential && jGuardCredential.getValue() != null) {
                 identityCredentialValue = (String) jGuardCredential.getValue();
             } else {

@@ -6,7 +6,6 @@ import net.sf.jguard.core.principals.Organization;
 import net.sf.jguard.core.principals.OrganizationTemplate;
 import net.sf.jguard.core.principals.SubjectTemplate;
 import net.sf.jguard.core.provisioning.RegistrationException;
-import net.sf.jguard.core.util.SubjectUtils;
 
 import javax.security.auth.Subject;
 import java.security.Principal;
@@ -14,12 +13,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MockAuthenticationManager implements AuthenticationManager {
+public class MockAuthenticationManager extends AbstractAuthenticationManager implements AuthenticationManager {
 
-    Set<Subject> subjects  = new HashSet<Subject>();
+    Set<Subject> subjects = new HashSet<Subject>();
 
-    public MockAuthenticationManager(){
-        subjects.add(SubjectUtils.getGuestSubject(this));
+    public MockAuthenticationManager(String applicationName) {
+        super(applicationName);
+        subjects.add(getGuestSubject());
     }
 
     public Organization createOrganization(OrganizationTemplate organizationTemplate) throws RegistrationException {
@@ -56,6 +56,21 @@ public class MockAuthenticationManager implements AuthenticationManager {
 
     public void createPrincipal(Principal role) throws AuthenticationException {
 
+    }
+
+    @Override
+    protected void persistUser(Subject user) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    protected void persistPrincipal(Principal principal) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    protected void persistOrganization(Organization organization) throws AuthenticationException {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public Subject createUser(SubjectTemplate user, Organization organization) throws RegistrationException {
@@ -96,6 +111,11 @@ public class MockAuthenticationManager implements AuthenticationManager {
 
     public void updateUser(JGuardCredential identityCred, Subject user) throws AuthenticationException {
 
+    }
+
+    @Override
+    protected void updateUserImpl(JGuardCredential identityCred, Subject user) throws AuthenticationException {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void deleteUser(Subject user) throws AuthenticationException {

@@ -1,10 +1,10 @@
 package net.sf.jguard.ext.authentication.loginmodules;
 
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
+import net.sf.jguard.core.authentication.manager.AbstractAuthenticationManager;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authentication.manager.JGuardAuthenticationManagerMarkups;
 import net.sf.jguard.core.authorization.permissions.RolePrincipal;
-import net.sf.jguard.core.util.SubjectUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,7 +55,7 @@ public class XmlLoginModuleTest {
         when(authenticationManager.getCredentialId()).thenReturn("id");
         when(authenticationManager.getCredentialPassword()).thenReturn("password");
         Set<Subject> users = new HashSet<Subject>();
-        users.add(SubjectUtils.getGuestSubject(authenticationManager));
+        users.add(AbstractAuthenticationManager.getGuestSubject(authenticationManager));
         when(authenticationManager.getUsers()).thenReturn(users);
     }
 
