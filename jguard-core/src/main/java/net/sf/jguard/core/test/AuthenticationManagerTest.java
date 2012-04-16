@@ -150,7 +150,7 @@ public abstract class AuthenticationManagerTest {
             logger.info(" test succeed ");
 
             logger.info(user.toString());
-            JGuardCredential cred = SubjectUtils.getIdentityCredential(user, authenticationManager);
+            JGuardCredential cred = authenticationManager.getIdentityCredential(user);
             Subject userFound = authenticationManager.findUser(cred.getValue().toString());
             Set principals = user.getPrincipals();
             Set principalsFound = userFound.getPrincipals();
@@ -341,7 +341,7 @@ public abstract class AuthenticationManagerTest {
         logger.info("user created = " + user.toString());
         Subject foundUser = authenticationManager.findUser(loginAndPassword);
         logger.info("user found after creation = " + foundUser.toString());
-        JGuardCredential identityCred = SubjectUtils.getIdentityCredential(user, authenticationManager);
+        JGuardCredential identityCred = authenticationManager.getIdentityCredential(user);
         boolean credentialToUpdateIsPublic = true;
         SubjectUtils.setCredentialValue(user, credentialToUpdateIsPublic, LOGIN, DUMMY_LOGIN, true);
         try {
@@ -353,7 +353,7 @@ public abstract class AuthenticationManagerTest {
         Assert.assertTrue(sizeAfterUserCreation == sizeAfterUserUpdated);
         Subject updatedUser = authenticationManager.findUser(DUMMY_LOGIN);
         Assert.assertNotNull(updatedUser);
-        JGuardCredential jGuardCredential = SubjectUtils.getIdentityCredential(updatedUser, authenticationManager);
+        JGuardCredential jGuardCredential = authenticationManager.getIdentityCredential(updatedUser);
         Assert.assertEquals(DUMMY_LOGIN, jGuardCredential.getValue());
 
 

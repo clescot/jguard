@@ -37,7 +37,6 @@ import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.principals.Organization;
 import net.sf.jguard.core.principals.OrganizationTemplate;
 import net.sf.jguard.core.principals.SubjectTemplate;
-import net.sf.jguard.core.util.SubjectUtils;
 import net.sf.jguard.core.util.XMLUtils;
 import org.dom4j.*;
 import org.dom4j.io.HTMLWriter;
@@ -516,7 +515,7 @@ public class XmlAuthenticationManager extends AbstractAuthenticationManager impl
             //subject is not in read-only mode
             Subject user = new Subject(false, userPrincipals, publicCredentials, privateCredentials);
             if (userPrincipals.size() <= 1) {
-                JGuardCredential cred = SubjectUtils.getIdentityCredential(user, this);
+                JGuardCredential cred = getIdentityCredential(user);
                 logger.warn(" user " + cred.getName() + "=" + cred.getValue() + " hasn't got any RolePrincipals granted (no roles owned by his organization is granted to him) ");
             }
             users.add(user);

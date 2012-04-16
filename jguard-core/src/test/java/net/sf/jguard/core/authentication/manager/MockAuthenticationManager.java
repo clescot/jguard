@@ -1,5 +1,6 @@
 package net.sf.jguard.core.authentication.manager;
 
+import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.principals.Organization;
@@ -7,6 +8,7 @@ import net.sf.jguard.core.principals.OrganizationTemplate;
 import net.sf.jguard.core.principals.SubjectTemplate;
 import net.sf.jguard.core.provisioning.RegistrationException;
 
+import javax.inject.Inject;
 import javax.security.auth.Subject;
 import java.security.Principal;
 import java.util.Collection;
@@ -17,7 +19,8 @@ public class MockAuthenticationManager extends AbstractAuthenticationManager imp
 
     Set<Subject> subjects = new HashSet<Subject>();
 
-    public MockAuthenticationManager(String applicationName) {
+    @Inject
+    public MockAuthenticationManager(@ApplicationName String applicationName) {
         super(applicationName);
         subjects.add(getGuestSubject());
     }

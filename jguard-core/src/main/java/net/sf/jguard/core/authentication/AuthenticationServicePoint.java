@@ -82,18 +82,6 @@ public interface AuthenticationServicePoint<Req, Res> {
                                            Response<Res> response,
                                            ImpersonationScopes impersonationScopes);
 
-    /**
-     * utility method wrapping impersonateAsGuest method to not handle {@link net.sf.jguard.core.authentication.LoginContextWrapper}
-     * and its {@Link net.sf.jguard.core.authentication.AuthenticationStatus}.
-     *
-     * @param request
-     * @param response
-     * @param impersonationScopes
-     * @param callbackHandler
-     * @return
-     */
-    Subject getGuestSubject(Request<Req> request, Response<Res> response, ImpersonationScopes impersonationScopes, JGuardCallbackHandler callbackHandler);
-
 
     /**
      * return the <i>current</i> {@link Subject}:

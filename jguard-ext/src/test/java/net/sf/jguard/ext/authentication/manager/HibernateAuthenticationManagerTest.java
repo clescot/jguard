@@ -214,7 +214,7 @@ public class HibernateAuthenticationManagerTest extends AuthenticationManagerTes
             Subject foundUser = authenticationManager.findUser(loginAndPassword);
             logger.info("user found after creation = " + foundUser.toString());
 
-            JGuardCredential identityCred = SubjectUtils.getIdentityCredential(foundUser, authenticationManager);
+            JGuardCredential identityCred = authenticationManager.getIdentityCredential(foundUser);
             //identity credential is always part of the public subject credential set
             SubjectUtils.setCredentialValue(foundUser, true, LOGIN, DUMMY_LOGIN, true);
             session.get().evict(foundUser);
@@ -227,7 +227,7 @@ public class HibernateAuthenticationManagerTest extends AuthenticationManagerTes
             tx = session.get().beginTransaction();
             Subject updatedUser = authenticationManager.findUser(DUMMY_LOGIN);
             Assert.assertNotNull(updatedUser);
-            JGuardCredential jGuardCredential = SubjectUtils.getIdentityCredential(updatedUser, authenticationManager);
+            JGuardCredential jGuardCredential = authenticationManager.getIdentityCredential(updatedUser);
             Assert.assertEquals(DUMMY_LOGIN, jGuardCredential.getValue());
             tx.commit();
         } finally {

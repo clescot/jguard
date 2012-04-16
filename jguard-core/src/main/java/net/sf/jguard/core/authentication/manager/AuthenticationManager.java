@@ -286,4 +286,6 @@ public interface AuthenticationManager {
 
     public Subject getGuestSubject();
 
+    public JGuardCredential getIdentityCredential(Subject subject);
+
 }

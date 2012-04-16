@@ -230,31 +230,6 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
     }
 
 
-    /**
-     * return a Subject identified with the guest role.
-     * it is a special user which represents any unauthenticated users, with their access rights.
-     *
-     * @param request
-     * @param response
-     * @param impersonationScopes
-     * @return
-     */
-    public Subject getGuestSubject(Request<Req> request, Response<Res> response, ImpersonationScopes impersonationScopes, JGuardCallbackHandler callbackHandler) {
-        Subject localGuest;
-        LoginContextWrapper loginContextWrapper = impersonateAsGuest(request, response, impersonationScopes);
-        if (loginContextWrapper == null) {
-            throw new IllegalStateException(" authenticationUtils is null in the Authenticationbindings");
-        }
-        if (AuthenticationStatus.SUCCESS.equals(loginContextWrapper.getStatus())) {
-            localGuest = loginContextWrapper.getSubject();
-        } else {
-            throw new AuthenticationException("authentication of the guest user does not return a SUCCESS authentication status but " + loginContextWrapper.getStatus().toString());
-        }
-
-        return localGuest;
-
-    }
-
     public boolean authenticationSucceededDuringThisRequest(Request<Req> request, Response<Res> response) {
         String authenticationSucceeded = (String) scopes.getRequestAttribute(AUTHENTICATION_SUCCEEDED);
         if (null == authenticationSucceeded) {

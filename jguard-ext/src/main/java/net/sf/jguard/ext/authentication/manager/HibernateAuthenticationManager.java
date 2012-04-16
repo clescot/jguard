@@ -165,7 +165,7 @@ public class HibernateAuthenticationManager extends AbstractAuthenticationManage
         checkCredential(identityCred);
 
         //check new identityCred
-        JGuardCredential newIdentityCredential = SubjectUtils.getIdentityCredential(user, this);
+        JGuardCredential newIdentityCredential = getIdentityCredential(user);
         checkCredential(newIdentityCredential);
 
         //find user stored in database with the same identity cred
