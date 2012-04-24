@@ -32,7 +32,6 @@ import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.authorization.permissions.UserPrincipal;
-import net.sf.jguard.core.util.SubjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +72,7 @@ public class JEERequestWrapperUtil {
             return remoteUser;
         } else {
 
-            JGuardCredential identityCred = SubjectUtils.getIdentityCredential(subject, authManager);
+            JGuardCredential identityCred = authManager.getIdentityCredential(subject);
             if (identityCred == null) {
                 return null;
             }

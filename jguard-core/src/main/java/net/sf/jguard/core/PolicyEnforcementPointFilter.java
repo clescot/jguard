@@ -129,13 +129,9 @@ public abstract class PolicyEnforcementPointFilter<Req, Res> implements Filter<R
     private AuthenticationStatus authenticateAfterRegistration(Request request, Response response, JGuardCallbackHandler callbackHandler) {
         //authenticationBindings.setRequestAttribute(CoreConstants.REGISTRATION_DONE, Boolean.TRUE);
 
-        return authenticationServicePoint.authenticate(request, response, callbackHandler).getStatus();
+        return authenticationServicePoint.authenticate(callbackHandler).getStatus();
 
     }
-
-
-
-    
 
 
 }

@@ -109,7 +109,7 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         AuthenticationServicePoint<HttpServletRequest, HttpServletResponse> authenticationServicePoint = injector.getInstance(Key.get(new TypeLiteral<AuthenticationServicePoint<HttpServletRequest, HttpServletResponse>>() {
         }));
         JGuardCallbackHandler callbackHandler = injector.getInstance(JGuardCallbackHandler.class);
-        AuthenticationStatus status = authenticationServicePoint.authenticate(requestAdapter, responseAdapter, callbackHandler).getStatus();
+        AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler).getStatus();
 
         assertEquals(AuthenticationStatus.FAILURE, status);
         assertEquals("/Logon.do", response.getForwardedUrl());
@@ -133,7 +133,7 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         AuthenticationServicePoint<HttpServletRequest, HttpServletResponse> authenticationServicePoint = injector.getInstance(Key.get(new TypeLiteral<AuthenticationServicePoint<HttpServletRequest, HttpServletResponse>>() {
         }));
         JGuardCallbackHandler callbackHandler = injector.getInstance(JGuardCallbackHandler.class);
-        AuthenticationStatus status = authenticationServicePoint.authenticate(requestAdapter, responseAdapter, callbackHandler).getStatus();
+        AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler).getStatus();
         assertEquals(AuthenticationStatus.SUCCESS, status);
     }
 
@@ -154,7 +154,7 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         ImpersonationScopes impersonationScopes = injector.getInstance(ImpersonationScopes.class);
         Scopes scopes = injector.getInstance(Scopes.class);
         JGuardCallbackHandler callbackHandler = injector.getInstance(JGuardCallbackHandler.class);
-        AuthenticationStatus status = authenticationServicePoint.impersonateAsGuest(requestAdapter, responseAdapter, impersonationScopes).getStatus();
+        AuthenticationStatus status = authenticationServicePoint.impersonateAsGuest(impersonationScopes).getStatus();
         assertEquals(AuthenticationStatus.SUCCESS, status);
         LoginContextWrapperImpl authnUtils2 = (LoginContextWrapperImpl) ((StatefulScopes) scopes).getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
         LoginContextWrapperImpl authnUtils = (LoginContextWrapperImpl) ((StatefulScopes) scopes).getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);

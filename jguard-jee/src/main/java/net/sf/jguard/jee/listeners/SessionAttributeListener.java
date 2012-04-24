@@ -33,7 +33,6 @@ import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authentication.manager.JGuardAuthenticationManagerMarkups;
-import net.sf.jguard.core.util.SubjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,7 +66,7 @@ public class SessionAttributeListener implements HttpSessionAttributeListener {
     private JGuardCredential getIdentityCredential(final HttpSessionBindingEvent event) throws AuthenticationException {
         Subject subject = ((LoginContextWrapperImpl) event.getValue()).getSubject();
         AuthenticationManager authenticationManager = (AuthenticationManager) event.getSession().getServletContext().getAttribute(JGuardAuthenticationManagerMarkups.AUTHENTICATION_MANAGER.getLabel());
-        return SubjectUtils.getIdentityCredential(subject, authenticationManager);
+        return authenticationManager.getIdentityCredential(subject);
     }
 
     public void attributeRemoved(HttpSessionBindingEvent event) {

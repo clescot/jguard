@@ -45,8 +45,6 @@ import java.util.Collection;
 
 @Singleton
 public class DummyAuthenticationSchemeHandler<Req, Res> implements StatefulAuthenticationSchemeHandler<Req, Res> {
-    public static final String DUMMY_FILE = "toto.txt";
-    public static final String READ_OPERATION = "read";
     private PermissionCollection grantedPermissions;
     public static final String MOCK_AUTHENTICATION_SCHEME_HANDLER_NAME = "MOCK";
     private static final String DUMMY_NAME_PERMISSION = "dummy";

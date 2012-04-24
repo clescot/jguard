@@ -167,10 +167,8 @@ public abstract class JGuardCallbackHandler<Req, Res> implements CallbackHandler
      * propagate to each authenticationSchemeHandler the authenticationSucceed Event.
      *
      * @param subject
-     * @param request
-     * @param response
      */
-    public void authenticationSucceed(Subject subject, Request<Req> request, Response<Res> response) {
+    public void authenticationSucceed(Subject subject) {
         for (AuthenticationSchemeHandler<Req, Res> schemeHandler : usedAuthenticationSchemeHandlers) {
             schemeHandler.authenticationSucceed(subject, request, response);
         }
@@ -178,11 +176,8 @@ public abstract class JGuardCallbackHandler<Req, Res> implements CallbackHandler
 
     /**
      * propagate to each authenticationSchemeHandler the authenticationFailed event.
-     *
-     * @param request
-     * @param response
      */
-    public void authenticationFailed(Request<Req> request, Response<Res> response) {
+    public void authenticationFailed() {
         for (AuthenticationSchemeHandler<Req, Res> schemeHandler : usedAuthenticationSchemeHandlers) {
             schemeHandler.authenticationFailed(request, response);
         }

@@ -58,12 +58,10 @@ public interface AuthenticationServicePoint<Req, Res> {
      * StatefulScopes interface, this method removes a possible old {@link LoginContextWrapperImpl} object,
      * invalidate the session, create a new one, and bound the new Authenticationutils to it.
      *
-     * @param request
-     * @param response
      * @param callbackHandler
      * @return
      */
-    LoginContextWrapper authenticate(Request<Req> request, Response<Res> response, JGuardCallbackHandler<Req, Res> callbackHandler);
+    LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler);
 
 
     /**
@@ -73,14 +71,10 @@ public interface AuthenticationServicePoint<Req, Res> {
      * a wrapping mechanism for authenticationSchemeHandler and Scopes impersonate
      * the user as a guest, but the underlying authenticationBindings contains the real user.
      *
-     * @param request
-     * @param response
      * @param impersonationScopes
      * @return wrapper around the Guest Subject
      */
-    LoginContextWrapper impersonateAsGuest(Request<Req> request,
-                                           Response<Res> response,
-                                           ImpersonationScopes impersonationScopes);
+    LoginContextWrapper impersonateAsGuest(ImpersonationScopes impersonationScopes);
 
 
     /**

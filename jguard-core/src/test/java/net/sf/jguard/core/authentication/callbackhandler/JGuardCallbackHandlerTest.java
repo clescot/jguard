@@ -87,7 +87,7 @@ public class JGuardCallbackHandlerTest {
         //when
         mockCallbackHandler.handle(callbacks);
         Subject subject = new Subject();
-        mockCallbackHandler.authenticationSucceed(subject, request, response);
+        mockCallbackHandler.authenticationSucceed(subject);
         //then
         verify(authenticationSchemeHandler).authenticationSucceed(subject, request, response);
     }
@@ -115,7 +115,7 @@ public class JGuardCallbackHandlerTest {
         //when
         mockCallbackHandler.handle(callbacks);
         Subject subject = new Subject();
-        mockCallbackHandler.authenticationFailed(request, response);
+        mockCallbackHandler.authenticationFailed();
         //then
         verify(authenticationSchemeHandler).authenticationFailed(request, response);
     }
@@ -200,7 +200,7 @@ public class JGuardCallbackHandlerTest {
         //when
         mockCallbackHandler.handle(callbacks);
         Subject subject = new Subject();
-        mockCallbackHandler.authenticationFailed(request, response);
+        mockCallbackHandler.authenticationFailed();
         //then
         verify(authenticationSchemeHandler, never()).authenticationFailed(request, response);
     }
@@ -226,7 +226,7 @@ public class JGuardCallbackHandlerTest {
         //when
         mockCallbackHandler.handle(callbacks);
         Subject subject = new Subject();
-        mockCallbackHandler.authenticationFailed(request, response);
+        mockCallbackHandler.authenticationFailed();
         //then
         verify(authenticationSchemeHandler, never()).authenticationFailed(request, response);
     }

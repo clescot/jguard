@@ -85,18 +85,15 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
     }
 
 
-    public LoginContextWrapper authenticate(Request<Req> request,
-                                            Response<Res> response,
-                                            JGuardCallbackHandler<Req, Res> callbackHandler) {
-        return authenticate(request, response, configuration, scopes, callbackHandler);
+    public LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler) {
+        return authenticate(configuration, scopes, callbackHandler);
     }
 
 
-    private LoginContextWrapper authenticate(Request<Req> request,
-                                             Response<Res> response,
-                                             Configuration configuration,
-                                             Scopes scopes,
-                                             JGuardCallbackHandler<Req, Res> callbackHandler) throws AuthenticationException {
+    private LoginContextWrapper authenticate(
+            Configuration configuration,
+            Scopes scopes,
+            JGuardCallbackHandler<Req, Res> callbackHandler) throws AuthenticationException {
         scopes.setRequestAttribute(REGISTRATION_DONE, Boolean.FALSE);
 
         LoginContextWrapper loginContextWrapper = null;
@@ -112,7 +109,7 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
 
 
             //propagate the authentication success
-            callbackHandler.authenticationSucceed(loginContextWrapper.getSubject(), request, response);
+            callbackHandler.authenticationSucceed(loginContextWrapper.getSubject());
             loginContextWrapper.setStatus(AuthenticationStatus.SUCCESS);
             return loginContextWrapper;
 
@@ -135,7 +132,7 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
             scopes.setRequestAttribute(LOGIN_EXCEPTION_MESSAGE, messageError);
             scopes.setRequestAttribute(LOGIN_EXCEPTION_CLASS, e.getClass());
 
-            callbackHandler.authenticationFailed(request, response);
+            callbackHandler.authenticationFailed();
             loginContextWrapper.setStatus(AuthenticationStatus.FAILURE);
             return loginContextWrapper;
 
@@ -152,13 +149,11 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
     }
 
 
-    public LoginContextWrapper impersonateAsGuest(Request<Req> request,
-                                                  Response<Res> response,
-                                                  ImpersonationScopes impersonationScopes) {
+    public LoginContextWrapper impersonateAsGuest(ImpersonationScopes impersonationScopes) {
         //we put the guest Configuration to use a GuestAppConfigurationFilter, through a GuestConfiguration wrapper,
         //to not use loginModules which does not inherit from UserLoginModule,
         //and add a SKIP_CREDENTIAL_CHECK option to subclasses of UserLoginModules
-        return authenticate(request, response, guestConfiguration, impersonationScopes, guestCallbackHandler);
+        return authenticate(guestConfiguration, impersonationScopes, guestCallbackHandler);
     }
 
     public boolean answerToChallenge(Request<Req> request, Response<Res> response) {
