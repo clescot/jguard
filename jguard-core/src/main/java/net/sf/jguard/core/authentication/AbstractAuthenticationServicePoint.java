@@ -53,7 +53,7 @@ import java.util.Collection;
  * Authenticate a user in an application with a specific {@link net.sf.jguard.core.technology.Scopes}.
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
- * @since 2.0
+ * @since 2 .0
  */
 public abstract class AbstractAuthenticationServicePoint<Req, Res> implements AuthenticationServicePoint<Req, Res> {
 
@@ -232,11 +232,7 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
 
     public boolean authenticationSucceededDuringThisRequest(Request<Req> request, Response<Res> response) {
         String authenticationSucceeded = (String) scopes.getRequestAttribute(AUTHENTICATION_SUCCEEDED);
-        if (null == authenticationSucceeded) {
-            return false;
-        } else {
-            return Boolean.parseBoolean(authenticationSucceeded);
-        }
+        return null != authenticationSucceeded && Boolean.parseBoolean(authenticationSucceeded);
     }
 
 }
