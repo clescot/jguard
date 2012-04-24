@@ -105,7 +105,7 @@ public abstract class StatefulAuthenticationServicePoint<Req, Res> extends Abstr
      */
     public Subject getCurrentSubject() {
         Subject subject = getSubjectInAccessControlContext();
-        LoginContextWrapper loginContextWrapperImpl = (LoginContextWrapperImpl) ((StatefulScopes) scopes).getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
+        LoginContextWrapper loginContextWrapperImpl = (LoginContextWrapperImpl) scopes.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
         if (loginContextWrapperImpl != null) {
             subject = loginContextWrapperImpl.getSubject();
         }
