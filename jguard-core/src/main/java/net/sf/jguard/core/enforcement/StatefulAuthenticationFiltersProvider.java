@@ -27,10 +27,9 @@
 
 package net.sf.jguard.core.enforcement;
 
-import net.sf.jguard.core.authentication.AuthenticationServicePoint;
+import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 
 import java.util.List;
 
@@ -44,14 +43,11 @@ public abstract class StatefulAuthenticationFiltersProvider<Req, Res> extends Re
     private Request<Req> request;
     private AuthenticationFilter<Req, Res> sessionAuthenticationFilter;
 
-    public StatefulAuthenticationFiltersProvider(Request<Req> request,
-                                                 Response<Res> response,
-                                                 AuthenticationServicePoint<Req, Res> authenticationServicePoint,
+    public StatefulAuthenticationFiltersProvider(JGuardCallbackHandler<Req, Res> jGuardCallbackHandler,
                                                  List<AuthenticationFilter<Req, Res>> authenticationFilters,
                                                  GuestPolicyEnforcementPointFilter<Req, Res> policyEnforcementPointFilter,
                                                  AuthenticationFilter<Req, Res> sessionAuthenticationFilter) {
-        super(request, response, authenticationServicePoint, authenticationFilters, policyEnforcementPointFilter);
-        this.request = request;
+        super(jGuardCallbackHandler, authenticationFilters, policyEnforcementPointFilter);
         this.sessionAuthenticationFilter = sessionAuthenticationFilter;
     }
 

@@ -42,16 +42,6 @@ public interface AuthenticationServicePoint<Req, Res> {
 
 
     /**
-     * return <b>true</b> if the user <b>tries</b> to answer to an authentication challenge
-     * validated by an AuthenticationSchemeHandler.
-     *
-     * @param request
-     * @param response
-     * @return
-     */
-    boolean answerToChallenge(Request<Req> request, Response<Res> response);
-
-    /**
      * authenticate the user.
      * if the {@link net.sf.jguard.core.technology.Scopes} implementation implements the
      * StatefulScopes interface, this method removes a possible old {@link LoginContextWrapperImpl} object,

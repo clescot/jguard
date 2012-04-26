@@ -44,6 +44,7 @@ import java.util.*;
 
 public abstract class StatefulAuthenticationServicePoint<Req, Res> extends AbstractAuthenticationServicePoint<Req, Res> {
 
+    private Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers;
     protected StatefulScopes scopes;
     private static final Logger logger = LoggerFactory.getLogger(StatefulAuthenticationServicePoint.class.getName());
     public static final String LOGIN_CONTEXT_WRAPPER = "loginContextWrapper";
@@ -52,7 +53,8 @@ public abstract class StatefulAuthenticationServicePoint<Req, Res> extends Abstr
                                               Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers,
                                               String applicationName,
                                               StatefulScopes scopes) {
-        super(configuration, authenticationSchemeHandlers, applicationName, scopes);
+        super(configuration, applicationName, scopes);
+        this.authenticationSchemeHandlers = authenticationSchemeHandlers;
         this.scopes = scopes;
     }
 
@@ -156,7 +158,7 @@ public abstract class StatefulAuthenticationServicePoint<Req, Res> extends Abstr
         boolean userLogoff = false;
 
         //we check that authenticationSchemeHandler is stateful and if logoff is called
-        AuthenticationSchemeHandler authSchemeHandler = getAuthenticationSchemeHandler(currentSubject, getAuthenticationSchemeHandlers());
+        AuthenticationSchemeHandler authSchemeHandler = getAuthenticationSchemeHandler(currentSubject, authenticationSchemeHandlers);
         if (authSchemeHandler == null) {
             //when user is guest which use impersonationAuthenticationBindings not present here
             return false;

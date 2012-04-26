@@ -32,7 +32,6 @@ import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.exception.AuthenticationContinueException;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authentication.loginmodules.AuthenticationChallengeException;
-import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.Scopes;
@@ -45,7 +44,6 @@ import javax.security.auth.login.Configuration;
 import javax.security.auth.login.LoginException;
 import java.security.AccessControlContext;
 import java.security.AccessController;
-import java.util.Collection;
 
 
 /**
@@ -59,7 +57,6 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
     private static final Logger logger = LoggerFactory.getLogger(AbstractAuthenticationServicePoint.class.getName());
 
     private Configuration configuration;
-    private Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers;
     private String applicationName;
     protected Scopes scopes;
     private static final String AUTHENTICATION_SUCCEEDED = "authenticationSucceededDuringThisRequest";
@@ -68,11 +65,9 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
     private static final String REGISTRATION_DONE = "registrationDone";
 
     public AbstractAuthenticationServicePoint(Configuration configuration,
-                                              Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers,
                                               String applicationName,
                                               Scopes scopes) {
         this.configuration = configuration;
-        this.authenticationSchemeHandlers = authenticationSchemeHandlers;
         this.applicationName = applicationName;
         this.scopes = scopes;
     }
@@ -142,22 +137,6 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
     }
 
 
-    public boolean answerToChallenge(Request<Req> request, Response<Res> response) {
-        for (AuthenticationSchemeHandler<Req, Res> handler : authenticationSchemeHandlers) {
-            boolean answerToChallenge = handler.answerToChallenge(request, response);
-            if (answerToChallenge) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    protected Collection<AuthenticationSchemeHandler<Req, Res>> getAuthenticationSchemeHandlers() {
-        return authenticationSchemeHandlers;
-    }
-
-
     /**
      * return the <i>current</i> {@link Subject}:
      * this method is looking for from the local scope to the global scope.
@@ -200,7 +179,7 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
      * Scopes is different among users.
      *
      * @param scopes
-     * @return AuthenticationUtils
+     * @return LoginContextWrapper
      */
     protected LoginContextWrapper getLoginContextWrapper(Scopes scopes) {
 

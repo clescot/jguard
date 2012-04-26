@@ -28,10 +28,8 @@
 package net.sf.jguard.core.enforcement;
 
 import com.google.inject.Provider;
-import net.sf.jguard.core.authentication.AuthenticationServicePoint;
+import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,21 +43,16 @@ public abstract class RestfulAuthenticationFiltersProvider<Req, Res> implements 
 
 
     protected List<AuthenticationFilter<Req, Res>> filters = new ArrayList<AuthenticationFilter<Req, Res>>();
-    private Request<Req> request;
-    private Response<Res> response;
-    private AuthenticationServicePoint<Req, Res> authenticationServicePoint;
+    private JGuardCallbackHandler<Req, Res> jGuardCallbackHandler;
     private List<AuthenticationFilter<Req, Res>> authenticationFilters;
     private GuestPolicyEnforcementPointFilter<Req, Res> guestPolicyEnforcementPointFilter;
 
-    public RestfulAuthenticationFiltersProvider(Request<Req> request,
-                                                Response<Res> response,
-                                                AuthenticationServicePoint<Req, Res> authenticationServicePoint,
-                                                List<AuthenticationFilter<Req, Res>> authenticationFilters,
-                                                GuestPolicyEnforcementPointFilter<Req, Res> guestPolicyEnforcementPointFilter
+    public RestfulAuthenticationFiltersProvider(
+            JGuardCallbackHandler<Req, Res> jGuardCallbackHandler,
+            List<AuthenticationFilter<Req, Res>> authenticationFilters,
+            GuestPolicyEnforcementPointFilter<Req, Res> guestPolicyEnforcementPointFilter
     ) {
-        this.request = request;
-        this.response = response;
-        this.authenticationServicePoint = authenticationServicePoint;
+        this.jGuardCallbackHandler = jGuardCallbackHandler;
         this.authenticationFilters = authenticationFilters;
         this.guestPolicyEnforcementPointFilter = guestPolicyEnforcementPointFilter;
     }
@@ -73,7 +66,7 @@ public abstract class RestfulAuthenticationFiltersProvider<Req, Res> implements 
      * @return
      */
     public List<AuthenticationFilter<Req, Res>> get() {
-        if (authenticationServicePoint.answerToChallenge(request, response)) {
+        if (jGuardCallbackHandler.answerToChallenge()) {
             filters.addAll(authenticationFilters);
         } else {
             filters.add(guestPolicyEnforcementPointFilter);

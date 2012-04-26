@@ -183,4 +183,21 @@ public abstract class JGuardCallbackHandler<Req, Res> implements CallbackHandler
         }
     }
 
+
+    /**
+     * return <b>true</b> if the user <b>tries</b> to answer to an authentication challenge
+     * validated by an AuthenticationSchemeHandler.
+     *
+     * @return
+     */
+    public boolean answerToChallenge() {
+        for (AuthenticationSchemeHandler<Req, Res> handler : registeredAuthenticationSchemeHandlers) {
+            boolean answerToChallenge = handler.answerToChallenge(request, response);
+            if (answerToChallenge) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
