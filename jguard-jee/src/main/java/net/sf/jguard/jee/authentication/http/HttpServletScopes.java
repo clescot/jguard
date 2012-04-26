@@ -31,14 +31,12 @@ package net.sf.jguard.jee.authentication.http;
 
 import com.google.inject.servlet.RequestScoped;
 import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.AbstractScopes;
 import net.sf.jguard.core.technology.StatefulScopes;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.Iterator;
@@ -48,19 +46,17 @@ import java.util.Iterator;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @RequestScoped
-public class HttpServletScopes extends AbstractScopes<HttpServletRequest, HttpServletResponse> implements StatefulScopes {
+public class HttpServletScopes extends AbstractScopes<HttpServletRequest> implements StatefulScopes {
 
 
     /**
      * Creates a new instance of HttpServletScopes
      *
      * @param request
-     * @param response
      */
     @Inject
-    public HttpServletScopes(Request<HttpServletRequest> request,
-                             Response<HttpServletResponse> response) {
-        super(request, response);
+    public HttpServletScopes(Request<HttpServletRequest> request) {
+        super(request);
     }
 
 

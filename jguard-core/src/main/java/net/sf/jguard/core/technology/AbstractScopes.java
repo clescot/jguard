@@ -29,26 +29,22 @@ package net.sf.jguard.core.technology;
 
 
 import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public abstract class AbstractScopes<Req, Res> implements Scopes {
+public abstract class AbstractScopes<Req> implements Scopes {
 
 
     private static Logger logger = LoggerFactory.getLogger(AbstractScopes.class.getName());
 
 
     protected Request<Req> request;
-    private Response<Res> response;
 
 
-    public AbstractScopes(Request<Req> request,
-                          Response<Res> response) {
+    public AbstractScopes(Request<Req> request) {
         super();
         this.request = request;
-        this.response = response;
     }
 
 

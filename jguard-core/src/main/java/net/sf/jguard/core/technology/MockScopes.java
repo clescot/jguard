@@ -1,16 +1,14 @@
 package net.sf.jguard.core.technology;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
 import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class MockScopes extends AbstractScopes<MockRequest, MockResponse> implements StatefulScopes {
+public class MockScopes extends AbstractScopes<MockRequest> implements StatefulScopes {
 
     private Map<String, Object> requestMap = new HashMap<String, Object>();
     private Map<String, Object> sessionMap = new HashMap<String, Object>();
@@ -18,8 +16,8 @@ public class MockScopes extends AbstractScopes<MockRequest, MockResponse> implem
     private Map<String, String> initApplicationAttributes = new HashMap<String, String>();
 
     @Inject
-    public MockScopes(Request<MockRequest> request, Response<MockResponse> response) {
-        super(request, response);
+    public MockScopes(Request<MockRequest> request) {
+        super(request);
     }
 
 

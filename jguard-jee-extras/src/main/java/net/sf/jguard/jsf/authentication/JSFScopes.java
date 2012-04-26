@@ -29,7 +29,6 @@ package net.sf.jguard.jsf.authentication;
 
 
 import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.AbstractScopes;
 import net.sf.jguard.core.technology.StatefulScopes;
 
@@ -53,9 +52,8 @@ public class JSFScopes extends AbstractScopes implements StatefulScopes {
     private FacesContext facesContext;
 
     @Inject
-    public JSFScopes(Request<FacesContext> request,
-                     Response<FacesContext> response) {
-        super(request, response);
+    public JSFScopes(Request<FacesContext> request) {
+        super(request);
         this.facesContext = request.get();
     }
 
