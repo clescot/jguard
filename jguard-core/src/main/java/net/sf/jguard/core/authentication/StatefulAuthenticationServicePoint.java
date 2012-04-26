@@ -124,21 +124,21 @@ public abstract class StatefulAuthenticationServicePoint<Req, Res> extends Abstr
      */
     public void logout() {
         logger.debug(" logout phase ");
-        StatefulScopes statefulAuthenticationBindings = scopes;
+        StatefulScopes statefulScopes = scopes;
         //remove Subject from session
-        LoginContextWrapper loginContext = (LoginContextWrapper) statefulAuthenticationBindings.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
+        LoginContextWrapper loginContext = (LoginContextWrapper) statefulScopes.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
         if (loginContext != null) {
             loginContext.logout();
             logger.debug(" user logout ");
         }
 
-        statefulAuthenticationBindings.removeSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
+        statefulScopes.removeSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
 
         logger.debug("doFilter() -  user logout ");
 
         //we invalidate the session to unbound all objects, including subject
         try {
-            statefulAuthenticationBindings.invalidateSession();
+            statefulScopes.invalidateSession();
         } catch (java.lang.IllegalStateException ise) {
             logger.error(" session is already invalidated ", ise);
         }

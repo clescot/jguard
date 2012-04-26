@@ -60,7 +60,6 @@ public class LoginContextWrapperImpl implements LoginContextWrapper {
 
     @Inject
     public LoginContextWrapperImpl(@ApplicationName String applicationName) {
-        super();
         this.applicationName = applicationName;
     }
 
