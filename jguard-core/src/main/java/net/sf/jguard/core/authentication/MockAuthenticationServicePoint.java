@@ -8,6 +8,7 @@ import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockResponse;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.core.technology.ImpersonationScopes;
 import net.sf.jguard.core.technology.MockScopes;
 
 import javax.inject.Inject;
@@ -26,6 +27,8 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
 
 
     private boolean enableHook = true;
+    private final Configuration guestConfiguration;
+    private final JGuardCallbackHandler guestCallbackHandler;
 
     @Inject
     public MockAuthenticationServicePoint(Configuration configuration,
@@ -35,10 +38,11 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
                                           MockScopes authenticationBindings,
                                           @Guest JGuardCallbackHandler guestCallbackHandler) {
         super(configuration,
-                guestConfiguration,
                 authenticationSchemeHandlers,
                 applicationName,
-                authenticationBindings, guestCallbackHandler);
+                authenticationBindings);
+        this.guestConfiguration = guestConfiguration;
+        this.guestCallbackHandler = guestCallbackHandler;
     }
 
     public boolean authenticationSucceededDuringThisRequest(Request<MockRequest> request, Response<MockResponse> response) {
@@ -65,5 +69,23 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
 
     public void setEnableHook(boolean enableHook) {
         this.enableHook = enableHook;
+    }
+
+
+    /**
+     * impersonate the current user as a Guest user with the related credentials.
+     * it set the NameCallback to <b>guest<b/>,the PasswordCallback to <b>guest</b>,
+     * the InetAddressCallback host address and host name to 127.0.0.1 and localhost.
+     * a wrapping mechanism for authenticationSchemeHandler and Scopes impersonate
+     * the user as a guest, but the underlying authenticationBindings contains the real user.
+     * we put the guest Configuration to use a GuestAppConfigurationFilter, through a GuestConfiguration wrapper,
+     * to not use loginModules which does not inherit from UserLoginModule,
+     * and add a SKIP_CREDENTIAL_CHECK option to subclasses of UserLoginModules
+     *
+     * @param impersonationScopes
+     * @return wrapper around the Guest Subject
+     */
+    public LoginContextWrapper impersonateAsGuest(ImpersonationScopes impersonationScopes) {
+        return authenticate(guestConfiguration, impersonationScopes, guestCallbackHandler);
     }
 }

@@ -35,7 +35,6 @@ import net.sf.jguard.core.authentication.loginmodules.AuthenticationChallengeExc
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.ImpersonationScopes;
 import net.sf.jguard.core.technology.Scopes;
 import net.sf.jguard.core.util.SubjectUtils;
 import org.slf4j.Logger;
@@ -60,28 +59,22 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
     private static final Logger logger = LoggerFactory.getLogger(AbstractAuthenticationServicePoint.class.getName());
 
     private Configuration configuration;
-    private Configuration guestConfiguration;
     private Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers;
     private String applicationName;
-    private Scopes scopes;
-    private JGuardCallbackHandler guestCallbackHandler;
+    protected Scopes scopes;
     private static final String AUTHENTICATION_SUCCEEDED = "authenticationSucceededDuringThisRequest";
     private static final String LOGIN_EXCEPTION_CLASS = "LoginExceptionClass";
     private static final String LOGIN_EXCEPTION_MESSAGE = "LoginExceptionMessage";
     private static final String REGISTRATION_DONE = "registrationDone";
 
     public AbstractAuthenticationServicePoint(Configuration configuration,
-                                              Configuration guestConfiguration,
                                               Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers,
                                               String applicationName,
-                                              Scopes scopes,
-                                              JGuardCallbackHandler guestCallbackHandler) {
+                                              Scopes scopes) {
         this.configuration = configuration;
-        this.guestConfiguration = guestConfiguration;
         this.authenticationSchemeHandlers = authenticationSchemeHandlers;
         this.applicationName = applicationName;
         this.scopes = scopes;
-        this.guestCallbackHandler = guestCallbackHandler;
     }
 
 
@@ -90,7 +83,7 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
     }
 
 
-    private LoginContextWrapper authenticate(
+    protected LoginContextWrapper authenticate(
             Configuration configuration,
             Scopes scopes,
             JGuardCallbackHandler<Req, Res> callbackHandler) throws AuthenticationException {
@@ -148,13 +141,6 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
     protected void authenticationSucceed(LoginContextWrapper loginContextWrapper) {
     }
 
-
-    public LoginContextWrapper impersonateAsGuest(ImpersonationScopes impersonationScopes) {
-        //we put the guest Configuration to use a GuestAppConfigurationFilter, through a GuestConfiguration wrapper,
-        //to not use loginModules which does not inherit from UserLoginModule,
-        //and add a SKIP_CREDENTIAL_CHECK option to subclasses of UserLoginModules
-        return authenticate(guestConfiguration, impersonationScopes, guestCallbackHandler);
-    }
 
     public boolean answerToChallenge(Request<Req> request, Response<Res> response) {
         for (AuthenticationSchemeHandler<Req, Res> handler : authenticationSchemeHandlers) {

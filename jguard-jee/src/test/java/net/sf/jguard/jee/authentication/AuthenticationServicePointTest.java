@@ -31,13 +31,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
-import net.sf.jguard.core.authentication.*;
+import net.sf.jguard.core.authentication.AuthenticationServicePoint;
+import net.sf.jguard.core.authentication.AuthenticationStatus;
+import net.sf.jguard.core.authentication.LoginContextWrapper;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
-import net.sf.jguard.core.technology.ImpersonationScopes;
-import net.sf.jguard.core.technology.Scopes;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpServletRequestAdapter;
 import net.sf.jguard.jee.HttpServletResponseAdapter;
 import net.sf.jguard.jee.JGuardJEETest;
@@ -49,7 +48,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletContext;
 
-import javax.security.auth.Subject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -135,32 +133,6 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         JGuardCallbackHandler callbackHandler = injector.getInstance(JGuardCallbackHandler.class);
         AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler).getStatus();
         assertEquals(AuthenticationStatus.SUCCESS, status);
-    }
-
-    /**
-     * we test that a successful authentication followed by an impersonation succeed, and does
-     * not imply an overwrite of the firstly authenticated user.
-     *
-     * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
-     *
-     */
-    @Test
-    public void testImpersonationAsGuest() throws AuthenticationException {
-        testSuccessFulAuthentication();
-
-        injector = Guice.createInjector(provideModules(request, response, filterChain));
-        AuthenticationServicePoint<HttpServletRequest, HttpServletResponse> authenticationServicePoint = injector.getInstance(Key.get(new TypeLiteral<AuthenticationServicePoint<HttpServletRequest, HttpServletResponse>>() {
-        }));
-        ImpersonationScopes impersonationScopes = injector.getInstance(ImpersonationScopes.class);
-        Scopes scopes = injector.getInstance(Scopes.class);
-        JGuardCallbackHandler callbackHandler = injector.getInstance(JGuardCallbackHandler.class);
-        AuthenticationStatus status = authenticationServicePoint.impersonateAsGuest(impersonationScopes).getStatus();
-        assertEquals(AuthenticationStatus.SUCCESS, status);
-        LoginContextWrapperImpl authnUtils2 = (LoginContextWrapperImpl) ((StatefulScopes) scopes).getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
-        LoginContextWrapperImpl authnUtils = (LoginContextWrapperImpl) ((StatefulScopes) scopes).getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
-        Subject adminSubject = authnUtils.getSubject();
-        Subject adminSubject2 = authnUtils2.getSubject();
-        assertEquals(adminSubject, adminSubject2);
     }
 
 

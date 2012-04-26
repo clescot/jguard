@@ -1,9 +1,7 @@
 package net.sf.jguard.jee.authentication.http;
 
 import net.sf.jguard.core.ApplicationName;
-import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
-import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.technology.StatefulScopes;
 
@@ -19,16 +17,12 @@ import java.util.Collection;
 public class HttpServletAuthenticationServicePoint extends StatefulAuthenticationServicePoint<HttpServletRequest, HttpServletResponse> {
     @Inject
     public HttpServletAuthenticationServicePoint(Configuration configuration,
-                                                 @Guest Configuration guestConfiguration,
                                                  Collection<AuthenticationSchemeHandler<HttpServletRequest, HttpServletResponse>> authenticationSchemeHandlers,
                                                  @ApplicationName String applicationName,
-                                                 StatefulScopes scopes,
-                                                 @Guest JGuardCallbackHandler guestCallbackHandler) {
+                                                 StatefulScopes scopes) {
         super(configuration,
-                guestConfiguration,
                 authenticationSchemeHandlers,
                 applicationName,
-                scopes,
-                guestCallbackHandler);
+                scopes);
     }
 }

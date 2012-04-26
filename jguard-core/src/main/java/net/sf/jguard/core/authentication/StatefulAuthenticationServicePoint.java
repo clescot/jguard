@@ -27,7 +27,6 @@
 
 package net.sf.jguard.core.authentication;
 
-import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.loginmodules.UserLoginModule;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
@@ -50,12 +49,10 @@ public abstract class StatefulAuthenticationServicePoint<Req, Res> extends Abstr
     public static final String LOGIN_CONTEXT_WRAPPER = "loginContextWrapper";
 
     public StatefulAuthenticationServicePoint(Configuration configuration,
-                                              Configuration guestConfiguration,
                                               Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers,
                                               String applicationName,
-                                              StatefulScopes scopes,
-                                              JGuardCallbackHandler guestCallbackHandler) {
-        super(configuration, guestConfiguration, authenticationSchemeHandlers, applicationName, scopes, guestCallbackHandler);
+                                              StatefulScopes scopes) {
+        super(configuration, authenticationSchemeHandlers, applicationName, scopes);
         this.scopes = scopes;
     }
 

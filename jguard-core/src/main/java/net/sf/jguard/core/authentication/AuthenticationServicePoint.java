@@ -30,7 +30,6 @@ package net.sf.jguard.core.authentication;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.ImpersonationScopes;
 
 import javax.security.auth.Subject;
 
@@ -62,19 +61,6 @@ public interface AuthenticationServicePoint<Req, Res> {
      * @return
      */
     LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler);
-
-
-    /**
-     * impersonate the current user as a Guest user with the related credentials.
-     * it set the NameCallback to <b>guest<b/>,the PasswordCallback to <b>guest</b>,
-     * the InetAddressCallback host address and host name to 127.0.0.1 and localhost.
-     * a wrapping mechanism for authenticationSchemeHandler and Scopes impersonate
-     * the user as a guest, but the underlying authenticationBindings contains the real user.
-     *
-     * @param impersonationScopes
-     * @return wrapper around the Guest Subject
-     */
-    LoginContextWrapper impersonateAsGuest(ImpersonationScopes impersonationScopes);
 
 
     /**
