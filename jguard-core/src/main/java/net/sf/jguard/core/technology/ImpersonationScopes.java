@@ -80,7 +80,7 @@ public class ImpersonationScopes extends ScopesWrapper {
     public Object getApplicationAttribute(String key) {
         Object value = applicationAttributes.get(key);
         if (value == null) {
-            return authNBindings.getApplicationAttribute(key);
+            return scopes.getApplicationAttribute(key);
         } else {
             return value;
         }

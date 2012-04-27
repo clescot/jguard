@@ -123,8 +123,5 @@ public class JSFScopes extends AbstractScopes implements StatefulScopes {
         }
     }
 
-    public String getInitApplicationAttribute(String key) {
-        return getExternalContext().getInitParameter(key);
-    }
 
 }

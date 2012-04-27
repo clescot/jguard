@@ -40,44 +40,40 @@ import javax.inject.Inject;
  */
 public class ScopesWrapper implements Scopes {
 
-    Scopes authNBindings = null;
+    Scopes scopes = null;
 
     @Inject
     ScopesWrapper(Scopes scopes) {
-        this.authNBindings = scopes;
+        this.scopes = scopes;
     }
 
     public Object getApplicationAttribute(String key) {
-        return authNBindings.getApplicationAttribute(key);
+        return scopes.getApplicationAttribute(key);
     }
 
 
     public Object getRequestAttribute(String key) {
-        return authNBindings.getRequestAttribute(key);
+        return scopes.getRequestAttribute(key);
     }
 
 
     public void setApplicationAttribute(String key,
                                         Object value) {
-        authNBindings.setApplicationAttribute(key, value);
+        scopes.setApplicationAttribute(key, value);
     }
 
     public void setRequestAttribute(String key, Object value) {
-        authNBindings.setRequestAttribute(key, value);
+        scopes.setRequestAttribute(key, value);
 
     }
 
 
     public void removeApplicationAttribute(String key) {
-        authNBindings.removeApplicationAttribute(key);
+        scopes.removeApplicationAttribute(key);
     }
 
     public void removeRequestAttribute(String key) {
-        authNBindings.removeRequestAttribute(key);
-    }
-
-    public String getInitApplicationAttribute(String key) {
-        return authNBindings.getInitApplicationAttribute(key);
+        scopes.removeRequestAttribute(key);
     }
 
 

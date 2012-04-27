@@ -45,16 +45,6 @@ public class MockScopes extends AbstractScopes<MockRequest> implements StatefulS
         applicationMap.remove(key);
     }
 
-    /**
-     * parameter defined for initialization purpose, reachable
-     * at an application scope.
-     *
-     * @param key
-     * @return value as a String
-     */
-    public String getInitApplicationAttribute(String key) {
-        return initApplicationAttributes.get(key);
-    }
 
     public void setSessionAttribute(String key, Object value) {
         sessionMap.put(key, value);

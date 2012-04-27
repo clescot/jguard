@@ -130,8 +130,5 @@ public class HttpServletScopes extends AbstractScopes<HttpServletRequest> implem
         return request.get().getSession(createSession);
     }
 
-    public String getInitApplicationAttribute(String key) {
-        return getServletContext().getInitParameter(key);
-    }
 
 }

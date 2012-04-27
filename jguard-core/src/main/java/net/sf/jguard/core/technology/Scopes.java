@@ -61,14 +61,5 @@ public interface Scopes {
 
     void removeApplicationAttribute(String key);
 
-    /**
-     * parameter defined for initialization purpose, reachable
-     * at an application scope.
-     *
-     * @param key
-     * @return value as a String
-     */
-    String getInitApplicationAttribute(String key);
-
 
 }
