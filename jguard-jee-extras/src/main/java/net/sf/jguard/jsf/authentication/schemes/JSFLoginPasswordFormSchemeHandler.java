@@ -143,7 +143,7 @@ public class JSFLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHa
     public void authenticationSucceed(Subject subject, Request<FacesContext> request, Response<FacesContext> response) {
         String redirectOutcome = authenticationSucceedView;
         String lastAccessDeniedView = null;
-        Permission lastAccessDeniedPermission = (Permission) ((StatefulScopes) authenticationBindings).getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION);
+        Permission lastAccessDeniedPermission = (Permission) ((StatefulScopes) statefulScopes).getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION);
         if (lastAccessDeniedPermission != null) {
             lastAccessDeniedView = lastAccessDeniedPermission.getName();
         }

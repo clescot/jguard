@@ -57,8 +57,8 @@ public abstract class LoginPasswordFormSchemeHandler<Req, Res> extends FORMSchem
 
     @Inject
     public LoginPasswordFormSchemeHandler(Map<String, String> parameters,
-                                          StatefulScopes authenticationBindings) {
-        super(parameters, authenticationBindings);
+                                          StatefulScopes statefulScopes) {
+        super(parameters, statefulScopes);
         callbackTypes = new ArrayList<Class<? extends Callback>>();
         callbackTypes.add(NameCallback.class);
         callbackTypes.add(PasswordCallback.class);

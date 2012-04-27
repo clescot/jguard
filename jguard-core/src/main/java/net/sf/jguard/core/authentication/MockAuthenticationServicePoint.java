@@ -73,7 +73,7 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
      * it set the NameCallback to <b>guest<b/>,the PasswordCallback to <b>guest</b>,
      * the InetAddressCallback host address and host name to 127.0.0.1 and localhost.
      * a wrapping mechanism for authenticationSchemeHandler and Scopes impersonate
-     * the user as a guest, but the underlying authenticationBindings contains the real user.
+     * the user as a guest, but the underlying statefulScopes contains the real user.
      * we put the guest Configuration to use a GuestAppConfigurationFilter, through a GuestConfiguration wrapper,
      * to not use loginModules which does not inherit from UserLoginModule,
      * and add a SKIP_CREDENTIAL_CHECK option to subclasses of UserLoginModules

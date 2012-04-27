@@ -35,7 +35,7 @@ import java.util.Map;
 
 /**
  * provides its own request and application attributes maps.
- * it does not rely on the underlying authenticationBindings on these attributes.
+ * it does not rely on the underlying statefulScopes on these attributes.
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */

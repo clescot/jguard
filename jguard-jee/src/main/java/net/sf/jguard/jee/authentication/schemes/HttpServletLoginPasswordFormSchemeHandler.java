@@ -143,39 +143,39 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
     protected PermissionFactory<HttpServletRequest> getPermissionFactory() {
         return new HttpPermissionFactory();
     }
-    private void handleDispatch(HttpServletRequest request,HttpServletResponse response,URLPermission permission){
 
-          if(response.isCommitted()){
-              logger.warn("response is already committed");
-              return;
-          }
-          if(URLPermission.FORWARD.equals(permission.getDispatch())){
-              try {
-                  request.getRequestDispatcher(permission.getURI()).forward(request,response);
-              } catch (ServletException ex) {
-                    logger.error(ex.getMessage(), ex);
-                  throw new AuthenticationException(ex);
-              } catch (IOException ex) {
-                     logger.error(ex.getMessage(), ex);
-                  throw new AuthenticationException(ex);
-              }
-          }else{
-               try {
-                  response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + permission.getURI()));
-              } catch (IOException ex) {
-                  logger.error(ex.getMessage(), ex);
-                  throw new AuthenticationException(ex);
-              }
-          }
+    private void handleDispatch(HttpServletRequest request, HttpServletResponse response, URLPermission permission) {
 
-      }
+        if (response.isCommitted()) {
+            logger.warn("response is already committed");
+            return;
+        }
+        if (URLPermission.FORWARD.equals(permission.getDispatch())) {
+            try {
+                request.getRequestDispatcher(permission.getURI()).forward(request, response);
+            } catch (ServletException ex) {
+                logger.error(ex.getMessage(), ex);
+                throw new AuthenticationException(ex);
+            } catch (IOException ex) {
+                logger.error(ex.getMessage(), ex);
+                throw new AuthenticationException(ex);
+            }
+        } else {
+            try {
+                response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + permission.getURI()));
+            } catch (IOException ex) {
+                logger.error(ex.getMessage(), ex);
+                throw new AuthenticationException(ex);
+            }
+        }
 
+    }
 
 
     public void buildChallenge(Request<HttpServletRequest> req, Response<HttpServletResponse> res) {
         HttpServletRequest request = req.get();
         HttpServletResponse response = res.get();
-        handleDispatch(request,response,logonPermission);
+        handleDispatch(request, response, logonPermission);
     }
 
 
@@ -191,15 +191,15 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
     public void authenticationSucceed(Subject subject, Request<HttpServletRequest> servletRequest, Response<HttpServletResponse> servletResponse) {
         HttpServletRequest request = servletRequest.get();
         HttpServletResponse response = servletResponse.get();
-        URLPermission lastAccessDeniedPermission = (URLPermission) authenticationBindings.getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION);
-        
-        if (!goToLastAccessDeniedUriOnSuccess){
-            handleDispatch(request,response,logonPermission);
-        }else if (lastAccessDeniedPermission == null ) {
-            handleDispatch(request,response,authenticationSucceedPermission);
+        URLPermission lastAccessDeniedPermission = (URLPermission) statefulScopes.getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION);
+
+        if (!goToLastAccessDeniedUriOnSuccess) {
+            handleDispatch(request, response, logonPermission);
+        } else if (lastAccessDeniedPermission == null) {
+            handleDispatch(request, response, authenticationSucceedPermission);
             request.getSession(true).setAttribute(HttpConstants.GO_TO_LAST_ACCESS_DENIED_URI_ON_SUCCESS, Boolean.TRUE.toString());
-        } else if(lastAccessDeniedPermission!=null){
-            handleDispatch(request,response,lastAccessDeniedPermission);
+        } else if (lastAccessDeniedPermission != null) {
+            handleDispatch(request, response, lastAccessDeniedPermission);
             request.getSession(true).setAttribute(HttpConstants.GO_TO_LAST_ACCESS_DENIED_URI_ON_SUCCESS, Boolean.TRUE.toString());
         }
 
@@ -211,7 +211,7 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
         HttpServletResponse response = res.get();
         //an URL for authentication failure event has been set
         if (authenticationFailedPermission != null && !authenticationFailedPermission.getURI().equals("")) {
-            handleDispatch(request,response,authenticationFailedPermission);
+            handleDispatch(request, response, authenticationFailedPermission);
             logger.debug(" user is not authenticated  and dispatched to " + request.getContextPath() + authenticationFailedPermission.getURI());
 
         }

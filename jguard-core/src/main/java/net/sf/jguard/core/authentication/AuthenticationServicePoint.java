@@ -57,7 +57,7 @@ public interface AuthenticationServicePoint<Req, Res> {
      * return the <i>current</i> {@link Subject}:
      * this method is looking for from the local scope to the global scope.
      * - firstly, looking for the AccessCOntrolContext bound to the Thread.
-     * - if not present, and if the authenticationBindings implements StatefulScopes,
+     * - if not present, and if the statefulScopes implements StatefulScopes,
      * looking for the Subject present in the session.
      * - if not present or not stateful, looking for the Guest Subject present in the application scope.
      *
