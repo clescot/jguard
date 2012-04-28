@@ -31,9 +31,8 @@ import net.sf.jguard.core.authentication.Stateful;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
 import net.sf.jguard.core.filters.Filter;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
-import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -41,20 +40,20 @@ import java.util.List;
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class MockPolicyEnforcementPoint extends PolicyEnforcementPoint<MockRequest, MockResponse> {
+public class MockPolicyEnforcementPoint extends PolicyEnforcementPoint<MockRequestAdapter, MockResponseAdapter> {
     @Inject
-    public MockPolicyEnforcementPoint(@Stateful List<AuthenticationFilter<MockRequest, MockResponse>> authenticationFilters,
-                                      List<AuthorizationFilter<MockRequest, MockResponse>> authorizationFilters,
+    public MockPolicyEnforcementPoint(@Stateful List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>> authenticationFilters,
+                                      List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>> authorizationFilters,
                                       boolean propagateThrowable) {
         super(authenticationFilters, authorizationFilters, propagateThrowable);
     }
 
     @Override
-    protected void sendThrowable(Response<MockResponse> response, Throwable throwable) {
+    protected void sendThrowable(MockResponseAdapter response, Throwable throwable) {
 
     }
 
-    public void setFilters(List<Filter<MockRequest, MockResponse>> filters) {
+    public void setFilters(List<Filter<MockRequestAdapter, MockResponseAdapter>> filters) {
         this.filters = filters;
     }
 }

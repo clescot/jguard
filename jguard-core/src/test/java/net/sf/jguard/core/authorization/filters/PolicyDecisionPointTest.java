@@ -1,17 +1,18 @@
 package net.sf.jguard.core.authorization.filters;
 
-import javax.inject.Inject;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapper;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
 import net.sf.jguard.core.filters.FilterChain;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import javax.inject.Inject;
 import javax.security.auth.Subject;
 import java.security.AccessControlException;
 import java.security.Permission;
@@ -39,7 +40,7 @@ public class PolicyDecisionPointTest extends AuthorizationFilterTest {
 
         Subject subject = new Subject();
         executePolicyDecisionPoint(subject);
-        verify(afterFilter).doFilter(any(Request.class), any(Response.class), any(FilterChain.class));
+        verify(afterFilter).doFilter(any(MockRequestAdapter.class), any(MockResponseAdapter.class), any(FilterChain.class));
     }
 
     private void executePolicyDecisionPoint(Subject subject) {
@@ -61,6 +62,6 @@ public class PolicyDecisionPointTest extends AuthorizationFilterTest {
         policyDecisionPoint.setAuthorizationBindings(authorizationBindings);
         when(accessControllerWrapper.hasPermission(any(Subject.class), any(Permission.class))).thenReturn(Boolean.FALSE);
         executePolicyDecisionPoint(subject);
-        verify(afterFilter, never()).doFilter(any(Request.class), any(Response.class), any(FilterChain.class));
+        verify(afterFilter, never()).doFilter(any(MockRequestAdapter.class), any(MockResponseAdapter.class), any(FilterChain.class));
     }
 }

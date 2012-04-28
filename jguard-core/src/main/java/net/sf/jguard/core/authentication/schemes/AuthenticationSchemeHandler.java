@@ -50,8 +50,7 @@ import java.util.Collection;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public interface AuthenticationSchemeHandler<Req, Res> {
-
+public interface AuthenticationSchemeHandler<Req extends Request, Res extends Response> {
 
 
     /**
@@ -77,7 +76,7 @@ public interface AuthenticationSchemeHandler<Req, Res> {
      * @param response
      * @return
      */
-    boolean answerToChallenge(Request<Req> request, Response<Res> response);
+    boolean answerToChallenge(Req request, Res response);
 
 
     /**
@@ -89,7 +88,7 @@ public interface AuthenticationSchemeHandler<Req, Res> {
      * @param response
      * @return
      */
-    boolean challengeNeeded(Request<Req> request, Response<Res> response);
+    boolean challengeNeeded(Req request, Res response);
 
 
     /**
@@ -100,7 +99,7 @@ public interface AuthenticationSchemeHandler<Req, Res> {
      * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
      *
      */
-    void buildChallenge(Request<Req> request, Response<Res> response);
+    void buildChallenge(Req request, Res response);
 
 
     /**
@@ -111,7 +110,7 @@ public interface AuthenticationSchemeHandler<Req, Res> {
      * @param callbacks
      * @throws UnsupportedCallbackException
      */
-    void handleSchemeCallbacks(Request<Req> request, Response<Res> response, Callback[] callbacks) throws UnsupportedCallbackException;
+    void handleSchemeCallbacks(Req request, Res response, Callback[] callbacks) throws UnsupportedCallbackException;
 
 
     /**
@@ -132,7 +131,7 @@ public interface AuthenticationSchemeHandler<Req, Res> {
      * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
      *
      */
-    void authenticationSucceed(Subject subject, Request<Req> request, Response<Res> response);
+    void authenticationSucceed(Subject subject, Req request, Res response);
 
     /**
      * translate into the underlying technology the overall authentication failure.
@@ -142,7 +141,7 @@ public interface AuthenticationSchemeHandler<Req, Res> {
      * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
      *
      */
-    void authenticationFailed(Request<Req> request, Response<Res> response);
+    void authenticationFailed(Req request, Res response);
 
 
 }

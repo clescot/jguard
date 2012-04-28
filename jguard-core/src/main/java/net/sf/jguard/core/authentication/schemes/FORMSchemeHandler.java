@@ -18,7 +18,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class FORMSchemeHandler<Req, Res> implements StatefulAuthenticationSchemeHandler<Req, Res> {
+public abstract class FORMSchemeHandler<Req extends Request, Res extends Response> implements StatefulAuthenticationSchemeHandler<Req, Res> {
 
     Collection<Class<? extends Callback>> callbackTypes = null;
     private PermissionCollection grantedPermissions;
@@ -44,11 +44,11 @@ public abstract class FORMSchemeHandler<Req, Res> implements StatefulAuthenticat
     }
 
 
-    public boolean answerToChallenge(Request<Req> request, Response<Res> response) {
+    public boolean answerToChallenge(Req request, Res response) {
         return getLogonProcessPermission().implies(getPermissionFactory().getPermission(request));
     }
 
-    public boolean challengeNeeded(Request<Req> request, Response<Res> response) {
+    public boolean challengeNeeded(Req request, Res response) {
         return true;
     }
 

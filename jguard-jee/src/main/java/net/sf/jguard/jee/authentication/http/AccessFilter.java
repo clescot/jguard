@@ -36,15 +36,14 @@ import net.sf.jguard.core.PolicyEnforcementPointOptions;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.enforcement.EntryPoint;
 import net.sf.jguard.core.enforcement.PolicyEnforcementPoint;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 import net.sf.jguard.jee.provisioning.HttpServletProvisioningServicePoint;
 import net.sf.jguard.jee.util.ContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.AccessControlException;
@@ -102,17 +101,17 @@ public class AccessFilter implements Filter, EntryPoint {
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, final FilterChain filterChain) throws IOException, ServletException {
-        AuthorizationBindings<HttpServletRequest, HttpServletResponse> authorizationBindings = null;
-        Request<HttpServletRequest> request = null;
-        Response<HttpServletResponse> response = null;
+        AuthorizationBindings<HttpServletRequestAdapter, HttpServletResponseAdapter> authorizationBindings = null;
+        HttpServletRequestAdapter request = null;
+        HttpServletResponseAdapter response = null;
         try {
-            PolicyEnforcementPoint<HttpServletRequest, HttpServletResponse> pep = injector.getInstance(Key.get(new TypeLiteral<PolicyEnforcementPoint<HttpServletRequest, HttpServletResponse>>() {
+            PolicyEnforcementPoint<HttpServletRequestAdapter, HttpServletResponseAdapter> pep = injector.getInstance(Key.get(new TypeLiteral<PolicyEnforcementPoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
             }));
-            request = injector.getInstance(Key.get(new TypeLiteral<Request<HttpServletRequest>>() {
+            request = injector.getInstance(Key.get(new TypeLiteral<HttpServletRequestAdapter>() {
             }));
-            response = injector.getInstance(Key.get(new TypeLiteral<Response<HttpServletResponse>>() {
+            response = injector.getInstance(Key.get(new TypeLiteral<HttpServletResponseAdapter>() {
             }));
-            authorizationBindings = injector.getInstance(Key.get(new TypeLiteral<AuthorizationBindings<HttpServletRequest, HttpServletResponse>>() {
+            authorizationBindings = injector.getInstance(Key.get(new TypeLiteral<AuthorizationBindings<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
             }));
             pep.doFilter(request, response);
         } catch (AccessControlException ace) {

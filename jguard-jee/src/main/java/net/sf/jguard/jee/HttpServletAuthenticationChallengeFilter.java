@@ -7,16 +7,14 @@ import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpServletAuthenticationChallengeFilter extends AuthenticationChallengeFilter<HttpServletRequest, HttpServletResponse> {
+public class HttpServletAuthenticationChallengeFilter extends AuthenticationChallengeFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> {
     @Inject
-    public HttpServletAuthenticationChallengeFilter(AuthenticationServicePoint<HttpServletRequest, HttpServletResponse> authenticationServicePoint,
-                                                    Provider<JGuardCallbackHandler<HttpServletRequest, HttpServletResponse>> jGuardCallbackHandlerProvider,
+    public HttpServletAuthenticationChallengeFilter(AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter> authenticationServicePoint,
+                                                    Provider<JGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter>> jGuardCallbackHandlerProvider,
                                                     AuthenticationManager authenticationManager) {
         super(authenticationServicePoint, jGuardCallbackHandlerProvider, authenticationManager);
     }

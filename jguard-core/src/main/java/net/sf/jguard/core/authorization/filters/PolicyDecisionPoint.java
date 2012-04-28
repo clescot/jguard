@@ -48,7 +48,7 @@ import java.security.Permission;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class PolicyDecisionPoint<Req, Res> implements AuthorizationFilter<Req, Res> {
+public abstract class PolicyDecisionPoint<Req extends Request, Res extends Response> implements AuthorizationFilter<Req, Res> {
 
     private static final Logger logger = LoggerFactory.getLogger(PolicyDecisionPoint.class.getName());
     protected AuthorizationBindings<Req, Res> authorizationBindings = null;
@@ -74,7 +74,7 @@ public abstract class PolicyDecisionPoint<Req, Res> implements AuthorizationFilt
      * @param chain
      * @throws AccessControlException when access is not granted
      */
-    public void doFilter(Request<Req> request, Response<Res> response, FilterChain<Req, Res> chain) {
+    public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
         Permission permissionRequested = authorizationBindings.getPermissionRequested(request);
         if (null == permissionRequested) {
             throw new IllegalStateException("no permission is requested ... i.e, authorizationBindings cannot represent as a Permission the actual request");

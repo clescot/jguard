@@ -30,6 +30,7 @@ package net.sf.jguard.core.enforcement;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.lifecycle.Request;
+import net.sf.jguard.core.lifecycle.Response;
 
 import java.util.List;
 
@@ -38,9 +39,9 @@ import java.util.List;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class StatefulAuthenticationFiltersProvider<Req, Res> extends RestfulAuthenticationFiltersProvider<Req, Res> {
+public abstract class StatefulAuthenticationFiltersProvider<Req extends Request, Res extends Response> extends RestfulAuthenticationFiltersProvider<Req, Res> {
 
-    private Request<Req> request;
+    private Req request;
     private AuthenticationFilter<Req, Res> sessionAuthenticationFilter;
 
     public StatefulAuthenticationFiltersProvider(JGuardCallbackHandler<Req, Res> jGuardCallbackHandler,
@@ -52,7 +53,7 @@ public abstract class StatefulAuthenticationFiltersProvider<Req, Res> extends Re
     }
 
 
-    protected abstract boolean alreadyAuthenticated(Request<Req> request);
+    protected abstract boolean alreadyAuthenticated(Req request);
 
     /**
      * if user is already authenticated, we return an AuthenticationFilter (which grab into the HttpSession the loginContextWrapper),

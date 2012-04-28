@@ -86,7 +86,7 @@ public class JEEModule extends AbstractModule {
 
         bind(new TypeLiteral<FilterChain>() {
         }).to(HttpServletPolicyEnforcementPoint.class);
-        bind(new TypeLiteral<PolicyEnforcementPoint<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<PolicyEnforcementPoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletPolicyEnforcementPoint.class);
 
         bind(Scopes.class).to(HttpServletScopes.class);
@@ -98,81 +98,81 @@ public class JEEModule extends AbstractModule {
 
 
         //stateful part
-        bind(new TypeLiteral<List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>>() {
+        bind(new TypeLiteral<List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>>() {
         }).annotatedWith(Stateful.class).toProvider(HttpServletStatefulAuthenticationFiltersProvider.class);
 
 
         //restful part
-        bind(new TypeLiteral<List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>>() {
+        bind(new TypeLiteral<List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>>() {
         }).toProvider(HttpServletAuthenticationFiltersProvider.class);
 
 
         //guest part
-        bind(new TypeLiteral<GuestPolicyEnforcementPointFilter<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<GuestPolicyEnforcementPointFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletGuestPolicyEnforcementPointFilter.class);
 
-        bind(new TypeLiteral<List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>>() {
+        bind(new TypeLiteral<List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>>() {
         }).annotatedWith(Guest.class).toProvider(HttpServletGuestAuthenticationFiltersProvider.class);
 
-        bind(new TypeLiteral<GuestAuthenticationFilter<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<GuestAuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletGuestAuthenticationFilter.class);
 
         //authentication background
-        bind(new TypeLiteral<Collection<AuthenticationSchemeHandler<HttpServletRequest, HttpServletResponse>>>() {
+        bind(new TypeLiteral<Collection<AuthenticationSchemeHandler<HttpServletRequestAdapter, HttpServletResponseAdapter>>>() {
         }).toProvider(HttpAuthenticationSchemeHandlerProvider.class);
 
         Class<? extends StatefulScopes> authenticationBindingsClass = HttpServletScopes.class;
         bind(StatefulScopes.class).to(authenticationBindingsClass);
 
-        bind(new TypeLiteral<StatefulAuthenticationServicePoint<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<StatefulAuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletAuthenticationServicePoint.class);
-        bind(new TypeLiteral<AuthenticationServicePoint<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletAuthenticationServicePoint.class);
         bind(JGuardCallbackHandler.class).to(HttpServletCallbackHandler.class);
 
 
-        bind(new TypeLiteral<JGuardCallbackHandler<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<JGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletCallbackHandler.class);
 
-        bind(new TypeLiteral<AuthenticationChallengeFilter<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<AuthenticationChallengeFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletAuthenticationChallengeFilter.class);
 
 
         //bindings for the authorization part
 
         //stateful part
-        bind(new TypeLiteral<LogoffFilter<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<LogoffFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletLogoffFilter.class);
 
 
         //restful part
-        bind(new TypeLiteral<List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>>>() {
+        bind(new TypeLiteral<List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>>() {
         }).toProvider(HttpServletAuthorizationFiltersProvider.class);
 
-        bind(new TypeLiteral<LastAccessDeniedTriggerFilter<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<LastAccessDeniedTriggerFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletLastAccessDeniedTriggerFilter.class);
 
 
         //guest part
-        bind(new TypeLiteral<List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>>>() {
+        bind(new TypeLiteral<List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>>() {
         }).annotatedWith(Guest.class).toProvider(HttpServletGuestAuthorizationFiltersProvider.class);
 
-        bind(new TypeLiteral<LastAccessDeniedRegistrationFilter<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<LastAccessDeniedRegistrationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletLastAccessDeniedRegistrationFilter.class);
 
 
         //underlying
 
-        bind(new TypeLiteral<AuthorizationBindings<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<AuthorizationBindings<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletAuthorizationBindings.class);
 
-        bind(new TypeLiteral<PolicyDecisionPoint<HttpServletRequest, HttpServletResponse>>() {
+        bind(new TypeLiteral<PolicyDecisionPoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletPolicyDecisionPoint.class);
 
         bind(Permissions.class).toProvider(HttpServletGrantedAuthenticationSchemePermissionsProvider.class);
 
 
-        bind(new TypeLiteral<PermissionFactory<HttpServletRequest>>() {
+        bind(new TypeLiteral<PermissionFactory<HttpServletRequestAdapter>>() {
         }).to(HttpPermissionFactory.class);
 
     }

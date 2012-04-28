@@ -1,13 +1,13 @@
 package net.sf.jguard.jsf.authorization;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.filters.PolicyDecisionPoint;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
+import net.sf.jguard.jsf.FacesContextAdapter;
 
-import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
-public class JSFPolicyDecisionPoint extends PolicyDecisionPoint<FacesContext, FacesContext> {
+public class JSFPolicyDecisionPoint extends PolicyDecisionPoint<FacesContextAdapter, FacesContextAdapter> {
     /**
      * Creates a new instance of AuthorizationLifeCycle
      *
@@ -15,7 +15,7 @@ public class JSFPolicyDecisionPoint extends PolicyDecisionPoint<FacesContext, Fa
      * @param accessControlWrapper
      */
     @Inject
-    public JSFPolicyDecisionPoint(AuthorizationBindings<FacesContext, FacesContext> authorizationBindings, AccessControllerWrapperImpl accessControlWrapper) {
+    public JSFPolicyDecisionPoint(AuthorizationBindings<FacesContextAdapter, FacesContextAdapter> authorizationBindings, AccessControllerWrapperImpl accessControlWrapper) {
         super(authorizationBindings, accessControlWrapper);
     }
 }

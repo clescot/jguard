@@ -30,8 +30,8 @@ package net.sf.jguard.core.enforcement;
 import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -39,12 +39,12 @@ import java.util.List;
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class MockGuestPolicyEnforcementPointFilter extends GuestPolicyEnforcementPointFilter<MockRequest, MockResponse> {
+public class MockGuestPolicyEnforcementPointFilter extends GuestPolicyEnforcementPointFilter<MockRequestAdapter, MockResponseAdapter> {
     @Inject
-    public MockGuestPolicyEnforcementPointFilter(@Guest List<AuthenticationFilter<MockRequest, MockResponse>> guestAuthenticationFilters,
-                                                 @Guest List<AuthorizationFilter<MockRequest, MockResponse>> guestAuthorizationFilters,
-                                                 List<AuthenticationFilter<MockRequest, MockResponse>> restfulAuthenticationFilters,
-                                                 List<AuthorizationFilter<MockRequest, MockResponse>> restfulAuthorizationFilters) {
+    public MockGuestPolicyEnforcementPointFilter(@Guest List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>> guestAuthenticationFilters,
+                                                 @Guest List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>> guestAuthorizationFilters,
+                                                 List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>> restfulAuthenticationFilters,
+                                                 List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>> restfulAuthorizationFilters) {
         super(guestAuthenticationFilters, guestAuthorizationFilters, restfulAuthenticationFilters, restfulAuthorizationFilters);
     }
 }

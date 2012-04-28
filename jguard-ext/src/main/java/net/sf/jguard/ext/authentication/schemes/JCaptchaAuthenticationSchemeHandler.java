@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class JCaptchaAuthenticationSchemeHandler<Req, Res> extends FORMSchemeHandler<Req, Res> {
+public abstract class JCaptchaAuthenticationSchemeHandler<Req extends Request, Res extends Response> extends FORMSchemeHandler<Req, Res> {
 
 
     private Collection<Class<? extends Callback>> callbackTypes = null;
@@ -56,7 +56,7 @@ public abstract class JCaptchaAuthenticationSchemeHandler<Req, Res> extends FORM
      * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
      *
      */
-    public abstract void buildChallenge(Request<Req> request, Response<Res> response);
+    public abstract void buildChallenge(Req request, Res response);
 
 
     /**
@@ -68,7 +68,7 @@ public abstract class JCaptchaAuthenticationSchemeHandler<Req, Res> extends FORM
      * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
      *
      */
-    public void authenticationSucceed(Subject subject, Request<Req> request, Response<Res> response) {
+    public void authenticationSucceed(Subject subject, Req request, Res response) {
         //nothing to do
     }
 
@@ -80,11 +80,11 @@ public abstract class JCaptchaAuthenticationSchemeHandler<Req, Res> extends FORM
      * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
      *
      */
-    public void authenticationFailed(Request request, Response response) throws AuthenticationException {
+    public void authenticationFailed(Req request, Res response) throws AuthenticationException {
         //nothing to do
     }
 
-    public void handleSchemeCallbacks(Request<Req> request, Response<Res> response, Callback[] cbks) throws UnsupportedCallbackException {
+    public void handleSchemeCallbacks(Req request, Res response, Callback[] cbks) throws UnsupportedCallbackException {
         String captchaAnswer = getCaptchaAnswer(request, response);
         String sessionID = getSessionID(request);
         for (Callback cb : cbks) {
@@ -95,8 +95,8 @@ public abstract class JCaptchaAuthenticationSchemeHandler<Req, Res> extends FORM
         }
     }
 
-    protected abstract String getCaptchaAnswer(Request<Req> request, Response<Res> response);
+    protected abstract String getCaptchaAnswer(Req request, Res response);
 
-    protected abstract String getSessionID(Request<Req> request);
+    protected abstract String getSessionID(Req request);
 
 }

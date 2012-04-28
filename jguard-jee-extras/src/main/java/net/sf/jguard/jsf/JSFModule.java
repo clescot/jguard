@@ -73,7 +73,7 @@ public class JSFModule extends AbstractModule {
         }).to(JSFRequestAdapter.class);
         bind(new TypeLiteral<Response<FacesContext>>() {
         }).to(JSFResponseAdapter.class);
-        bind(new TypeLiteral<PolicyEnforcementPoint<FacesContext, FacesContext>>() {
+        bind(new TypeLiteral<PolicyEnforcementPoint<FacesContextAdapter, FacesContextAdapter>>() {
         }).to(JSFPolicyEnforcementPoint.class);
         bind(StatefulScopes.class).to(JSFScopes.class);
 
@@ -84,32 +84,32 @@ public class JSFModule extends AbstractModule {
         //authentication part
 
 
-        bind(new TypeLiteral<Collection<AuthenticationSchemeHandler<FacesContext, FacesContext>>>() {
+        bind(new TypeLiteral<Collection<AuthenticationSchemeHandler<FacesContextAdapter, FacesContextAdapter>>>() {
 
         }).toProvider(JSFAuthenticationSchemeHandlerProvider.class);
 
-        bind(new TypeLiteral<AuthenticationServicePoint<FacesContext, FacesContext>>() {
+        bind(new TypeLiteral<AuthenticationServicePoint<FacesContextAdapter, FacesContextAdapter>>() {
         }).to(JSFAuthenticationServicePoint.class);
-        bind(new TypeLiteral<JGuardCallbackHandler<FacesContext, FacesContext>>() {
+        bind(new TypeLiteral<JGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter>>() {
         }).to(JSFCallbackHandler.class);
 
 
-        bind(new TypeLiteral<AuthenticationChallengeFilter<FacesContext, FacesContext>>() {
+        bind(new TypeLiteral<AuthenticationChallengeFilter<FacesContextAdapter, FacesContextAdapter>>() {
         }).to(JSFAuthenticationChallengeFilter.class);
 
 
         //Stateful part
-        bind(new TypeLiteral<List<AuthenticationFilter<FacesContext, FacesContext>>>() {
+        bind(new TypeLiteral<List<AuthenticationFilter<FacesContextAdapter, FacesContextAdapter>>>() {
         }).annotatedWith(Stateful.class).toProvider(JSFStatefulAuthenticationFiltersProvider.class);
 
 
         //restful part
-        bind(new TypeLiteral<List<AuthenticationFilter<FacesContext, FacesContext>>>() {
+        bind(new TypeLiteral<List<AuthenticationFilter<FacesContextAdapter, FacesContextAdapter>>>() {
         }).toProvider(JSFAuthenticationFiltersProvider.class);
 
 
         //guest part
-        bind(new TypeLiteral<GuestPolicyEnforcementPointFilter<FacesContext, FacesContext>>() {
+        bind(new TypeLiteral<GuestPolicyEnforcementPointFilter<FacesContextAdapter, FacesContextAdapter>>() {
         }).to(JSFGuestPolicyEnforcementPointFilter.class);
 
         //guest part
@@ -119,13 +119,13 @@ public class JSFModule extends AbstractModule {
 
         //authorization part
 
-        bind(new TypeLiteral<AuthorizationBindings<FacesContext, FacesContext>>() {
+        bind(new TypeLiteral<AuthorizationBindings<FacesContextAdapter, FacesContextAdapter>>() {
         }).to(JSFAuthorizationBindings.class);
 
-        bind(new TypeLiteral<PolicyDecisionPoint<FacesContext, FacesContext>>() {
+        bind(new TypeLiteral<PolicyDecisionPoint<FacesContextAdapter, FacesContextAdapter>>() {
         }).to(JSFPolicyDecisionPoint.class);
 
-        bind(new TypeLiteral<List<AuthorizationFilter<FacesContext, FacesContext>>>() {
+        bind(new TypeLiteral<List<AuthorizationFilter<FacesContextAdapter, FacesContextAdapter>>>() {
         }).toProvider(JSFAuthorizationFiltersProvider.class);
 
     }

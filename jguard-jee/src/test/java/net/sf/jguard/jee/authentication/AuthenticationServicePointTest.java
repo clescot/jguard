@@ -48,9 +48,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletContext;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -104,7 +101,7 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         request.setScheme("http");
         request.setRequestURI(APPLICATION_NAME + UNAUTHORIZED);
         injector = Guice.createInjector(provideModules(request, response, filterChain));
-        AuthenticationServicePoint<HttpServletRequest, HttpServletResponse> authenticationServicePoint = injector.getInstance(Key.get(new TypeLiteral<AuthenticationServicePoint<HttpServletRequest, HttpServletResponse>>() {
+        AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter> authenticationServicePoint = injector.getInstance(Key.get(new TypeLiteral<AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }));
         JGuardCallbackHandler callbackHandler = injector.getInstance(JGuardCallbackHandler.class);
         AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler).getStatus();
@@ -128,7 +125,7 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         request.addParameter("login", "admin");
         request.addParameter("password", "admin");
         injector = Guice.createInjector(provideModules(request, response, filterChain));
-        AuthenticationServicePoint<HttpServletRequest, HttpServletResponse> authenticationServicePoint = injector.getInstance(Key.get(new TypeLiteral<AuthenticationServicePoint<HttpServletRequest, HttpServletResponse>>() {
+        AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter> authenticationServicePoint = injector.getInstance(Key.get(new TypeLiteral<AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }));
         JGuardCallbackHandler callbackHandler = injector.getInstance(JGuardCallbackHandler.class);
         AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler).getStatus();

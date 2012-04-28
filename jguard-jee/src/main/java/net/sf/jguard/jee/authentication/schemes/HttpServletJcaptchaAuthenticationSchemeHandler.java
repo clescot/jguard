@@ -2,22 +2,21 @@ package net.sf.jguard.jee.authentication.schemes;
 
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.ext.authentication.schemes.JCaptchaAuthenticationSchemeHandler;
 import net.sf.jguard.jee.HttpConstants;
 import net.sf.jguard.jee.HttpPermissionFactory;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.security.Permission;
 import java.util.Map;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpServletJcaptchaAuthenticationSchemeHandler extends JCaptchaAuthenticationSchemeHandler<HttpServletRequest, HttpServletResponse> {
+public class HttpServletJcaptchaAuthenticationSchemeHandler extends JCaptchaAuthenticationSchemeHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> {
 
     private static final String LOGON_PROCESS_URI = "logonProcessURI";
     private static final String CAPTCHA_ANSWER_PARAMETER = "captchaAnswerParameter";
@@ -56,7 +55,7 @@ public class HttpServletJcaptchaAuthenticationSchemeHandler extends JCaptchaAuth
      *
      * @return
      */
-    protected PermissionFactory<HttpServletRequest> getPermissionFactory() {
+    protected PermissionFactory<HttpServletRequestAdapter> getPermissionFactory() {
         return new HttpPermissionFactory();
     }
 
@@ -66,16 +65,16 @@ public class HttpServletJcaptchaAuthenticationSchemeHandler extends JCaptchaAuth
      * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
      *
      */
-    public void buildChallenge(Request<HttpServletRequest> request, Response<HttpServletResponse> response) {
+    public void buildChallenge(HttpServletRequestAdapter request, HttpServletResponseAdapter response) {
         //with HttpServlet, captcha generation is handled externally
     }
 
-    protected String getCaptchaAnswer(Request<HttpServletRequest> request, Response<HttpServletResponse> response) {
+    protected String getCaptchaAnswer(HttpServletRequestAdapter request, HttpServletResponseAdapter response) {
         HttpServletRequest req = request.get();
         return req.getParameter(captchaAnswerParameter);
     }
 
-    protected String getSessionID(Request<HttpServletRequest> request) {
+    protected String getSessionID(HttpServletRequestAdapter request) {
         HttpServletRequest req = request.get();
         return req.getSession(true).getId();
     }

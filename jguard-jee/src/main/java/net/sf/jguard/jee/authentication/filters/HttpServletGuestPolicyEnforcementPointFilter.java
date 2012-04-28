@@ -31,21 +31,21 @@ import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
 import net.sf.jguard.core.enforcement.GuestPolicyEnforcementPointFilter;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpServletGuestPolicyEnforcementPointFilter extends GuestPolicyEnforcementPointFilter<HttpServletRequest, HttpServletResponse> {
+public class HttpServletGuestPolicyEnforcementPointFilter extends GuestPolicyEnforcementPointFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> {
     @Inject
-    public HttpServletGuestPolicyEnforcementPointFilter(@Guest List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>> guestAuthenticationFilters,
-                                                        @Guest List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> guestAuthorizationFilters,
-                                                        List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>> restfulAuthenticationFilters,
-                                                        List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> restfulAuthorizationFilters) {
+    public HttpServletGuestPolicyEnforcementPointFilter(@Guest List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> guestAuthenticationFilters,
+                                                        @Guest List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> guestAuthorizationFilters,
+                                                        List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> restfulAuthenticationFilters,
+                                                        List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> restfulAuthorizationFilters) {
         super(guestAuthenticationFilters, guestAuthorizationFilters, restfulAuthenticationFilters, restfulAuthorizationFilters);
     }
 }

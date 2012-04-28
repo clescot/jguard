@@ -1,12 +1,13 @@
 package net.sf.jguard.core.authentication.filters;
 
-import javax.inject.Inject;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
-public class MockAuthenticationFiltersProvider extends AuthenticationFiltersProvider<MockRequest, MockResponse> {
+import javax.inject.Inject;
+
+public class MockAuthenticationFiltersProvider extends AuthenticationFiltersProvider<MockRequestAdapter, MockResponseAdapter> {
     @Inject
-    public MockAuthenticationFiltersProvider(AuthenticationChallengeFilter<MockRequest, MockResponse> mockRequestMockResponseAuthenticationChallengeFilter) {
+    public MockAuthenticationFiltersProvider(AuthenticationChallengeFilter<MockRequestAdapter, MockResponseAdapter> mockRequestMockResponseAuthenticationChallengeFilter) {
         super(mockRequestMockResponseAuthenticationChallengeFilter);
     }
 }

@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Singleton
-public class DummyAuthenticationSchemeHandler<Req, Res> implements StatefulAuthenticationSchemeHandler<Req, Res> {
+public class DummyAuthenticationSchemeHandler<Req extends Request, Res extends Response> implements StatefulAuthenticationSchemeHandler<Req, Res> {
     private PermissionCollection grantedPermissions;
     public static final String MOCK_AUTHENTICATION_SCHEME_HANDLER_NAME = "MOCK";
     private static final String DUMMY_NAME_PERMISSION = "dummy";
@@ -72,16 +72,16 @@ public class DummyAuthenticationSchemeHandler<Req, Res> implements StatefulAuthe
         return new ArrayList<Class<? extends Callback>>();
     }
 
-    public boolean answerToChallenge(Request<Req> request, Response<Res> response) {
+    public boolean answerToChallenge(Req request, Res response) {
         return answerToChallenge;
     }
 
-    public boolean challengeNeeded(Request<Req> reqRequest, Response<Res> resResponse) {
+    public boolean challengeNeeded(Req reqRequest, Res resResponse) {
         return challengeNeeded;
     }
 
 
-    public void buildChallenge(Request<Req> request, Response<Res> response) {
+    public void buildChallenge(Req request, Res response) {
 
     }
 
@@ -89,15 +89,15 @@ public class DummyAuthenticationSchemeHandler<Req, Res> implements StatefulAuthe
         return grantedPermissions;
     }
 
-    public void authenticationSucceed(Subject subject, Request<Req> request, Response<Res> response) {
+    public void authenticationSucceed(Subject subject, Req request, Res response) {
 
     }
 
-    public void authenticationFailed(Request<Req> request, Response<Res> response) {
+    public void authenticationFailed(Req request, Res response) {
 
     }
 
-    public void handleSchemeCallbacks(Request<Req> request, Response<Res> response, Callback[] cbks) throws UnsupportedCallbackException {
+    public void handleSchemeCallbacks(Req request, Res response, Callback[] cbks) throws UnsupportedCallbackException {
 
     }
 

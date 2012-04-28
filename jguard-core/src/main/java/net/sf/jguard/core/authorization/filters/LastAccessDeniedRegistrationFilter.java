@@ -39,7 +39,7 @@ import java.security.AccessControlException;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class LastAccessDeniedRegistrationFilter<Req, Res> implements LastAccessDeniedFilter<Req, Res> {
+public abstract class LastAccessDeniedRegistrationFilter<Req extends Request, Res extends Response> implements LastAccessDeniedFilter<Req, Res> {
 
     private StatefulScopes statefulScopes;
 
@@ -47,7 +47,7 @@ public abstract class LastAccessDeniedRegistrationFilter<Req, Res> implements La
         this.statefulScopes = statefulScopes;
     }
 
-    public void doFilter(Request<Req> request, Response<Res> response, FilterChain<Req, Res> chain) {
+    public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
         try {
             chain.doFilter(request, response);
         } catch (AccessControlException e) {

@@ -32,18 +32,18 @@ import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
+import net.sf.jguard.jsf.FacesContextAdapter;
 
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class JSFAuthenticationChallengeFilter extends AuthenticationChallengeFilter<FacesContext, FacesContext> {
+public class JSFAuthenticationChallengeFilter extends AuthenticationChallengeFilter<FacesContextAdapter, FacesContextAdapter> {
 
     @Inject
-    public JSFAuthenticationChallengeFilter(AuthenticationServicePoint<FacesContext, FacesContext> authenticationServicePoint,
-                                            Provider<JGuardCallbackHandler<FacesContext, FacesContext>> jGuardCallbackHandlerProvider,
+    public JSFAuthenticationChallengeFilter(AuthenticationServicePoint<FacesContextAdapter, FacesContextAdapter> authenticationServicePoint,
+                                            Provider<JGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter>> jGuardCallbackHandlerProvider,
                                             AuthenticationManager authenticationManager) {
         super(authenticationServicePoint, jGuardCallbackHandlerProvider, authenticationManager);
     }

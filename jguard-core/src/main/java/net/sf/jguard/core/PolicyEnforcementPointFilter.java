@@ -51,7 +51,7 @@ import java.net.URL;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class PolicyEnforcementPointFilter<Req, Res> implements Filter<Req, Res> {
+public abstract class PolicyEnforcementPointFilter<Req extends Request, Res extends Response> implements Filter<Req, Res> {
 
     private ImpersonationScopes impersonationScopes;
     private ProvisioningServicePoint provisioningServicePoint = null;
@@ -127,7 +127,6 @@ public abstract class PolicyEnforcementPointFilter<Req, Res> implements Filter<R
      *          when authentication fails
      */
     private AuthenticationStatus authenticateAfterRegistration(Request request, Response response, JGuardCallbackHandler callbackHandler) {
-        //statefulScopes.setRequestAttribute(CoreConstants.REGISTRATION_DONE, Boolean.TRUE);
 
         return authenticationServicePoint.authenticate(callbackHandler).getStatus();
 

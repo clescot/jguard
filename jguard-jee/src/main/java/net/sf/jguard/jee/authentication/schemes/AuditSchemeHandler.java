@@ -20,7 +20,7 @@ import java.net.UnknownHostException;
 import java.security.PermissionCollection;
 import java.util.*;
 
-public abstract class AuditSchemeHandler<Req, Res> implements AuthenticationSchemeHandler<Req, Res> {
+public abstract class AuditSchemeHandler<Req extends Request, Res extends Response> implements AuthenticationSchemeHandler<Req, Res> {
     private List<Class<? extends Callback>> callbackTypes = Arrays.asList(LanguageCallback.class, InetAddressCallback.class);
     private static final Logger logger = LoggerFactory.getLogger(AuditSchemeHandler.class);
 
@@ -107,7 +107,7 @@ public abstract class AuditSchemeHandler<Req, Res> implements AuthenticationSche
     protected abstract Locale getLocale(Request<Req> request);
 
 
-    public void handleSchemeCallbacks(Request<Req> request, Response<Res> response, Callback[] cbks) throws UnsupportedCallbackException {
+    public void handleSchemeCallbacks(Req request, Res response, Callback[] cbks) throws UnsupportedCallbackException {
 
         for (Callback cb : cbks) {
             if (cb instanceof InetAddressCallback) {

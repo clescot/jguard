@@ -13,7 +13,7 @@ import javax.security.auth.Subject;
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class GuestAuthenticationFilter<Req, Res> extends AuthenticationFilter<Req, Res> {
+public abstract class GuestAuthenticationFilter<Req extends Request, Res extends Response> extends AuthenticationFilter<Req, Res> {
     private Subject guestSubject;
     private AuthenticationServicePoint<Req, Res> authenticationServicePoint;
     private static final Logger logger = LoggerFactory.getLogger(GuestAuthenticationFilter.class.getName());
@@ -25,7 +25,7 @@ public abstract class GuestAuthenticationFilter<Req, Res> extends Authentication
     }
 
 
-    public void doFilter(final Request<Req> request, final Response<Res> response, final FilterChain<Req, Res> chain) {
+    public void doFilter(final Req request, final Res response, final FilterChain<Req, Res> chain) {
         Subject currentSubject = authenticationServicePoint.getCurrentSubject();
         if (currentSubject == null) {
             currentSubject = guestSubject;

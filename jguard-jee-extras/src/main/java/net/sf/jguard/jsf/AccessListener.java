@@ -36,8 +36,6 @@ import net.sf.jguard.core.authentication.configuration.JGuardAuthenticationMarku
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.enforcement.EntryPoint;
 import net.sf.jguard.core.enforcement.PolicyEnforcementPoint;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,13 +74,13 @@ public class AccessListener implements PhaseListener, EntryPoint {
         if (PhaseId.RESTORE_VIEW.equals(event.getPhaseId()) ||
                 PhaseId.INVOKE_APPLICATION.equals(event.getPhaseId())) {
             try {
-                PolicyEnforcementPoint<FacesContext, FacesContext> pep = injector.getInstance(Key.get(new TypeLiteral<PolicyEnforcementPoint<FacesContext, FacesContext>>() {
+                PolicyEnforcementPoint<FacesContextAdapter, FacesContextAdapter> pep = injector.getInstance(Key.get(new TypeLiteral<PolicyEnforcementPoint<FacesContextAdapter, FacesContextAdapter>>() {
                 }));
-                Request<FacesContext> request = injector.getInstance(Key.get(new TypeLiteral<Request<FacesContext>>() {
+                FacesContextAdapter request = injector.getInstance(Key.get(new TypeLiteral<FacesContextAdapter>() {
                 }));
-                Response<FacesContext> response = injector.getInstance(Key.get(new TypeLiteral<Response<FacesContext>>() {
+                FacesContextAdapter response = injector.getInstance(Key.get(new TypeLiteral<FacesContextAdapter>() {
                 }));
-                AuthorizationBindings<FacesContext, FacesContext> authorizationBindings = injector.getInstance(Key.get(new TypeLiteral<AuthorizationBindings<FacesContext, FacesContext>>() {
+                AuthorizationBindings<FacesContextAdapter, FacesContextAdapter> authorizationBindings = injector.getInstance(Key.get(new TypeLiteral<AuthorizationBindings<FacesContextAdapter, FacesContextAdapter>>() {
                 }));
                 try {
                     pep.doFilter(request, response);
@@ -109,7 +107,7 @@ public class AccessListener implements PhaseListener, EntryPoint {
         if (injector == null) {
             throw new IllegalArgumentException("no Guice injector instance has been bound to " + Injector.class.getName() + " key in the application context scope");
         }
-        policyEnforcementPoint = injector.getInstance(Key.get(new TypeLiteral<PolicyEnforcementPoint<FacesContext, FacesContext>>() {
+        policyEnforcementPoint = injector.getInstance(Key.get(new TypeLiteral<PolicyEnforcementPoint<FacesContextAdapter, FacesContextAdapter>>() {
         }));
         //init parameter is now in the context
         String filterConfigurationLocation = ExternalContextUtil.getContextPath(fc.getExternalContext(), fc.getExternalContext().getInitParameter(LISTENER_CONFIGURATION_LOCATION));

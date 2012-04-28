@@ -1,23 +1,24 @@
 package net.sf.jguard.core.authorization.filters;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 import net.sf.jguard.core.technology.StatefulScopes;
 
-public class MockLastAccessDeniedTriggerFilter extends LastAccessDeniedTriggerFilter<MockRequest, MockResponse> {
+import javax.inject.Inject;
+
+public class MockLastAccessDeniedTriggerFilter extends LastAccessDeniedTriggerFilter<MockRequestAdapter, MockResponseAdapter> {
     @Inject
-    public MockLastAccessDeniedTriggerFilter(AuthenticationServicePoint<MockRequest, MockResponse> authenticationServicePoint,
+    public MockLastAccessDeniedTriggerFilter(AuthenticationServicePoint<MockRequestAdapter, MockResponseAdapter> authenticationServicePoint,
                                              StatefulScopes statefulScopes,
-                                             AuthorizationBindings<MockRequest, MockResponse> authorizationBindings,
+                                             AuthorizationBindings<MockRequestAdapter, MockResponseAdapter> authorizationBindings,
                                              AccessControllerWrapperImpl accessControlWrapper) {
         super(authenticationServicePoint, statefulScopes, authorizationBindings, accessControlWrapper);
     }
 
-    public void setAuthorizationBindings(AuthorizationBindings<MockRequest, MockResponse> authorizationBindings) {
+    public void setAuthorizationBindings(AuthorizationBindings<MockRequestAdapter, MockResponseAdapter> authorizationBindings) {
         this.authorizationBindings = authorizationBindings;
     }
 

@@ -12,8 +12,8 @@ import net.sf.jguard.core.authorization.manager.MockAuthorizationManager;
 import net.sf.jguard.core.enforcement.MockPolicyEnforcementPoint;
 import net.sf.jguard.core.filters.Filter;
 import net.sf.jguard.core.filters.FilterChain;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import org.mockito.invocation.InvocationOnMock;
@@ -37,22 +37,22 @@ public abstract class FilterTest extends JGuardTest {
     @Inject
     protected MockAuthenticationServicePoint authenticationServicePoint;
     @Inject
-    protected Request<MockRequest> request;
+    protected MockRequestAdapter request;
     @Inject
-    protected Response<MockResponse> response;
+    protected MockResponseAdapter response;
     @Inject
     protected MockAuthorizationBindings authorizationBindings;
 
 
     @Inject
-    protected DummyAuthenticationSchemeHandler<MockRequest, MockResponse> schemeHandler;
+    protected DummyAuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter> schemeHandler;
     @Inject
     protected MockPolicyEnforcementPoint policyEnforcementPoint;
-    protected Filter<MockRequest, MockResponse> beforeFilter;
-    protected Filter<MockRequest, MockResponse> afterFilter;
+    protected Filter<MockRequestAdapter, MockResponseAdapter> beforeFilter;
+    protected Filter<MockRequestAdapter, MockResponseAdapter> afterFilter;
 
-    public void setUp(Filter<MockRequest, MockResponse> filter) {
-        final List<Filter<MockRequest, MockResponse>> filters = new ArrayList<Filter<MockRequest, MockResponse>>();
+    public void setUp(Filter<MockRequestAdapter, MockResponseAdapter> filter) {
+        final List<Filter<MockRequestAdapter, MockResponseAdapter>> filters = new ArrayList<Filter<MockRequestAdapter, MockResponseAdapter>>();
         beforeFilter = mock(Filter.class);
         filterDoFilter(beforeFilter);
 

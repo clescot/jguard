@@ -33,9 +33,9 @@ import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedFilter;
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.StatefulScopes;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,11 +52,11 @@ import java.security.Permission;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpServletAuthorizationBindings implements AuthorizationBindings<HttpServletRequest, HttpServletResponse> {
+public class HttpServletAuthorizationBindings implements AuthorizationBindings<HttpServletRequestAdapter, HttpServletResponseAdapter> {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpServletAuthorizationBindings.class.getName());
 
-    private PermissionFactory<HttpServletRequest> permissionFactory;
+    private PermissionFactory<HttpServletRequestAdapter> permissionFactory;
     private StatefulScopes scopes;
     public final static String POST_AUTHENTICATION_PERMISSION = "postAuthenticationPermission";
 
@@ -66,27 +66,27 @@ public class HttpServletAuthorizationBindings implements AuthorizationBindings<H
      * @param permissionFactory
      */
     @Inject
-    public HttpServletAuthorizationBindings(PermissionFactory<HttpServletRequest> permissionFactory,
+    public HttpServletAuthorizationBindings(PermissionFactory<HttpServletRequestAdapter> permissionFactory,
                                             StatefulScopes scopes) {
         this.permissionFactory = permissionFactory;
         this.scopes = scopes;
     }
 
 
-    public Permission getPermissionRequested(Request<HttpServletRequest> request) {
+    public Permission getPermissionRequested(HttpServletRequestAdapter request) {
         return permissionFactory.getPermission(request);
     }
 
-    public void setLastAccessDeniedPermission(Request<HttpServletRequest> request, Permission permission) {
+    public void setLastAccessDeniedPermission(HttpServletRequestAdapter request, Permission permission) {
         scopes.setSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION, permission);
     }
 
 
-    public Permission getPostAuthenticationPermission(Request<HttpServletRequest> httpServletRequestRequest) {
+    public Permission getPostAuthenticationPermission(HttpServletRequestAdapter httpServletRequestRequest) {
         return (Permission) scopes.getSessionAttribute(POST_AUTHENTICATION_PERMISSION);
     }
 
-    public void accessDenied(Request<HttpServletRequest> request, Response<HttpServletResponse> response) {
+    public void accessDenied(HttpServletRequestAdapter request, HttpServletResponseAdapter response) {
         HttpServletRequest httpServletRequest = request.get();
         HttpServletResponse httpServletResponse = response.get();
 
@@ -106,17 +106,17 @@ public class HttpServletAuthorizationBindings implements AuthorizationBindings<H
 
     }
 
-    public void handlePermission(Request<HttpServletRequest> request,
-                                 Response<HttpServletResponse> response,
+    public void handlePermission(HttpServletRequestAdapter request,
+                                 HttpServletResponseAdapter response,
                                  Permission permission) {
         if (permission.getClass().isAssignableFrom(URLPermission.class)) {
             URLPermission urlPermission = (URLPermission) permission;
             String uri = urlPermission.getURI();
             try {
-                if(URLPermission.REDIRECT.equalsIgnoreCase(urlPermission.getDispatch())){
+                if (URLPermission.REDIRECT.equalsIgnoreCase(urlPermission.getDispatch())) {
                     response.get().sendRedirect(response.get().encodeRedirectURL(request.get().getContextPath() + uri));
-                }else{
-                    request.get().getRequestDispatcher(uri).forward(request.get(),response.get());
+                } else {
+                    request.get().getRequestDispatcher(uri).forward(request.get(), response.get());
                 }
             } catch (IOException ex) {
                 logger.error(ex.getMessage(), ex);

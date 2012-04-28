@@ -29,18 +29,17 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.jsf.permissions;
 
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
-import net.sf.jguard.core.lifecycle.Request;
+import net.sf.jguard.jsf.FacesContextAdapter;
 
 import javax.faces.component.UIViewRoot;
-import javax.faces.context.FacesContext;
 import java.security.Permission;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class JSFPermissionFactory implements PermissionFactory<FacesContext> {
+public class JSFPermissionFactory implements PermissionFactory<FacesContextAdapter> {
 
-    public Permission getPermission(Request<FacesContext> request) {
+    public Permission getPermission(FacesContextAdapter request) {
         UIViewRoot viewRoot = request.get().getViewRoot();
         if (viewRoot == null) {
             throw new RuntimeException(" UIviewRoot is null ");

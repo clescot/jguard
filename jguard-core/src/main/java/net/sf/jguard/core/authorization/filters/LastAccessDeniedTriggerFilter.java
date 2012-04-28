@@ -44,7 +44,7 @@ import java.security.Permission;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class LastAccessDeniedTriggerFilter<Req, Res> implements LastAccessDeniedFilter<Req, Res> {
+public abstract class LastAccessDeniedTriggerFilter<Req extends Request, Res extends Response> implements LastAccessDeniedFilter<Req, Res> {
 
 
     private AuthenticationServicePoint<Req, Res> authenticationServicePoint;
@@ -62,7 +62,7 @@ public abstract class LastAccessDeniedTriggerFilter<Req, Res> implements LastAcc
         this.accessControlWrapper = accessControlWrapper;
     }
 
-    public void doFilter(Request<Req> request, Response<Res> response, FilterChain<Req, Res> chain) {
+    public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
 
         if (!authenticationServicePoint.authenticationSucceededDuringThisRequest(request, response)) {
             //we don't handle in this case, the 'last access denied feature'

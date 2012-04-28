@@ -31,12 +31,10 @@ package net.sf.jguard.jee.authentication.callbacks;
 import com.google.inject.servlet.RequestScoped;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 
 /**
@@ -45,11 +43,11 @@ import java.util.Collection;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @RequestScoped
-public class HttpServletCallbackHandler extends JGuardCallbackHandler<HttpServletRequest, HttpServletResponse> {
+public class HttpServletCallbackHandler extends JGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> {
 
     @Inject
-    public HttpServletCallbackHandler(Request<HttpServletRequest> request, Response<HttpServletResponse> response,
-                                      Collection<AuthenticationSchemeHandler<HttpServletRequest, HttpServletResponse>> authenticationSchemeHandlers) {
+    public HttpServletCallbackHandler(HttpServletRequestAdapter request, HttpServletResponseAdapter response,
+                                      Collection<AuthenticationSchemeHandler<HttpServletRequestAdapter, HttpServletResponseAdapter>> authenticationSchemeHandlers) {
         super(request, response, authenticationSchemeHandlers);
     }
 

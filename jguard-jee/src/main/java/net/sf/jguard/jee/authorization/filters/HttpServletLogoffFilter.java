@@ -1,23 +1,23 @@
 package net.sf.jguard.jee.authorization.filters;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.filters.LogoffFilter;
 import net.sf.jguard.core.technology.StatefulScopes;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 
+import javax.inject.Inject;
 import javax.security.auth.Subject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-public class HttpServletLogoffFilter extends LogoffFilter<HttpServletRequest, HttpServletResponse> {
+public class HttpServletLogoffFilter extends LogoffFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> {
 
     @Inject
-    public HttpServletLogoffFilter(StatefulAuthenticationServicePoint<HttpServletRequest, HttpServletResponse> authenticationServicePoint,
+    public HttpServletLogoffFilter(StatefulAuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter> authenticationServicePoint,
                                    @Guest Subject guest,
                                    StatefulScopes scope,
-                                   AuthorizationBindings<HttpServletRequest, HttpServletResponse> authorizationBindings) {
+                                   AuthorizationBindings<HttpServletRequestAdapter, HttpServletResponseAdapter> authorizationBindings) {
         super(authenticationServicePoint, guest, scope, authorizationBindings);
     }
 }

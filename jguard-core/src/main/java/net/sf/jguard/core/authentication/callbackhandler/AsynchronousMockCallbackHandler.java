@@ -1,15 +1,13 @@
 package net.sf.jguard.core.authentication.callbackhandler;
 
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
 import java.util.Collection;
 
 public class AsynchronousMockCallbackHandler extends MockCallbackHandler {
-    public AsynchronousMockCallbackHandler(Request<MockRequest> request, Response<MockResponse> response, Collection<AuthenticationSchemeHandler<MockRequest, MockResponse>> authenticationSchemeHandlers) {
+    public AsynchronousMockCallbackHandler(MockRequestAdapter request, MockResponseAdapter response, Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers) {
         super(request, response, authenticationSchemeHandlers);
     }
 

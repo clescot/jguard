@@ -31,29 +31,29 @@ import com.google.inject.Provider;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
 import net.sf.jguard.core.authorization.filters.LogoffFilter;
 import net.sf.jguard.core.authorization.filters.PolicyDecisionPoint;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpServletAuthorizationFiltersProvider implements Provider<List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>>> {
+public class HttpServletAuthorizationFiltersProvider implements Provider<List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>> {
 
-    private List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> authorizationFilters = new ArrayList<AuthorizationFilter<HttpServletRequest, HttpServletResponse>>();
+    private List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authorizationFilters = new ArrayList<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>();
 
     @Inject
-    public HttpServletAuthorizationFiltersProvider(PolicyDecisionPoint<HttpServletRequest, HttpServletResponse> policyDecisionPoint,
-                                                   LogoffFilter<HttpServletRequest, HttpServletResponse> logoffFilter) {
+    public HttpServletAuthorizationFiltersProvider(PolicyDecisionPoint<HttpServletRequestAdapter, HttpServletResponseAdapter> policyDecisionPoint,
+                                                   LogoffFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> logoffFilter) {
         authorizationFilters.add(policyDecisionPoint);
         authorizationFilters.add(logoffFilter);
 
     }
 
-    public List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> get() {
+    public List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> get() {
         return authorizationFilters;
     }
 }

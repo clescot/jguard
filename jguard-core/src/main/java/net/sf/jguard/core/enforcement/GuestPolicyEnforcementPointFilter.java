@@ -46,10 +46,10 @@ import java.util.List;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class GuestPolicyEnforcementPointFilter<Req, Res> extends AuthenticationFilter<Req, Res> {
+public abstract class GuestPolicyEnforcementPointFilter<Req extends Request, Res extends Response> extends AuthenticationFilter<Req, Res> {
     private GuestFilterChain guestFilterChain;
     private AuthenticationFilterChain authenticationFilterChain;
-      private static final Logger logger = LoggerFactory.getLogger(GuestPolicyEnforcementPointFilter.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(GuestPolicyEnforcementPointFilter.class.getName());
 
     public GuestPolicyEnforcementPointFilter(List<AuthenticationFilter<Req, Res>> guestAuthenticationFilters,
                                              List<AuthorizationFilter<Req, Res>> guestAuthorizationFilters,
@@ -61,7 +61,7 @@ public abstract class GuestPolicyEnforcementPointFilter<Req, Res> extends Authen
 
     }
 
-    public void doFilter(Request<Req> request, Response<Res> response, FilterChain<Req, Res> chain) {
+    public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
         try {
             guestFilterChain.doFilter(request, response);
         } catch (AccessControlException ace) {
@@ -73,7 +73,7 @@ public abstract class GuestPolicyEnforcementPointFilter<Req, Res> extends Authen
     }
 
 
-    private class GuestFilterChain extends PolicyEnforcementPoint<Req, Res> {
+    private class GuestFilterChain<Req extends Request, Res extends Response> extends PolicyEnforcementPoint<Req, Res> {
 
 
         /**
@@ -87,7 +87,7 @@ public abstract class GuestPolicyEnforcementPointFilter<Req, Res> extends Authen
 
 
         @Override
-        protected void sendThrowable(Response<Res> response, Throwable throwable) {
+        protected void sendThrowable(Res response, Throwable throwable) {
 
         }
     }
@@ -104,7 +104,7 @@ public abstract class GuestPolicyEnforcementPointFilter<Req, Res> extends Authen
         }
 
         @Override
-        protected void sendThrowable(Response<Res> response, Throwable throwable) {
+        protected void sendThrowable(Res response, Throwable throwable) {
 
         }
     }

@@ -89,16 +89,16 @@ public class AuthenticationModule extends AbstractModule {
         }).to(MockRequestAdapter.class);
         bind(new TypeLiteral<Response<MockResponse>>() {
         }).to(MockResponseAdapter.class);
-        bind(new TypeLiteral<Collection<AuthenticationSchemeHandler<MockRequest, MockResponse>>>() {
+        bind(new TypeLiteral<Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>>() {
         }).toProvider(MockAuthenticationSchemeHandlerProvider.class);
         bind(JGuardCallbackHandler.class).annotatedWith(Guest.class).to(MockCallbackHandler.class);
-        bind(new TypeLiteral<JGuardCallbackHandler<MockRequest, MockResponse>>() {
+        bind(new TypeLiteral<JGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockCallbackHandler.class);
-        bind(new TypeLiteral<AuthenticationChallengeFilter<MockRequest, MockResponse>>() {
+        bind(new TypeLiteral<AuthenticationChallengeFilter<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockAuthenticationChallengeFilter.class);
-        bind(new TypeLiteral<List<AuthenticationSchemeHandler<MockRequest, MockResponse>>>() {
+        bind(new TypeLiteral<List<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>>() {
         }).toProvider(MockAuthenticationSchemeHandlerProvider.class);
-        bind(new TypeLiteral<AuthenticationServicePoint<MockRequest, MockResponse>>() {
+        bind(new TypeLiteral<AuthenticationServicePoint<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockAuthenticationServicePoint.class);
 
 

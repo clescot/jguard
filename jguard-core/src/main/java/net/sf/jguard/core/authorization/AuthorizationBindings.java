@@ -40,14 +40,14 @@ import java.security.Permission;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public interface AuthorizationBindings<Req, Res> {
+public interface AuthorizationBindings<Req extends Request, Res extends Response> {
     /**
      * extract from the Request the authorization informations as a Permission.
      *
      * @param request
      * @return
      */
-    Permission getPermissionRequested(Request<Req> request);
+    Permission getPermissionRequested(Req request);
 
 
     /**
@@ -57,7 +57,7 @@ public interface AuthorizationBindings<Req, Res> {
      * @param request
      * @return
      */
-    Permission getPostAuthenticationPermission(Request<Req> request);
+    Permission getPostAuthenticationPermission(Req request);
 
     /**
      * translate into the underlying technology the access denied event.
@@ -65,16 +65,17 @@ public interface AuthorizationBindings<Req, Res> {
      * @param request
      * @param response
      */
-    void accessDenied(Request<Req> request, Response<Res> response);
+    void accessDenied(Req request, Res response);
 
     /**
      * translate into the request or the response the permission to follow.
      * this method permit to dispatch to the lastAccessDeniedPermission for example, when
      * authentication succeed.
+     *
      * @param request
      * @param response
      * @param permission
      */
-    void handlePermission(Request<Req> request, Response<Res> response, Permission permission);
+    void handlePermission(Req request, Res response, Permission permission);
 
 }

@@ -1,25 +1,25 @@
 package net.sf.jguard.jsf.authorization.filters;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
 import net.sf.jguard.core.authorization.filters.PolicyDecisionPoint;
+import net.sf.jguard.jsf.FacesContextAdapter;
 
-import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JSFAuthorizationFiltersProvider implements Provider<List<AuthorizationFilter<FacesContext, FacesContext>>> {
+public class JSFAuthorizationFiltersProvider implements Provider<List<AuthorizationFilter<FacesContextAdapter, FacesContextAdapter>>> {
 
-    private List<AuthorizationFilter<FacesContext, FacesContext>> authorizationFilters = new ArrayList<AuthorizationFilter<FacesContext, FacesContext>>();
+    private List<AuthorizationFilter<FacesContextAdapter, FacesContextAdapter>> authorizationFilters = new ArrayList<AuthorizationFilter<FacesContextAdapter, FacesContextAdapter>>();
 
     @Inject
-    public JSFAuthorizationFiltersProvider(PolicyDecisionPoint<FacesContext, FacesContext> policyDecisionPoint) {
+    public JSFAuthorizationFiltersProvider(PolicyDecisionPoint<FacesContextAdapter, FacesContextAdapter> policyDecisionPoint) {
         authorizationFilters.add(policyDecisionPoint);
     }
 
 
-    public List<AuthorizationFilter<FacesContext, FacesContext>> get() {
+    public List<AuthorizationFilter<FacesContextAdapter, FacesContextAdapter>> get() {
         return authorizationFilters;
     }
 }

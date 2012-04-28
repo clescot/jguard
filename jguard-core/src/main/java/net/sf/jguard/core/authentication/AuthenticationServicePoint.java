@@ -38,7 +38,7 @@ import javax.security.auth.Subject;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public interface AuthenticationServicePoint<Req, Res> {
+public interface AuthenticationServicePoint<Req extends Request, Res extends Response> {
 
 
     /**
@@ -73,5 +73,5 @@ public interface AuthenticationServicePoint<Req, Res> {
      * @param response
      * @return
      */
-    boolean authenticationSucceededDuringThisRequest(Request<Req> request, Response<Res> response);
+    boolean authenticationSucceededDuringThisRequest(Req request, Res response);
 }

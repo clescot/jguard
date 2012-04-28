@@ -31,6 +31,8 @@ import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.loginmodules.UserLoginModule;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.authentication.schemes.StatefulAuthenticationSchemeHandler;
+import net.sf.jguard.core.lifecycle.Request;
+import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.Scopes;
 import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.core.util.SubjectUtils;
@@ -42,7 +44,7 @@ import javax.security.auth.login.Configuration;
 import java.security.Permission;
 import java.util.*;
 
-public abstract class StatefulAuthenticationServicePoint<Req, Res> extends AbstractAuthenticationServicePoint<Req, Res> {
+public abstract class StatefulAuthenticationServicePoint<Req extends Request, Res extends Response> extends AbstractAuthenticationServicePoint<Req, Res> {
 
     private Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers;
     protected StatefulScopes scopes;

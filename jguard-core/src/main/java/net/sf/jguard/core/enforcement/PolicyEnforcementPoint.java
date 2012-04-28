@@ -48,7 +48,7 @@ import java.util.List;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @since 2.0
  */
-public abstract class PolicyEnforcementPoint<Req, Res> implements FilterChain<Req, Res>, Cloneable {
+public abstract class PolicyEnforcementPoint<Req extends Request, Res extends Response> implements FilterChain<Req, Res>, Cloneable {
 
     private static final Logger logger = LoggerFactory.getLogger(PolicyEnforcementPoint.class.getName());
     private static final int DEFAULT_CAPACITY = 50;
@@ -101,8 +101,8 @@ public abstract class PolicyEnforcementPoint<Req, Res> implements FilterChain<Re
         }
     }
 
-    public void doFilter(Request<Req> request,
-                         Response<Res> response) {
+    public void doFilter(Req request,
+                         Res response) {
 
         try {
             doInternalFilter(request, response);
@@ -127,7 +127,7 @@ public abstract class PolicyEnforcementPoint<Req, Res> implements FilterChain<Re
      * @param response
      * @param throwable
      */
-    protected abstract void sendThrowable(Response<Res> response, Throwable throwable);
+    protected abstract void sendThrowable(Res response, Throwable throwable);
 
 
     /**
@@ -137,14 +137,14 @@ public abstract class PolicyEnforcementPoint<Req, Res> implements FilterChain<Re
      * @param request
      * @param response
      */
-    public void doInternalFilter(Request<Req> request,
-                                 Response<Res> response) {
+    public void doInternalFilter(Req request,
+                                 Res response) {
         int filterSize = getFilters().size();
         if (counter < filterSize) {
             Filter<Req, Res> filter = getFilters().get(counter);
             counter++;
             if (logger.isDebugEnabled()) {
-                logger.debug(" in FilterChain : before filter " +getFilterNames());
+                logger.debug(" in FilterChain : before filter " + getFilterNames());
             }
             filter.doFilter(request, response, this);
             if (logger.isDebugEnabled()) {
@@ -160,11 +160,11 @@ public abstract class PolicyEnforcementPoint<Req, Res> implements FilterChain<Re
         //if (counter == filter size): the last filter has been reached, so we stop to call the filter chain
     }
 
-    private String getFilterNames(){
+    private String getFilterNames() {
         StringBuilder filterNames = new StringBuilder();
         filterNames.append('[');
-        for(int i=0;i<counter;i++){
-            if(counter>filters.size()){
+        for (int i = 0; i < counter; i++) {
+            if (counter > filters.size()) {
                 break;
             }
             filterNames.append('/');

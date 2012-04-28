@@ -52,17 +52,17 @@ import java.util.*;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class JGuardCallbackHandler<Req, Res> implements CallbackHandler {
+public abstract class JGuardCallbackHandler<Req extends Request, Res extends Response> implements CallbackHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(JGuardCallbackHandler.class.getName());
     private Collection<AuthenticationSchemeHandler<Req, Res>> registeredAuthenticationSchemeHandlers = null;
-    private Request<Req> request;
-    private Response<Res> response;
+    private Req request;
+    private Res response;
     private Set<AuthenticationSchemeHandler<Req, Res>> usedAuthenticationSchemeHandlers = new HashSet<AuthenticationSchemeHandler<Req, Res>>();
 
 
-    public JGuardCallbackHandler(Request<Req> request,
-                                 Response<Res> response,
+    public JGuardCallbackHandler(Req request,
+                                 Res response,
                                  Collection<AuthenticationSchemeHandler<Req, Res>> registeredAuthenticationSchemeHandlers) {
         this.request = request;
         this.response = response;

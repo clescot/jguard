@@ -7,29 +7,27 @@ import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.enforcement.GuestPolicyEnforcementPointFilter;
 import net.sf.jguard.core.enforcement.StatefulAuthenticationFiltersProvider;
 import net.sf.jguard.core.filters.FilterChain;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpServletStatefulAuthenticationFiltersProvider extends StatefulAuthenticationFiltersProvider<HttpServletRequest, HttpServletResponse> {
+public class HttpServletStatefulAuthenticationFiltersProvider extends StatefulAuthenticationFiltersProvider<HttpServletRequestAdapter, HttpServletResponseAdapter> {
 
     @Inject
-    public HttpServletStatefulAuthenticationFiltersProvider(JGuardCallbackHandler<HttpServletRequest, HttpServletResponse> jGuardCallbackHandler,
-                                                            List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>> authenticationFilters,
-                                                            GuestPolicyEnforcementPointFilter<HttpServletRequest, HttpServletResponse> guestPolicyEnforcementPointFilter) {
+    public HttpServletStatefulAuthenticationFiltersProvider(JGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> jGuardCallbackHandler,
+                                                            List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authenticationFilters,
+                                                            GuestPolicyEnforcementPointFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> guestPolicyEnforcementPointFilter) {
         super(jGuardCallbackHandler,
                 authenticationFilters,
                 guestPolicyEnforcementPointFilter,
-                new AuthenticationFilter<HttpServletRequest, HttpServletResponse>() {
-                    public void doFilter(Request<HttpServletRequest> request, Response<HttpServletResponse> response, FilterChain<HttpServletRequest, HttpServletResponse> chain) {
+                new AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>() {
+                    public void doFilter(HttpServletRequestAdapter request, HttpServletResponseAdapter response, FilterChain<HttpServletRequestAdapter, HttpServletResponseAdapter> chain) {
                         LoginContextWrapper wrapper = (LoginContextWrapper) request.get().getSession(true).getAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
                         if (null == wrapper || null == wrapper.getSubject()) {
                             throw new IllegalArgumentException("loginContext is null");
@@ -46,7 +44,7 @@ public class HttpServletStatefulAuthenticationFiltersProvider extends StatefulAu
      *         false otherwise
      */
     @Override
-    protected boolean alreadyAuthenticated(Request<HttpServletRequest> request) {
+    protected boolean alreadyAuthenticated(HttpServletRequestAdapter request) {
         HttpSession session = request.get().getSession(true);
 
         LoginContextWrapper wrapper = (LoginContextWrapper) session.getAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);

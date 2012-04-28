@@ -1,20 +1,19 @@
 package net.sf.jguard.core.authorization;
 
 import net.sf.jguard.core.authorization.permissions.MockPermission;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 
 import java.security.Permission;
 
 
-public class MockAuthorizationBindings implements AuthorizationBindings<MockRequest, MockResponse> {
+public class MockAuthorizationBindings implements AuthorizationBindings<MockRequestAdapter, MockResponseAdapter> {
 
     private Permission lastAccessDeniedPermission;
     private Permission postAuthenticationPermission;
 
-    public Permission getPermissionRequested(Request request) {
+    public Permission getPermissionRequested(MockRequestAdapter request) {
         return new MockPermission("mock");
     }
 
@@ -22,21 +21,21 @@ public class MockAuthorizationBindings implements AuthorizationBindings<MockRequ
         this.lastAccessDeniedPermission = lastAccessDeniedPermission;
     }
 
-    public void accessDenied(Request request, Response response) {
+    public void accessDenied(MockRequestAdapter request, MockResponseAdapter response) {
     }
 
-    public void sendThrowable(Response response, Throwable t) {
+    public void sendThrowable(MockResponseAdapter response, Throwable t) {
     }
 
-    public Permission getLastAccessDeniedPermission(Request<MockRequest> mockRequestRequest) {
+    public Permission getLastAccessDeniedPermission(MockRequestAdapter mockRequestRequest) {
         return lastAccessDeniedPermission;
     }
 
-    public Permission getPostAuthenticationPermission(Request<MockRequest> mockRequestRequest) {
+    public Permission getPostAuthenticationPermission(MockRequestAdapter mockRequestRequest) {
         return postAuthenticationPermission;
     }
 
-    public void handlePermission(Request<MockRequest> mockRequestRequest, Response<MockResponse> mockResponseResponse, Permission permission) {
+    public void handlePermission(MockRequestAdapter mockRequestRequest, MockResponseAdapter mockResponseResponse, Permission permission) {
 
     }
 

@@ -29,6 +29,8 @@ package net.sf.jguard.core.authentication.schemes;
 
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import net.sf.jguard.core.lifecycle.Request;
+import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.Scopes;
 import net.sf.jguard.core.util.XMLUtils;
 import org.dom4j.Document;
@@ -45,11 +47,11 @@ import java.util.*;
 /**
  * build AuthenticationSchemeHandler with instructions from a configuration file.
  *
- * @param <Request>
- * @param <Response>
+ * @param <Req>
+ * @param <Res>
  */
 @Singleton
-public abstract class AuthenticationSchemeHandlerProvider<Request, Response> implements Provider<List<AuthenticationSchemeHandler<Request, Response>>> {
+public abstract class AuthenticationSchemeHandlerProvider<Req extends Request, Res extends Response> implements Provider<List<AuthenticationSchemeHandler<Req, Res>>> {
     private static final String CLASS_NAME = "className";
     private static final String PARAMETER = "parameter";
     private static final String KEY = "key";
@@ -57,7 +59,7 @@ public abstract class AuthenticationSchemeHandlerProvider<Request, Response> imp
 
     private static final String J_GUARD_FILTER_2_0_0_XSD = "jGuardFilter_2.0.0.xsd";
     private static Logger logger = LoggerFactory.getLogger(AuthenticationSchemeHandlerProvider.class.getName());
-    private List<AuthenticationSchemeHandler<Request, Response>> authSchemeHandlers;
+    private List<AuthenticationSchemeHandler<Req, Res>> authSchemeHandlers;
     private Scopes scopes;
     public static final String AUTHENTICATION_SCHEME_HANDLER = "authenticationSchemeHandler";
 
@@ -68,7 +70,7 @@ public abstract class AuthenticationSchemeHandlerProvider<Request, Response> imp
         this.authSchemeHandlers = loadFilterConfiguration(filterLocation);
     }
 
-    public List<AuthenticationSchemeHandler<Request, Response>> get() {
+    public List<AuthenticationSchemeHandler<Req, Res>> get() {
         return authSchemeHandlers;
     }
 
@@ -78,7 +80,7 @@ public abstract class AuthenticationSchemeHandlerProvider<Request, Response> imp
      * @param configurationLocation
      * @return Map containing filter configuration
      */
-    private List<AuthenticationSchemeHandler<Request, Response>> loadFilterConfiguration(URL configurationLocation) {
+    private List<AuthenticationSchemeHandler<Req, Res>> loadFilterConfiguration(URL configurationLocation) {
         URL schemaURL = Thread.currentThread().getContextClassLoader().getResource(J_GUARD_FILTER_2_0_0_XSD);
         Document doc = XMLUtils.read(configurationLocation, schemaURL);
 
@@ -86,7 +88,7 @@ public abstract class AuthenticationSchemeHandlerProvider<Request, Response> imp
         if (doc == null || callbackHandlerElement == null) {
             throw new IllegalArgumentException(" xml file at this location:" + configurationLocation + " is not found or cannot be read ");
         }
-        List<AuthenticationSchemeHandler<Request, Response>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<Request, Response>>(1);
+        List<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<Req, Res>>(1);
 
         Iterator it = callbackHandlerElement.elementIterator(AUTHENTICATION_SCHEME_HANDLER);
         while (it.hasNext()) {

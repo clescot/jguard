@@ -43,7 +43,7 @@ import javax.security.auth.Subject;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class LogoffFilter<Req, Res> implements AuthorizationFilter<Req, Res> {
+public abstract class LogoffFilter<Req extends Request, Res extends Response> implements AuthorizationFilter<Req, Res> {
 
     private StatefulAuthenticationServicePoint<Req, Res> authenticationServicePoint;
     private Subject guest;
@@ -61,7 +61,7 @@ public abstract class LogoffFilter<Req, Res> implements AuthorizationFilter<Req,
         this.authorizationBindings = authorizationBindings;
     }
 
-    public void doFilter(Request<Req> request, Response<Res> response, FilterChain<Req, Res> chain) {
+    public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
         if (userIsLogged()
                 && authenticationServicePoint.userTriesToLogout(authorizationBindings.getPermissionRequested(request))) {
             scope.invalidateSession();

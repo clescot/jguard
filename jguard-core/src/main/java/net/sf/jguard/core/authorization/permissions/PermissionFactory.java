@@ -9,8 +9,8 @@ import java.security.Permission;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public interface PermissionFactory<Req> {
+public interface PermissionFactory<Req extends Request> {
 
-    Permission getPermission(Request<Req> request);
+    Permission getPermission(Req request);
 
 }

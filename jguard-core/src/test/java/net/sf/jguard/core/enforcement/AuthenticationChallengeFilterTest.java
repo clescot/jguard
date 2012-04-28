@@ -4,10 +4,8 @@ import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.filters.Filter;
 import net.sf.jguard.core.filters.FilterChain;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 import net.sf.jguard.core.test.FilterTest;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,7 +21,7 @@ import javax.inject.Inject;
 public class AuthenticationChallengeFilterTest extends FilterTest {
 
     @Inject
-    AuthenticationChallengeFilter<MockRequest, MockResponse> challengeFilter;
+    AuthenticationChallengeFilter<MockRequestAdapter, MockResponseAdapter> challengeFilter;
 
     @Before
     public void setUp() {
@@ -47,8 +45,8 @@ public class AuthenticationChallengeFilterTest extends FilterTest {
 
     @Test
     public void test_current_subject_is_not_null_in_filter() {
-        policyEnforcementPoint.getFilters().add(new Filter<MockRequest, MockResponse>() {
-            public void doFilter(Request<MockRequest> mockRequestRequest, Response<MockResponse> mockResponseResponse, FilterChain<MockRequest, MockResponse> mockRequestMockResponseFilterChain) {
+        policyEnforcementPoint.getFilters().add(new Filter<MockRequestAdapter, MockResponseAdapter>() {
+            public void doFilter(MockRequestAdapter mockRequestRequest, MockResponseAdapter mockResponseResponse, FilterChain<MockRequestAdapter, MockResponseAdapter> mockRequestMockResponseFilterChain) {
                 //we use the regular code and not the HOOK one
                 authenticationServicePoint.setEnableHook(false);
                 Assert.assertNotNull(authenticationServicePoint.getCurrentSubject());

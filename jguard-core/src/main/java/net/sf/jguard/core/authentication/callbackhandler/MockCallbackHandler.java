@@ -28,10 +28,8 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.authentication.callbackhandler;
 
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
 import javax.inject.Inject;
 import javax.security.auth.callback.CallbackHandler;
@@ -43,13 +41,13 @@ import java.util.Collection;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class MockCallbackHandler extends JGuardCallbackHandler<MockRequest, MockResponse> implements CallbackHandler {
+public class MockCallbackHandler extends JGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter> implements CallbackHandler {
 
 
     @Inject
-    public MockCallbackHandler(Request<MockRequest> request,
-                               Response<MockResponse> response,
-                               Collection<AuthenticationSchemeHandler<MockRequest, MockResponse>> authenticationSchemeHandlers) {
+    public MockCallbackHandler(MockRequestAdapter request,
+                               MockResponseAdapter response,
+                               Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers) {
 
         super(request, response, authenticationSchemeHandlers);
     }

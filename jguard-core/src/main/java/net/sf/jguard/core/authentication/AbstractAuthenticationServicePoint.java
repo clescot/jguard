@@ -52,7 +52,7 @@ import java.security.AccessController;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @since 2 .0
  */
-public abstract class AbstractAuthenticationServicePoint<Req, Res> implements AuthenticationServicePoint<Req, Res> {
+public abstract class AbstractAuthenticationServicePoint<Req extends Request, Res extends Response> implements AuthenticationServicePoint<Req, Res> {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractAuthenticationServicePoint.class.getName());
 
@@ -62,7 +62,6 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
     private static final String AUTHENTICATION_SUCCEEDED = "authenticationSucceededDuringThisRequest";
     private static final String LOGIN_EXCEPTION_CLASS = "LoginExceptionClass";
     private static final String LOGIN_EXCEPTION_MESSAGE = "LoginExceptionMessage";
-    private static final String REGISTRATION_DONE = "registrationDone";
 
     public AbstractAuthenticationServicePoint(Configuration configuration,
                                               String applicationName,
@@ -82,7 +81,6 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
             Configuration configuration,
             Scopes scopes,
             JGuardCallbackHandler<Req, Res> callbackHandler) throws AuthenticationException {
-        scopes.setRequestAttribute(REGISTRATION_DONE, Boolean.FALSE);
 
         LoginContextWrapper loginContextWrapper = null;
         try {
@@ -190,7 +188,7 @@ public abstract class AbstractAuthenticationServicePoint<Req, Res> implements Au
     }
 
 
-    public boolean authenticationSucceededDuringThisRequest(Request<Req> request, Response<Res> response) {
+    public boolean authenticationSucceededDuringThisRequest(Req request, Res response) {
         String authenticationSucceeded = (String) scopes.getRequestAttribute(AUTHENTICATION_SUCCEEDED);
         return null != authenticationSucceeded && Boolean.parseBoolean(authenticationSucceeded);
     }

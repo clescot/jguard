@@ -17,7 +17,7 @@ import java.security.PrivilegedAction;
  * @param <Req>
  * @param <Res>
  */
-public abstract class AuthenticationFilter<Req, Res> implements Filter<Req, Res> {
+public abstract class AuthenticationFilter<Req extends Request, Res extends Response> implements Filter<Req, Res> {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class.getName());
 
     /**
@@ -29,7 +29,7 @@ public abstract class AuthenticationFilter<Req, Res> implements Filter<Req, Res>
      * @param response
      * @param chain    filterChain to propagate to the next filter the call with a securized call
      */
-    protected void propagateWithSecurity(final Subject subject, final Request<Req> request, final Response<Res> response, final FilterChain<Req, Res> chain) {
+    protected void propagateWithSecurity(final Subject subject, final Req request, final Res response, final FilterChain<Req, Res> chain) {
 
         //propagate security information into the Thread
         Subject.doAsPrivileged(subject, new PrivilegedAction() {

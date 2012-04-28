@@ -30,21 +30,21 @@ package net.sf.jguard.jsf.authentication.filters;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
 import net.sf.jguard.core.enforcement.GuestPolicyEnforcementPointFilter;
+import net.sf.jguard.jsf.FacesContextAdapter;
 
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.util.List;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class JSFGuestPolicyEnforcementPointFilter extends GuestPolicyEnforcementPointFilter<FacesContext, FacesContext> {
+public class JSFGuestPolicyEnforcementPointFilter extends GuestPolicyEnforcementPointFilter<FacesContextAdapter, FacesContextAdapter> {
 
     @Inject
-    public JSFGuestPolicyEnforcementPointFilter(List<AuthenticationFilter<FacesContext, FacesContext>> guestAuthenticationFilters,
-                                                List<AuthorizationFilter<FacesContext, FacesContext>> guestAuthorizationFilters,
-                                                List<AuthenticationFilter<FacesContext, FacesContext>> restfulAuthenticationFilters,
-                                                List<AuthorizationFilter<FacesContext, FacesContext>> restfulAuthorizationFilters) {
+    public JSFGuestPolicyEnforcementPointFilter(List<AuthenticationFilter<FacesContextAdapter, FacesContextAdapter>> guestAuthenticationFilters,
+                                                List<AuthorizationFilter<FacesContextAdapter, FacesContextAdapter>> guestAuthorizationFilters,
+                                                List<AuthenticationFilter<FacesContextAdapter, FacesContextAdapter>> restfulAuthenticationFilters,
+                                                List<AuthorizationFilter<FacesContextAdapter, FacesContextAdapter>> restfulAuthorizationFilters) {
         super(guestAuthenticationFilters, guestAuthorizationFilters, restfulAuthenticationFilters, restfulAuthorizationFilters);
     }
 }

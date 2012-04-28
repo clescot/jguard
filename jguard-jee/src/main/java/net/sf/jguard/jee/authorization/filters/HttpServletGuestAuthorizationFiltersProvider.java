@@ -30,27 +30,27 @@ package net.sf.jguard.jee.authorization.filters;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedRegistrationFilter;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpServletGuestAuthorizationFiltersProvider implements Provider<List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>>> {
+public class HttpServletGuestAuthorizationFiltersProvider implements Provider<List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>> {
 
-    private List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> authorizationFilters;
+    private List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authorizationFilters;
 
     @Inject
-    public HttpServletGuestAuthorizationFiltersProvider(LastAccessDeniedRegistrationFilter<HttpServletRequest, HttpServletResponse> lastAccessDeniedTriggerFilter,
-                                                        List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> authorizationFilters) {
+    public HttpServletGuestAuthorizationFiltersProvider(LastAccessDeniedRegistrationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> lastAccessDeniedTriggerFilter,
+                                                        List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authorizationFilters) {
         authorizationFilters.add(lastAccessDeniedTriggerFilter);
         this.authorizationFilters = authorizationFilters;
     }
 
-    public List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> get() {
+    public List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> get() {
         return authorizationFilters;
     }
 }

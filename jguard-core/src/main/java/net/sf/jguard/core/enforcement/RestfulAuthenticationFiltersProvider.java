@@ -30,6 +30,8 @@ package net.sf.jguard.core.enforcement;
 import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
+import net.sf.jguard.core.lifecycle.Request;
+import net.sf.jguard.core.lifecycle.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,7 @@ import java.util.List;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class RestfulAuthenticationFiltersProvider<Req, Res> implements Provider<List<AuthenticationFilter<Req, Res>>> {
+public abstract class RestfulAuthenticationFiltersProvider<Req extends Request, Res extends Response> implements Provider<List<AuthenticationFilter<Req, Res>>> {
 
 
     protected List<AuthenticationFilter<Req, Res>> filters = new ArrayList<AuthenticationFilter<Req, Res>>();

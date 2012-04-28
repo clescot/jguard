@@ -72,11 +72,11 @@ public class PolicyEnforcementPointTest extends JGuardJEETest {
     HttpServletResponseAdapter responseAdapter;
     AuthenticationManager authenticationManager;
     Injector injector;
-    List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>> authenticationFilters;
-    List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> authorizationFilters;
+    List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authenticationFilters;
+    List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authorizationFilters;
     javax.servlet.FilterChain filterChain = new MockFilterChain();
     @Inject
-    AuthorizationBindings<HttpServletRequest, HttpServletResponse> authorizationBindings;
+    AuthorizationBindings<HttpServletRequestAdapter, HttpServletResponseAdapter> authorizationBindings;
 
 
     @Before
@@ -92,8 +92,8 @@ public class PolicyEnforcementPointTest extends JGuardJEETest {
         response = new MockHttpServletResponse();
         responseAdapter = new HttpServletResponseAdapter(response);
         filterChain = new MockFilterChain();
-        authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>();
-        authorizationFilters = new ArrayList<AuthorizationFilter<HttpServletRequest, HttpServletResponse>>();
+        authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>();
+        authorizationFilters = new ArrayList<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>();
     }
 
     private PolicyEnforcementPoint getPep(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, javax.servlet.FilterChain filterChain) {
@@ -119,7 +119,7 @@ public class PolicyEnforcementPointTest extends JGuardJEETest {
 
         propagateThrowable = false;
         injector = Guice.createInjector(provideModules(request, response, filterChain));
-        authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>();
+        authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>();
 
         AuthenticationFilter filter = mock(AuthenticationFilter.class);
         doThrow(new IllegalStateException()).when(filter).doFilter(any(Request.class), any(Response.class), any(FilterChain.class));
@@ -145,7 +145,7 @@ public class PolicyEnforcementPointTest extends JGuardJEETest {
     @Test(expected = IllegalStateException.class)
     public void testExceptionWithPropagateThrowableOptionToTrue() {
         injector = Guice.createInjector(provideModules(request, response, filterChain));
-        authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>();
+        authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>();
 
         //policyEnforcementPointFilter = injector.getInstance(Key.get(new TypeLiteral<PolicyEnforcementPointFilter<HttpServletRequest, HttpServletResponse>>() {}));
         //filters.add(policyEnforcementPointFilter);

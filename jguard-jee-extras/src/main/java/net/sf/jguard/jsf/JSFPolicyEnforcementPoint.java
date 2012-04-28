@@ -1,25 +1,24 @@
 package net.sf.jguard.jsf;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.Stateful;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authorization.filters.AuthorizationFilter;
 import net.sf.jguard.core.enforcement.PolicyEnforcementPoint;
-import net.sf.jguard.core.lifecycle.Response;
 
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class JSFPolicyEnforcementPoint extends PolicyEnforcementPoint<FacesContext, FacesContext> {
+public class JSFPolicyEnforcementPoint extends PolicyEnforcementPoint<FacesContextAdapter, FacesContextAdapter> {
     @Inject
-    public JSFPolicyEnforcementPoint(@Stateful List<AuthenticationFilter<FacesContext, FacesContext>> authenticationFilters,
-                                     List<AuthorizationFilter<FacesContext, FacesContext>> authorizationFilters,
+    public JSFPolicyEnforcementPoint(@Stateful List<AuthenticationFilter<FacesContextAdapter, FacesContextAdapter>> authenticationFilters,
+                                     List<AuthorizationFilter<FacesContextAdapter, FacesContextAdapter>> authorizationFilters,
                                      boolean propagateThrowable) {
         super(authenticationFilters, authorizationFilters, propagateThrowable);
     }
@@ -33,7 +32,7 @@ public class JSFPolicyEnforcementPoint extends PolicyEnforcementPoint<FacesConte
      * @param t
      */
     @Override
-    public void sendThrowable(Response response, Throwable t) {
+    public void sendThrowable(FacesContextAdapter response, Throwable t) {
         String outcomeThrowable = "throwable";
         FacesContext facesContext = FacesContext.getCurrentInstance();
         NavigationHandler nh = facesContext.getApplication().getNavigationHandler();

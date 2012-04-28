@@ -32,10 +32,9 @@ import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authentication.schemes.LoginPasswordFormSchemeHandler;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedFilter;
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpConstants;
+import net.sf.jguard.jsf.FacesContextAdapter;
 import net.sf.jguard.jsf.permissions.JSFPermission;
 import net.sf.jguard.jsf.permissions.JSFPermissionFactory;
 import org.slf4j.LoggerFactory;
@@ -53,7 +52,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class JSFLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHandler<FacesContext, FacesContext> {
+public class JSFLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHandler<FacesContextAdapter, FacesContextAdapter> {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(JSFLoginPasswordFormSchemeHandler.class.getName());
     private String authenticationSucceedView;
@@ -99,7 +98,7 @@ public class JSFLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHa
      *
      * @return
      */
-    protected PermissionFactory<FacesContext> getPermissionFactory() {
+    protected PermissionFactory<FacesContextAdapter> getPermissionFactory() {
         return new JSFPermissionFactory();
     }
 
@@ -108,7 +107,7 @@ public class JSFLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHa
      *
      * @throws AuthenticationException
      */
-    public void buildChallenge(Request<FacesContext> request, Response<FacesContext> response) {
+    public void buildChallenge(FacesContextAdapter request, FacesContextAdapter response) {
         redirect(request.get(), logonView);
     }
 
@@ -117,7 +116,7 @@ public class JSFLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHa
      *
      * @throws AuthenticationException
      */
-    public void authenticationFailed(Request<FacesContext> request, Response<FacesContext> response) {
+    public void authenticationFailed(FacesContextAdapter request, FacesContextAdapter response) {
         //an URL for authentication failure event has been set
         if (authenticationFailedPermission != null && !authenticationFailedPermission.getName().equals("")) {
             redirect(request.get(), authenticationFailedPermission.getName());
@@ -140,7 +139,7 @@ public class JSFLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHa
      * we redirect to the <i>indexURI</i> if access is granted to it,
      * otherwise to <i>logon</i> JSF view.
      */
-    public void authenticationSucceed(Subject subject, Request<FacesContext> request, Response<FacesContext> response) {
+    public void authenticationSucceed(Subject subject, FacesContextAdapter request, FacesContextAdapter response) {
         String redirectOutcome = authenticationSucceedView;
         String lastAccessDeniedView = null;
         Permission lastAccessDeniedPermission = (Permission) ((StatefulScopes) statefulScopes).getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION);
@@ -170,12 +169,12 @@ public class JSFLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHa
 
     }
 
-    protected String getLogin(Request<FacesContext> request) {
+    protected String getLogin(FacesContextAdapter request) {
         Map parameters = request.get().getExternalContext().getRequestParameterMap();
         return (String) parameters.get(LOGIN);
     }
 
-    protected String getPassword(Request<FacesContext> request) {
+    protected String getPassword(FacesContextAdapter request) {
         Map parameters = request.get().getExternalContext().getRequestParameterMap();
         return (String) parameters.get(PASSWORD);
     }

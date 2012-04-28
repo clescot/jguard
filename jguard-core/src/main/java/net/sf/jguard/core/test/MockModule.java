@@ -12,8 +12,8 @@ import net.sf.jguard.core.authorization.MockAuthorizationBindings;
 import net.sf.jguard.core.authorization.filters.*;
 import net.sf.jguard.core.enforcement.*;
 import net.sf.jguard.core.filters.FilterChain;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 import net.sf.jguard.core.technology.MockScopes;
 import net.sf.jguard.core.technology.Scopes;
 import net.sf.jguard.core.technology.StatefulScopes;
@@ -41,36 +41,36 @@ public class MockModule extends AbstractModule {
         bind(Scopes.class).to(mockScopesClass);
 
         //authentication part
-        bind(new TypeLiteral<AbstractAuthenticationServicePoint<MockRequest, MockResponse>>() {
+        bind(new TypeLiteral<AbstractAuthenticationServicePoint<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockAuthenticationServicePoint.class);
 
-        bind(new TypeLiteral<List<AuthenticationFilter<MockRequest, MockResponse>>>() {
+        bind(new TypeLiteral<List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>>>() {
         }).annotatedWith(Stateful.class).toProvider(MockStatefulAuthenticationFiltersProvider.class);
 
-        bind(new TypeLiteral<List<AuthenticationFilter<MockRequest, MockResponse>>>() {
+        bind(new TypeLiteral<List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>>>() {
         }).annotatedWith(Restful.class).toProvider(MockRestfulAuthenticationFiltersProvider.class);
 
-        bind(new TypeLiteral<List<AuthenticationFilter<MockRequest, MockResponse>>>() {
+        bind(new TypeLiteral<List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>>>() {
         }).toProvider(MockAuthenticationFiltersProvider.class);
 
 
-        bind(new TypeLiteral<PolicyEnforcementPoint<MockRequest, MockResponse>>() {
+        bind(new TypeLiteral<PolicyEnforcementPoint<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockPolicyEnforcementPoint.class);
 
 
         //guest part
-        bind(new TypeLiteral<GuestPolicyEnforcementPointFilter<MockRequest, MockResponse>>() {
+        bind(new TypeLiteral<GuestPolicyEnforcementPointFilter<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockGuestPolicyEnforcementPointFilter.class);
 
 
-        bind(new TypeLiteral<GuestAuthenticationFilter<MockRequest, MockResponse>>() {
+        bind(new TypeLiteral<GuestAuthenticationFilter<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockGuestAuthenticationFilter.class);
 
 
-        bind(new TypeLiteral<List<AuthenticationFilter<MockRequest, MockResponse>>>() {
+        bind(new TypeLiteral<List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>>>() {
         }).annotatedWith(Guest.class).toProvider(MockGuestAuthenticationFiltersProvider.class);
 
-        bind(new TypeLiteral<Collection<AuthenticationSchemeHandler<MockRequest, MockResponse>>>() {
+        bind(new TypeLiteral<Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>>() {
         }).annotatedWith(Guest.class).toProvider(MockAuthenticationSchemeHandlerProvider.class);
 
         //authorization part
@@ -78,22 +78,22 @@ public class MockModule extends AbstractModule {
 
         bind(Permissions.class).toProvider(MockGrantedAuthenticationSchemePermissionsProvider.class);
 
-        bind(new TypeLiteral<LastAccessDeniedTriggerFilter<MockRequest, MockResponse>>() {
+        bind(new TypeLiteral<LastAccessDeniedTriggerFilter<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockLastAccessDeniedTriggerFilter.class);
 
-        bind(new TypeLiteral<LastAccessDeniedRegistrationFilter<MockRequest, MockResponse>>() {
+        bind(new TypeLiteral<LastAccessDeniedRegistrationFilter<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockLastAccessRegistrationFilter.class);
 
-        bind(new TypeLiteral<AuthorizationBindings<MockRequest, MockResponse>>() {
+        bind(new TypeLiteral<AuthorizationBindings<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockAuthorizationBindings.class);
 
-        bind(new TypeLiteral<PolicyDecisionPoint<MockRequest, MockResponse>>() {
+        bind(new TypeLiteral<PolicyDecisionPoint<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockPolicyDecisionPoint.class);
 
-        bind(new TypeLiteral<List<AuthorizationFilter<MockRequest, MockResponse>>>() {
+        bind(new TypeLiteral<List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>>>() {
         }).annotatedWith(Guest.class).toProvider(MockGuestAuthorizationFiltersProvider.class);
 
-        bind(new TypeLiteral<List<AuthorizationFilter<MockRequest, MockResponse>>>() {
+        bind(new TypeLiteral<List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>>>() {
         }).toProvider(MockAuthorizationFiltersProvider.class);
 
     }

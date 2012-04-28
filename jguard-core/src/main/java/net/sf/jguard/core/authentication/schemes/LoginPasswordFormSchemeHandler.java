@@ -47,7 +47,7 @@ import java.util.Map;
  * @see PasswordCallback
  * @since 2.0
  */
-public abstract class LoginPasswordFormSchemeHandler<Req, Res> extends FORMSchemeHandler<Req, Res> {
+public abstract class LoginPasswordFormSchemeHandler<Req extends Request, Res extends Response> extends FORMSchemeHandler<Req, Res> {
 
 
     public static final String LOGIN = "login";
@@ -71,7 +71,7 @@ public abstract class LoginPasswordFormSchemeHandler<Req, Res> extends FORMSchem
     }
 
 
-    public void handleSchemeCallbacks(Request<Req> request, Response<Res> response, Callback[] callbacks) throws UnsupportedCallbackException {
+    public void handleSchemeCallbacks(Req request, Res response, Callback[] callbacks) throws UnsupportedCallbackException {
         String login = getLogin(request);
         if (null == login || EMPTY_STRING.equals(login)) {
             throw new IllegalArgumentException("login is null or empty");
@@ -97,7 +97,7 @@ public abstract class LoginPasswordFormSchemeHandler<Req, Res> extends FORMSchem
      * @param response
      * @return
      */
-    public boolean answerToChallenge(Request<Req> request, Response<Res> response) {
+    public boolean answerToChallenge(Req request, Res response) {
         if (!super.answerToChallenge(request, response)) {
             return false;
         }
@@ -106,9 +106,9 @@ public abstract class LoginPasswordFormSchemeHandler<Req, Res> extends FORMSchem
         return null != login && !EMPTY_STRING.equals(login) && null != password && !EMPTY_STRING.equals(password);
     }
 
-    protected abstract String getLogin(Request<Req> request);
+    protected abstract String getLogin(Req request);
 
-    protected abstract String getPassword(Request<Req> request);
+    protected abstract String getPassword(Req request);
 
 
 }

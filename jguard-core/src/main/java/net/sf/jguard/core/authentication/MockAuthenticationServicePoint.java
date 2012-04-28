@@ -3,10 +3,8 @@ package net.sf.jguard.core.authentication;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 import net.sf.jguard.core.technology.ImpersonationScopes;
 import net.sf.jguard.core.technology.MockScopes;
 
@@ -18,7 +16,7 @@ import javax.security.auth.login.Configuration;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @Singleton
-public class MockAuthenticationServicePoint extends AbstractAuthenticationServicePoint<MockRequest, MockResponse> {
+public class MockAuthenticationServicePoint extends AbstractAuthenticationServicePoint<MockRequestAdapter, MockResponseAdapter> {
 
     private boolean authenticationSucceededDuringThisRequest;
     private Subject subject;
@@ -41,7 +39,7 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
         this.guestCallbackHandler = guestCallbackHandler;
     }
 
-    public boolean authenticationSucceededDuringThisRequest(Request<MockRequest> request, Response<MockResponse> response) {
+    public boolean authenticationSucceededDuringThisRequest(MockRequestAdapter request, MockResponseAdapter response) {
         if (!enableHook) {
             return super.authenticationSucceededDuringThisRequest(request, response);
         }

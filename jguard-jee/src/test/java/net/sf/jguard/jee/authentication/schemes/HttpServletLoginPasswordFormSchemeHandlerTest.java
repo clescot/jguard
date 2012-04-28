@@ -27,10 +27,10 @@
 
 package net.sf.jguard.jee.authentication.schemes;
 
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpConstants;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 import net.sf.jguard.jee.JGuardJEETest;
 import org.junit.Assert;
 import org.junit.Test;
@@ -69,9 +69,9 @@ public class HttpServletLoginPasswordFormSchemeHandlerTest extends JGuardJEETest
         parameters.put(HttpConstants.LOGOFF_URI, "/logoff.do");
 
         HttpServletLoginPasswordFormSchemeHandler schemeHandler = new HttpServletLoginPasswordFormSchemeHandler(parameters, authenticationBindings);
-        Request request = mock(Request.class);
+        HttpServletRequestAdapter request = mock(HttpServletRequestAdapter.class);
         when(request.get()).thenReturn(httpServletRequest);
-        Response response = mock(Response.class);
+        HttpServletResponseAdapter response = mock(HttpServletResponseAdapter.class);
 
         when(response.get()).thenReturn(httpServletResponse);
         Callback[] callbacks = new Callback[2];

@@ -11,7 +11,6 @@ package net.sf.jguard.jee;
 
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
-import net.sf.jguard.core.lifecycle.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +24,7 @@ import java.util.regex.Pattern;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpPermissionFactory implements PermissionFactory<HttpServletRequest> {
+public class HttpPermissionFactory implements PermissionFactory<HttpServletRequestAdapter> {
 
     static public final Logger logger = LoggerFactory.getLogger(HttpPermissionFactory.class);
     private static Pattern starPattern = Pattern.compile(HttpPermissionFactory.STAR);
@@ -34,7 +33,7 @@ public class HttpPermissionFactory implements PermissionFactory<HttpServletReque
     private static final String PERMISSION_FROM_USER_GENERIC_PERMISSION_NAME = "permissionFromUser";
 
 
-    public Permission getPermission(Request<HttpServletRequest> requestAdapter) {
+    public Permission getPermission(HttpServletRequestAdapter requestAdapter) {
         HttpServletRequest request = requestAdapter.get();
         String uriWithQuery = buildRequest(request);
         logger.debug("uriWithQuery=" + uriWithQuery);

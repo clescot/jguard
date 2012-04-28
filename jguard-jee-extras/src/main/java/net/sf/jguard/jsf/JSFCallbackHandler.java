@@ -1,18 +1,15 @@
 package net.sf.jguard.jsf;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 
-import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import java.util.Collection;
 
-public class JSFCallbackHandler extends JGuardCallbackHandler<FacesContext, FacesContext> {
+public class JSFCallbackHandler extends JGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter> {
 
     @Inject
-    public JSFCallbackHandler(Request<FacesContext> request, Response<FacesContext> response, Collection<AuthenticationSchemeHandler<FacesContext, FacesContext>> authenticationSchemeHandlers) {
+    public JSFCallbackHandler(FacesContextAdapter request, FacesContextAdapter response, Collection<AuthenticationSchemeHandler<FacesContextAdapter, FacesContextAdapter>> authenticationSchemeHandlers) {
         super(request, response, authenticationSchemeHandlers);
     }
 

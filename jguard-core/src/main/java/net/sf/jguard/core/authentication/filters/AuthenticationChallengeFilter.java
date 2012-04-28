@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class AuthenticationChallengeFilter<Req, Res> extends AuthenticationFilter<Req, Res> {
+public abstract class AuthenticationChallengeFilter<Req extends Request, Res extends Response> extends AuthenticationFilter<Req, Res> {
 
     private AuthenticationServicePoint<Req, Res> authenticationServicePoint;
     private Provider<JGuardCallbackHandler<Req, Res>> callbackHandlerProvider;
@@ -34,7 +34,7 @@ public abstract class AuthenticationChallengeFilter<Req, Res> extends Authentica
         this.authenticationManager = authenticationManager;
     }
 
-    public void doFilter(Request<Req> request, Response<Res> response, FilterChain<Req, Res> chain) {
+    public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
         JGuardCallbackHandler<Req, Res> callbackHandler = callbackHandlerProvider.get();
 
         LoginContextWrapper loginContextWrapper = authenticationServicePoint.authenticate(callbackHandler);

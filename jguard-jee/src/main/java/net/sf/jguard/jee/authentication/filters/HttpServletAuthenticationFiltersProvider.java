@@ -29,18 +29,18 @@ package net.sf.jguard.jee.authentication.filters;
 
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.authentication.filters.AuthenticationFiltersProvider;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpServletAuthenticationFiltersProvider extends AuthenticationFiltersProvider<HttpServletRequest, HttpServletResponse> {
+public class HttpServletAuthenticationFiltersProvider extends AuthenticationFiltersProvider<HttpServletRequestAdapter, HttpServletResponseAdapter> {
 
     @Inject
-    public HttpServletAuthenticationFiltersProvider(AuthenticationChallengeFilter<HttpServletRequest, HttpServletResponse> authenticationChallengeFilter) {
+    public HttpServletAuthenticationFiltersProvider(AuthenticationChallengeFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> authenticationChallengeFilter) {
         super(authenticationChallengeFilter);
     }
 }

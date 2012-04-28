@@ -38,7 +38,7 @@ import net.sf.jguard.core.lifecycle.Response;
  * @see net.sf.jguard.core.authorization.filters.AuthorizationFilter
  * @since 2.0
  */
-public interface Filter<Req, Res> {
+public interface Filter<Req extends Request, Res extends Response> {
 
-    void doFilter(Request<Req> request, Response<Res> response, FilterChain<Req, Res> chain);
+    void doFilter(Req request, Res response, FilterChain<Req, Res> chain);
 }

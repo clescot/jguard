@@ -28,8 +28,8 @@
 package net.sf.jguard.core.authentication.filters;
 
 import com.google.inject.Provider;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -39,15 +39,15 @@ import java.util.List;
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class MockGuestAuthenticationFiltersProvider implements Provider<List<AuthenticationFilter<MockRequest, MockResponse>>> {
-    private List<AuthenticationFilter<MockRequest, MockResponse>> authenticationFilters = new ArrayList<AuthenticationFilter<MockRequest, MockResponse>>();
+public class MockGuestAuthenticationFiltersProvider implements Provider<List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>>> {
+    private List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>> authenticationFilters = new ArrayList<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>>();
 
     @Inject
     public MockGuestAuthenticationFiltersProvider(MockGuestAuthenticationFilter guestAuthenticationFilter) {
         authenticationFilters.add(guestAuthenticationFilter);
     }
 
-    public List<AuthenticationFilter<MockRequest, MockResponse>> get() {
+    public List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>> get() {
         return authenticationFilters;
     }
 }

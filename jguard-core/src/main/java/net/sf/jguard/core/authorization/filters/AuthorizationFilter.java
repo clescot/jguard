@@ -28,6 +28,8 @@
 package net.sf.jguard.core.authorization.filters;
 
 import net.sf.jguard.core.filters.Filter;
+import net.sf.jguard.core.lifecycle.Request;
+import net.sf.jguard.core.lifecycle.Response;
 
 /**
  * marker interface to highlight the Authorization nature of the filter,
@@ -36,5 +38,5 @@ import net.sf.jguard.core.filters.Filter;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public interface AuthorizationFilter<Req, Res> extends Filter<Req, Res> {
+public interface AuthorizationFilter<Req extends Request, Res extends Response> extends Filter<Req, Res> {
 }

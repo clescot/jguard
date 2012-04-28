@@ -1,15 +1,15 @@
 package net.sf.jguard.jsf.authentication.filters;
 
-import javax.inject.Inject;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.authentication.filters.AuthenticationFiltersProvider;
+import net.sf.jguard.jsf.FacesContextAdapter;
 
-import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
-public class JSFAuthenticationFiltersProvider extends AuthenticationFiltersProvider<FacesContext, FacesContext> {
+public class JSFAuthenticationFiltersProvider extends AuthenticationFiltersProvider<FacesContextAdapter, FacesContextAdapter> {
 
     @Inject
-    public JSFAuthenticationFiltersProvider(AuthenticationChallengeFilter<FacesContext, FacesContext> authenticationChallengeFilter) {
+    public JSFAuthenticationFiltersProvider(AuthenticationChallengeFilter<FacesContextAdapter, FacesContextAdapter> authenticationChallengeFilter) {
         super(authenticationChallengeFilter);
     }
 }

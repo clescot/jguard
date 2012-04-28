@@ -46,8 +46,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,14 +60,14 @@ public class FilterChainImplTest extends JGuardJEETest {
 
 
     @Inject
-    AuthorizationBindings<HttpServletRequest, HttpServletResponse> authorizationBindings;
+    AuthorizationBindings<HttpServletRequestAdapter, HttpServletResponseAdapter> authorizationBindings;
 
 
     @Test
     public void testNominalCase() {
 
-        List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>> authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>();
-        List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> authorizationFilters = new ArrayList<AuthorizationFilter<HttpServletRequest, HttpServletResponse>>();
+        List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>();
+        List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authorizationFilters = new ArrayList<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>();
         final AuthenticationFilter mock = mock(AuthenticationFilter.class);
         authenticationFilters.add(mock);
         final AuthorizationFilter mock2 = mock(AuthorizationFilter.class);
@@ -94,8 +92,8 @@ public class FilterChainImplTest extends JGuardJEETest {
     public void testTooManyDoFilterCalls() {
 
         //initialize filters
-        List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>> authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>();
-        List<AuthorizationFilter<HttpServletRequest, HttpServletResponse>> authorizationFilters = new ArrayList<AuthorizationFilter<HttpServletRequest, HttpServletResponse>>();
+        List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>();
+        List<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authorizationFilters = new ArrayList<AuthorizationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>();
         final AuthenticationFilter mock = mock(AuthenticationFilter.class);
         authenticationFilters.add(mock);
         final AuthorizationFilter mock2 = mock(AuthorizationFilter.class);
@@ -112,7 +110,7 @@ public class FilterChainImplTest extends JGuardJEETest {
             chain.doFilter(request, response);
             chain.doFilter(request, response);
             chain.doFilter(request, response);
-          
+
 
             Assert.fail();
         } catch (IllegalStateException ise) {

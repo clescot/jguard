@@ -29,25 +29,25 @@ package net.sf.jguard.jee.authentication.filters;
 
 import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpServletGuestAuthenticationFiltersProvider implements Provider<List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>> {
-    private List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>> authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequest, HttpServletResponse>>();
+public class HttpServletGuestAuthenticationFiltersProvider implements Provider<List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>> {
+    private List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authenticationFilters = new ArrayList<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>();
 
     @Inject
     public HttpServletGuestAuthenticationFiltersProvider(HttpServletGuestAuthenticationFilter guestAuthenticationFilter) {
         authenticationFilters.add(guestAuthenticationFilter);
     }
 
-    public List<AuthenticationFilter<HttpServletRequest, HttpServletResponse>> get() {
+    public List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> get() {
         return authenticationFilters;
     }
 }

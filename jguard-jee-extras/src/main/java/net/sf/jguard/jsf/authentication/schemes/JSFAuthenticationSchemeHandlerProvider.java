@@ -30,15 +30,15 @@ package net.sf.jguard.jsf.authentication.schemes;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandlerProvider;
 import net.sf.jguard.core.authentication.schemes.FilterConfigurationLocation;
 import net.sf.jguard.core.technology.Scopes;
+import net.sf.jguard.jsf.FacesContextAdapter;
 
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.net.URL;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class JSFAuthenticationSchemeHandlerProvider extends AuthenticationSchemeHandlerProvider<FacesContext, FacesContext> {
+public class JSFAuthenticationSchemeHandlerProvider extends AuthenticationSchemeHandlerProvider<FacesContextAdapter, FacesContextAdapter> {
     @Inject
     public JSFAuthenticationSchemeHandlerProvider(@FilterConfigurationLocation URL filterLocation,
                                                   Scopes scopes) {

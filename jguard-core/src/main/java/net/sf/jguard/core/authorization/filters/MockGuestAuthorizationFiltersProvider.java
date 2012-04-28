@@ -28,8 +28,8 @@
 package net.sf.jguard.core.authorization.filters;
 
 import com.google.inject.Provider;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -37,18 +37,18 @@ import java.util.List;
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class MockGuestAuthorizationFiltersProvider implements Provider<List<AuthorizationFilter<MockRequest, MockResponse>>> {
+public class MockGuestAuthorizationFiltersProvider implements Provider<List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>>> {
 
-    private List<AuthorizationFilter<MockRequest, MockResponse>> authorizationFilters;
+    private List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>> authorizationFilters;
 
     @Inject
-    public MockGuestAuthorizationFiltersProvider(List<AuthorizationFilter<MockRequest, MockResponse>> authorizationFilters,
-                                                 LastAccessDeniedRegistrationFilter<MockRequest, MockResponse> lastAccessDeniedRegistrationFilter) {
+    public MockGuestAuthorizationFiltersProvider(List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>> authorizationFilters,
+                                                 LastAccessDeniedRegistrationFilter<MockRequestAdapter, MockResponseAdapter> lastAccessDeniedRegistrationFilter) {
         authorizationFilters.add(lastAccessDeniedRegistrationFilter);
         this.authorizationFilters = authorizationFilters;
     }
 
-    public List<AuthorizationFilter<MockRequest, MockResponse>> get() {
+    public List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>> get() {
         return authorizationFilters;
     }
 }

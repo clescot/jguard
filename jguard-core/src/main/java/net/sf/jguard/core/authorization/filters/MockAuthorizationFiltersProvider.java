@@ -28,8 +28,8 @@
 package net.sf.jguard.core.authorization.filters;
 
 import com.google.inject.Provider;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -38,16 +38,16 @@ import java.util.List;
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class MockAuthorizationFiltersProvider implements Provider<List<AuthorizationFilter<MockRequest, MockResponse>>> {
+public class MockAuthorizationFiltersProvider implements Provider<List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>>> {
 
-    private List<AuthorizationFilter<MockRequest, MockResponse>> authorizationFilters = new ArrayList<AuthorizationFilter<MockRequest, MockResponse>>();
+    private List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>> authorizationFilters = new ArrayList<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>>();
 
     @Inject
-    public MockAuthorizationFiltersProvider(PolicyDecisionPoint<MockRequest, MockResponse> policyDecisionPoint) {
+    public MockAuthorizationFiltersProvider(PolicyDecisionPoint<MockRequestAdapter, MockResponseAdapter> policyDecisionPoint) {
         authorizationFilters.add(policyDecisionPoint);
     }
 
-    public List<AuthorizationFilter<MockRequest, MockResponse>> get() {
+    public List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>> get() {
         return authorizationFilters;
     }
 

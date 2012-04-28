@@ -34,10 +34,8 @@ import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.enforcement.GuestPolicyEnforcementPointFilter;
 import net.sf.jguard.core.enforcement.StatefulAuthenticationFiltersProvider;
 import net.sf.jguard.core.filters.FilterChain;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.jsf.FacesContextAdapter;
 
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
@@ -45,18 +43,18 @@ import java.util.Map;
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class JSFStatefulAuthenticationFiltersProvider extends StatefulAuthenticationFiltersProvider<FacesContext, FacesContext> {
+public class JSFStatefulAuthenticationFiltersProvider extends StatefulAuthenticationFiltersProvider<FacesContextAdapter, FacesContextAdapter> {
 
 
     @Inject
-    public JSFStatefulAuthenticationFiltersProvider(JGuardCallbackHandler<FacesContext, FacesContext> jGuardCallbackHandler,
-                                                    List<AuthenticationFilter<FacesContext, FacesContext>> authenticationFilters,
-                                                    GuestPolicyEnforcementPointFilter<FacesContext, FacesContext> guestPolicyEnforcementPointFilter) {
+    public JSFStatefulAuthenticationFiltersProvider(JGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter> jGuardCallbackHandler,
+                                                    List<AuthenticationFilter<FacesContextAdapter, FacesContextAdapter>> authenticationFilters,
+                                                    GuestPolicyEnforcementPointFilter<FacesContextAdapter, FacesContextAdapter> guestPolicyEnforcementPointFilter) {
         super(jGuardCallbackHandler,
                 authenticationFilters,
                 guestPolicyEnforcementPointFilter,
-                new AuthenticationFilter<FacesContext, FacesContext>() {
-                    public void doFilter(Request<FacesContext> request, Response<FacesContext> response, FilterChain<FacesContext, FacesContext> chain) {
+                new AuthenticationFilter<FacesContextAdapter, FacesContextAdapter>() {
+                    public void doFilter(FacesContextAdapter request, FacesContextAdapter response, FilterChain<FacesContextAdapter, FacesContextAdapter> chain) {
                         LoginContextWrapper wrapper = (LoginContextWrapper) request.get().getExternalContext().getSessionMap().get(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
                         if (null == wrapper || null == wrapper.getSubject()) {
                             throw new IllegalArgumentException("loginContext is null");
@@ -67,7 +65,7 @@ public class JSFStatefulAuthenticationFiltersProvider extends StatefulAuthentica
     }
 
     @Override
-    protected boolean alreadyAuthenticated(Request<FacesContext> request) {
+    protected boolean alreadyAuthenticated(FacesContextAdapter request) {
         Map session = request.get().getExternalContext().getSessionMap();
         LoginContextWrapper wrapper = (LoginContextWrapper) session.get(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
         return (null != wrapper);

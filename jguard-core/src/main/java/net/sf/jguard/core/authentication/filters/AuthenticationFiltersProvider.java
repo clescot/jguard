@@ -1,6 +1,8 @@
 package net.sf.jguard.core.authentication.filters;
 
 import com.google.inject.Provider;
+import net.sf.jguard.core.lifecycle.Request;
+import net.sf.jguard.core.lifecycle.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.List;
  * @param <Req>
  * @param <Res>
  */
-public abstract class AuthenticationFiltersProvider<Req, Res> implements Provider<List<AuthenticationFilter<Req, Res>>> {
+public abstract class AuthenticationFiltersProvider<Req extends Request, Res extends Response> implements Provider<List<AuthenticationFilter<Req, Res>>> {
     private List<AuthenticationFilter<Req, Res>> authenticationFilters = new ArrayList<AuthenticationFilter<Req, Res>>();
 
     public AuthenticationFiltersProvider(AuthenticationChallengeFilter<Req, Res> authenticationChallengeFilter) {

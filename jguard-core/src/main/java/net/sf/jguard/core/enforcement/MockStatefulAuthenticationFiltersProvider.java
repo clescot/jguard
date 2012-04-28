@@ -31,25 +31,23 @@ import net.sf.jguard.core.authentication.Restful;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.filters.FilterChain;
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
 import javax.inject.Inject;
 import java.util.List;
 
 
-public class MockStatefulAuthenticationFiltersProvider extends StatefulAuthenticationFiltersProvider<MockRequest, MockResponse> {
+public class MockStatefulAuthenticationFiltersProvider extends StatefulAuthenticationFiltersProvider<MockRequestAdapter, MockResponseAdapter> {
 
 
     @Inject
-    public MockStatefulAuthenticationFiltersProvider(JGuardCallbackHandler<MockRequest, MockResponse> jGuardCallbackHandler,
-                                                     @Restful List<AuthenticationFilter<MockRequest, MockResponse>> authenticationFilters,
-                                                     GuestPolicyEnforcementPointFilter<MockRequest, MockResponse> guestPolicyEnforcementPointFilter) {
-        super(jGuardCallbackHandler, authenticationFilters, guestPolicyEnforcementPointFilter, new AuthenticationFilter<MockRequest, MockResponse>() {
+    public MockStatefulAuthenticationFiltersProvider(JGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter> jGuardCallbackHandler,
+                                                     @Restful List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>> authenticationFilters,
+                                                     GuestPolicyEnforcementPointFilter<MockRequestAdapter, MockResponseAdapter> guestPolicyEnforcementPointFilter) {
+        super(jGuardCallbackHandler, authenticationFilters, guestPolicyEnforcementPointFilter, new AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>() {
 
-            public void doFilter(Request<MockRequest> request, Response<MockResponse> response, FilterChain<MockRequest, MockResponse> chain) {
+            public void doFilter(MockRequestAdapter request, MockResponseAdapter response, FilterChain<MockRequestAdapter, MockResponseAdapter> chain) {
 
             }
         });
@@ -57,7 +55,7 @@ public class MockStatefulAuthenticationFiltersProvider extends StatefulAuthentic
 
 
     @Override
-    protected boolean alreadyAuthenticated(Request<MockRequest> mockRequestRequest) {
+    protected boolean alreadyAuthenticated(MockRequestAdapter mockRequestRequest) {
         return false;
     }
 }

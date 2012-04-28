@@ -24,9 +24,9 @@ public class GuestAuthenticationFilterTest extends FilterTest {
     @Test
     public void test_no_guest_authentication_when_subject_is_already_present_in_session() {
         MockRequest request = new MockRequest();
-        Request<MockRequest> requestAdapter = new MockRequestAdapter(request);
+        MockRequestAdapter requestAdapter = new MockRequestAdapter(request);
         MockResponse response = new MockResponse();
-        Response<MockResponse> responseAdapter = new MockResponseAdapter(response);
+        MockResponseAdapter responseAdapter = new MockResponseAdapter(response);
         FilterChain filterChain = new FilterChain() {
             public void doFilter(Request request, Response response) {
 

@@ -1,6 +1,8 @@
 package net.sf.jguard.core.authentication.schemes;
 
 import com.google.inject.Provider;
+import net.sf.jguard.core.lifecycle.Request;
+import net.sf.jguard.core.lifecycle.Response;
 
 import java.security.Permission;
 import java.security.PermissionCollection;
@@ -14,7 +16,7 @@ import java.util.Enumeration;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class GrantedAuthenticationSchemePermissionsProvider<Req, Res> implements Provider<Permissions> {
+public abstract class GrantedAuthenticationSchemePermissionsProvider<Req extends Request, Res extends Response> implements Provider<Permissions> {
     private Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers;
 
 

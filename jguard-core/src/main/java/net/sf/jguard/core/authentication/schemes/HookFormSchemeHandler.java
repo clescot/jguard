@@ -48,7 +48,7 @@ import java.util.Collection;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @since 2.0
  */
-public abstract class HookFormSchemeHandler<Req, Res> implements AuthenticationSchemeHandler<Req, Res> {
+public abstract class HookFormSchemeHandler<Req extends Request, Res extends Response> implements AuthenticationSchemeHandler<Req, Res> {
     private static final String HOOK = "HOOK";
 
     public HookFormSchemeHandler(Collection<Callback> callbacks) {
@@ -62,20 +62,20 @@ public abstract class HookFormSchemeHandler<Req, Res> implements AuthenticationS
     }
 
 
-    public boolean challengeNeeded(Request<Req> request, Response<Res> response) {
+    public boolean challengeNeeded(Req request, Res response) {
         return true;
     }
 
-    public void buildChallenge(Request<Req> request, Response<Res> response) {
+    public void buildChallenge(Req request, Res response) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
 
-    public void authenticationSucceed(Subject subject, Request<Req> request, Response<Res> response) {
+    public void authenticationSucceed(Subject subject, Req request, Res response) {
 
     }
 
-    public void authenticationFailed(Request<Req> request, Response<Res> response) {
+    public void authenticationFailed(Req request, Res response) {
 
     }
 
@@ -91,7 +91,7 @@ public abstract class HookFormSchemeHandler<Req, Res> implements AuthenticationS
         return new JGPositivePermissionCollection();
     }
 
-    public boolean answerToChallenge(Request<Req> request, Response<Res> response) {
+    public boolean answerToChallenge(Req request, Res response) {
         return true;
     }
 
@@ -105,7 +105,7 @@ public abstract class HookFormSchemeHandler<Req, Res> implements AuthenticationS
      * @throws javax.security.auth.callback.UnsupportedCallbackException
      *
      */
-    public void handleSchemeCallbacks(Request<Req> request, Response<Res> response, Callback[] callbacksToReplace) throws UnsupportedCallbackException {
+    public void handleSchemeCallbacks(Req request, Res response, Callback[] callbacksToReplace) throws UnsupportedCallbackException {
         for (int i = 0; i < callbacksToReplace.length; i++) {
             Callback replacedCallback = replaceCallback(callbacksToReplace[i]);
             callbacksToReplace[i] = replacedCallback;

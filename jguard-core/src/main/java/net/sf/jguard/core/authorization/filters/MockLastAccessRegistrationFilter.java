@@ -27,13 +27,13 @@
 
 package net.sf.jguard.core.authorization.filters;
 
-import net.sf.jguard.core.lifecycle.MockRequest;
-import net.sf.jguard.core.lifecycle.MockResponse;
+import net.sf.jguard.core.lifecycle.MockRequestAdapter;
+import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 import net.sf.jguard.core.technology.StatefulScopes;
 
 import javax.inject.Inject;
 
-public class MockLastAccessRegistrationFilter extends LastAccessDeniedRegistrationFilter<MockRequest, MockResponse> {
+public class MockLastAccessRegistrationFilter extends LastAccessDeniedRegistrationFilter<MockRequestAdapter, MockResponseAdapter> {
     @Inject
     public MockLastAccessRegistrationFilter(StatefulScopes statefulScopes) {
         super(statefulScopes);

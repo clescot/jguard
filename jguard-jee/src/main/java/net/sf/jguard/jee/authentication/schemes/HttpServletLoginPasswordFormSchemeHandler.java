@@ -32,11 +32,11 @@ import net.sf.jguard.core.authentication.schemes.LoginPasswordFormSchemeHandler;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedFilter;
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpConstants;
 import net.sf.jguard.jee.HttpPermissionFactory;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +53,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHandler<HttpServletRequest, HttpServletResponse> {
+public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> {
 
 
     private String loginField;
@@ -140,7 +140,7 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
      *
      * @return
      */
-    protected PermissionFactory<HttpServletRequest> getPermissionFactory() {
+    protected PermissionFactory<HttpServletRequestAdapter> getPermissionFactory() {
         return new HttpPermissionFactory();
     }
 
@@ -172,7 +172,7 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
     }
 
 
-    public void buildChallenge(Request<HttpServletRequest> req, Response<HttpServletResponse> res) {
+    public void buildChallenge(HttpServletRequestAdapter req, HttpServletResponseAdapter res) {
         HttpServletRequest request = req.get();
         HttpServletResponse response = res.get();
         handleDispatch(request, response, logonPermission);
@@ -188,7 +188,7 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
      * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
      *
      */
-    public void authenticationSucceed(Subject subject, Request<HttpServletRequest> servletRequest, Response<HttpServletResponse> servletResponse) {
+    public void authenticationSucceed(Subject subject, HttpServletRequestAdapter servletRequest, HttpServletResponseAdapter servletResponse) {
         HttpServletRequest request = servletRequest.get();
         HttpServletResponse response = servletResponse.get();
         URLPermission lastAccessDeniedPermission = (URLPermission) statefulScopes.getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION);
@@ -206,7 +206,7 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
     }
 
 
-    public void authenticationFailed(Request<HttpServletRequest> req, Response<HttpServletResponse> res) {
+    public void authenticationFailed(HttpServletRequestAdapter req, HttpServletResponseAdapter res) {
         HttpServletRequest request = req.get();
         HttpServletResponse response = res.get();
         //an URL for authentication failure event has been set
@@ -218,13 +218,13 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
     }
 
     @Override
-    protected String getLogin(Request<HttpServletRequest> req) {
+    protected String getLogin(HttpServletRequestAdapter req) {
         HttpServletRequest request = req.get();
         return request.getParameter(loginField);
     }
 
     @Override
-    protected String getPassword(Request<HttpServletRequest> req) {
+    protected String getPassword(HttpServletRequestAdapter req) {
         HttpServletRequest request = req.get();
         return request.getParameter(passwordField);
     }

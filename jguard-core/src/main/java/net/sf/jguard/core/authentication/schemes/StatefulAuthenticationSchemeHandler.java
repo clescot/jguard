@@ -28,6 +28,9 @@ http://sourceforge.net/projects/jguard/
 
 package net.sf.jguard.core.authentication.schemes;
 
+import net.sf.jguard.core.lifecycle.Request;
+import net.sf.jguard.core.lifecycle.Response;
+
 import java.security.Permission;
 
 /**
@@ -35,7 +38,7 @@ import java.security.Permission;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public interface StatefulAuthenticationSchemeHandler<Req,Res> extends AuthenticationSchemeHandler<Req,Res> {
+public interface StatefulAuthenticationSchemeHandler<Req extends Request, Res extends Response> extends AuthenticationSchemeHandler<Req, Res> {
     /**
      * return the Permission representation of the inactivation fo the session
      * shared between client and server.

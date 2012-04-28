@@ -38,6 +38,6 @@ import net.sf.jguard.core.lifecycle.Response;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @since 2.0
  */
-public interface FilterChain<Req, Res> {
-    void doFilter(Request<Req> request, Response<Res> response);
+public interface FilterChain<Req extends Request, Res extends Response> {
+    void doFilter(Req request, Res response);
 }

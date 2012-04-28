@@ -31,9 +31,8 @@ package net.sf.jguard.jsf.authorization;
 
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedFilter;
-import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.jsf.ExternalContextUtil;
+import net.sf.jguard.jsf.FacesContextAdapter;
 import net.sf.jguard.jsf.permissions.JSFPermissionFactory;
 
 import javax.faces.application.Application;
@@ -50,7 +49,7 @@ import java.util.ResourceBundle;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class JSFAuthorizationBindings implements AuthorizationBindings<FacesContext, FacesContext> {
+public class JSFAuthorizationBindings implements AuthorizationBindings<FacesContextAdapter, FacesContextAdapter> {
 
     /**
      * forward to the "accessDenied" view the user and add to the FacesContext with
@@ -59,7 +58,7 @@ public class JSFAuthorizationBindings implements AuthorizationBindings<FacesCont
      * @param request
      * @param response
      */
-    public void accessDenied(Request<FacesContext> request, Response<FacesContext> response) {
+    public void accessDenied(FacesContextAdapter request, FacesContextAdapter response) {
         FacesContext facesContext = request.get();
         String outcomeAccessDenied = "accessDenied";
         NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
@@ -68,26 +67,26 @@ public class JSFAuthorizationBindings implements AuthorizationBindings<FacesCont
         facesContext.addMessage(outcomeAccessDenied, new FacesMessage(FacesMessage.SEVERITY_WARN, msg, msg));
     }
 
-    public void handlePermission(Request request, Response response, Permission permission) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void handlePermission(FacesContextAdapter request, FacesContextAdapter response, Permission permission) {
+
     }
 
-    public Permission getPermissionRequested(Request<FacesContext> request) {
+    public Permission getPermissionRequested(FacesContextAdapter request) {
         return new JSFPermissionFactory().getPermission(request);
     }
 
-    public void setLastAccessDeniedPermission(Request<FacesContext> request,
+    public void setLastAccessDeniedPermission(FacesContextAdapter request,
                                               Permission permission) {
         FacesContext facesContext = request.get();
         ExternalContextUtil.setAttribute(facesContext.getExternalContext(), LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION, permission);
     }
 
-    public Permission getLastAccessDeniedPermission(Request<FacesContext> request) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Permission getLastAccessDeniedPermission(FacesContextAdapter request) {
+        return null;
     }
 
-    public Permission getPostAuthenticationPermission(Request<FacesContext> request) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Permission getPostAuthenticationPermission(FacesContextAdapter request) {
+        return null;
     }
 
 
