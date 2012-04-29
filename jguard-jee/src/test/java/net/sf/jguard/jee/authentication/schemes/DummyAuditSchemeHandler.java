@@ -28,7 +28,6 @@
 package net.sf.jguard.jee.authentication.schemes;
 
 import net.sf.jguard.core.lifecycle.Request;
-import net.sf.jguard.core.technology.StatefulScopes;
 
 import java.util.Locale;
 import java.util.Map;
@@ -42,9 +41,8 @@ public class DummyAuditSchemeHandler extends AuditSchemeHandler {
     private String remoteHost;
     private Locale locale;
 
-    public DummyAuditSchemeHandler(Map<String, String> parameters,
-                                   StatefulScopes authenticationBindings) {
-        super(parameters, authenticationBindings);
+    public DummyAuditSchemeHandler(Map<String, String> parameters) {
+        super(parameters);
     }
 
     @Override

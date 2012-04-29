@@ -47,7 +47,6 @@ import net.sf.jguard.core.filters.FilterChain;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.Scopes;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.authentication.callbacks.HttpServletCallbackHandler;
 import net.sf.jguard.jee.authentication.filters.*;
 import net.sf.jguard.jee.authentication.http.HttpServletAuthenticationServicePoint;
@@ -121,8 +120,6 @@ public class JEEModule extends AbstractModule {
         bind(new TypeLiteral<Collection<AuthenticationSchemeHandler<HttpServletRequestAdapter, HttpServletResponseAdapter>>>() {
         }).toProvider(HttpAuthenticationSchemeHandlerProvider.class);
 
-        Class<? extends StatefulScopes> authenticationBindingsClass = HttpServletScopes.class;
-        bind(StatefulScopes.class).to(authenticationBindingsClass);
 
         bind(new TypeLiteral<StatefulAuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletAuthenticationServicePoint.class);

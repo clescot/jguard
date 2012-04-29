@@ -14,9 +14,6 @@ import net.sf.jguard.core.enforcement.*;
 import net.sf.jguard.core.filters.FilterChain;
 import net.sf.jguard.core.lifecycle.MockRequestAdapter;
 import net.sf.jguard.core.lifecycle.MockResponseAdapter;
-import net.sf.jguard.core.technology.MockScopes;
-import net.sf.jguard.core.technology.Scopes;
-import net.sf.jguard.core.technology.StatefulScopes;
 
 import java.security.Permissions;
 import java.util.Collection;
@@ -36,9 +33,7 @@ public class MockModule extends AbstractModule {
         //filterChain part
         bind(new TypeLiteral<FilterChain>() {
         }).to(MockPolicyEnforcementPoint.class);
-        Class<? extends StatefulScopes> mockScopesClass = MockScopes.class;
-        bind(StatefulScopes.class).to(mockScopesClass);
-        bind(Scopes.class).to(mockScopesClass);
+
 
         //authentication part
         bind(new TypeLiteral<AbstractAuthenticationServicePoint<MockRequestAdapter, MockResponseAdapter>>() {

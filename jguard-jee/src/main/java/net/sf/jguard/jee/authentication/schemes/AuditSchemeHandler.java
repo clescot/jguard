@@ -6,7 +6,6 @@ import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollection;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.StatefulScopes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xbill.DNS.*;
@@ -24,8 +23,7 @@ public abstract class AuditSchemeHandler<Req extends Request, Res extends Respon
     private List<Class<? extends Callback>> callbackTypes = Arrays.asList(LanguageCallback.class, InetAddressCallback.class);
     private static final Logger logger = LoggerFactory.getLogger(AuditSchemeHandler.class);
 
-    public AuditSchemeHandler(Map<String, String> parameters,
-                              StatefulScopes authenticationBindings) {
+    public AuditSchemeHandler(Map<String, String> parameters) {
 
     }
 

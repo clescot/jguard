@@ -1,6 +1,5 @@
 package net.sf.jguard.jsf.authentication.callbacks;
 
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.authentication.schemes.AuditSchemeHandler;
 import net.sf.jguard.jsf.FacesContextAdapter;
 import org.slf4j.Logger;
@@ -17,9 +16,8 @@ public class JSFAuditSchemeHandler extends AuditSchemeHandler<FacesContextAdapte
     private static final String UNKNOWN_ADDRESS = "unknown address";
     private static final String UNKNOWN_HOST = "unknown host";
 
-    public JSFAuditSchemeHandler(Map<String, String> parameters,
-                                 StatefulScopes authenticationBindings) {
-        super(parameters, authenticationBindings);
+    public JSFAuditSchemeHandler(Map<String, String> parameters) {
+        super(parameters);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package net.sf.jguard.jee.authentication.schemes;
 
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpServletRequestAdapter;
 import net.sf.jguard.jee.HttpServletResponseAdapter;
 
@@ -13,9 +12,8 @@ import java.util.Map;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HttpServletAuditSchemeHandler extends AuditSchemeHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> {
-    public HttpServletAuditSchemeHandler(Map<String, String> parameters,
-                                         StatefulScopes authenticationBindings) {
-        super(parameters, authenticationBindings);
+    public HttpServletAuditSchemeHandler(Map<String, String> parameters) {
+        super(parameters);
     }
 
     protected String getRemoteAddress(HttpServletRequestAdapter req) {

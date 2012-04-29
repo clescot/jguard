@@ -28,10 +28,8 @@
 package net.sf.jguard.jee.authentication.schemes;
 
 import net.sf.jguard.core.authentication.callbacks.InetAddressCallback;
-import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
 import net.sf.jguard.core.lifecycle.MockRequestAdapter;
 import net.sf.jguard.core.lifecycle.MockResponseAdapter;
-import net.sf.jguard.core.technology.StatefulScopes;
 import org.junit.Test;
 
 import javax.security.auth.callback.Callback;
@@ -47,10 +45,8 @@ public class AuditSchemeHandlerTest {
     public void testHandleSchemeCallbacksWithAddressAndHostNull() throws UnsupportedCallbackException {
 
         Map<String, String> parameters = null;
-        StatefulScopes authenticationBindings = null;
-        AccessControllerWrapperImpl accessControlWrapper = null;
 
-        AuditSchemeHandler auditSchemeHandler = new DummyAuditSchemeHandler(parameters, authenticationBindings);
+        AuditSchemeHandler auditSchemeHandler = new DummyAuditSchemeHandler(parameters);
         MockRequestAdapter request = null;
         MockResponseAdapter response = null;
         Callback[] cbks = new Callback[1];

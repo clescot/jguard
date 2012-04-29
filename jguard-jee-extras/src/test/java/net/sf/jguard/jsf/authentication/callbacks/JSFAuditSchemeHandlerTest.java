@@ -21,7 +21,7 @@ public class JSFAuditSchemeHandlerTest {
 
     @Before
     public void setUp() {
-        jsfAuditSchemeHandler = new JSFAuditSchemeHandler(null, null);
+        jsfAuditSchemeHandler = new JSFAuditSchemeHandler(null);
         final FacesContext facesContext = mock(FacesContext.class);
         ExternalContext externalContext = mock(ExternalContext.class);
         when(facesContext.getExternalContext()).thenReturn(externalContext);
