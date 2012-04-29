@@ -1,6 +1,5 @@
 package net.sf.jguard.jee.authentication;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.mycila.testing.plugin.guice.Bind;
 import com.mycila.testing.plugin.guice.ModuleProvider;
@@ -11,8 +10,6 @@ import net.sf.jguard.core.authentication.loginmodules.UserNamePasswordLoginModul
 import net.sf.jguard.core.authentication.manager.AuthenticationManagerModule;
 import net.sf.jguard.core.authorization.policy.AllAccessPolicy;
 import net.sf.jguard.core.lifecycle.*;
-import net.sf.jguard.core.technology.MockScopes;
-import net.sf.jguard.core.technology.Scopes;
 import net.sf.jguard.core.test.JGuardTest;
 import net.sf.jguard.ext.SecurityConstants;
 import net.sf.jguard.ext.authentication.loginmodules.XmlLoginModule;
@@ -53,13 +50,6 @@ public class JGuardConfigurationTest extends JGuardTest {
                 true,
                 applicationPath,
                 XmlAuthorizationManager.class));
-        modules.add(new AbstractModule() {
-
-            @Override
-            protected void configure() {
-                bind(Scopes.class).to(MockScopes.class);
-            }
-        });
         return modules;
     }
 

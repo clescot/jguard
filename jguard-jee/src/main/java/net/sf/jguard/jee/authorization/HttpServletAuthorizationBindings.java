@@ -33,7 +33,6 @@ import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedFilter;
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpServletRequestAdapter;
 import net.sf.jguard.jee.HttpServletResponseAdapter;
 import org.slf4j.Logger;
@@ -57,7 +56,6 @@ public class HttpServletAuthorizationBindings implements AuthorizationBindings<H
     private static final Logger logger = LoggerFactory.getLogger(HttpServletAuthorizationBindings.class.getName());
 
     private PermissionFactory<HttpServletRequestAdapter> permissionFactory;
-    private StatefulScopes scopes;
     public final static String POST_AUTHENTICATION_PERMISSION = "postAuthenticationPermission";
 
     /**
@@ -66,10 +64,8 @@ public class HttpServletAuthorizationBindings implements AuthorizationBindings<H
      * @param permissionFactory
      */
     @Inject
-    public HttpServletAuthorizationBindings(PermissionFactory<HttpServletRequestAdapter> permissionFactory,
-                                            StatefulScopes scopes) {
+    public HttpServletAuthorizationBindings(PermissionFactory<HttpServletRequestAdapter> permissionFactory) {
         this.permissionFactory = permissionFactory;
-        this.scopes = scopes;
     }
 
 
@@ -78,12 +74,12 @@ public class HttpServletAuthorizationBindings implements AuthorizationBindings<H
     }
 
     public void setLastAccessDeniedPermission(HttpServletRequestAdapter request, Permission permission) {
-        scopes.setSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION, permission);
+        request.setSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION, permission);
     }
 
 
     public Permission getPostAuthenticationPermission(HttpServletRequestAdapter httpServletRequestRequest) {
-        return (Permission) scopes.getSessionAttribute(POST_AUTHENTICATION_PERMISSION);
+        return (Permission) httpServletRequestRequest.getSessionAttribute(POST_AUTHENTICATION_PERMISSION);
     }
 
     public void accessDenied(HttpServletRequestAdapter request, HttpServletResponseAdapter response) {

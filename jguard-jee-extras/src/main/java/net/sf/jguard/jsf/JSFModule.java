@@ -42,11 +42,8 @@ import net.sf.jguard.core.enforcement.GuestPolicyEnforcementPointFilter;
 import net.sf.jguard.core.enforcement.PolicyEnforcementPoint;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.Scopes;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.authentication.http.JGuardServletRequestWrapper;
 import net.sf.jguard.jsf.authentication.JSFAuthenticationServicePoint;
-import net.sf.jguard.jsf.authentication.JSFScopes;
 import net.sf.jguard.jsf.authentication.filters.JSFAuthenticationChallengeFilter;
 import net.sf.jguard.jsf.authentication.filters.JSFAuthenticationFiltersProvider;
 import net.sf.jguard.jsf.authentication.filters.JSFGuestPolicyEnforcementPointFilter;
@@ -75,9 +72,6 @@ public class JSFModule extends AbstractModule {
         }).to(FacesContextAdapter.class);
         bind(new TypeLiteral<PolicyEnforcementPoint<FacesContextAdapter, FacesContextAdapter>>() {
         }).to(JSFPolicyEnforcementPoint.class);
-        bind(StatefulScopes.class).to(JSFScopes.class);
-
-        bind(Scopes.class).to(JSFScopes.class);
 
         bind(HttpServletRequestWrapper.class).to(JGuardServletRequestWrapper.class);
 

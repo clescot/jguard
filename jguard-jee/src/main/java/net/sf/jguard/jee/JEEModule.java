@@ -46,11 +46,9 @@ import net.sf.jguard.core.enforcement.PolicyEnforcementPoint;
 import net.sf.jguard.core.filters.FilterChain;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.Scopes;
 import net.sf.jguard.jee.authentication.callbacks.HttpServletCallbackHandler;
 import net.sf.jguard.jee.authentication.filters.*;
 import net.sf.jguard.jee.authentication.http.HttpServletAuthenticationServicePoint;
-import net.sf.jguard.jee.authentication.http.HttpServletScopes;
 import net.sf.jguard.jee.authentication.http.JGuardServletRequestWrapper;
 import net.sf.jguard.jee.authentication.schemes.HttpAuthenticationSchemeHandlerProvider;
 import net.sf.jguard.jee.authentication.schemes.HttpServletGrantedAuthenticationSchemePermissionsProvider;
@@ -88,7 +86,6 @@ public class JEEModule extends AbstractModule {
         bind(new TypeLiteral<PolicyEnforcementPoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletPolicyEnforcementPoint.class);
 
-        bind(Scopes.class).to(HttpServletScopes.class);
 
         bind(HttpServletRequestWrapper.class).to(JGuardServletRequestWrapper.class);
 

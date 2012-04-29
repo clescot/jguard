@@ -33,14 +33,11 @@ import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.PolicyEnforcementPointOptions;
 import net.sf.jguard.core.authentication.manager.AbstractAuthenticationManager;
 import net.sf.jguard.core.authentication.schemes.LoginPasswordFormSchemeHandler;
-import net.sf.jguard.core.enforcement.PolicyEnforcementPoint;
-import net.sf.jguard.core.technology.Scopes;
 import net.sf.jguard.core.test.JGuardTestFiles;
 import net.sf.jguard.jee.HttpConstants;
 import net.sf.jguard.jee.SecurityTestCase;
 import net.sf.jguard.jee.listeners.ContextListener;
 import net.sf.jguard.jsf.AccessListener;
-import net.sf.jguard.jsf.authentication.JSFScopes;
 import org.apache.myfaces.lifecycle.LifecycleImpl;
 import org.apache.shale.test.base.AbstractViewControllerTestCase;
 import org.junit.Before;
@@ -81,10 +78,6 @@ public class AccessListenerTest extends AbstractViewControllerTestCase implement
     private NavigationHandler nh = null;
     private static final String WELCOME_JSP = "/welcome.jsp";
     private static final String LOGON_PROCESS_JSP = "/logonProcess.jsp";
-
-    private Class<? extends Scopes> authenticationBindingsClass = JSFScopes.class;
-    private URL applicationPath;
-    public PolicyEnforcementPoint policyEnforcementPoint;
 
 
     private static final String GUEST = "guest";
