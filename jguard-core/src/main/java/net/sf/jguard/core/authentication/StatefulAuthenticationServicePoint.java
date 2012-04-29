@@ -35,7 +35,6 @@ import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.Scopes;
 import net.sf.jguard.core.technology.StatefulScopes;
-import net.sf.jguard.core.util.SubjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,7 +99,6 @@ public abstract class StatefulAuthenticationServicePoint<Req extends Request, Re
      * - firstly, looking for the AccessControlContext bound to the Thread.
      * - if not present, and if the scopes implements StatefulScopes,
      * looking for the Subject present in the session.
-     * - if not present or not stateful, looking for the Guest Subject present in the application scope.
      *
      * @return current Subject
      */
@@ -110,9 +108,7 @@ public abstract class StatefulAuthenticationServicePoint<Req extends Request, Re
         if (loginContextWrapperImpl != null) {
             subject = loginContextWrapperImpl.getSubject();
         }
-        if (subject == null) {
-            subject = (Subject) scopes.getApplicationAttribute(SubjectUtils.GUEST_SUBJECT);
-        }
+
         return subject;
 
     }

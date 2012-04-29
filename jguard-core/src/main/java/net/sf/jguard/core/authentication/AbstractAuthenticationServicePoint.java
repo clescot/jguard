@@ -35,7 +35,6 @@ import net.sf.jguard.core.authentication.loginmodules.AuthenticationChallengeExc
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.technology.Scopes;
-import net.sf.jguard.core.util.SubjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +46,7 @@ import java.security.AccessController;
 
 
 /**
- * Authenticate a user in an application with a specific {@link net.sf.jguard.core.technology.Scopes}.
+ * Authenticate a user in an application.
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  * @since 2 .0
@@ -129,23 +128,8 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
     }
 
 
-    /**
-     * return the <i>current</i> {@link Subject}:
-     * this method is looking for from the local scope to the global scope.
-     * - firstly, looking for the AccessControlContext bound to the Thread.
-     * - if not present, and if the scopes implements StatefulScopes,
-     * looking for the Subject present in the session.
-     * - if not present or not stateful, looking for the Guest Subject present in the application scope.
-     *
-     * @return current Subject
-     */
     public Subject getCurrentSubject() {
-        Subject subject = getSubjectInAccessControlContext();
-        if (subject == null) {
-            subject = (Subject) scopes.getApplicationAttribute(SubjectUtils.GUEST_SUBJECT);
-        }
-        return subject;
-
+        return getSubjectInAccessControlContext();
     }
 
     /**

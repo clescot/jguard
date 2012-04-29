@@ -47,15 +47,5 @@ public class ScopesWrapper implements Scopes {
         this.scopes = scopes;
     }
 
-    public Object getApplicationAttribute(String key) {
-        return scopes.getApplicationAttribute(key);
-    }
-
-
-    public void setApplicationAttribute(String key,
-                                        Object value) {
-        scopes.setApplicationAttribute(key, value);
-    }
-
 
 }

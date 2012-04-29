@@ -79,15 +79,6 @@ public class JSFScopes extends AbstractScopes implements StatefulScopes {
         getExternalContext().getSessionMap().remove(key);
     }
 
-    public void setApplicationAttribute(String key, Object value) {
-        getExternalContext().getApplicationMap().put(key, value);
-    }
-
-
-    public Object getApplicationAttribute(String key) {
-        return getExternalContext().getApplicationMap().get(key);
-    }
-
 
     public void invalidateSession() {
 

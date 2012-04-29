@@ -35,7 +35,6 @@ import net.sf.jguard.core.technology.AbstractScopes;
 import net.sf.jguard.core.technology.StatefulScopes;
 
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
@@ -80,23 +79,6 @@ public class HttpServletScopes extends AbstractScopes<HttpServletRequest> implem
     }
 
 
-    public void setApplicationAttribute(String key, Object value) {
-        ServletContext servletContext = getServletContext();
-        if (servletContext == null) {
-            throw new IllegalStateException(" servletContext is null");
-        }
-        servletContext.setAttribute(key, value);
-    }
-
-    public Object getApplicationAttribute(String key) {
-        ServletContext servletContext = getServletContext();
-        if (servletContext == null) {
-            return null;
-        }
-        return servletContext.getAttribute(key);
-    }
-
-
     public void invalidateSession() {
         HttpSession session = getSession(false);
         if (session != null) {
@@ -104,11 +86,6 @@ public class HttpServletScopes extends AbstractScopes<HttpServletRequest> implem
         }
     }
 
-    private ServletContext getServletContext() {
-        ServletContext servletContext;
-        servletContext = request.get().getSession(true).getServletContext();
-        return servletContext;
-    }
 
     private HttpSession getSession(boolean createSession) {
         return request.get().getSession(createSession);

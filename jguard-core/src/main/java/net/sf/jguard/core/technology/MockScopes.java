@@ -12,20 +12,10 @@ public class MockScopes extends AbstractScopes<MockRequest> implements StatefulS
 
 
     private Map<String, Object> sessionMap = new HashMap<String, Object>();
-    private Map<String, Object> applicationMap = new HashMap<String, Object>();
 
     @Inject
     public MockScopes(Request<MockRequest> request) {
         super(request);
-    }
-
-
-    public void setApplicationAttribute(String key, Object value) {
-        applicationMap.put(key, value);
-    }
-
-    public Object getApplicationAttribute(String key) {
-        return applicationMap.get(key);
     }
 
 

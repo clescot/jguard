@@ -44,14 +44,4 @@ package net.sf.jguard.core.technology;
 public interface Scopes {
 
 
-    //request specific method
-
-
-    //application specific method
-
-    void setApplicationAttribute(String key, Object value);
-
-    Object getApplicationAttribute(String key);
-
-
 }
