@@ -50,8 +50,6 @@ public interface Scopes {
 
     Object getRequestAttribute(String key);
 
-    void removeRequestAttribute(String key);
-
 
     //application specific method
 

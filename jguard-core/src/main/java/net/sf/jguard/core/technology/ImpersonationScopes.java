@@ -65,11 +65,6 @@ public class ImpersonationScopes extends ScopesWrapper {
         requestAttributes.put(key, value);
     }
 
-    @Override
-    public void removeRequestAttribute(String key) {
-        requestAttributes.remove(key);
-    }
-
 
     @Override
     public void setApplicationAttribute(String key, Object value) {

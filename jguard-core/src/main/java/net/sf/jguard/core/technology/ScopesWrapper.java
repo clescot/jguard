@@ -67,9 +67,5 @@ public class ScopesWrapper implements Scopes {
 
     }
 
-    public void removeRequestAttribute(String key) {
-        scopes.removeRequestAttribute(key);
-    }
-
 
 }
