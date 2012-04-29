@@ -31,7 +31,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.Scopes;
 import net.sf.jguard.core.util.XMLUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -60,13 +59,10 @@ public abstract class AuthenticationSchemeHandlerProvider<Req extends Request, R
     private static final String J_GUARD_FILTER_2_0_0_XSD = "jGuardFilter_2.0.0.xsd";
     private static Logger logger = LoggerFactory.getLogger(AuthenticationSchemeHandlerProvider.class.getName());
     private List<AuthenticationSchemeHandler<Req, Res>> authSchemeHandlers;
-    private Scopes scopes;
     public static final String AUTHENTICATION_SCHEME_HANDLER = "authenticationSchemeHandler";
 
     @Inject
-    public AuthenticationSchemeHandlerProvider(@FilterConfigurationLocation URL filterLocation,
-                                               Scopes scopes) {
-        this.scopes = scopes;
+    public AuthenticationSchemeHandlerProvider(@FilterConfigurationLocation URL filterLocation) {
         this.authSchemeHandlers = loadFilterConfiguration(filterLocation);
     }
 
@@ -113,7 +109,7 @@ public abstract class AuthenticationSchemeHandlerProvider<Req extends Request, R
             try {
                 Constructor constructor = authenticationSchemeHandlerClass.getConstructors()[0];
 
-                authenticationSchemeHandler = (AuthenticationSchemeHandler) constructor.newInstance(parameters, scopes);
+                authenticationSchemeHandler = (AuthenticationSchemeHandler) constructor.newInstance(parameters);
                 authenticationSchemeHandlers.add(authenticationSchemeHandler);
             } catch (InstantiationException ex) {
                 logger.error("authenticationSchemeHandler cannot be instantiated " + ex.getMessage(), ex);

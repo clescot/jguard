@@ -29,7 +29,6 @@ package net.sf.jguard.jsf.authentication.schemes;
 
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandlerProvider;
 import net.sf.jguard.core.authentication.schemes.FilterConfigurationLocation;
-import net.sf.jguard.core.technology.Scopes;
 import net.sf.jguard.jsf.FacesContextAdapter;
 
 import javax.inject.Inject;
@@ -40,8 +39,7 @@ import java.net.URL;
  */
 public class JSFAuthenticationSchemeHandlerProvider extends AuthenticationSchemeHandlerProvider<FacesContextAdapter, FacesContextAdapter> {
     @Inject
-    public JSFAuthenticationSchemeHandlerProvider(@FilterConfigurationLocation URL filterLocation,
-                                                  Scopes scopes) {
-        super(filterLocation, scopes);
+    public JSFAuthenticationSchemeHandlerProvider(@FilterConfigurationLocation URL filterLocation) {
+        super(filterLocation);
     }
 }

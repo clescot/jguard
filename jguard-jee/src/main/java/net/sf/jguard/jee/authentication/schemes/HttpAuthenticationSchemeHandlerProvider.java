@@ -2,7 +2,6 @@ package net.sf.jguard.jee.authentication.schemes;
 
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandlerProvider;
 import net.sf.jguard.core.authentication.schemes.FilterConfigurationLocation;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpServletRequestAdapter;
 import net.sf.jguard.jee.HttpServletResponseAdapter;
 
@@ -15,8 +14,7 @@ import java.net.URL;
 public class HttpAuthenticationSchemeHandlerProvider extends AuthenticationSchemeHandlerProvider<HttpServletRequestAdapter, HttpServletResponseAdapter> {
 
     @Inject
-    public HttpAuthenticationSchemeHandlerProvider(@FilterConfigurationLocation URL filterLocation,
-                                                   StatefulScopes authenticationBindings) {
-        super(filterLocation, authenticationBindings);
+    public HttpAuthenticationSchemeHandlerProvider(@FilterConfigurationLocation URL filterLocation) {
+        super(filterLocation);
     }
 }
