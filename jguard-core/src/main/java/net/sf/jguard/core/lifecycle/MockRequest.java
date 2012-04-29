@@ -27,8 +27,21 @@
 
 package net.sf.jguard.core.lifecycle;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class MockRequest {
+
+    private Map<String, Object> requestMap = new HashMap<String, Object>();
+
+    public void setRequestAttribute(String key, Object value) {
+        requestMap.put(key, value);
+    }
+
+    public Object getRequestAttribute(String key) {
+        return requestMap.get(key);
+    }
 }

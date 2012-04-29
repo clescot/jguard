@@ -17,4 +17,12 @@ public class MockRequestAdapter implements Request<MockRequest> {
     public MockRequest get() {
         return mockRequest;
     }
+
+    public void setRequestAttribute(String key, Object value) {
+        mockRequest.setRequestAttribute(key, value);
+    }
+
+    public Object getRequestAttribute(String key) {
+        return mockRequest.getRequestAttribute(key);
+    }
 }

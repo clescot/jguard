@@ -1,6 +1,6 @@
 package net.sf.jguard.jsf.authentication.callbacks;
 
-import net.sf.jguard.core.lifecycle.Request;
+import net.sf.jguard.jsf.FacesContextAdapter;
 import org.apache.shale.test.mock.MockHttpServletRequest;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 public class JSFAuditSchemeHandlerTest {
 
     private JSFAuditSchemeHandler jsfAuditSchemeHandler;
-    private Request<FacesContext> facesContextRequest;
+    private FacesContextAdapter facesContextRequest;
     MockHttpServletRequest servletRequest;
 
     @Before
@@ -29,11 +29,7 @@ public class JSFAuditSchemeHandlerTest {
         servletRequest = new MockHttpServletRequest();
         when(externalContext.getRequest()).thenReturn(servletRequest);
 
-        facesContextRequest = new Request<FacesContext>() {
-            public FacesContext get() {
-                return facesContext;
-            }
-        };
+        facesContextRequest = new FacesContextAdapter(facesContext);
     }
 
 

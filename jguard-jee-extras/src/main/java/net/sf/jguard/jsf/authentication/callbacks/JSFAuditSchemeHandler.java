@@ -1,18 +1,17 @@
 package net.sf.jguard.jsf.authentication.callbacks;
 
-import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.authentication.schemes.AuditSchemeHandler;
+import net.sf.jguard.jsf.FacesContextAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.faces.context.FacesContext;
 import javax.portlet.PortletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 import java.util.Map;
 
-public class JSFAuditSchemeHandler extends AuditSchemeHandler<FacesContext, FacesContext> {
+public class JSFAuditSchemeHandler extends AuditSchemeHandler<FacesContextAdapter, FacesContextAdapter> {
 
     private static final Logger logger = LoggerFactory.getLogger(JSFAuditSchemeHandler.class);
     private static final String UNKNOWN_ADDRESS = "unknown address";
@@ -24,7 +23,7 @@ public class JSFAuditSchemeHandler extends AuditSchemeHandler<FacesContext, Face
     }
 
     @Override
-    protected String getRemoteAddress(Request<FacesContext> facesContextRequest) {
+    protected String getRemoteAddress(FacesContextAdapter facesContextRequest) {
         String address = null;
         Object request = facesContextRequest.get().getExternalContext().getRequest();
         if (request instanceof HttpServletRequest) {
@@ -36,7 +35,7 @@ public class JSFAuditSchemeHandler extends AuditSchemeHandler<FacesContext, Face
     }
 
     @Override
-    protected String getRemoteHost(Request<FacesContext> facesContextRequest) {
+    protected String getRemoteHost(FacesContextAdapter facesContextRequest) {
         String host = null;
         Object request = facesContextRequest.get().getExternalContext().getRequest();
         if (request instanceof HttpServletRequest) {
@@ -48,7 +47,7 @@ public class JSFAuditSchemeHandler extends AuditSchemeHandler<FacesContext, Face
     }
 
     @Override
-    protected Locale getLocale(Request<FacesContext> facesContextRequest) {
+    protected Locale getLocale(FacesContextAdapter facesContextRequest) {
         Locale locale = null;
         Object request = facesContextRequest.get().getExternalContext().getRequest();
         if (request instanceof HttpServletRequest) {

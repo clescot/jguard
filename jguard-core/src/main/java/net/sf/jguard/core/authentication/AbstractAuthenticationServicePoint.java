@@ -60,8 +60,6 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
     private String applicationName;
     protected Scopes scopes;
     private static final String AUTHENTICATION_SUCCEEDED = "authenticationSucceededDuringThisRequest";
-    private static final String LOGIN_EXCEPTION_CLASS = "LoginExceptionClass";
-    private static final String LOGIN_EXCEPTION_MESSAGE = "LoginExceptionMessage";
 
     public AbstractAuthenticationServicePoint(Configuration configuration,
                                               String applicationName,
@@ -113,10 +111,6 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
         } catch (LoginException e) {
 
             logger.debug("authentication failed " + e.getMessage(), e);
-            String messageError = e.getLocalizedMessage();
-            //we store in the user' session the reason the authentication failed
-            scopes.setRequestAttribute(LOGIN_EXCEPTION_MESSAGE, messageError);
-            scopes.setRequestAttribute(LOGIN_EXCEPTION_CLASS, e.getClass());
 
             callbackHandler.authenticationFailed();
             loginContextWrapper.setStatus(AuthenticationStatus.FAILURE);
@@ -189,7 +183,7 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
 
 
     public boolean authenticationSucceededDuringThisRequest(Req request, Res response) {
-        String authenticationSucceeded = (String) scopes.getRequestAttribute(AUTHENTICATION_SUCCEEDED);
+        String authenticationSucceeded = (String) request.getRequestAttribute(AUTHENTICATION_SUCCEEDED);
         return null != authenticationSucceeded && Boolean.parseBoolean(authenticationSucceeded);
     }
 

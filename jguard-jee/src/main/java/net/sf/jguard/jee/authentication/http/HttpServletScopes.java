@@ -79,18 +79,6 @@ public class HttpServletScopes extends AbstractScopes<HttpServletRequest> implem
         session.removeAttribute(key);
     }
 
-    public void removeApplicationAttribute(String key) {
-        ServletContext servletContext = request.get().getSession(true).getServletContext();
-        servletContext.removeAttribute(key);
-    }
-
-    public void removeRequestAttribute(String key) {
-        request.get().removeAttribute(key);
-    }
-
-    public void setRequestAttribute(String key, Object value) {
-        request.get().setAttribute(key, value);
-    }
 
     public void setApplicationAttribute(String key, Object value) {
         ServletContext servletContext = getServletContext();
@@ -98,10 +86,6 @@ public class HttpServletScopes extends AbstractScopes<HttpServletRequest> implem
             throw new IllegalStateException(" servletContext is null");
         }
         servletContext.setAttribute(key, value);
-    }
-
-    public Object getRequestAttribute(String key) {
-        return request.get().getAttribute(key);
     }
 
     public Object getApplicationAttribute(String key) {

@@ -52,19 +52,9 @@ public class ScopesWrapper implements Scopes {
     }
 
 
-    public Object getRequestAttribute(String key) {
-        return scopes.getRequestAttribute(key);
-    }
-
-
     public void setApplicationAttribute(String key,
                                         Object value) {
         scopes.setApplicationAttribute(key, value);
-    }
-
-    public void setRequestAttribute(String key, Object value) {
-        scopes.setRequestAttribute(key, value);
-
     }
 
 

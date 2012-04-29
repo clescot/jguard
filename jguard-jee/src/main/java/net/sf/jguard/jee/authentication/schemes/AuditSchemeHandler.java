@@ -46,7 +46,7 @@ public abstract class AuditSchemeHandler<Req extends Request, Res extends Respon
      *
      * @return always true
      */
-    public boolean answerToChallenge(Request request, Response response) {
+    public boolean answerToChallenge(Req request, Res response) {
         return false;
     }
 
@@ -58,7 +58,7 @@ public abstract class AuditSchemeHandler<Req extends Request, Res extends Respon
      * @param response
      * @return
      */
-    public boolean challengeNeeded(Request request, Response response) {
+    public boolean challengeNeeded(Req request, Res response) {
         return false;
     }
 
@@ -69,7 +69,7 @@ public abstract class AuditSchemeHandler<Req extends Request, Res extends Respon
      * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
      *
      */
-    public void buildChallenge(Request request, Response response) {
+    public void buildChallenge(Req request, Res response) {
 
     }
 
@@ -87,7 +87,7 @@ public abstract class AuditSchemeHandler<Req extends Request, Res extends Respon
      *
      * @throws AuthenticationException
      */
-    public void authenticationSucceed(Subject subject, Request request, Response response) {
+    public void authenticationSucceed(Subject subject, Req request, Res response) {
 
     }
 
@@ -96,15 +96,15 @@ public abstract class AuditSchemeHandler<Req extends Request, Res extends Respon
      *
      * @throws AuthenticationException
      */
-    public void authenticationFailed(Request request, Response response) {
+    public void authenticationFailed(Req request, Res response) {
 
     }
 
-    protected abstract String getRemoteAddress(Request<Req> request);
+    protected abstract String getRemoteAddress(Req request);
 
-    protected abstract String getRemoteHost(Request<Req> request);
+    protected abstract String getRemoteHost(Req request);
 
-    protected abstract Locale getLocale(Request<Req> request);
+    protected abstract Locale getLocale(Req request);
 
 
     public void handleSchemeCallbacks(Req request, Res response, Callback[] cbks) throws UnsupportedCallbackException {

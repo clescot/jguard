@@ -26,4 +26,13 @@ public class HttpServletRequestAdapter implements Request<HttpServletRequest> {
         return httpServletRequest;
     }
 
+    public void setRequestAttribute(String key, Object value) {
+        httpServletRequest.setAttribute(key, value);
+    }
+
+    public Object getRequestAttribute(String key) {
+        return httpServletRequest.getAttribute(key);
+    }
+
+
 }

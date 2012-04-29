@@ -46,10 +46,6 @@ public interface Scopes {
 
     //request specific method
 
-    void setRequestAttribute(String key, Object value);
-
-    Object getRequestAttribute(String key);
-
 
     //application specific method
 

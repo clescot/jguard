@@ -70,9 +70,9 @@ public class JSFModule extends AbstractModule {
 
         //filterChain part
         bind(new TypeLiteral<Request<FacesContext>>() {
-        }).to(JSFRequestAdapter.class);
+        }).to(FacesContextAdapter.class);
         bind(new TypeLiteral<Response<FacesContext>>() {
-        }).to(JSFResponseAdapter.class);
+        }).to(FacesContextAdapter.class);
         bind(new TypeLiteral<PolicyEnforcementPoint<FacesContextAdapter, FacesContextAdapter>>() {
         }).to(JSFPolicyEnforcementPoint.class);
         bind(StatefulScopes.class).to(JSFScopes.class);

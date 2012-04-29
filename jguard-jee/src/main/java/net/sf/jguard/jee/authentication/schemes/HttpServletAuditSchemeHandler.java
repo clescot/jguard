@@ -1,10 +1,10 @@
 package net.sf.jguard.jee.authentication.schemes;
 
-import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.technology.StatefulScopes;
+import net.sf.jguard.jee.HttpServletRequestAdapter;
+import net.sf.jguard.jee.HttpServletResponseAdapter;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
 import java.util.Map;
 
@@ -12,23 +12,23 @@ import java.util.Map;
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class HttpServletAuditSchemeHandler extends AuditSchemeHandler<HttpServletRequest, HttpServletResponse> {
+public class HttpServletAuditSchemeHandler extends AuditSchemeHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> {
     public HttpServletAuditSchemeHandler(Map<String, String> parameters,
                                          StatefulScopes authenticationBindings) {
         super(parameters, authenticationBindings);
     }
 
-    protected String getRemoteAddress(Request<HttpServletRequest> req) {
+    protected String getRemoteAddress(HttpServletRequestAdapter req) {
         HttpServletRequest request = req.get();
         return request.getRemoteAddr();
     }
 
-    protected String getRemoteHost(Request<HttpServletRequest> req) {
+    protected String getRemoteHost(HttpServletRequestAdapter req) {
         HttpServletRequest request = req.get();
         return request.getRemoteHost();
     }
 
-    protected Locale getLocale(Request<HttpServletRequest> req) {
+    protected Locale getLocale(HttpServletRequestAdapter req) {
         HttpServletRequest request = req.get();
         return request.getLocale();
     }

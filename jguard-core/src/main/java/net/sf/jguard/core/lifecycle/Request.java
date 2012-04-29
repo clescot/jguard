@@ -7,5 +7,10 @@ package net.sf.jguard.core.lifecycle;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public interface Request<T> {
+
+    void setRequestAttribute(String key, Object value);
+
+    Object getRequestAttribute(String key);
+
     T get();
 }
