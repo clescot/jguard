@@ -86,10 +86,5 @@ public class ImpersonationScopes extends ScopesWrapper {
         }
     }
 
-    @Override
-    public void removeApplicationAttribute(String key) {
-        applicationAttributes.remove(key);
-    }
-
 
 }

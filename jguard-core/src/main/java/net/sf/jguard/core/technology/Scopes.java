@@ -59,7 +59,5 @@ public interface Scopes {
 
     Object getApplicationAttribute(String key);
 
-    void removeApplicationAttribute(String key);
-
 
 }
