@@ -31,9 +31,8 @@ import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.filters.FilterChain;
-import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.StatefulScopes;
+import net.sf.jguard.core.lifecycle.StatefulRequest;
 
 import javax.security.auth.Subject;
 
@@ -43,29 +42,26 @@ import javax.security.auth.Subject;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class LogoffFilter<Req extends Request, Res extends Response> implements AuthorizationFilter<Req, Res> {
+public abstract class LogoffFilter<Req extends StatefulRequest, Res extends Response> implements AuthorizationFilter<Req, Res> {
 
     private StatefulAuthenticationServicePoint<Req, Res> authenticationServicePoint;
     private Subject guest;
-    private StatefulScopes scope;
     private AuthorizationBindings<Req, Res> authorizationBindings;
 
     public LogoffFilter(StatefulAuthenticationServicePoint<Req, Res> authenticationServicePoint,
                         @Guest Subject guest,
-                        StatefulScopes scope,
                         AuthorizationBindings<Req, Res> authorizationBindings) {
 
         this.authenticationServicePoint = authenticationServicePoint;
         this.guest = guest;
-        this.scope = scope;
         this.authorizationBindings = authorizationBindings;
     }
 
     public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
         if (userIsLogged()
-                && authenticationServicePoint.userTriesToLogout(authorizationBindings.getPermissionRequested(request))) {
-            scope.invalidateSession();
-            authenticationServicePoint.logout();
+                && authenticationServicePoint.userTriesToLogout(request, authorizationBindings.getPermissionRequested(request))) {
+            request.invalidateSession();
+            authenticationServicePoint.logout(request);
         }
         chain.doFilter(request, response);
     }

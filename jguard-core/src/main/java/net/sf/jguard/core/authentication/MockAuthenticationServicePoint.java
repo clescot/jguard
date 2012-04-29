@@ -5,8 +5,6 @@ import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.lifecycle.MockRequestAdapter;
 import net.sf.jguard.core.lifecycle.MockResponseAdapter;
-import net.sf.jguard.core.technology.ImpersonationScopes;
-import net.sf.jguard.core.technology.MockScopes;
 
 import javax.inject.Inject;
 import javax.security.auth.Subject;
@@ -30,11 +28,9 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
     public MockAuthenticationServicePoint(Configuration configuration,
                                           @Guest Configuration guestConfiguration,
                                           @ApplicationName String applicationName,
-                                          MockScopes authenticationBindings,
                                           @Guest JGuardCallbackHandler guestCallbackHandler) {
         super(configuration,
-                applicationName,
-                authenticationBindings);
+                applicationName);
         this.guestConfiguration = guestConfiguration;
         this.guestCallbackHandler = guestCallbackHandler;
     }
@@ -76,10 +72,9 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
      * to not use loginModules which does not inherit from UserLoginModule,
      * and add a SKIP_CREDENTIAL_CHECK option to subclasses of UserLoginModules
      *
-     * @param impersonationScopes
      * @return wrapper around the Guest Subject
      */
-    public LoginContextWrapper impersonateAsGuest(ImpersonationScopes impersonationScopes) {
-        return authenticate(guestConfiguration, impersonationScopes, guestCallbackHandler);
+    public LoginContextWrapper impersonateAsGuest(MockRequestAdapter req) {
+        return authenticate(guestConfiguration, guestCallbackHandler, req);
     }
 }

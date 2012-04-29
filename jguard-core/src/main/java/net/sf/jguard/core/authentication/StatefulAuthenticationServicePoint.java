@@ -31,10 +31,8 @@ import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.loginmodules.UserLoginModule;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.authentication.schemes.StatefulAuthenticationSchemeHandler;
-import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.Scopes;
-import net.sf.jguard.core.technology.StatefulScopes;
+import net.sf.jguard.core.lifecycle.StatefulRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,20 +41,17 @@ import javax.security.auth.login.Configuration;
 import java.security.Permission;
 import java.util.*;
 
-public abstract class StatefulAuthenticationServicePoint<Req extends Request, Res extends Response> extends AbstractAuthenticationServicePoint<Req, Res> {
+public abstract class StatefulAuthenticationServicePoint<Req extends StatefulRequest, Res extends Response> extends AbstractAuthenticationServicePoint<Req, Res> {
 
     private Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers;
-    protected StatefulScopes scopes;
     private static final Logger logger = LoggerFactory.getLogger(StatefulAuthenticationServicePoint.class.getName());
     public static final String LOGIN_CONTEXT_WRAPPER = "loginContextWrapper";
 
     public StatefulAuthenticationServicePoint(Configuration configuration,
                                               Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers,
-                                              String applicationName,
-                                              StatefulScopes scopes) {
-        super(configuration, applicationName, scopes);
+                                              String applicationName) {
+        super(configuration, applicationName);
         this.authenticationSchemeHandlers = authenticationSchemeHandlers;
-        this.scopes = scopes;
     }
 
 
@@ -67,27 +62,27 @@ public abstract class StatefulAuthenticationServicePoint<Req extends Request, Re
      *
      * @param loginContextWrapper
      */
-    protected void authenticationSucceed(LoginContextWrapper loginContextWrapper) {
+    protected void authenticationSucceed(LoginContextWrapper loginContextWrapper, Req Req) {
 
 
         //we remove this variable before invalidate the session
         //to prevent the session listener to erase the subject
-        scopes.removeSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
+        Req.removeSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
 
         //we move variables bound , from the old session to the new one
         Map<String, Object> sessionEntries = new HashMap<String, Object>();
-        Iterator<String> it = scopes.getSessionAttributeNames();
+        Iterator<String> it = Req.getSessionAttributeNames();
         while (it.hasNext()) {
             String key = it.next();
-            Object value = scopes.getSessionAttribute(key);
+            Object value = Req.getSessionAttribute(key);
             sessionEntries.put(key, value);
         }
 
-        scopes.invalidateSession();
+        Req.invalidateSession();
 
-        scopes.setSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapper);
+        Req.setSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapper);
         for (Map.Entry<String, Object> stringObjectEntry : sessionEntries.entrySet()) {
-            scopes.setSessionAttribute(stringObjectEntry.getKey(), stringObjectEntry.getValue());
+            Req.setSessionAttribute(stringObjectEntry.getKey(), stringObjectEntry.getValue());
         }
 
     }
@@ -102,9 +97,9 @@ public abstract class StatefulAuthenticationServicePoint<Req extends Request, Re
      *
      * @return current Subject
      */
-    public Subject getCurrentSubject() {
+    public Subject getCurrentSubject(Req req) {
         Subject subject = getSubjectInAccessControlContext();
-        LoginContextWrapper loginContextWrapperImpl = (LoginContextWrapperImpl) scopes.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
+        LoginContextWrapper loginContextWrapperImpl = (LoginContextWrapperImpl) req.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
         if (loginContextWrapperImpl != null) {
             subject = loginContextWrapperImpl.getSubject();
         }
@@ -116,27 +111,23 @@ public abstract class StatefulAuthenticationServicePoint<Req extends Request, Re
 
     /**
      * we remove the LoginContextWrapper(wrapper around Subject) and invalidate the session.
-     *
-     * @see net.sf.jguard.core.technology.StatefulScopes
-     * @see net.sf.jguard.core.technology.Scopes
      */
-    public void logout() {
+    public void logout(Req request) {
         logger.debug(" logout phase ");
-        StatefulScopes statefulScopes = scopes;
         //remove Subject from session
-        LoginContextWrapper loginContext = (LoginContextWrapper) statefulScopes.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
+        LoginContextWrapper loginContext = (LoginContextWrapper) request.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
         if (loginContext != null) {
             loginContext.logout();
             logger.debug(" user logout ");
         }
 
-        statefulScopes.removeSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
+        request.removeSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
 
         logger.debug("doFilter() -  user logout ");
 
         //we invalidate the session to unbound all objects, including subject
         try {
-            statefulScopes.invalidateSession();
+            request.invalidateSession();
         } catch (java.lang.IllegalStateException ise) {
             logger.error(" session is already invalidated ", ise);
         }
@@ -151,8 +142,8 @@ public abstract class StatefulAuthenticationServicePoint<Req extends Request, Re
      * @param permissionToCheck permission enforced
      * @return <i>true</i> if user tries to logoff, <i>false</i> otherwise
      */
-    public boolean userTriesToLogout(Permission permissionToCheck) {
-        Subject currentSubject = getCurrentSubject();
+    public boolean userTriesToLogout(Req req, Permission permissionToCheck) {
+        Subject currentSubject = getCurrentSubject(req);
         boolean userLogoff = false;
 
         //we check that authenticationSchemeHandler is stateful and if logoff is called
@@ -174,12 +165,12 @@ public abstract class StatefulAuthenticationServicePoint<Req extends Request, Re
     }
 
 
-    protected LoginContextWrapper getLoginContextWrapper(Scopes scopes) {
-        LoginContextWrapper loginContextWrapperImpl = (LoginContextWrapper) ((StatefulScopes) scopes).getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
+    protected LoginContextWrapper getLoginContextWrapper(Req req) {
+        LoginContextWrapper loginContextWrapperImpl = (LoginContextWrapper) req.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
         if (loginContextWrapperImpl == null) {
-            loginContextWrapperImpl = super.getLoginContextWrapper(scopes);
+            loginContextWrapperImpl = super.getLoginContextWrapper(req);
         }
-        ((StatefulScopes) scopes).setSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapperImpl);
+        req.setSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapperImpl);
         return loginContextWrapperImpl;
     }
 

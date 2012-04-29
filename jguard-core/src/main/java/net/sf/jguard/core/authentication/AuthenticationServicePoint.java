@@ -50,7 +50,7 @@ public interface AuthenticationServicePoint<Req extends Request, Res extends Res
      * @param callbackHandler
      * @return
      */
-    LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler);
+    LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler, Req req);
 
 
     /**

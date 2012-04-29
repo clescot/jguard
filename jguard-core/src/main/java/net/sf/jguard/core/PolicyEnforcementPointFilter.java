@@ -33,8 +33,8 @@ import net.sf.jguard.core.authentication.AuthenticationStatus;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.filters.Filter;
-import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
+import net.sf.jguard.core.lifecycle.StatefulRequest;
 import net.sf.jguard.core.provisioning.ProvisioningServicePoint;
 import net.sf.jguard.core.technology.ImpersonationScopes;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ import java.net.URL;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class PolicyEnforcementPointFilter<Req extends Request, Res extends Response> implements Filter<Req, Res> {
+public abstract class PolicyEnforcementPointFilter<Req extends StatefulRequest, Res extends Response> implements Filter<Req, Res> {
 
     private ImpersonationScopes impersonationScopes;
     private ProvisioningServicePoint provisioningServicePoint = null;
@@ -126,9 +126,9 @@ public abstract class PolicyEnforcementPointFilter<Req extends Request, Res exte
      * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
      *          when authentication fails
      */
-    private AuthenticationStatus authenticateAfterRegistration(Request request, Response response, JGuardCallbackHandler callbackHandler) {
+    private AuthenticationStatus authenticateAfterRegistration(Req request, Response response, JGuardCallbackHandler<Req, Res> callbackHandler) {
 
-        return authenticationServicePoint.authenticate(callbackHandler).getStatus();
+        return authenticationServicePoint.authenticate(callbackHandler, request).getStatus();
 
     }
 

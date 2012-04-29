@@ -3,7 +3,6 @@ package net.sf.jguard.jee.authentication.http;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpServletRequestAdapter;
 import net.sf.jguard.jee.HttpServletResponseAdapter;
 
@@ -18,11 +17,9 @@ public class HttpServletAuthenticationServicePoint extends StatefulAuthenticatio
     @Inject
     public HttpServletAuthenticationServicePoint(Configuration configuration,
                                                  Collection<AuthenticationSchemeHandler<HttpServletRequestAdapter, HttpServletResponseAdapter>> authenticationSchemeHandlers,
-                                                 @ApplicationName String applicationName,
-                                                 StatefulScopes scopes) {
+                                                 @ApplicationName String applicationName) {
         super(configuration,
                 authenticationSchemeHandlers,
-                applicationName,
-                scopes);
+                applicationName);
     }
 }

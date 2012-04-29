@@ -3,7 +3,6 @@ package net.sf.jguard.jsf.authentication;
 import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jsf.FacesContextAdapter;
 
 import javax.inject.Inject;
@@ -14,11 +13,10 @@ public class JSFAuthenticationServicePoint extends StatefulAuthenticationService
     @Inject
     public JSFAuthenticationServicePoint(Configuration configuration,
                                          Collection<AuthenticationSchemeHandler<FacesContextAdapter, FacesContextAdapter>> authenticationSchemeHandlers,
-                                         @ApplicationName String applicationName,
-                                         StatefulScopes scopes) {
+                                         @ApplicationName String applicationName) {
         super(configuration,
                 authenticationSchemeHandlers,
-                applicationName,
-                scopes);
+                applicationName
+        );
     }
 }

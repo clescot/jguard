@@ -34,7 +34,6 @@ import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authentication.loginmodules.AuthenticationChallengeException;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.Scopes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,32 +56,28 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
 
     private Configuration configuration;
     private String applicationName;
-    protected Scopes scopes;
     private static final String AUTHENTICATION_SUCCEEDED = "authenticationSucceededDuringThisRequest";
 
     public AbstractAuthenticationServicePoint(Configuration configuration,
-                                              String applicationName,
-                                              Scopes scopes) {
+                                              String applicationName) {
         this.configuration = configuration;
         this.applicationName = applicationName;
-        this.scopes = scopes;
     }
 
 
-    public LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler) {
-        return authenticate(configuration, scopes, callbackHandler);
+    public LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler, Req req) {
+        return authenticate(configuration, callbackHandler, req);
     }
 
 
     protected LoginContextWrapper authenticate(
             Configuration configuration,
-            Scopes scopes,
-            JGuardCallbackHandler<Req, Res> callbackHandler) throws AuthenticationException {
+            JGuardCallbackHandler<Req, Res> callbackHandler, Req request) throws AuthenticationException {
 
         LoginContextWrapper loginContextWrapper = null;
         try {
             //we grab the wrapper object which link the user via its session with authentication
-            loginContextWrapper = getLoginContextWrapper(scopes);
+            loginContextWrapper = getLoginContextWrapper(request);
 
             //we use the wrapper object bound to user with the dedicated object(callabckHandler)
             //to communicate with him to authenticate
@@ -148,20 +143,7 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
         return Subject.getSubject(acc);
     }
 
-    /**
-     * create a new LoginContextWrapperImpl .
-     * Note that each LoginContextWrapperImpl instance is related to a Subject,
-     * so different LoginContextWrapperImpl coexist.It can be done because
-     * Scopes is different among users.
-     *
-     * @param scopes
-     * @return LoginContextWrapper
-     */
-    protected LoginContextWrapper getLoginContextWrapper(Scopes scopes) {
-
-        if (scopes == null) {
-            throw new IllegalArgumentException("scopes is null");
-        }
+    protected LoginContextWrapper getLoginContextWrapper(Req req) {
         return new LoginContextWrapperImpl(applicationName);
     }
 

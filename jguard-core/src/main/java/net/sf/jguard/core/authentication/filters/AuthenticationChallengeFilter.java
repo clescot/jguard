@@ -37,7 +37,7 @@ public abstract class AuthenticationChallengeFilter<Req extends Request, Res ext
     public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
         JGuardCallbackHandler<Req, Res> callbackHandler = callbackHandlerProvider.get();
 
-        LoginContextWrapper loginContextWrapper = authenticationServicePoint.authenticate(callbackHandler);
+        LoginContextWrapper loginContextWrapper = authenticationServicePoint.authenticate(callbackHandler, request);
         if (!AuthenticationStatus.SUCCESS.equals(loginContextWrapper.getStatus())) {
             //authentication continue with another roundtrip
             //or authentication failed (401 for HTTP)
