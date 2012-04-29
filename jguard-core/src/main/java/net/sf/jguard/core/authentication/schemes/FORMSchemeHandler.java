@@ -4,7 +4,6 @@ import net.sf.jguard.core.authorization.permissions.JGPositivePermissionCollecti
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.StatefulScopes;
 
 import javax.inject.Inject;
 import javax.security.auth.callback.Callback;
@@ -25,14 +24,11 @@ public abstract class FORMSchemeHandler<Req extends Request, Res extends Respons
     protected Permission logoffPermission;
     protected Permission logonPermission;
     protected Permission logonProcessPermission;
-    protected StatefulScopes statefulScopes;
     protected boolean goToLastAccessDeniedUriOnSuccess = true;
     private static final String GO_TO_LAST_ACCESS_DENIED_URI_ON_SUCCESS = "goToLastAccessDeniedUriOnSuccess";
 
     @Inject
-    public FORMSchemeHandler(Map<String, String> parameters, StatefulScopes statefulScopes) {
-        super();
-        this.statefulScopes = statefulScopes;
+    public FORMSchemeHandler(Map<String, String> parameters) {
         this.goToLastAccessDeniedUriOnSuccess = Boolean.parseBoolean(parameters.get(GO_TO_LAST_ACCESS_DENIED_URI_ON_SUCCESS));
     }
 

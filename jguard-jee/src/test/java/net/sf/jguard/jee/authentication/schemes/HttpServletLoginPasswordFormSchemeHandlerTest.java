@@ -27,7 +27,6 @@
 
 package net.sf.jguard.jee.authentication.schemes;
 
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpConstants;
 import net.sf.jguard.jee.HttpServletRequestAdapter;
 import net.sf.jguard.jee.HttpServletResponseAdapter;
@@ -35,7 +34,6 @@ import net.sf.jguard.jee.JGuardJEETest;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.inject.Inject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
@@ -53,8 +51,6 @@ public class HttpServletLoginPasswordFormSchemeHandlerTest extends JGuardJEETest
 
     public static final String AUTHENTICATION_FAILED_JSP = "/authenticationFailed.jsp";
     public static final String AUTHENTICATION_SUCCEED_JSP = "/authenticationSucceed.jsp";
-    @Inject
-    StatefulScopes authenticationBindings;
 
 
     @Test(expected = IllegalArgumentException.class)
@@ -68,7 +64,7 @@ public class HttpServletLoginPasswordFormSchemeHandlerTest extends JGuardJEETest
         parameters.put(HttpConstants.LOGON_URI, "/logon.do");
         parameters.put(HttpConstants.LOGOFF_URI, "/logoff.do");
 
-        HttpServletLoginPasswordFormSchemeHandler schemeHandler = new HttpServletLoginPasswordFormSchemeHandler(parameters, authenticationBindings);
+        HttpServletLoginPasswordFormSchemeHandler schemeHandler = new HttpServletLoginPasswordFormSchemeHandler(parameters);
         HttpServletRequestAdapter request = mock(HttpServletRequestAdapter.class);
         when(request.get()).thenReturn(httpServletRequest);
         HttpServletResponseAdapter response = mock(HttpServletResponseAdapter.class);

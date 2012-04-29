@@ -28,9 +28,8 @@
 package net.sf.jguard.core.authorization.filters;
 
 import net.sf.jguard.core.filters.FilterChain;
-import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.StatefulScopes;
+import net.sf.jguard.core.lifecycle.StatefulRequest;
 
 import java.security.AccessControlException;
 
@@ -39,13 +38,8 @@ import java.security.AccessControlException;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class LastAccessDeniedRegistrationFilter<Req extends Request, Res extends Response> implements LastAccessDeniedFilter<Req, Res> {
+public abstract class LastAccessDeniedRegistrationFilter<Req extends StatefulRequest, Res extends Response> implements LastAccessDeniedFilter<Req, Res> {
 
-    private StatefulScopes statefulScopes;
-
-    public LastAccessDeniedRegistrationFilter(StatefulScopes statefulScopes) {
-        this.statefulScopes = statefulScopes;
-    }
 
     public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
         try {
@@ -53,7 +47,7 @@ public abstract class LastAccessDeniedRegistrationFilter<Req extends Request, Re
         } catch (AccessControlException e) {
             //we store the last access denied URI before authentication
             //to dispatch to this permission after successful authentication
-            statefulScopes.setSessionAttribute(LAST_ACCESS_DENIED_PERMISSION, e.getPermission());
+            request.setSessionAttribute(LAST_ACCESS_DENIED_PERMISSION, e.getPermission());
         }
     }
 }

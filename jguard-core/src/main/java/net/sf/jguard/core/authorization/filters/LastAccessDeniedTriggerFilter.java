@@ -31,9 +31,8 @@ import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
 import net.sf.jguard.core.filters.FilterChain;
-import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.StatefulScopes;
+import net.sf.jguard.core.lifecycle.StatefulRequest;
 
 import javax.security.auth.Subject;
 import java.security.Permission;
@@ -44,20 +43,17 @@ import java.security.Permission;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public abstract class LastAccessDeniedTriggerFilter<Req extends Request, Res extends Response> implements LastAccessDeniedFilter<Req, Res> {
+public abstract class LastAccessDeniedTriggerFilter<Req extends StatefulRequest, Res extends Response> implements LastAccessDeniedFilter<Req, Res> {
 
 
     private AuthenticationServicePoint<Req, Res> authenticationServicePoint;
-    protected StatefulScopes statefulScopes;
     protected AuthorizationBindings<Req, Res> authorizationBindings;
     private AccessControllerWrapperImpl accessControlWrapper;
 
     public LastAccessDeniedTriggerFilter(AuthenticationServicePoint<Req, Res> authenticationServicePoint,
-                                         StatefulScopes statefulScopes,
                                          AuthorizationBindings<Req, Res> authorizationBindings,
                                          AccessControllerWrapperImpl accessControlWrapper) {
         this.authenticationServicePoint = authenticationServicePoint;
-        this.statefulScopes = statefulScopes;
         this.authorizationBindings = authorizationBindings;
         this.accessControlWrapper = accessControlWrapper;
     }
@@ -68,7 +64,7 @@ public abstract class LastAccessDeniedTriggerFilter<Req extends Request, Res ext
             //we don't handle in this case, the 'last access denied feature'
             chain.doFilter(request, response);
         } else {
-            Permission lastAccessDeniedPermission = (Permission) statefulScopes.getSessionAttribute(LAST_ACCESS_DENIED_PERMISSION);
+            Permission lastAccessDeniedPermission = (Permission) request.getSessionAttribute(LAST_ACCESS_DENIED_PERMISSION);
             Permission postAuthenticationPermission = authorizationBindings.getPostAuthenticationPermission(request);
             Permission permissionToProceed;
 

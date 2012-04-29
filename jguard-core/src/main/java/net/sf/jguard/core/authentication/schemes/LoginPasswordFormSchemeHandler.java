@@ -29,7 +29,6 @@ package net.sf.jguard.core.authentication.schemes;
 
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.StatefulScopes;
 
 import javax.inject.Inject;
 import javax.security.auth.callback.Callback;
@@ -56,9 +55,8 @@ public abstract class LoginPasswordFormSchemeHandler<Req extends Request, Res ex
     private static final String EMPTY_STRING = "";
 
     @Inject
-    public LoginPasswordFormSchemeHandler(Map<String, String> parameters,
-                                          StatefulScopes statefulScopes) {
-        super(parameters, statefulScopes);
+    public LoginPasswordFormSchemeHandler(Map<String, String> parameters) {
+        super(parameters);
         callbackTypes = new ArrayList<Class<? extends Callback>>();
         callbackTypes.add(NameCallback.class);
         callbackTypes.add(PasswordCallback.class);

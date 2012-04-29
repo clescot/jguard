@@ -28,18 +28,12 @@
 package net.sf.jguard.jee.authorization.filters;
 
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedRegistrationFilter;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpServletRequestAdapter;
 import net.sf.jguard.jee.HttpServletResponseAdapter;
-
-import javax.inject.Inject;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 public class HttpServletLastAccessDeniedRegistrationFilter extends LastAccessDeniedRegistrationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> {
-    @Inject
-    public HttpServletLastAccessDeniedRegistrationFilter(StatefulScopes statefulScopes) {
-        super(statefulScopes);
-    }
+
 }

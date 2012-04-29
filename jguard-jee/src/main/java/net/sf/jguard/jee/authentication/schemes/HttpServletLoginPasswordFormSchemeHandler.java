@@ -32,7 +32,6 @@ import net.sf.jguard.core.authentication.schemes.LoginPasswordFormSchemeHandler;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedFilter;
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpConstants;
 import net.sf.jguard.jee.HttpPermissionFactory;
 import net.sf.jguard.jee.HttpServletRequestAdapter;
@@ -75,9 +74,9 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
     public static final String AUTHENTICATION_SUCCEED_URI = "authenticationSucceedURI";
     public static final String AUTHENTICATION_FAILED_URI = "authenticationFailedURI";
 
-    public HttpServletLoginPasswordFormSchemeHandler(Map<String, String> parameters,
-                                                     StatefulScopes authenticationBindings) {
-        super(parameters, authenticationBindings);
+    public HttpServletLoginPasswordFormSchemeHandler(Map<String, String> parameters
+    ) {
+        super(parameters);
         this.loginField = parameters.get(LOGIN_FIELD);
         this.passwordField = parameters.get(PASSWORD_FIELD);
 
@@ -191,7 +190,7 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
     public void authenticationSucceed(Subject subject, HttpServletRequestAdapter servletRequest, HttpServletResponseAdapter servletResponse) {
         HttpServletRequest request = servletRequest.get();
         HttpServletResponse response = servletResponse.get();
-        URLPermission lastAccessDeniedPermission = (URLPermission) statefulScopes.getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION);
+        URLPermission lastAccessDeniedPermission = (URLPermission) servletRequest.getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION);
 
         if (!goToLastAccessDeniedUriOnSuccess) {
             handleDispatch(request, response, logonPermission);

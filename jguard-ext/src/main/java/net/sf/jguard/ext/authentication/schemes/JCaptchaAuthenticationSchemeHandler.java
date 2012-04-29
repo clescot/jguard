@@ -4,7 +4,6 @@ import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authentication.schemes.FORMSchemeHandler;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.ext.authentication.callbacks.JCaptchaCallback;
 
 import javax.security.auth.Subject;
@@ -22,9 +21,8 @@ public abstract class JCaptchaAuthenticationSchemeHandler<Req extends Request, R
 
     private Collection<Class<? extends Callback>> callbackTypes = null;
 
-    public JCaptchaAuthenticationSchemeHandler(Map<String, String> parameters,
-                                               StatefulScopes authenticationBindings) {
-        super(parameters, authenticationBindings);
+    public JCaptchaAuthenticationSchemeHandler(Map<String, String> parameters) {
+        super(parameters);
         callbackTypes = new ArrayList<Class<? extends Callback>>();
         callbackTypes.add(JCaptchaCallback.class);
     }

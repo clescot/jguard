@@ -32,7 +32,6 @@ import net.sf.jguard.core.authentication.exception.AuthenticationException;
 import net.sf.jguard.core.authentication.schemes.LoginPasswordFormSchemeHandler;
 import net.sf.jguard.core.authorization.filters.LastAccessDeniedFilter;
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.jee.HttpConstants;
 import net.sf.jguard.jsf.FacesContextAdapter;
 import net.sf.jguard.jsf.permissions.JSFPermission;
@@ -63,9 +62,8 @@ public class JSFLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHa
 
 
     @Inject
-    public JSFLoginPasswordFormSchemeHandler(Map<String, String> parameters,
-                                             StatefulScopes authenticationBindings) {
-        super(parameters, authenticationBindings);
+    public JSFLoginPasswordFormSchemeHandler(Map<String, String> parameters) {
+        super(parameters);
         authenticationSucceedView = parameters.get(HttpConstants.AUTHENTICATION_SUCCEED_URI);
         authenticationSucceedPermission = new JSFPermission(authenticationSucceedView);
         authenticationFailedPermission = new JSFPermission(parameters.get(HttpConstants.AUTHENTICATION_FAILED_URI));
@@ -142,7 +140,7 @@ public class JSFLoginPasswordFormSchemeHandler extends LoginPasswordFormSchemeHa
     public void authenticationSucceed(Subject subject, FacesContextAdapter request, FacesContextAdapter response) {
         String redirectOutcome = authenticationSucceedView;
         String lastAccessDeniedView = null;
-        Permission lastAccessDeniedPermission = (Permission) ((StatefulScopes) statefulScopes).getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION);
+        Permission lastAccessDeniedPermission = (Permission) request.getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION);
         if (lastAccessDeniedPermission != null) {
             lastAccessDeniedView = lastAccessDeniedPermission.getName();
         }

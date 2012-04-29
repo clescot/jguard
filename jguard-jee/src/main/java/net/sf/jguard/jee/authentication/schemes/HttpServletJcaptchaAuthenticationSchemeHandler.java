@@ -2,7 +2,6 @@ package net.sf.jguard.jee.authentication.schemes;
 
 import net.sf.jguard.core.authorization.permissions.PermissionFactory;
 import net.sf.jguard.core.authorization.permissions.URLPermission;
-import net.sf.jguard.core.technology.StatefulScopes;
 import net.sf.jguard.ext.authentication.schemes.JCaptchaAuthenticationSchemeHandler;
 import net.sf.jguard.jee.HttpConstants;
 import net.sf.jguard.jee.HttpPermissionFactory;
@@ -22,9 +21,8 @@ public class HttpServletJcaptchaAuthenticationSchemeHandler extends JCaptchaAuth
     private static final String CAPTCHA_ANSWER_PARAMETER = "captchaAnswerParameter";
     private String captchaAnswerParameter;
 
-    public HttpServletJcaptchaAuthenticationSchemeHandler(Map<String, String> parameters,
-                                                          StatefulScopes authenticationBindings) {
-        super(parameters, authenticationBindings);
+    public HttpServletJcaptchaAuthenticationSchemeHandler(Map<String, String> parameters) {
+        super(parameters);
         String logonProcessURI = parameters.get(LOGON_PROCESS_URI);
         logonProcessPermission = new URLPermission(LOGON_PROCESS_URI, logonProcessURI);
         String logonURI = parameters.get(HttpConstants.LOGON_URI);
