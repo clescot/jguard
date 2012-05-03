@@ -80,7 +80,7 @@ public class JGuardCallbackHandlerTest {
         Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
         authenticationSchemeHandlers.add(authenticationSchemeHandler);
 
-        MockCallbackHandler mockCallbackHandler = new MockCallbackHandler(new MockRequestAdapter(new MockRequest()), new MockResponseAdapter(new MockResponse()), authenticationSchemeHandlers
+        MockCallbackHandler mockCallbackHandler = new MockCallbackHandler(request, response, authenticationSchemeHandlers
         );
         List<Callback> callbackList = new ArrayList<Callback>();
         NameCallback nameCallback = new NameCallback(DUMMY_PROMPT);
