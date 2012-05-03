@@ -29,7 +29,6 @@ package net.sf.jguard.core.authentication;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
-import net.sf.jguard.core.authentication.bindings.GuestAuthenticationBindingsProvider;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.callbackhandler.MockCallbackHandler;
 import net.sf.jguard.core.authentication.callbacks.GuestCallbacksProvider;
@@ -41,7 +40,6 @@ import net.sf.jguard.core.authentication.schemes.FilterConfigurationLocation;
 import net.sf.jguard.core.authentication.schemes.HookImplFormSchemeHandler;
 import net.sf.jguard.core.authentication.schemes.MockAuthenticationSchemeHandlerProvider;
 import net.sf.jguard.core.lifecycle.*;
-import net.sf.jguard.core.technology.ImpersonationScopes;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
@@ -110,7 +108,6 @@ public class AuthenticationModule extends AbstractModule {
         bind(new TypeLiteral<List<AppConfigurationEntryFilter>>() {
         }).annotatedWith(Guest.class).toProvider(GuestAppConfigurationFiltersListProvider.class);
         bind(AppConfigurationEntryFilter.class).to(GuestAppConfigurationEntryFilter.class);
-        bind(ImpersonationScopes.class).toProvider(GuestAuthenticationBindingsProvider.class);
         bind(Subject.class).annotatedWith(Guest.class).toProvider(GuestSubjectProvider.class);
 
 
