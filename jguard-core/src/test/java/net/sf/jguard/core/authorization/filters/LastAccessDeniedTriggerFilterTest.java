@@ -41,7 +41,6 @@ public class LastAccessDeniedTriggerFilterTest extends AuthorizationFilterTest {
         filter.setAuthorizationBindings(authorizationBindings);
 
 
-        when(request.getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION)).thenReturn(null);
         when(authorizationBindings.getPostAuthenticationPermission(any(MockRequestAdapter.class))).thenReturn(grantedPermission);
 
         policyEnforcementPoint.doFilter(request, response);
@@ -57,7 +56,6 @@ public class LastAccessDeniedTriggerFilterTest extends AuthorizationFilterTest {
         authenticationServicePoint.setCurrentSubject(authenticatedSubject);
         AuthorizationBindings<MockRequestAdapter, MockResponseAdapter> authorizationBindings = mock(AuthorizationBindings.class);
         filter.setAuthorizationBindings(authorizationBindings);
-        when(request.getSessionAttribute(LastAccessDeniedFilter.LAST_ACCESS_DENIED_PERMISSION)).thenReturn(notGrantedPermission);
         when(authorizationBindings.getPostAuthenticationPermission(any(MockRequestAdapter.class))).thenReturn(grantedPermission);
         policyEnforcementPoint.doFilter(request, response);
 
