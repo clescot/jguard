@@ -31,8 +31,6 @@ import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 
-import javax.security.auth.Subject;
-
 /**
  * central point of authentication.
  *
@@ -41,29 +39,8 @@ import javax.security.auth.Subject;
 public interface AuthenticationServicePoint<Req extends Request, Res extends Response> {
 
 
-    /**
-     * authenticate the user.
-     * if the {@link net.sf.jguard.core.technology.Scopes} implementation implements the
-     * StatefulScopes interface, this method removes a possible old {@link LoginContextWrapperImpl} object,
-     * invalidate the session, create a new one, and bound the new Authenticationutils to it.
-     *
-     * @param callbackHandler
-     * @return
-     */
     LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler, Req req);
 
-
-    /**
-     * return the <i>current</i> {@link Subject}:
-     * this method is looking for from the local scope to the global scope.
-     * - firstly, looking for the AccessCOntrolContext bound to the Thread.
-     * - if not present, and if the statefulScopes implements StatefulScopes,
-     * looking for the Subject present in the session.
-     * - if not present or not stateful, looking for the Guest Subject present in the application scope.
-     *
-     * @return current Subject
-     */
-    Subject getCurrentSubject();
 
     /**
      * return <b>true</> if the request has triggered a successful authentication, <false/>

@@ -36,7 +36,6 @@ import net.sf.jguard.core.filters.Filter;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.lifecycle.StatefulRequest;
 import net.sf.jguard.core.provisioning.ProvisioningServicePoint;
-import net.sf.jguard.core.technology.ImpersonationScopes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +52,6 @@ import java.net.URL;
  */
 public abstract class PolicyEnforcementPointFilter<Req extends StatefulRequest, Res extends Response> implements Filter<Req, Res> {
 
-    private ImpersonationScopes impersonationScopes;
     private ProvisioningServicePoint provisioningServicePoint = null;
     private static final Logger logger = LoggerFactory.getLogger(PolicyEnforcementPointFilter.class.getName());
     private boolean propagateThrowable;
@@ -62,12 +60,10 @@ public abstract class PolicyEnforcementPointFilter<Req extends StatefulRequest, 
     @Inject
     private Injector injector;
 
-    public PolicyEnforcementPointFilter(ImpersonationScopes impersonationScopes,
-                                        StatefulAuthenticationServicePoint<Req, Res> authenticationServicePoint,
+    public PolicyEnforcementPointFilter(StatefulAuthenticationServicePoint<Req, Res> authenticationServicePoint,
                                         boolean propagateThrowable,
                                         boolean redirectAfterAuthentication) {
 
-        this.impersonationScopes = impersonationScopes;
         this.authenticationServicePoint = authenticationServicePoint;
         this.propagateThrowable = propagateThrowable;
         this.redirectAfterAuthentication = redirectAfterAuthentication;

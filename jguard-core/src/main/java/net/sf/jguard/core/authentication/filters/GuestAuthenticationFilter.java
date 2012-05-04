@@ -1,6 +1,6 @@
 package net.sf.jguard.core.authentication.filters;
 
-import net.sf.jguard.core.authentication.AuthenticationServicePoint;
+import net.sf.jguard.core.authentication.AbstractAuthenticationServicePoint;
 import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.filters.FilterChain;
 import net.sf.jguard.core.lifecycle.Request;
@@ -15,18 +15,16 @@ import javax.security.auth.Subject;
  */
 public abstract class GuestAuthenticationFilter<Req extends Request, Res extends Response> extends AuthenticationFilter<Req, Res> {
     private Subject guestSubject;
-    private AuthenticationServicePoint<Req, Res> authenticationServicePoint;
     private static final Logger logger = LoggerFactory.getLogger(GuestAuthenticationFilter.class.getName());
 
 
-    public GuestAuthenticationFilter(@Guest Subject guestSubject, AuthenticationServicePoint<Req, Res> authenticationServicePoint) {
+    public GuestAuthenticationFilter(@Guest Subject guestSubject) {
         this.guestSubject = guestSubject;
-        this.authenticationServicePoint = authenticationServicePoint;
     }
 
 
     public void doFilter(final Req request, final Res response, final FilterChain<Req, Res> chain) {
-        Subject currentSubject = authenticationServicePoint.getCurrentSubject();
+        Subject currentSubject = AbstractAuthenticationServicePoint.getCurrentSubject();
         if (currentSubject == null) {
             currentSubject = guestSubject;
         }

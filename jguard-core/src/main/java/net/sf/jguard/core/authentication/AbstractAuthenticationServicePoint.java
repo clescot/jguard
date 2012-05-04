@@ -122,18 +122,13 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
     protected void authenticationSucceed(LoginContextWrapper loginContextWrapper) {
     }
 
-
-    public Subject getCurrentSubject() {
-        return getSubjectInAccessControlContext();
-    }
-
     /**
      * grab the authenticated PersistedSubject in the execution stack.
      *
      * @return authenticated PersistedSubject or null if user is not authenticated
      * @throws SecurityException the caller does not have the permission to call the subject
      */
-    protected static Subject getSubjectInAccessControlContext() {
+    public static <Req extends Request> Subject getCurrentSubject() {
         AccessControlContext acc = AccessController.getContext();
         if (acc == null) {
             //acc== null signifies System code,
@@ -142,6 +137,7 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
         }
         return Subject.getSubject(acc);
     }
+
 
     protected LoginContextWrapper getLoginContextWrapper(Req req) {
         return new LoginContextWrapperImpl(applicationName);

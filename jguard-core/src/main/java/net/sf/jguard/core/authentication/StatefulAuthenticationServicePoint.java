@@ -97,11 +97,13 @@ public abstract class StatefulAuthenticationServicePoint<Req extends StatefulReq
      *
      * @return current Subject
      */
-    public Subject getCurrentSubject(Req req) {
-        Subject subject = getSubjectInAccessControlContext();
+    public static <Req extends StatefulRequest> Subject getCurrentSubject(Req req) {
+        Subject subject;
         LoginContextWrapper loginContextWrapperImpl = (LoginContextWrapperImpl) req.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
         if (loginContextWrapperImpl != null) {
             subject = loginContextWrapperImpl.getSubject();
+        } else {
+            subject = AbstractAuthenticationServicePoint.getCurrentSubject();
         }
 
         return subject;

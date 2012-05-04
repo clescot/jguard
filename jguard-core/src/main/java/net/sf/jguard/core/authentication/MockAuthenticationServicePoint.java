@@ -50,9 +50,9 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
         this.subject = subject;
     }
 
-    public Subject getCurrentSubject() {
+    public Subject getSubject() {
         if (!enableHook) {
-            return super.getCurrentSubject();
+            return AbstractAuthenticationServicePoint.getCurrentSubject();
         }
         return subject;
     }

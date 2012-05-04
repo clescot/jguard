@@ -1,6 +1,5 @@
 package net.sf.jguard.jee.authentication.filters;
 
-import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.filters.GuestAuthenticationFilter;
 import net.sf.jguard.jee.HttpServletRequestAdapter;
@@ -14,7 +13,7 @@ import javax.security.auth.Subject;
  */
 public class HttpServletGuestAuthenticationFilter extends GuestAuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> {
     @Inject
-    public HttpServletGuestAuthenticationFilter(@Guest Subject guestSubject, AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter> httpServletRequestHttpServletResponseAuthenticationServicePoint) {
-        super(guestSubject, httpServletRequestHttpServletResponseAuthenticationServicePoint);
+    public HttpServletGuestAuthenticationFilter(@Guest Subject guestSubject) {
+        super(guestSubject);
     }
 }
