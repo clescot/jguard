@@ -32,30 +32,30 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
 /**
- * Exception to signal that the current CallbackHandler need to interact with the client(i.e the user), 
+ * Exception to signal that the current CallbackHandler need to interact with the client(i.e the user),
  * to grab more informations to populate some callbacks. This exception inherits from UnsupportedCallbackException
  * to respect javadoc from callbackHandler, and to highlight the callback (or more but javadoc only permits one)
- * which need one more interaction with the client. This exception will be grabbed from the LoginModule and 
+ * which need one more interaction with the client. This exception will be grabbed from the LoginModule and
  * rethrown as a special LoginException subclass.
+ *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
- * @since 1.1
  * @see UnsupportedCallbackException
  * @see CallbackHandler
+ * @since 1.1
  */
-public class AsynchronousCallbackException extends UnsupportedCallbackException{
+public class AuthenticationChallengeForCallbackHandlerException extends UnsupportedCallbackException {
 
-   
-   public AsynchronousCallbackException(Callback callback){
+
+    public AuthenticationChallengeForCallbackHandlerException(Callback callback) {
         super(callback);
     }
-    
+
     /**
-     * 
      * @param callback
      * @param message
      */
-    public AsynchronousCallbackException(Callback callback,String message){
-        super(callback,message);
+    public AuthenticationChallengeForCallbackHandlerException(Callback callback, String message) {
+        super(callback, message);
     }
-   
+
 }

@@ -60,6 +60,9 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
 
     public AbstractAuthenticationServicePoint(Configuration configuration,
                                               String applicationName) {
+        if (configuration.getAppConfigurationEntry(applicationName) == null) {
+            throw new IllegalArgumentException("configuration does not contains any AppConfigurationEntry for the application with the name=" + applicationName);
+        }
         this.configuration = configuration;
         this.applicationName = applicationName;
     }
@@ -104,7 +107,7 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
 
         } catch (LoginException e) {
 
-            logger.debug("authentication failed " + e.getMessage(), e);
+            logger.info("authentication failed " + e.getMessage(), e);
 
             callbackHandler.authenticationFailed();
             loginContextWrapper.setStatus(AuthenticationStatus.FAILURE);

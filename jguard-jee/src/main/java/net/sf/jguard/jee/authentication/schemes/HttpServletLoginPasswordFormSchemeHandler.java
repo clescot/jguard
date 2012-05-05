@@ -211,7 +211,7 @@ public class HttpServletLoginPasswordFormSchemeHandler extends LoginPasswordForm
         //an URL for authentication failure event has been set
         if (authenticationFailedPermission != null && !authenticationFailedPermission.getURI().equals("")) {
             handleDispatch(request, response, authenticationFailedPermission);
-            logger.debug(" user is not authenticated  and dispatched to " + request.getContextPath() + authenticationFailedPermission.getURI());
+            logger.info(" user is not authenticated  and dispatched to " + request.getContextPath() + authenticationFailedPermission.getURI());
 
         }
     }

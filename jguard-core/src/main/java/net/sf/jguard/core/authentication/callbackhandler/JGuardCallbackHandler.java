@@ -27,7 +27,8 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authentication.callbackhandler;
 
-import net.sf.jguard.core.authentication.callbacks.AsynchronousCallbackException;
+import net.sf.jguard.core.authentication.callbacks.AuthenticationChallengeForCallbackHandlerException;
+import net.sf.jguard.core.authentication.callbacks.AuthenticationContinueForCallbackHandlerException;
 import net.sf.jguard.core.authentication.callbacks.AuthenticationSchemeHandlerCallback;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.lifecycle.Request;
@@ -45,8 +46,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * the <i>keystone</i> of interactions between loginModules (the JAAS authentication doFilter),
- * {@link net.sf.jguard.core.technology.Scopes} implementation and its {@link AuthenticationSchemeHandler}s.
+ * the <i>keystone</i> of interactions between loginModules  implementation and its {@link AuthenticationSchemeHandler}s.
  * To support a new <i>communication technology</i>, you require to extends this class, and the related
  * {@link AuthenticationSchemeHandler}s.
  *
@@ -85,7 +85,7 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
      * choice of the Authentication Scheme is done by {@link LoginModule}s executed according to the {@link Configuration}.
      * Interactions between multiple loginmodules, to choose which authentication scheme must be encountered
      * among multiple ones, is possible. Each Authentication Scheme is implemented with a loginModule, and its related {@link AuthenticationSchemeHandler}
-     * implementation. each {@link AuthenticationSchemeHandler}s are registered in the {@link net.sf.jguard.core.technology.Scopes} implementation.
+     * implementation. each {@link AuthenticationSchemeHandler}s are registered.
      * Correlation between a loginModule and an AuthentitcationSchemeHandler is expressed with specific callbacks.
      * this method implements this correlation.
      *
@@ -136,12 +136,16 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
             authenticationSchemeHandler.buildChallenge(request, response);
 
             if (isAsynchronous()) {
-                throw new AsynchronousCallbackException(null, authenticationSchemeHandler.getName());
+                throw new AuthenticationChallengeForCallbackHandlerException(null, authenticationSchemeHandler.getName());
             }
         }
-
         //user answer to an authentication challenge, so we grab required callbacks
         authenticationSchemeHandler.handleSchemeCallbacks(request, response, callbacks);
+
+        //answer to challenge, informations grabbed, but authentication need another roundtrip
+        if (authenticationSchemeHandler.challengeNeeded(request, response)) {
+            throw new AuthenticationContinueForCallbackHandlerException(null, authenticationSchemeHandler.getName());
+        }
     }
 
     private void populateAuthenticationSchemeHandlerCallbackIfPresent(Callback[] callbacks, AuthenticationSchemeHandler<Req, Res> authenticationSchemeHandler) {

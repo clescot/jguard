@@ -1,7 +1,7 @@
 package net.sf.jguard.core.authentication.callbackhandler;
 
 import com.google.common.collect.Lists;
-import net.sf.jguard.core.authentication.callbacks.AsynchronousCallbackException;
+import net.sf.jguard.core.authentication.callbacks.AuthenticationChallengeForCallbackHandlerException;
 import net.sf.jguard.core.authentication.callbacks.AuthenticationSchemeHandlerCallback;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.authentication.schemes.DummyAuthenticationSchemeHandler;
@@ -235,7 +235,7 @@ public class JGuardCallbackHandlerTest {
     }
 
 
-    @Test(expected = AsynchronousCallbackException.class)
+    @Test(expected = AuthenticationChallengeForCallbackHandlerException.class)
     public void test_AsynchronousCallbackException_thrown_when_challenge_needed_and_asynchronous() throws UnsupportedCallbackException, IOException {
         //given
         MockRequestAdapter request = new MockRequestAdapter(new MockRequest());

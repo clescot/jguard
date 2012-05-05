@@ -1,7 +1,13 @@
 package net.sf.jguard.core.authentication.loginmodules;
 
+import net.sf.jguard.core.authentication.callbacks.AuthenticationChallengeForCallbackHandlerException;
+import net.sf.jguard.core.authentication.callbacks.AuthenticationContinueForCallbackHandlerException;
+import net.sf.jguard.core.authentication.exception.AuthenticationContinueException;
+
 import javax.security.auth.Subject;
+import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 import java.util.Map;
@@ -13,12 +19,27 @@ public class MockLoginModule extends UserNamePasswordLoginModule implements Logi
     private boolean commit = true;
     private boolean abort = true;
     private boolean logout = true;
+    private CallbackHandler callbackHandler;
 
     public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState, Map<String, ?> options) {
 
+        this.callbackHandler = callbackHandler;
     }
 
     public boolean login() throws LoginException {
+        try {
+            callbackHandler.handle(new Callback[]{});
+        } catch (java.io.IOException ioe) {
+            throw new LoginException(ioe.toString());
+        } catch (AuthenticationChallengeForCallbackHandlerException cnc) {
+            throw new AuthenticationChallengeException(cnc.getMessage());
+        } catch (AuthenticationContinueForCallbackHandlerException cnc) {
+            throw new AuthenticationContinueException(cnc.getMessage());
+        } catch (UnsupportedCallbackException uce) {
+            throw new LoginException("Callback error : " + uce.getCallback().toString() +
+                    " not available to authenticate the user");
+        }
+
         return login;
     }
 

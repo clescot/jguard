@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * super class of classes which permits to query against different stores (database, xml..).
+ * should be inherited by classes which permits to query against different stores (database, xml..).
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
