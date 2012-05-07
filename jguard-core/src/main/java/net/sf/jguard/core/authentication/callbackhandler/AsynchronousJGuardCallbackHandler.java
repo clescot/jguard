@@ -34,7 +34,4 @@ public abstract class AsynchronousJGuardCallbackHandler<Req extends Request, Res
         }
     }
 
-    protected boolean isAsynchronous() {
-        return true;
-    }
 }

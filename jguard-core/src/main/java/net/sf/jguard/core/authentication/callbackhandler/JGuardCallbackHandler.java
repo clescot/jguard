@@ -154,13 +154,6 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
         }
     }
 
-    /**
-     * define if the communication between client and server is non-blocking (return <b>true</b>) or blocking (return <b>false</b>).
-     *
-     * @return
-     */
-    protected abstract boolean isAsynchronous();
-
 
     /**
      * propagate to each authenticationSchemeHandler the authenticationSucceed Event.

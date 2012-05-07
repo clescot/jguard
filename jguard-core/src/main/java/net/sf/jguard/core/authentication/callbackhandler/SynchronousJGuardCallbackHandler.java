@@ -11,8 +11,5 @@ public class SynchronousJGuardCallbackHandler<Req extends Request, Res extends R
         super(request, response, registeredAuthenticationSchemeHandlers);
     }
 
-    @Override
-    protected boolean isAsynchronous() {
-        return false;
-    }
+
 }
