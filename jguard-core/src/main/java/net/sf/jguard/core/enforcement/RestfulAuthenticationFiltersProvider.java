@@ -62,8 +62,8 @@ public abstract class RestfulAuthenticationFiltersProvider<Req extends Request, 
     /**
      * either the request answer to an authentication challenge,
      * so we return the regular authenticationFilters list,
-     * or the request does not answer to an authentication challenge, s
-     * we return the <b>guest</b>AuthenticationFilters list.
+     * or the request does not answer to an authentication challenge,
+     * and we return the <b>guest</b>AuthenticationFilters list.
      *
      * @return
      */
