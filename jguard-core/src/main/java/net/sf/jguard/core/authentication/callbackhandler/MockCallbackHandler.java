@@ -41,7 +41,7 @@ import java.util.Collection;
  *
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
-public class MockCallbackHandler extends JGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter> implements CallbackHandler {
+public class MockCallbackHandler extends SynchronousJGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter> implements CallbackHandler {
 
 
     @Inject
@@ -50,16 +50,6 @@ public class MockCallbackHandler extends JGuardCallbackHandler<MockRequestAdapte
                                Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers) {
 
         super(request, response, authenticationSchemeHandlers);
-    }
-
-    /**
-     * define if the communication between client and server is non-blocking (return <b>true</b>) or blocking (return <b>false</b>).
-     *
-     * @return
-     */
-    @Override
-    protected boolean isAsynchronous() {
-        return false;
     }
 
 }

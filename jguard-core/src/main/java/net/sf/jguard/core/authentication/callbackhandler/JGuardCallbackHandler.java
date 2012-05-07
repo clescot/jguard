@@ -27,8 +27,6 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authentication.callbackhandler;
 
-import net.sf.jguard.core.authentication.callbacks.AuthenticationChallengeForCallbackHandlerException;
-import net.sf.jguard.core.authentication.callbacks.AuthenticationContinueForCallbackHandlerException;
 import net.sf.jguard.core.authentication.callbacks.AuthenticationSchemeHandlerCallback;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.lifecycle.Request;
@@ -56,8 +54,8 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
 
     private static final Logger logger = LoggerFactory.getLogger(JGuardCallbackHandler.class.getName());
     private Collection<AuthenticationSchemeHandler<Req, Res>> registeredAuthenticationSchemeHandlers = null;
-    private Req request;
-    private Res response;
+    protected Req request;
+    protected Res response;
     private Set<AuthenticationSchemeHandler<Req, Res>> usedAuthenticationSchemeHandlers = new HashSet<AuthenticationSchemeHandler<Req, Res>>();
 
 
@@ -116,25 +114,16 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
         AuthenticationSchemeHandler<Req, Res> authenticationSchemeHandler = prepareCallbackHandler(callbacks);
         if (authenticationSchemeHandler == null) return;
 
+        handle(callbacks, authenticationSchemeHandler);
 
-        if (!authenticationSchemeHandler.answerToChallenge(request, response)
-                && authenticationSchemeHandler.challengeNeeded(request, response)) {
-            //user has not yet tried to answer to an authentication challenge
-            //and we need some authentication informations
-            //we build a new challenge in response
-            authenticationSchemeHandler.buildChallenge(request, response);
 
-            if (isAsynchronous()) {
-                throw new AuthenticationChallengeForCallbackHandlerException(null, authenticationSchemeHandler.getName());
-            }
-        }
+    }
+
+    protected void handle(Callback[] callbacks, AuthenticationSchemeHandler<Req, Res> authenticationSchemeHandler) throws UnsupportedCallbackException {
         //user answer to an authentication challenge, so we grab required callbacks
         authenticationSchemeHandler.handleSchemeCallbacks(request, response, callbacks);
 
-        //answer to challenge, informations grabbed, but authentication need another roundtrip
-        if (isAsynchronous() && authenticationSchemeHandler.challengeNeeded(request, response)) {
-            throw new AuthenticationContinueForCallbackHandlerException(null, authenticationSchemeHandler.getName());
-        }
+
     }
 
     private AuthenticationSchemeHandler<Req, Res> prepareCallbackHandler(Callback[] callbacks) {

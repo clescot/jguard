@@ -184,7 +184,7 @@ public class AbstractAuthenticationServicePointTest {
         };
         //when
         LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
-        assertThat(authenticate.getStatus(), is(AuthenticationStatus.FAILURE));
+        assertThat(authenticate.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 
     @Test
@@ -242,7 +242,7 @@ public class AbstractAuthenticationServicePointTest {
         };
         //when
         LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
-        assertThat(authenticate.getStatus(), is(AuthenticationStatus.FAILURE));
+        assertThat(authenticate.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 
 

@@ -29,7 +29,7 @@ package net.sf.jguard.jee.authentication.callbacks;
 
 
 import com.google.inject.servlet.RequestScoped;
-import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.jee.HttpServletRequestAdapter;
 import net.sf.jguard.jee.HttpServletResponseAdapter;
@@ -43,21 +43,12 @@ import java.util.Collection;
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @RequestScoped
-public class HttpServletCallbackHandler extends JGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> {
+public class HttpServletCallbackHandler extends AsynchronousJGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> {
 
     @Inject
     public HttpServletCallbackHandler(HttpServletRequestAdapter request, HttpServletResponseAdapter response,
                                       Collection<AuthenticationSchemeHandler<HttpServletRequestAdapter, HttpServletResponseAdapter>> authenticationSchemeHandlers) {
         super(request, response, authenticationSchemeHandlers);
-    }
-
-
-    /**
-     * @return true because client answer in HTTP can be delayed.
-     */
-    @Override
-    protected boolean isAsynchronous() {
-        return true;
     }
 
 
