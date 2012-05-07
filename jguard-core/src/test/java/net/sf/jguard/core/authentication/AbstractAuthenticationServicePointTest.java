@@ -1,5 +1,6 @@
 package net.sf.jguard.core.authentication;
 
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousMockCallbackHandler;
 import net.sf.jguard.core.authentication.callbackhandler.MockCallbackHandler;
 import net.sf.jguard.core.authentication.loginmodules.MockLoginModule;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
@@ -67,7 +68,7 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(configuration, applicationName) {
         };
         //when
-        LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers), req);
         assertThat(authenticate.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 
@@ -84,13 +85,91 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(configuration, applicationName) {
         };
         //when
-        LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers), req);
         assertThat(authenticate.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 
 
     @Test
-    public void testAuthenticate_when_authentication_scheme_need_mutiple_roundtrips() throws Exception {
+    public void testAuthenticate_asynchronously_Yes_answerToChallenge_Yes_challengeNeeded_Yes_status_CONTINUE() throws Exception {
+        //given
+        MockRequestAdapter req = new MockRequestAdapter(new MockRequest());
+        MockResponseAdapter res = new MockResponseAdapter(new MockResponse());
+        Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
+        authenticationSchemeHandlers.add(authenticationSchemeHandler);
+        AppConfigurationEntry[] entries = getAppConfigurationEntriesWithOneMockLoginModule();
+        when(configuration.getAppConfigurationEntry(applicationName)).thenReturn(entries);
+        when(authenticationSchemeHandler.answerToChallenge(req, res)).thenReturn(true);
+        when(authenticationSchemeHandler.challengeNeeded(req, res)).thenReturn(true);
+
+        abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(configuration, applicationName) {
+        };
+        //when
+        LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        assertThat(authenticate.getStatus(), is(AuthenticationStatus.CONTINUE));
+    }
+
+    @Test
+    public void testAuthenticate_asynchronously_Yes_answerToChallenge_Yes_challengeNeeded_No_status_SUCCESS() throws Exception {
+        //given
+        MockRequestAdapter req = new MockRequestAdapter(new MockRequest());
+        MockResponseAdapter res = new MockResponseAdapter(new MockResponse());
+        Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
+        authenticationSchemeHandlers.add(authenticationSchemeHandler);
+        AppConfigurationEntry[] entries = getAppConfigurationEntriesWithOneMockLoginModule();
+        when(configuration.getAppConfigurationEntry(applicationName)).thenReturn(entries);
+        when(authenticationSchemeHandler.answerToChallenge(req, res)).thenReturn(true);
+        when(authenticationSchemeHandler.challengeNeeded(req, res)).thenReturn(false);
+
+        abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(configuration, applicationName) {
+        };
+        //when
+        LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        assertThat(authenticate.getStatus(), is(AuthenticationStatus.SUCCESS));
+    }
+
+    @Test
+    public void testAuthenticate_asynchronously_Yes_answerToChallenge_No_challengeNeeded_No_status_SUCCESS() throws Exception {
+        //given
+        MockRequestAdapter req = new MockRequestAdapter(new MockRequest());
+        MockResponseAdapter res = new MockResponseAdapter(new MockResponse());
+        Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
+        authenticationSchemeHandlers.add(authenticationSchemeHandler);
+        AppConfigurationEntry[] entries = getAppConfigurationEntriesWithOneMockLoginModule();
+        when(configuration.getAppConfigurationEntry(applicationName)).thenReturn(entries);
+        when(authenticationSchemeHandler.answerToChallenge(req, res)).thenReturn(false);
+        when(authenticationSchemeHandler.challengeNeeded(req, res)).thenReturn(false);
+
+        abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(configuration, applicationName) {
+        };
+        //when
+        LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        assertThat(authenticate.getStatus(), is(AuthenticationStatus.SUCCESS));
+    }
+
+
+    @Test
+    public void testAuthenticate_asynchronously_Yes_answerToChallenge_No_challengeNeeded_Yes_status_FAILURE() throws Exception {
+        //given
+        MockRequestAdapter req = new MockRequestAdapter(new MockRequest());
+        MockResponseAdapter res = new MockResponseAdapter(new MockResponse());
+        Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
+        authenticationSchemeHandlers.add(authenticationSchemeHandler);
+        AppConfigurationEntry[] entries = getAppConfigurationEntriesWithOneMockLoginModule();
+        when(configuration.getAppConfigurationEntry(applicationName)).thenReturn(entries);
+        when(authenticationSchemeHandler.answerToChallenge(req, res)).thenReturn(false);
+        when(authenticationSchemeHandler.challengeNeeded(req, res)).thenReturn(true);
+
+        abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(configuration, applicationName) {
+        };
+        //when
+        LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        assertThat(authenticate.getStatus(), is(AuthenticationStatus.FAILURE));
+    }
+
+
+    @Test
+    public void testAuthenticate_asynchronously_No_answerToChallenge_Yes_challengeNeeded_Yes_status_FAILURE() throws Exception {
         //given
         MockRequestAdapter req = new MockRequestAdapter(new MockRequest());
         MockResponseAdapter res = new MockResponseAdapter(new MockResponse());
@@ -105,8 +184,67 @@ public class AbstractAuthenticationServicePointTest {
         };
         //when
         LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
-        assertThat(authenticate.getStatus(), is(AuthenticationStatus.CONTINUE));
+        assertThat(authenticate.getStatus(), is(AuthenticationStatus.FAILURE));
     }
+
+    @Test
+    public void testAuthenticate_asynchronously_No_answerToChallenge_Yes_challengeNeeded_No_status_SUCCESS() throws Exception {
+        //given
+        MockRequestAdapter req = new MockRequestAdapter(new MockRequest());
+        MockResponseAdapter res = new MockResponseAdapter(new MockResponse());
+        Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
+        authenticationSchemeHandlers.add(authenticationSchemeHandler);
+        AppConfigurationEntry[] entries = getAppConfigurationEntriesWithOneMockLoginModule();
+        when(configuration.getAppConfigurationEntry(applicationName)).thenReturn(entries);
+        when(authenticationSchemeHandler.answerToChallenge(req, res)).thenReturn(true);
+        when(authenticationSchemeHandler.challengeNeeded(req, res)).thenReturn(false);
+
+        abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(configuration, applicationName) {
+        };
+        //when
+        LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        assertThat(authenticate.getStatus(), is(AuthenticationStatus.SUCCESS));
+    }
+
+    @Test
+    public void testAuthenticate_asynchronously_No_answerToChallenge_No_challengeNeeded_No_status_SUCCESS() throws Exception {
+        //given
+        MockRequestAdapter req = new MockRequestAdapter(new MockRequest());
+        MockResponseAdapter res = new MockResponseAdapter(new MockResponse());
+        Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
+        authenticationSchemeHandlers.add(authenticationSchemeHandler);
+        AppConfigurationEntry[] entries = getAppConfigurationEntriesWithOneMockLoginModule();
+        when(configuration.getAppConfigurationEntry(applicationName)).thenReturn(entries);
+        when(authenticationSchemeHandler.answerToChallenge(req, res)).thenReturn(false);
+        when(authenticationSchemeHandler.challengeNeeded(req, res)).thenReturn(false);
+
+        abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(configuration, applicationName) {
+        };
+        //when
+        LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        assertThat(authenticate.getStatus(), is(AuthenticationStatus.SUCCESS));
+    }
+
+
+    @Test
+    public void testAuthenticate_asynchronously_No_answerToChallenge_No_challengeNeeded_Yes_status_FAILURE() throws Exception {
+        //given
+        MockRequestAdapter req = new MockRequestAdapter(new MockRequest());
+        MockResponseAdapter res = new MockResponseAdapter(new MockResponse());
+        Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
+        authenticationSchemeHandlers.add(authenticationSchemeHandler);
+        AppConfigurationEntry[] entries = getAppConfigurationEntriesWithOneMockLoginModule();
+        when(configuration.getAppConfigurationEntry(applicationName)).thenReturn(entries);
+        when(authenticationSchemeHandler.answerToChallenge(req, res)).thenReturn(false);
+        when(authenticationSchemeHandler.challengeNeeded(req, res)).thenReturn(true);
+
+        abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(configuration, applicationName) {
+        };
+        //when
+        LoginContextWrapper authenticate = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        assertThat(authenticate.getStatus(), is(AuthenticationStatus.FAILURE));
+    }
+
 
     private AppConfigurationEntry[] getAppConfigurationEntriesWithOneMockLoginModule() {
         AppConfigurationEntry entry = new AppConfigurationEntry(MockLoginModule.class.getName(), AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, new HashMap());
