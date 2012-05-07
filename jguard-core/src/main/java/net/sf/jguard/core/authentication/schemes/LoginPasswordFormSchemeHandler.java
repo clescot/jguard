@@ -53,6 +53,8 @@ public abstract class LoginPasswordFormSchemeHandler<Req extends Request, Res ex
     public static final String PASSWORD = "password";
     private static final String LOGIN_PASSWORD_FORM = "Login_Password-FORM";
     private static final String EMPTY_STRING = "";
+    public static final String LOGIN_IS_NULL_OR_EMPTY = "login is null or empty";
+    public static final String PASSWORD_IS_NULL_OR_EMPTY = "password is null or empty";
 
     @Inject
     public LoginPasswordFormSchemeHandler(Map<String, String> parameters) {
@@ -72,11 +74,11 @@ public abstract class LoginPasswordFormSchemeHandler<Req extends Request, Res ex
     public void handleSchemeCallbacks(Req request, Res response, Callback[] callbacks) throws UnsupportedCallbackException {
         String login = getLogin(request);
         if (null == login || EMPTY_STRING.equals(login)) {
-            throw new IllegalArgumentException("login is null or empty");
+            throw new IllegalArgumentException(LOGIN_IS_NULL_OR_EMPTY);
         }
         String password = getPassword(request);
         if (null == password || EMPTY_STRING.equals(password)) {
-            throw new IllegalArgumentException("password is null or empty");
+            throw new IllegalArgumentException(PASSWORD_IS_NULL_OR_EMPTY);
         }
         for (Callback cb : callbacks) {
             if (cb instanceof NameCallback) {
