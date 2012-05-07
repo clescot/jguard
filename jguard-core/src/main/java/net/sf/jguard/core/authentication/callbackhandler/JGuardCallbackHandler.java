@@ -113,19 +113,8 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
     }
 
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
-        List<Callback> callbackList = Arrays.asList(callbacks);
-
-        //we select among available authenticationSchemeHandlers, and with the supported callbacks requirement,
-        //the best authenticationSchemeHandler
-        AuthenticationSchemeHandler<Req, Res> authenticationSchemeHandler = getAuthenticationSchemeHandler(registeredAuthenticationSchemeHandlers, callbackList);
-        //handle method is called multiple times by loginModules
-        //some LoginModules does not put in place any authenticationSchemeHandler
-        if (authenticationSchemeHandler == null) {
-            return;
-        }
-        usedAuthenticationSchemeHandlers.add(authenticationSchemeHandler);
-
-        populateAuthenticationSchemeHandlerCallbackIfPresent(callbacks, authenticationSchemeHandler);
+        AuthenticationSchemeHandler<Req, Res> authenticationSchemeHandler = prepareCallbackHandler(callbacks);
+        if (authenticationSchemeHandler == null) return;
 
 
         if (!authenticationSchemeHandler.answerToChallenge(request, response)
@@ -143,9 +132,26 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
         authenticationSchemeHandler.handleSchemeCallbacks(request, response, callbacks);
 
         //answer to challenge, informations grabbed, but authentication need another roundtrip
-        if (authenticationSchemeHandler.challengeNeeded(request, response)) {
+        if (isAsynchronous() && authenticationSchemeHandler.challengeNeeded(request, response)) {
             throw new AuthenticationContinueForCallbackHandlerException(null, authenticationSchemeHandler.getName());
         }
+    }
+
+    private AuthenticationSchemeHandler<Req, Res> prepareCallbackHandler(Callback[] callbacks) {
+        List<Callback> callbackList = Arrays.asList(callbacks);
+
+        //we select among available authenticationSchemeHandlers, and with the supported callbacks requirement,
+        //the best authenticationSchemeHandler
+        AuthenticationSchemeHandler<Req, Res> authenticationSchemeHandler = getAuthenticationSchemeHandler(registeredAuthenticationSchemeHandlers, callbackList);
+        //handle method is called multiple times by loginModules
+        //some LoginModules does not put in place any authenticationSchemeHandler
+        if (authenticationSchemeHandler == null) {
+            return null;
+        }
+        usedAuthenticationSchemeHandlers.add(authenticationSchemeHandler);
+
+        populateAuthenticationSchemeHandlerCallbackIfPresent(callbacks, authenticationSchemeHandler);
+        return authenticationSchemeHandler;
     }
 
     private void populateAuthenticationSchemeHandlerCallbackIfPresent(Callback[] callbacks, AuthenticationSchemeHandler<Req, Res> authenticationSchemeHandler) {
