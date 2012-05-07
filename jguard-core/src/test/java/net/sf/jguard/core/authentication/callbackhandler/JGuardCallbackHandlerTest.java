@@ -12,10 +12,7 @@ import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 import org.junit.Test;
 
 import javax.security.auth.Subject;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.auth.callback.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -139,7 +136,7 @@ public class JGuardCallbackHandlerTest {
         Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
         authenticationSchemeHandlers.add(authenticationSchemeHandler);
 
-        MockCallbackHandler mockCallbackHandler = new MockCallbackHandler(request, response, authenticationSchemeHandlers);
+        CallbackHandler mockCallbackHandler = new AsynchronousMockCallbackHandler(request, response, authenticationSchemeHandlers);
         List<Callback> callbackList = new ArrayList<Callback>();
         NameCallback nameCallback = new NameCallback(DUMMY_PROMPT);
         callbackList.add(nameCallback);
@@ -251,7 +248,7 @@ public class JGuardCallbackHandlerTest {
         Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
         authenticationSchemeHandlers.add(authenticationSchemeHandler);
 
-        MockCallbackHandler mockCallbackHandler = new AsynchronousMockCallbackHandler(request, response, authenticationSchemeHandlers);
+        AsynchronousMockCallbackHandler mockCallbackHandler = new AsynchronousMockCallbackHandler(request, response, authenticationSchemeHandlers);
         List<Callback> callbackList = new ArrayList<Callback>();
         NameCallback nameCallback = new NameCallback(DUMMY_PROMPT);
         callbackList.add(nameCallback);

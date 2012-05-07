@@ -6,12 +6,9 @@ import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
 import java.util.Collection;
 
-public class AsynchronousMockCallbackHandler extends MockCallbackHandler {
+public class AsynchronousMockCallbackHandler extends AsynchronousJGuardCallbackHandler {
     public AsynchronousMockCallbackHandler(MockRequestAdapter request, MockResponseAdapter response, Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers) {
         super(request, response, authenticationSchemeHandlers);
     }
 
-    protected boolean isAsynchronous() {
-        return true;
-    }
 }
