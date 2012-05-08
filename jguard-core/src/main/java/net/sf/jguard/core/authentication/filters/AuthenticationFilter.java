@@ -38,7 +38,7 @@ public abstract class AuthenticationFilter<Req extends Request, Res extends Resp
                 // according to the j2se way
                 logger.info(" after successful authentication , before propagation");
                 chain.doFilter(request, response);
-                // the 'null' tells the SecurityMl'anager to consider this resource access
+                // the 'null' tells to the SecurityManager to consider this resource access
                 //in an isolated context, ignoring the permissions of code currently
                 //on the execution stack.
                 //noinspection ReturnOfNull
