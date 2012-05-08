@@ -27,7 +27,7 @@
 
 package net.sf.jguard.core.enforcement;
 
-import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.lifecycle.MockRequestAdapter;
 import net.sf.jguard.core.lifecycle.MockResponseAdapter;
@@ -41,7 +41,7 @@ import java.util.List;
 public class MockRestfulAuthenticationFiltersProvider extends RestfulAuthenticationFiltersProvider<MockRequestAdapter, MockResponseAdapter> {
 
     @Inject
-    public MockRestfulAuthenticationFiltersProvider(JGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter> jGuardCallbackHandler,
+    public MockRestfulAuthenticationFiltersProvider(AsynchronousJGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter> jGuardCallbackHandler,
                                                     List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>> authenticationFilters,
                                                     GuestPolicyEnforcementPointFilter<MockRequestAdapter, MockResponseAdapter> guestPolicyEnforcementPointFilter) {
         super(jGuardCallbackHandler, authenticationFilters, guestPolicyEnforcementPointFilter);

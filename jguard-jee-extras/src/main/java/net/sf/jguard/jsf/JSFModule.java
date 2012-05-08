@@ -31,7 +31,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.Stateful;
-import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
@@ -84,7 +84,7 @@ public class JSFModule extends AbstractModule {
 
         bind(new TypeLiteral<AuthenticationServicePoint<FacesContextAdapter, FacesContextAdapter>>() {
         }).to(JSFAuthenticationServicePoint.class);
-        bind(new TypeLiteral<JGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter>>() {
+        bind(new TypeLiteral<AsynchronousJGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter>>() {
         }).to(JSFCallbackHandler.class);
 
 

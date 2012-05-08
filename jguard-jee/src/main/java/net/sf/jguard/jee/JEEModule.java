@@ -33,7 +33,7 @@ import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.Stateful;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
-import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.authentication.filters.GuestAuthenticationFilter;
@@ -122,10 +122,10 @@ public class JEEModule extends AbstractModule {
         }).to(HttpServletAuthenticationServicePoint.class);
         bind(new TypeLiteral<AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletAuthenticationServicePoint.class);
-        bind(JGuardCallbackHandler.class).to(HttpServletCallbackHandler.class);
+        bind(AsynchronousJGuardCallbackHandler.class).to(HttpServletCallbackHandler.class);
 
 
-        bind(new TypeLiteral<JGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
+        bind(new TypeLiteral<AsynchronousJGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }).to(HttpServletCallbackHandler.class);
 
         bind(new TypeLiteral<AuthenticationChallengeFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {

@@ -2,7 +2,7 @@ package net.sf.jguard.jee.authentication.filters;
 
 import net.sf.jguard.core.authentication.LoginContextWrapper;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
-import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.enforcement.GuestPolicyEnforcementPointFilter;
 import net.sf.jguard.core.enforcement.StatefulAuthenticationFiltersProvider;
@@ -20,7 +20,7 @@ import java.util.List;
 public class HttpServletStatefulAuthenticationFiltersProvider extends StatefulAuthenticationFiltersProvider<HttpServletRequestAdapter, HttpServletResponseAdapter> {
 
     @Inject
-    public HttpServletStatefulAuthenticationFiltersProvider(JGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> jGuardCallbackHandler,
+    public HttpServletStatefulAuthenticationFiltersProvider(AsynchronousJGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> jGuardCallbackHandler,
                                                             List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authenticationFilters,
                                                             GuestPolicyEnforcementPointFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> guestPolicyEnforcementPointFilter) {
         super(jGuardCallbackHandler,

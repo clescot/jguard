@@ -29,7 +29,7 @@ package net.sf.jguard.jsf.authentication.filters;
 
 import net.sf.jguard.core.authentication.LoginContextWrapper;
 import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
-import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.enforcement.GuestPolicyEnforcementPointFilter;
 import net.sf.jguard.core.enforcement.StatefulAuthenticationFiltersProvider;
@@ -47,7 +47,7 @@ public class JSFStatefulAuthenticationFiltersProvider extends StatefulAuthentica
 
 
     @Inject
-    public JSFStatefulAuthenticationFiltersProvider(JGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter> jGuardCallbackHandler,
+    public JSFStatefulAuthenticationFiltersProvider(AsynchronousJGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter> jGuardCallbackHandler,
                                                     List<AuthenticationFilter<FacesContextAdapter, FacesContextAdapter>> authenticationFilters,
                                                     GuestPolicyEnforcementPointFilter<FacesContextAdapter, FacesContextAdapter> guestPolicyEnforcementPointFilter) {
         super(jGuardCallbackHandler,

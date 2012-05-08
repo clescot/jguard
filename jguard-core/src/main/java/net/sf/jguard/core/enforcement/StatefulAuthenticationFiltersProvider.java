@@ -27,7 +27,7 @@
 
 package net.sf.jguard.core.enforcement;
 
-import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
@@ -44,7 +44,7 @@ public abstract class StatefulAuthenticationFiltersProvider<Req extends Request,
     private Req request;
     private AuthenticationFilter<Req, Res> sessionAuthenticationFilter;
 
-    public StatefulAuthenticationFiltersProvider(JGuardCallbackHandler<Req, Res> jGuardCallbackHandler,
+    public StatefulAuthenticationFiltersProvider(AsynchronousJGuardCallbackHandler<Req, Res> jGuardCallbackHandler,
                                                  List<AuthenticationFilter<Req, Res>> authenticationFilters,
                                                  GuestPolicyEnforcementPointFilter<Req, Res> policyEnforcementPointFilter,
                                                  AuthenticationFilter<Req, Res> sessionAuthenticationFilter) {

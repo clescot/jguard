@@ -53,7 +53,7 @@ import java.util.*;
 public abstract class JGuardCallbackHandler<Req extends Request, Res extends Response> implements CallbackHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(JGuardCallbackHandler.class.getName());
-    private Collection<AuthenticationSchemeHandler<Req, Res>> registeredAuthenticationSchemeHandlers = null;
+    protected Collection<AuthenticationSchemeHandler<Req, Res>> registeredAuthenticationSchemeHandlers = null;
     protected Req request;
     protected Res response;
     private Set<AuthenticationSchemeHandler<Req, Res>> usedAuthenticationSchemeHandlers = new HashSet<AuthenticationSchemeHandler<Req, Res>>();
@@ -176,20 +176,4 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
     }
 
 
-    /**
-     * return <b>true</b> if the user <b>tries</b> to answer to an authentication challenge
-     * validated by an AuthenticationSchemeHandler.
-     *
-     * @return
-     */
-    public boolean answerToChallenge() {
-        for (AuthenticationSchemeHandler<Req, Res> handler : registeredAuthenticationSchemeHandlers) {
-            boolean answerToChallenge = handler.answerToChallenge(request, response);
-            if (answerToChallenge) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }

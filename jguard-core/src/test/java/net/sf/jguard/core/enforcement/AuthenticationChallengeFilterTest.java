@@ -36,8 +36,7 @@ public class AuthenticationChallengeFilterTest extends FilterTest {
 
         Assert.assertNull(authenticationServicePoint.getCurrentSubject());
         policyEnforcementPoint.doFilter(request, response);
-        //current subject is null because authentication succeed, and  does NOT implements StatefulScopes (that's a subcass of AbstractAuthenticationServicePOint,
-        //and NOT StatefulAuthenticationServicePoint
+        //current subject is null because authentication succeed,
         //so subject is put in the session, and can be grabbed anytime
         Assert.assertNull(authenticationServicePoint.getCurrentSubject());
     }

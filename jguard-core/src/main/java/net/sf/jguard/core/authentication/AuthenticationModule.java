@@ -89,7 +89,6 @@ public class AuthenticationModule extends AbstractModule {
         }).to(MockResponseAdapter.class);
         bind(new TypeLiteral<Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>>() {
         }).toProvider(MockAuthenticationSchemeHandlerProvider.class);
-        bind(JGuardCallbackHandler.class).annotatedWith(Guest.class).to(MockCallbackHandler.class);
         bind(new TypeLiteral<JGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockCallbackHandler.class);
         bind(new TypeLiteral<AuthenticationChallengeFilter<MockRequestAdapter, MockResponseAdapter>>() {
@@ -101,6 +100,7 @@ public class AuthenticationModule extends AbstractModule {
 
 
         //guest part of the module
+        bind(JGuardCallbackHandler.class).annotatedWith(Guest.class).to(MockCallbackHandler.class);
         bind(new TypeLiteral<Collection<Callback>>() {
         }).toProvider(GuestCallbacksProvider.class);
         bind(Configuration.class).annotatedWith(Guest.class).toProvider(GuestConfigurationProvider.class);

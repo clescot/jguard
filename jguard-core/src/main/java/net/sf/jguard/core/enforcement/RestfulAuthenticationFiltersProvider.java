@@ -28,7 +28,7 @@
 package net.sf.jguard.core.enforcement;
 
 import com.google.inject.Provider;
-import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationFilter;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
@@ -45,12 +45,12 @@ public abstract class RestfulAuthenticationFiltersProvider<Req extends Request, 
 
 
     protected List<AuthenticationFilter<Req, Res>> filters = new ArrayList<AuthenticationFilter<Req, Res>>();
-    private JGuardCallbackHandler<Req, Res> jGuardCallbackHandler;
+    private AsynchronousJGuardCallbackHandler<Req, Res> jGuardCallbackHandler;
     private List<AuthenticationFilter<Req, Res>> authenticationFilters;
     private GuestPolicyEnforcementPointFilter<Req, Res> guestPolicyEnforcementPointFilter;
 
     public RestfulAuthenticationFiltersProvider(
-            JGuardCallbackHandler<Req, Res> jGuardCallbackHandler,
+            AsynchronousJGuardCallbackHandler<Req, Res> jGuardCallbackHandler,
             List<AuthenticationFilter<Req, Res>> authenticationFilters,
             GuestPolicyEnforcementPointFilter<Req, Res> guestPolicyEnforcementPointFilter
     ) {
