@@ -29,9 +29,8 @@ package net.sf.jguard.jsf.authentication.filters;
 
 import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
-import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
-import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.jsf.FacesContextAdapter;
 
 import javax.inject.Inject;
@@ -43,8 +42,7 @@ public class JSFAuthenticationChallengeFilter extends AuthenticationChallengeFil
 
     @Inject
     public JSFAuthenticationChallengeFilter(AuthenticationServicePoint<FacesContextAdapter, FacesContextAdapter> authenticationServicePoint,
-                                            Provider<JGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter>> jGuardCallbackHandlerProvider,
-                                            AuthenticationManager authenticationManager) {
-        super(authenticationServicePoint, jGuardCallbackHandlerProvider, authenticationManager);
+                                            Provider<AsynchronousJGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter>> jGuardCallbackHandlerProvider) {
+        super(authenticationServicePoint, jGuardCallbackHandlerProvider);
     }
 }

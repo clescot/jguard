@@ -1,14 +1,12 @@
 package net.sf.jguard.core.authentication;
 
 import com.google.inject.Singleton;
-import net.sf.jguard.core.ApplicationName;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.lifecycle.MockRequestAdapter;
 import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
 import javax.inject.Inject;
 import javax.security.auth.Subject;
-import javax.security.auth.login.Configuration;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
@@ -21,17 +19,12 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
 
 
     private boolean enableHook = true;
-    private final Configuration guestConfiguration;
     private final JGuardCallbackHandler guestCallbackHandler;
 
     @Inject
-    public MockAuthenticationServicePoint(Configuration configuration,
-                                          @Guest Configuration guestConfiguration,
-                                          @ApplicationName String applicationName,
+    public MockAuthenticationServicePoint(LoginContextWrapper loginContextWrapper,
                                           @Guest JGuardCallbackHandler guestCallbackHandler) {
-        super(configuration,
-                applicationName);
-        this.guestConfiguration = guestConfiguration;
+        super(loginContextWrapper);
         this.guestCallbackHandler = guestCallbackHandler;
     }
 
@@ -74,7 +67,7 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
      *
      * @return wrapper around the Guest Subject
      */
-    public LoginContextWrapper impersonateAsGuest(MockRequestAdapter req) {
-        return authenticate(guestConfiguration, guestCallbackHandler, req);
+    public LoginContextWrapper impersonateAsGuest() {
+        return authenticate(guestCallbackHandler);
     }
 }

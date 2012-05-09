@@ -29,7 +29,6 @@ package net.sf.jguard.core.authentication;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.login.Configuration;
 import javax.security.auth.login.LoginException;
 
 /**
@@ -37,7 +36,7 @@ import javax.security.auth.login.LoginException;
  */
 public interface LoginContextWrapper {
 
-    void login(CallbackHandler callbackHandler, Configuration configuration) throws LoginException;
+    void login(CallbackHandler callbackHandler) throws LoginException;
 
     void logout();
 

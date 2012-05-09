@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 import javax.security.auth.Subject;
+import javax.security.auth.login.Configuration;
 import java.security.Permission;
 
 import static org.mockito.Matchers.any;
@@ -94,7 +95,7 @@ public class LastAccessDeniedTriggerFilterTest extends AuthorizationFilterTest {
     }
 
     private void putSubjectIntoSession(StatefulRequest request) {
-        LoginContextWrapper loginContextWrapper = new LoginContextWrapperImpl(DUMMY_APPLICATION_NAME) {
+        LoginContextWrapper loginContextWrapper = new LoginContextWrapperImpl(DUMMY_APPLICATION_NAME, mock(Configuration.class)) {
             public Subject getSubject() {
                 return authenticatedSubject;
             }

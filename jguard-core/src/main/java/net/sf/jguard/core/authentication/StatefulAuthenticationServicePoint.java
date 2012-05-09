@@ -37,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.Subject;
-import javax.security.auth.login.Configuration;
 import java.security.Permission;
 import java.util.*;
 
@@ -47,10 +46,9 @@ public abstract class StatefulAuthenticationServicePoint<Req extends StatefulReq
     private static final Logger logger = LoggerFactory.getLogger(StatefulAuthenticationServicePoint.class.getName());
     public static final String LOGIN_CONTEXT_WRAPPER = "loginContextWrapper";
 
-    public StatefulAuthenticationServicePoint(Configuration configuration,
-                                              Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers,
-                                              String applicationName) {
-        super(configuration, applicationName);
+    public StatefulAuthenticationServicePoint(Collection<AuthenticationSchemeHandler<Req, Res>> authenticationSchemeHandlers,
+                                              LoginContextWrapper loginContextWrapper) {
+        super(loginContextWrapper);
         this.authenticationSchemeHandlers = authenticationSchemeHandlers;
     }
 
@@ -170,7 +168,7 @@ public abstract class StatefulAuthenticationServicePoint<Req extends StatefulReq
     protected LoginContextWrapper getLoginContextWrapper(Req req) {
         LoginContextWrapper loginContextWrapperImpl = (LoginContextWrapper) req.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
         if (loginContextWrapperImpl == null) {
-            loginContextWrapperImpl = super.getLoginContextWrapper(req);
+            loginContextWrapperImpl = loginContextWrapper;
         }
         req.setSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapperImpl);
         return loginContextWrapperImpl;

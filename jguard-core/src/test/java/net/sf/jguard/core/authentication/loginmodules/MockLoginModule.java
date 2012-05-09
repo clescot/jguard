@@ -1,8 +1,6 @@
 package net.sf.jguard.core.authentication.loginmodules;
 
 import net.sf.jguard.core.authentication.callbacks.AuthenticationChallengeForCallbackHandlerException;
-import net.sf.jguard.core.authentication.callbacks.AuthenticationContinueForCallbackHandlerException;
-import net.sf.jguard.core.authentication.exception.AuthenticationContinueException;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
@@ -33,8 +31,6 @@ public class MockLoginModule extends UserNamePasswordLoginModule implements Logi
             throw new LoginException(ioe.toString());
         } catch (AuthenticationChallengeForCallbackHandlerException cnc) {
             throw new AuthenticationChallengeException(cnc.getMessage());
-        } catch (AuthenticationContinueForCallbackHandlerException cnc) {
-            throw new AuthenticationContinueException(cnc.getMessage());
         } catch (UnsupportedCallbackException uce) {
             throw new LoginException("Callback error : " + uce.getCallback().toString() +
                     " not available to authenticate the user");

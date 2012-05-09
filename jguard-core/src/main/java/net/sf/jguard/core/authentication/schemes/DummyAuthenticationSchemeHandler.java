@@ -50,7 +50,7 @@ public class DummyAuthenticationSchemeHandler<Req extends Request, Res extends R
     private static final String DUMMY_NAME_PERMISSION = "dummy";
     private static final String DUMMY_ACTIONS_PERMISSION = "dummy";
     private boolean answerToChallenge = true;
-    private boolean challengeNeeded = true;
+    private boolean challengeNeeded = false;
     private static final String GRANTED_PERMISSION_NAME = "grantedName";
     private static final String GRANTED_PERMISSION_ACTIONS = "grantedActions";
 
@@ -76,7 +76,7 @@ public class DummyAuthenticationSchemeHandler<Req extends Request, Res extends R
         return answerToChallenge;
     }
 
-    public boolean challengeNeeded(Req reqRequest, Res resResponse) {
+    public boolean impliesChallenge() {
         return challengeNeeded;
     }
 

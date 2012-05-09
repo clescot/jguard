@@ -43,6 +43,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.Subject;
+import javax.security.auth.login.Configuration;
 import java.security.Principal;
 
 import static junit.framework.Assert.assertEquals;
@@ -59,6 +60,7 @@ public class JGuardServletRequestWrapperTest extends JGuardJEETest {
     private static final String TEST_USER = "testUser";
     private String configurationLocation;
     private String applicationName = "jguard-struts-example";
+    private Configuration configuration;
 
     private AuthenticationManager authenticationManager;
     private static final String LOGIN = "login";
@@ -70,7 +72,9 @@ public class JGuardServletRequestWrapperTest extends JGuardJEETest {
         String jguardAuthentication = JGuardTestFiles.J_GUARD_AUTHENTICATION_XML.getLabel();
         configurationLocation = cl.getResource(jguardAuthentication).toString();
         authenticationManager = mock(AuthenticationManager.class);
+        configuration = mock(Configuration.class);
         when(authenticationManager.getCredentialId()).thenReturn(LOGIN);
+
     }
 
     @Test
@@ -90,7 +94,7 @@ public class JGuardServletRequestWrapperTest extends JGuardJEETest {
         subj.getPrincipals().add(p1);
         subj.getPrincipals().add(p2);
 
-        LoginContextWrapperMockImpl loginContextWrapperMock = new LoginContextWrapperMockImpl(applicationName);
+        LoginContextWrapperMockImpl loginContextWrapperMock = new LoginContextWrapperMockImpl(applicationName, configuration);
         loginContextWrapperMock.setSubject(subj);
         // Putting into session object
         request.getSession().setAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapperMock);
@@ -110,7 +114,7 @@ public class JGuardServletRequestWrapperTest extends JGuardJEETest {
         // Mock subject and credential
         Subject subj = new Subject();
         JGuardCredential login = new JGuardCredential(LOGIN, TEST_USER);
-        LoginContextWrapperMockImpl loginContextWrapperMock = new LoginContextWrapperMockImpl(applicationName);
+        LoginContextWrapperMockImpl loginContextWrapperMock = new LoginContextWrapperMockImpl(applicationName, configuration);
         loginContextWrapperMock.setSubject(subj);
 
         request.getSession(true).setAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapperMock);

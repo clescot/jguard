@@ -57,20 +57,22 @@ public class LoginContextWrapperImpl implements LoginContextWrapper {
     private boolean loggedOut = false;
     private static final Logger logger = LoggerFactory.getLogger(LoginContextWrapperImpl.class.getName());
     private String applicationName;
+    private Configuration configuration;
 
     @Inject
-    public LoginContextWrapperImpl(@ApplicationName String applicationName) {
+    public LoginContextWrapperImpl(@ApplicationName String applicationName,
+                                   Configuration configuration) {
         this.applicationName = applicationName;
+        this.configuration = configuration;
     }
 
     /**
      * authenticate Subject
      *
      * @param callbackHandler
-     * @param configuration   can be the global Configuration or a filtered one for impersonation
      * @throws LoginException
      */
-    public void login(CallbackHandler callbackHandler, Configuration configuration) throws LoginException {
+    public void login(CallbackHandler callbackHandler) throws LoginException {
         loginContext = new LoginContext(applicationName, new Subject(), callbackHandler, configuration);
         try {
             loginContext.login();

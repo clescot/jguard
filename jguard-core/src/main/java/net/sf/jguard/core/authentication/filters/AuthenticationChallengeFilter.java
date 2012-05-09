@@ -4,8 +4,8 @@ import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.AuthenticationStatus;
 import net.sf.jguard.core.authentication.LoginContextWrapper;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
-import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.filters.FilterChain;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
@@ -22,22 +22,19 @@ import org.slf4j.LoggerFactory;
 public abstract class AuthenticationChallengeFilter<Req extends Request, Res extends Response> extends AuthenticationFilter<Req, Res> {
 
     private AuthenticationServicePoint<Req, Res> authenticationServicePoint;
-    private Provider<JGuardCallbackHandler<Req, Res>> callbackHandlerProvider;
-    private AuthenticationManager authenticationManager;
+    private Provider<AsynchronousJGuardCallbackHandler<Req, Res>> callbackHandlerProvider;
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationChallengeFilter.class.getName());
 
     public AuthenticationChallengeFilter(AuthenticationServicePoint<Req, Res> authenticationServicePoint,
-                                         Provider<JGuardCallbackHandler<Req, Res>> callbackHandlerProvider,
-                                         AuthenticationManager authenticationManager) {
+                                         Provider<AsynchronousJGuardCallbackHandler<Req, Res>> callbackHandlerProvider) {
         this.authenticationServicePoint = authenticationServicePoint;
         this.callbackHandlerProvider = callbackHandlerProvider;
-        this.authenticationManager = authenticationManager;
     }
 
     public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
         JGuardCallbackHandler<Req, Res> callbackHandler = callbackHandlerProvider.get();
 
-        LoginContextWrapper loginContextWrapper = authenticationServicePoint.authenticate(callbackHandler, request);
+        LoginContextWrapper loginContextWrapper = authenticationServicePoint.authenticate(callbackHandler);
         if (!AuthenticationStatus.SUCCESS.equals(loginContextWrapper.getStatus())) {
             //authentication continue with another roundtrip
             //or authentication failed (401 for HTTP)

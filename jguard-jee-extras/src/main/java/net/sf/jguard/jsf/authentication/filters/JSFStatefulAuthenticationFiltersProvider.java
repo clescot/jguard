@@ -49,7 +49,8 @@ public class JSFStatefulAuthenticationFiltersProvider extends StatefulAuthentica
     @Inject
     public JSFStatefulAuthenticationFiltersProvider(AsynchronousJGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter> jGuardCallbackHandler,
                                                     List<AuthenticationFilter<FacesContextAdapter, FacesContextAdapter>> authenticationFilters,
-                                                    GuestPolicyEnforcementPointFilter<FacesContextAdapter, FacesContextAdapter> guestPolicyEnforcementPointFilter) {
+                                                    GuestPolicyEnforcementPointFilter<FacesContextAdapter, FacesContextAdapter> guestPolicyEnforcementPointFilter,
+                                                    FacesContextAdapter adapter) {
         super(jGuardCallbackHandler,
                 authenticationFilters,
                 guestPolicyEnforcementPointFilter,
@@ -61,7 +62,7 @@ public class JSFStatefulAuthenticationFiltersProvider extends StatefulAuthentica
                         }
                         propagateWithSecurity(wrapper.getSubject(), request, response, chain);
                     }
-                });
+                }, adapter);
     }
 
     @Override

@@ -47,9 +47,11 @@ public abstract class StatefulAuthenticationFiltersProvider<Req extends Request,
     public StatefulAuthenticationFiltersProvider(AsynchronousJGuardCallbackHandler<Req, Res> jGuardCallbackHandler,
                                                  List<AuthenticationFilter<Req, Res>> authenticationFilters,
                                                  GuestPolicyEnforcementPointFilter<Req, Res> policyEnforcementPointFilter,
-                                                 AuthenticationFilter<Req, Res> sessionAuthenticationFilter) {
+                                                 AuthenticationFilter<Req, Res> sessionAuthenticationFilter,
+                                                 Req request) {
         super(jGuardCallbackHandler, authenticationFilters, policyEnforcementPointFilter);
         this.sessionAuthenticationFilter = sessionAuthenticationFilter;
+        this.request = request;
     }
 
 

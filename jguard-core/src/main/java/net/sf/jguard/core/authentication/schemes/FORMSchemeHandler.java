@@ -44,7 +44,7 @@ public abstract class FORMSchemeHandler<Req extends Request, Res extends Respons
         return getLogonProcessPermission().implies(getPermissionFactory().getPermission(request));
     }
 
-    public boolean challengeNeeded(Req request, Res response) {
+    public boolean impliesChallenge() {
         return true;
     }
 

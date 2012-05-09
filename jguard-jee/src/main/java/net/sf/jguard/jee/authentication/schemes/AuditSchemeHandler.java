@@ -52,11 +52,9 @@ public abstract class AuditSchemeHandler<Req extends Request, Res extends Respon
      * like AuditSchemeHandler only records activity, it doesnt need to
      * request an authentication challenge.
      *
-     * @param request
-     * @param response
      * @return
      */
-    public boolean challengeNeeded(Req request, Res response) {
+    public boolean impliesChallenge() {
         return false;
     }
 

@@ -28,10 +28,8 @@ http://sourceforge.net/projects/jguard/
 package net.sf.jguard.core.authentication.loginmodules;
 
 import net.sf.jguard.core.authentication.callbacks.AuthenticationChallengeForCallbackHandlerException;
-import net.sf.jguard.core.authentication.callbacks.AuthenticationContinueForCallbackHandlerException;
 import net.sf.jguard.core.authentication.callbacks.AuthenticationSchemeHandlerCallback;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
-import net.sf.jguard.core.authentication.exception.AuthenticationContinueException;
 import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.core.authentication.manager.JGuardAuthenticationManagerMarkups;
 import org.slf4j.Logger;
@@ -180,8 +178,6 @@ public abstract class UserLoginModule implements LoginModule {
             throw new LoginException(ioe.toString());
         } catch (AuthenticationChallengeForCallbackHandlerException cnc) {
             throw new AuthenticationChallengeException(cnc.getMessage());
-        } catch (AuthenticationContinueForCallbackHandlerException cnc) {
-            throw new AuthenticationContinueException(cnc.getMessage());
         } catch (UnsupportedCallbackException uce) {
             throw new LoginException("Callback error : " + uce.getCallback().toString() +
                     " not available to authenticate the user");

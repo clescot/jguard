@@ -44,13 +44,14 @@ public class MockStatefulAuthenticationFiltersProvider extends StatefulAuthentic
     @Inject
     public MockStatefulAuthenticationFiltersProvider(AsynchronousJGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter> jGuardCallbackHandler,
                                                      @Restful List<AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>> authenticationFilters,
-                                                     GuestPolicyEnforcementPointFilter<MockRequestAdapter, MockResponseAdapter> guestPolicyEnforcementPointFilter) {
+                                                     GuestPolicyEnforcementPointFilter<MockRequestAdapter, MockResponseAdapter> guestPolicyEnforcementPointFilter,
+                                                     MockRequestAdapter request) {
         super(jGuardCallbackHandler, authenticationFilters, guestPolicyEnforcementPointFilter, new AuthenticationFilter<MockRequestAdapter, MockResponseAdapter>() {
 
             public void doFilter(MockRequestAdapter request, MockResponseAdapter response, FilterChain<MockRequestAdapter, MockResponseAdapter> chain) {
 
             }
-        });
+        }, request);
     }
 
 

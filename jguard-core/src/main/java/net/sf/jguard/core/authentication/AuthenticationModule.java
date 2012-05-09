@@ -29,8 +29,9 @@ package net.sf.jguard.core.authentication;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
-import net.sf.jguard.core.authentication.callbackhandler.MockCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.MockAsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.callbacks.GuestCallbacksProvider;
 import net.sf.jguard.core.authentication.configuration.*;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
@@ -89,8 +90,8 @@ public class AuthenticationModule extends AbstractModule {
         }).to(MockResponseAdapter.class);
         bind(new TypeLiteral<Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>>() {
         }).toProvider(MockAuthenticationSchemeHandlerProvider.class);
-        bind(new TypeLiteral<JGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter>>() {
-        }).to(MockCallbackHandler.class);
+        bind(new TypeLiteral<AsynchronousJGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter>>() {
+        }).to(MockAsynchronousJGuardCallbackHandler.class);
         bind(new TypeLiteral<AuthenticationChallengeFilter<MockRequestAdapter, MockResponseAdapter>>() {
         }).to(MockAuthenticationChallengeFilter.class);
         bind(new TypeLiteral<List<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>>() {
@@ -100,7 +101,7 @@ public class AuthenticationModule extends AbstractModule {
 
 
         //guest part of the module
-        bind(JGuardCallbackHandler.class).annotatedWith(Guest.class).to(MockCallbackHandler.class);
+        bind(JGuardCallbackHandler.class).annotatedWith(Guest.class).to(MockAsynchronousJGuardCallbackHandler.class);
         bind(new TypeLiteral<Collection<Callback>>() {
         }).toProvider(GuestCallbacksProvider.class);
         bind(Configuration.class).annotatedWith(Guest.class).toProvider(GuestConfigurationProvider.class);

@@ -39,7 +39,7 @@ import net.sf.jguard.core.lifecycle.Response;
 public interface AuthenticationServicePoint<Req extends Request, Res extends Response> {
 
 
-    LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler, Req req);
+    LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler);
 
 
     /**

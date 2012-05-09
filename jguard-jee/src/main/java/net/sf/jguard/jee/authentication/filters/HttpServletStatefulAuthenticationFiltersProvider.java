@@ -22,7 +22,8 @@ public class HttpServletStatefulAuthenticationFiltersProvider extends StatefulAu
     @Inject
     public HttpServletStatefulAuthenticationFiltersProvider(AsynchronousJGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> jGuardCallbackHandler,
                                                             List<AuthenticationFilter<HttpServletRequestAdapter, HttpServletResponseAdapter>> authenticationFilters,
-                                                            GuestPolicyEnforcementPointFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> guestPolicyEnforcementPointFilter) {
+                                                            GuestPolicyEnforcementPointFilter<HttpServletRequestAdapter, HttpServletResponseAdapter> guestPolicyEnforcementPointFilter,
+                                                            HttpServletRequestAdapter requestAdapter) {
         super(jGuardCallbackHandler,
                 authenticationFilters,
                 guestPolicyEnforcementPointFilter,
@@ -34,7 +35,7 @@ public class HttpServletStatefulAuthenticationFiltersProvider extends StatefulAu
                         }
                         propagateWithSecurity(wrapper.getSubject(), request, response, chain);
                     }
-                });
+                }, requestAdapter);
     }
 
 

@@ -62,7 +62,7 @@ public abstract class HookFormSchemeHandler<Req extends Request, Res extends Res
     }
 
 
-    public boolean challengeNeeded(Req request, Res response) {
+    public boolean impliesChallenge() {
         return true;
     }
 

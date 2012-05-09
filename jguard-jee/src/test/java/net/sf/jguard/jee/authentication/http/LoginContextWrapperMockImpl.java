@@ -32,13 +32,15 @@ import net.sf.jguard.core.authentication.LoginContextWrapperImpl;
 
 import javax.inject.Inject;
 import javax.security.auth.Subject;
+import javax.security.auth.login.Configuration;
 
 public class LoginContextWrapperMockImpl extends LoginContextWrapperImpl {
     private Subject subject = null;
 
     @Inject
-    public LoginContextWrapperMockImpl(@ApplicationName String applicationName) {
-        super(applicationName);
+    public LoginContextWrapperMockImpl(@ApplicationName String applicationName,
+                                       Configuration configuration) {
+        super(applicationName, configuration);
     }
 
     public Subject getSubject() {

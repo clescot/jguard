@@ -34,13 +34,12 @@ import com.google.inject.TypeLiteral;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.AuthenticationStatus;
 import net.sf.jguard.core.authentication.LoginContextWrapper;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.exception.AuthenticationException;
-import net.sf.jguard.core.authentication.manager.AuthenticationManager;
 import net.sf.jguard.jee.HttpServletRequestAdapter;
 import net.sf.jguard.jee.HttpServletResponseAdapter;
 import net.sf.jguard.jee.JGuardJEETest;
-import net.sf.jguard.jee.authentication.http.JGuardServletRequestWrapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockFilterChain;
@@ -49,7 +48,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletContext;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
 /**
  * test AuthenticationServicePoint.
@@ -60,10 +58,6 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
     private MockHttpServletRequest request = null;
     private MockHttpServletResponse response = null;
     private MockFilterChain filterChain = null;
-
-
-    private HttpServletRequestAdapter requestAdapter = null;
-    private HttpServletResponseAdapter responseAdapter = null;
 
 
     private LoginContextWrapper loginContextWrapper;
@@ -78,10 +72,7 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         request.setContextPath(APPLICATION_NAME);
         filterChain = new MockFilterChain();
 
-        AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
-        requestAdapter = new HttpServletRequestAdapter(new JGuardServletRequestWrapper(APPLICATION_NAME, authenticationManager, request, loginContextWrapper));
         response = new MockHttpServletResponse();
-        responseAdapter = new HttpServletResponseAdapter(response);
     }
 
 
@@ -103,8 +94,8 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         injector = Guice.createInjector(provideModules(request, response, filterChain));
         AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter> authenticationServicePoint = injector.getInstance(Key.get(new TypeLiteral<AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }));
-        JGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> callbackHandler = injector.getInstance(JGuardCallbackHandler.class);
-        AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler, requestAdapter).getStatus();
+        JGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> callbackHandler = injector.getInstance(AsynchronousJGuardCallbackHandler.class);
+        AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler).getStatus();
 
         assertEquals(AuthenticationStatus.FAILURE, status);
         assertEquals("/Logon.do", response.getForwardedUrl());
@@ -128,7 +119,7 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter> authenticationServicePoint = injector.getInstance(Key.get(new TypeLiteral<AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }));
         JGuardCallbackHandler callbackHandler = injector.getInstance(JGuardCallbackHandler.class);
-        AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler, requestAdapter).getStatus();
+        AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler).getStatus();
         assertEquals(AuthenticationStatus.SUCCESS, status);
     }
 

@@ -38,7 +38,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.Subject;
-import javax.security.auth.login.Configuration;
 import javax.security.auth.login.LoginException;
 import java.security.AccessControlContext;
 import java.security.AccessController;
@@ -54,39 +53,24 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractAuthenticationServicePoint.class.getName());
 
-    private Configuration configuration;
-    private String applicationName;
     private static final String AUTHENTICATION_SUCCEEDED = "authenticationSucceededDuringThisRequest";
+    protected LoginContextWrapper loginContextWrapper;
 
-    public AbstractAuthenticationServicePoint(Configuration configuration,
-                                              String applicationName) {
-        if (configuration.getAppConfigurationEntry(applicationName) == null) {
-            throw new IllegalArgumentException("configuration does not contains any AppConfigurationEntry for the application with the name=" + applicationName);
-        }
-        this.configuration = configuration;
-        this.applicationName = applicationName;
+    public AbstractAuthenticationServicePoint(LoginContextWrapper loginContextWrapper) {
+        this.loginContextWrapper = loginContextWrapper;
     }
 
 
-    public LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler, Req req) {
-        return authenticate(configuration, callbackHandler, req);
-    }
+    public LoginContextWrapper authenticate(
+            JGuardCallbackHandler<Req, Res> callbackHandler) throws AuthenticationException {
 
-
-    protected LoginContextWrapper authenticate(
-            Configuration configuration,
-            JGuardCallbackHandler<Req, Res> callbackHandler, Req request) throws AuthenticationException {
-
-        LoginContextWrapper loginContextWrapper = null;
         try {
-            //we grab the wrapper object which link the user via its session with authentication
-            loginContextWrapper = getLoginContextWrapper(request);
 
             //we use the wrapper object bound to user with the dedicated object(callabckHandler)
             //to communicate with him to authenticate
 
-            loginContextWrapper.login(callbackHandler, configuration);
-            authenticationSucceed(loginContextWrapper);
+            loginContextWrapper.login(callbackHandler);
+            authenticationSucceed();
 
 
             //propagate the authentication success
@@ -119,10 +103,8 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
     /**
      * method called when authentication succeed. it can be overriden by subclasses,
      * for, as an example, do some manipulation on Stateful sessions.
-     *
-     * @param loginContextWrapper
      */
-    protected void authenticationSucceed(LoginContextWrapper loginContextWrapper) {
+    protected void authenticationSucceed() {
     }
 
     /**
@@ -139,11 +121,6 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
             return null;
         }
         return Subject.getSubject(acc);
-    }
-
-
-    protected LoginContextWrapper getLoginContextWrapper(Req req) {
-        return new LoginContextWrapperImpl(applicationName);
     }
 
 

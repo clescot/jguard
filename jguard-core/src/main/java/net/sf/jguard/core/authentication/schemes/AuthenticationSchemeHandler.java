@@ -84,11 +84,9 @@ public interface AuthenticationSchemeHandler<Req extends Request, Res extends Re
      * need to build a challenge to collect some informations?
      * sometimes, it is not needed, like with an audit activity.
      *
-     * @param request
-     * @param response
      * @return
      */
-    boolean challengeNeeded(Req request, Res response);
+    boolean impliesChallenge();
 
 
     /**

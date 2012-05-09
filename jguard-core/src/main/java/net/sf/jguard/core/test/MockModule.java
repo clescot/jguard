@@ -3,6 +3,8 @@ package net.sf.jguard.core.test;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import net.sf.jguard.core.authentication.*;
+import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.MockAsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.*;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.authentication.schemes.MockAuthenticationSchemeHandlerProvider;
@@ -91,5 +93,7 @@ public class MockModule extends AbstractModule {
         bind(new TypeLiteral<List<AuthorizationFilter<MockRequestAdapter, MockResponseAdapter>>>() {
         }).toProvider(MockAuthorizationFiltersProvider.class);
 
+        bind(new TypeLiteral<AsynchronousJGuardCallbackHandler<MockRequestAdapter, MockResponseAdapter>>() {
+        }).to(MockAsynchronousJGuardCallbackHandler.class);
     }
 }

@@ -2,7 +2,6 @@ package net.sf.jguard.core.authentication.callbackhandler;
 
 import com.google.common.collect.Lists;
 import net.sf.jguard.core.authentication.callbacks.AuthenticationChallengeForCallbackHandlerException;
-import net.sf.jguard.core.authentication.callbacks.AuthenticationContinueForCallbackHandlerException;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockRequestAdapter;
@@ -25,15 +24,15 @@ public class AsynchronousJGuardCallbackHandlerTest {
 
     public static final String DUMMY_PROMPT = "dummyPrompt";
 
-    @Test(expected = AuthenticationContinueForCallbackHandlerException.class)
-    public void test_handle_answer_to_challenge_true_and_challenge_needed_true_implies_continue() throws Exception {
+    @Test
+    public void test_handle_answer_to_challenge_true_and_challenge_needed_true_implies_SUCCESS() throws Exception {
         //given
         MockRequestAdapter request = new MockRequestAdapter(new MockRequest());
         MockResponseAdapter response = new MockResponseAdapter(new MockResponse());
 
         AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter> authenticationSchemeHandler = mock(AuthenticationSchemeHandler.class);
         when(authenticationSchemeHandler.answerToChallenge(request, response)).thenReturn(true);
-        when(authenticationSchemeHandler.challengeNeeded(request, response)).thenReturn(true);
+        when(authenticationSchemeHandler.impliesChallenge()).thenReturn(true);
         Collection<Class<? extends Callback>> callbackClasses = Lists.newArrayList();
         callbackClasses.add(NameCallback.class);
         when(authenticationSchemeHandler.getCallbackTypes()).thenReturn(callbackClasses);
@@ -49,8 +48,6 @@ public class AsynchronousJGuardCallbackHandlerTest {
 
         //when
         mockCallbackHandler.handle(callbacks);
-        //then
-        verify(authenticationSchemeHandler).buildChallenge(request, response);
     }
 
 
@@ -62,7 +59,7 @@ public class AsynchronousJGuardCallbackHandlerTest {
 
         AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter> authenticationSchemeHandler = mock(AuthenticationSchemeHandler.class);
         when(authenticationSchemeHandler.answerToChallenge(request, response)).thenReturn(true);
-        when(authenticationSchemeHandler.challengeNeeded(request, response)).thenReturn(false);
+        when(authenticationSchemeHandler.impliesChallenge()).thenReturn(false);
         Collection<Class<? extends Callback>> callbackClasses = Lists.newArrayList();
         callbackClasses.add(NameCallback.class);
         when(authenticationSchemeHandler.getCallbackTypes()).thenReturn(callbackClasses);
@@ -89,7 +86,7 @@ public class AsynchronousJGuardCallbackHandlerTest {
 
         AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter> authenticationSchemeHandler = mock(AuthenticationSchemeHandler.class);
         when(authenticationSchemeHandler.answerToChallenge(request, response)).thenReturn(false);
-        when(authenticationSchemeHandler.challengeNeeded(request, response)).thenReturn(false);
+        when(authenticationSchemeHandler.impliesChallenge()).thenReturn(false);
         Collection<Class<? extends Callback>> callbackClasses = Lists.newArrayList();
         callbackClasses.add(NameCallback.class);
         when(authenticationSchemeHandler.getCallbackTypes()).thenReturn(callbackClasses);
@@ -117,7 +114,7 @@ public class AsynchronousJGuardCallbackHandlerTest {
 
         AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter> authenticationSchemeHandler = mock(AuthenticationSchemeHandler.class);
         when(authenticationSchemeHandler.answerToChallenge(request, response)).thenReturn(false);
-        when(authenticationSchemeHandler.challengeNeeded(request, response)).thenReturn(true);
+        when(authenticationSchemeHandler.impliesChallenge()).thenReturn(true);
         Collection<Class<? extends Callback>> callbackClasses = Lists.newArrayList();
         callbackClasses.add(NameCallback.class);
         when(authenticationSchemeHandler.getCallbackTypes()).thenReturn(callbackClasses);
@@ -146,7 +143,7 @@ public class AsynchronousJGuardCallbackHandlerTest {
 
         AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter> authenticationSchemeHandler = mock(AuthenticationSchemeHandler.class);
         when(authenticationSchemeHandler.answerToChallenge(request, response)).thenReturn(false);
-        when(authenticationSchemeHandler.challengeNeeded(request, response)).thenReturn(true);
+        when(authenticationSchemeHandler.impliesChallenge()).thenReturn(true);
         Collection<Class<? extends Callback>> callbackClasses = Lists.newArrayList();
         callbackClasses.add(NameCallback.class);
         when(authenticationSchemeHandler.getCallbackTypes()).thenReturn(callbackClasses);
