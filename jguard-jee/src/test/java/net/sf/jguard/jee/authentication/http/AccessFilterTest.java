@@ -234,7 +234,7 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
 
             guiceFilter.doFilter(request, response, filterChain);
 
-            assertTrue("HTTP status code is not 200 but " + response.getStatus(), HTTP_CODE_200 == response.getStatus());
+            assertTrue("HTTP status code is not 200 but " + response.getStatus(), HTTP_CODE_403 == response.getStatus());
         } catch (IOException e) {
             fail(e.getMessage());
         } catch (ServletException e) {
