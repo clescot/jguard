@@ -32,11 +32,11 @@ public class GuestAuthenticationFilterTest extends FilterTest {
 
             }
         };
-        Subject subject = authenticationServicePoint.getCurrentSubject();
+        Subject subject = authenticationServicePoint.getCurrentSubject(requestAdapter);
         Assert.assertNull(subject);
         authenticationFilter.doFilter(requestAdapter, responseAdapter, filterChain);
-        Assert.assertNull(authenticationServicePoint.getCurrentSubject());
-        Assert.assertSame(subject, authenticationServicePoint.getCurrentSubject());
+        Assert.assertNull(authenticationServicePoint.getCurrentSubject(requestAdapter));
+        Assert.assertSame(subject, authenticationServicePoint.getCurrentSubject(requestAdapter));
 
     }
 

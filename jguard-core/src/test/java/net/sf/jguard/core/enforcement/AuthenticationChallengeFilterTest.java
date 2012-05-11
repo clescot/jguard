@@ -14,6 +14,8 @@ import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 
+import static org.hamcrest.Matchers.*;
+
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
@@ -34,11 +36,11 @@ public class AuthenticationChallengeFilterTest extends FilterTest {
         //will use the real authenticationServicePoint
         authenticationServicePoint.setEnableHook(false);
 
-        Assert.assertNull(authenticationServicePoint.getCurrentSubject());
+        Assert.assertNull(authenticationServicePoint.getCurrentSubject(request));
         policyEnforcementPoint.doFilter(request, response);
-        //current subject is null because authentication succeed,
+        //current subject is not null because authentication succeed,
         //so subject is put in the session, and can be grabbed anytime
-        Assert.assertNull(authenticationServicePoint.getCurrentSubject());
+        Assert.assertThat(authenticationServicePoint.getCurrentSubject(request), is(not(nullValue())));
     }
 
 
@@ -48,7 +50,7 @@ public class AuthenticationChallengeFilterTest extends FilterTest {
             public void doFilter(MockRequestAdapter mockRequestRequest, MockResponseAdapter mockResponseResponse, FilterChain<MockRequestAdapter, MockResponseAdapter> mockRequestMockResponseFilterChain) {
                 //we use the regular code and not the HOOK one
                 authenticationServicePoint.setEnableHook(false);
-                Assert.assertNotNull(authenticationServicePoint.getCurrentSubject());
+                Assert.assertNotNull(authenticationServicePoint.getCurrentSubject(request));
             }
         });
         policyEnforcementPoint.doFilter(request, response);
@@ -60,7 +62,7 @@ public class AuthenticationChallengeFilterTest extends FilterTest {
         schemeHandler.setAnswerToChallenge(false);
         schemeHandler.setChallengeNeeded(true);
         policyEnforcementPoint.doFilter(request, response);
-        Assert.assertNull(authenticationServicePoint.getCurrentSubject());
+        Assert.assertNull(authenticationServicePoint.getCurrentSubject(request));
     }
 
 

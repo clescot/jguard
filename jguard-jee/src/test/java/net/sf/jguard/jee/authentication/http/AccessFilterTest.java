@@ -42,6 +42,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.*;
 
 import javax.servlet.ServletContextEvent;
@@ -82,13 +84,9 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
     protected static final String WEIRD_JSP = "/weird.jsp";
     protected static final int HTTP_CODE_401 = 401;
     protected static final int HTTP_CODE_403 = 403;
+    protected static final int HTTP_CODE_200 = 200;
+
     protected static final String RICK_SPACE_DO = "/RickSpace.do";
-
-    public MockHttpServletRequest request = new MockHttpServletRequest(context, GET, WELCOME_DO);
-    protected GuiceFilter guiceFilter = new GuiceFilter();
-    public HttpServletResponse response = new MockHttpServletResponse();
-
-    public DummyContextListener dummyContextListener;
 
 
     public Injector injector;
@@ -105,6 +103,16 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
     protected static final String JGUARD_STRUTS_EXAMPLE = JGuardTestFiles.JGUARD_STRUTS_EXAMPLE.getLabel();
     protected static final String J_GUARD_AUTHENTICATION_XML = JGuardTestFiles.J_GUARD_AUTHENTICATION_XML.getLabel();
     protected static final String J_GUARD_AUTHORIZATION_XML = JGuardTestFiles.J_GUARD_AUTHORIZATION_XML.getLabel();
+
+
+    public MockHttpServletRequest request = new MockHttpServletRequest(context, GET, WELCOME_DO);
+    protected GuiceFilter guiceFilter = new GuiceFilter();
+    public HttpServletResponse response = new MockHttpServletResponse();
+
+    public DummyContextListener dummyContextListener;
+
+    private static final Logger logger = LoggerFactory.getLogger(AccessFilterTest.class.getName());
+
 
     @Before
     public void setUp() throws ServletException {
@@ -226,7 +234,7 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
 
             guiceFilter.doFilter(request, response, filterChain);
 
-            assertTrue("HTTP status code is not 403 but " + response.getStatus(), HTTP_CODE_403 == response.getStatus());
+            assertTrue("HTTP status code is not 200 but " + response.getStatus(), HTTP_CODE_200 == response.getStatus());
         } catch (IOException e) {
             fail(e.getMessage());
         } catch (ServletException e) {
@@ -338,8 +346,9 @@ public class AccessFilterTest extends JGuardJEETest implements SecurityTestCase 
 
     @Test
     public void testLogoff() throws IOException, ServletException {
+        logger.info("before authenticating as admin");
         MockHttpSession session = authenticateAsAdminSuccessfully();
-
+        logger.info("after authenticating as admin");
         MockHttpServletRequest logoffRequest = new MockHttpServletRequest(context, GET, LOGOFF_DO);
         logoffRequest.setServletPath(LOGOFF_DO);
         logoffRequest.setSession(session);

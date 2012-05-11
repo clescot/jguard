@@ -1,9 +1,9 @@
 package net.sf.jguard.core.authentication.filters;
 
 import com.google.inject.Provider;
+import net.sf.jguard.core.authentication.AuthenticationResult;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.AuthenticationStatus;
-import net.sf.jguard.core.authentication.LoginContextWrapper;
 import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.filters.FilterChain;
@@ -34,14 +34,14 @@ public abstract class AuthenticationChallengeFilter<Req extends Request, Res ext
     public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
         JGuardCallbackHandler<Req, Res> callbackHandler = callbackHandlerProvider.get();
 
-        LoginContextWrapper loginContextWrapper = authenticationServicePoint.authenticate(callbackHandler);
-        if (!AuthenticationStatus.SUCCESS.equals(loginContextWrapper.getStatus())) {
+        AuthenticationResult authenticationResult = authenticationServicePoint.authenticate(callbackHandler, request);
+        if (!AuthenticationStatus.SUCCESS.equals(authenticationResult.getStatus())) {
             //authentication continue with another roundtrip
             //or authentication failed (401 for HTTP)
             logger.debug("authentication does NOT succeed");
         } else {
             logger.debug("authentication succeed");
-            propagateWithSecurity(loginContextWrapper.getSubject(), request, response, chain);
+            propagateWithSecurity(authenticationResult.getSubject(), request, response, chain);
         }
 
     }

@@ -13,8 +13,8 @@ public class GuestSubjectProvider implements Provider<Subject> {
     @Inject
     public GuestSubjectProvider(MockAuthenticationServicePoint authenticationServicePoint) {
         if (subject == null) {
-            LoginContextWrapper wrapper = authenticationServicePoint.impersonateAsGuest();
-            subject = wrapper.getSubject();
+            AuthenticationResult authenticationResult = authenticationServicePoint.impersonateAsGuest();
+            subject = authenticationResult.getSubject();
             if (null == subject) {
                 throw new ProvisionException("provided subject is null");
             }

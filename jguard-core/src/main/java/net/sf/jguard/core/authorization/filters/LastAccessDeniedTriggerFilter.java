@@ -28,7 +28,6 @@
 package net.sf.jguard.core.authorization.filters;
 
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
-import net.sf.jguard.core.authentication.StatefulAuthenticationServicePoint;
 import net.sf.jguard.core.authorization.AuthorizationBindings;
 import net.sf.jguard.core.authorization.policy.AccessControllerWrapperImpl;
 import net.sf.jguard.core.filters.FilterChain;
@@ -70,7 +69,7 @@ public abstract class LastAccessDeniedTriggerFilter<Req extends StatefulRequest,
             Permission permissionToProceed;
 
             //we grab the current subject
-            Subject subject = StatefulAuthenticationServicePoint.getCurrentSubject(request);
+            Subject subject = authenticationServicePoint.getCurrentSubject(request);
             if (null == subject) {
                 throw new IllegalStateException("current subject cannot be null");
             }

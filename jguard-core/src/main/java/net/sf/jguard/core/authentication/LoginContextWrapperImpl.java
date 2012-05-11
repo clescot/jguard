@@ -53,7 +53,6 @@ public class LoginContextWrapperImpl implements LoginContextWrapper {
 
     private LoginContext loginContext = null;
     private Subject subject = null;
-    private AuthenticationStatus status;
     private boolean loggedOut = false;
     private static final Logger logger = LoggerFactory.getLogger(LoginContextWrapperImpl.class.getName());
     private String applicationName;
@@ -72,7 +71,7 @@ public class LoginContextWrapperImpl implements LoginContextWrapper {
      * @param callbackHandler
      * @throws LoginException
      */
-    public void login(CallbackHandler callbackHandler) throws LoginException {
+    public Subject login(CallbackHandler callbackHandler) throws LoginException {
         loginContext = new LoginContext(applicationName, new Subject(), callbackHandler, configuration);
         try {
             loginContext.login();
@@ -91,15 +90,6 @@ public class LoginContextWrapperImpl implements LoginContextWrapper {
             UserPrincipal userPrincipal = new UserPrincipal(subject);
             subject.getPrincipals().add(userPrincipal);
         }
-
-    }
-
-    /**
-     * retrieve the subject from the loginContext.
-     *
-     * @return authenticated Subject, otherwise <strong>null</strong>.
-     */
-    public Subject getSubject() {
         return subject;
     }
 
@@ -124,19 +114,8 @@ public class LoginContextWrapperImpl implements LoginContextWrapper {
         }
     }
 
-
-    /**
-     * @return the status
-     */
-    public AuthenticationStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(AuthenticationStatus status) {
-        this.status = status;
+    public Subject getSubject() {
+        return subject;
     }
 
 

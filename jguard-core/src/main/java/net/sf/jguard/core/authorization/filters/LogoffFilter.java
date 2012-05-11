@@ -58,7 +58,7 @@ public abstract class LogoffFilter<Req extends StatefulRequest, Res extends Resp
     }
 
     public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
-        if (userIsLogged()
+        if (userIsLogged(request)
                 && authenticationServicePoint.userTriesToLogout(request, authorizationBindings.getPermissionRequested(request))) {
             request.invalidateSession();
             authenticationServicePoint.logout(request);
@@ -66,8 +66,8 @@ public abstract class LogoffFilter<Req extends StatefulRequest, Res extends Resp
         chain.doFilter(request, response);
     }
 
-    private boolean userIsLogged() {
-        Subject currentSubject = authenticationServicePoint.getCurrentSubject();
+    private boolean userIsLogged(Req req) {
+        Subject currentSubject = authenticationServicePoint.getCurrentSubject(req);
         return null != currentSubject
                 && !guest.equals(currentSubject);
     }

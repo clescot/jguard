@@ -2,17 +2,20 @@ package net.sf.jguard.core.authentication;
 
 import com.google.inject.Singleton;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
+import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
+import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockRequestAdapter;
 import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
 import javax.inject.Inject;
 import javax.security.auth.Subject;
+import java.util.Collection;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
  */
 @Singleton
-public class MockAuthenticationServicePoint extends AbstractAuthenticationServicePoint<MockRequestAdapter, MockResponseAdapter> {
+public class MockAuthenticationServicePoint extends StatefulAuthenticationServicePoint<MockRequestAdapter, MockResponseAdapter> {
 
     private boolean authenticationSucceededDuringThisRequest;
     private Subject subject;
@@ -23,8 +26,9 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
 
     @Inject
     public MockAuthenticationServicePoint(LoginContextWrapper loginContextWrapper,
-                                          @Guest JGuardCallbackHandler guestCallbackHandler) {
-        super(loginContextWrapper);
+                                          @Guest JGuardCallbackHandler guestCallbackHandler,
+                                          Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers) {
+        super(authenticationSchemeHandlers, loginContextWrapper);
         this.guestCallbackHandler = guestCallbackHandler;
     }
 
@@ -43,12 +47,6 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
         this.subject = subject;
     }
 
-    public Subject getSubject() {
-        if (!enableHook) {
-            return AbstractAuthenticationServicePoint.getCurrentSubject();
-        }
-        return subject;
-    }
 
     public void setEnableHook(boolean enableHook) {
         this.enableHook = enableHook;
@@ -67,7 +65,7 @@ public class MockAuthenticationServicePoint extends AbstractAuthenticationServic
      *
      * @return wrapper around the Guest Subject
      */
-    public LoginContextWrapper impersonateAsGuest() {
-        return authenticate(guestCallbackHandler);
+    public AuthenticationResult impersonateAsGuest() {
+        return authenticate(guestCallbackHandler, new MockRequestAdapter(new MockRequest()));
     }
 }

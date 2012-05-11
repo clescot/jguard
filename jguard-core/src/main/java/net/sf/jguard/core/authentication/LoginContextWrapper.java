@@ -36,14 +36,11 @@ import javax.security.auth.login.LoginException;
  */
 public interface LoginContextWrapper {
 
-    void login(CallbackHandler callbackHandler) throws LoginException;
+    Subject login(CallbackHandler callbackHandler) throws LoginException;
 
     void logout();
 
     Subject getSubject();
 
-    AuthenticationStatus getStatus();
-
-    void setStatus(AuthenticationStatus status);
 
 }

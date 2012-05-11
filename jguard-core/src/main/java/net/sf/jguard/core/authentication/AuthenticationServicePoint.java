@@ -31,6 +31,8 @@ import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 
+import javax.security.auth.Subject;
+
 /**
  * central point of authentication.
  *
@@ -39,7 +41,7 @@ import net.sf.jguard.core.lifecycle.Response;
 public interface AuthenticationServicePoint<Req extends Request, Res extends Response> {
 
 
-    LoginContextWrapper authenticate(JGuardCallbackHandler<Req, Res> callbackHandler);
+    AuthenticationResult authenticate(JGuardCallbackHandler<Req, Res> callbackHandler, Req req);
 
 
     /**
@@ -51,4 +53,6 @@ public interface AuthenticationServicePoint<Req extends Request, Res extends Res
      * @return
      */
     boolean authenticationSucceededDuringThisRequest(Req request, Res response);
+
+    Subject getCurrentSubject(Req request);
 }

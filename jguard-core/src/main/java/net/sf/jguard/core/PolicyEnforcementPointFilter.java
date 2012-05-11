@@ -122,9 +122,9 @@ public abstract class PolicyEnforcementPointFilter<Req extends StatefulRequest, 
      * @throws net.sf.jguard.core.authentication.exception.AuthenticationException
      *          when authentication fails
      */
-    private AuthenticationStatus authenticateAfterRegistration(JGuardCallbackHandler<Req, Res> callbackHandler) {
+    private AuthenticationStatus authenticateAfterRegistration(JGuardCallbackHandler<Req, Res> callbackHandler, Req req) {
 
-        return authenticationServicePoint.authenticate(callbackHandler).getStatus();
+        return authenticationServicePoint.authenticate(callbackHandler, req).getStatus();
 
     }
 

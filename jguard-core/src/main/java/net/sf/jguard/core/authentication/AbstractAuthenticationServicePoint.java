@@ -61,42 +61,40 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
     }
 
 
-    public LoginContextWrapper authenticate(
-            JGuardCallbackHandler<Req, Res> callbackHandler) throws AuthenticationException {
-
+    public AuthenticationResult authenticate(
+            JGuardCallbackHandler<Req, Res> callbackHandler, Req req) throws AuthenticationException {
+        AuthenticationStatus authenticationStatus = null;
+        Subject subject = null;
         try {
 
             //we use the wrapper object bound to user with the dedicated object(callabckHandler)
             //to communicate with him to authenticate
 
-            loginContextWrapper.login(callbackHandler);
-            authenticationSucceed();
+            subject = loginContextWrapper.login(callbackHandler);
+            authenticationSucceed(loginContextWrapper, req);
 
 
             //propagate the authentication success
-            callbackHandler.authenticationSucceed(loginContextWrapper.getSubject());
-            loginContextWrapper.setStatus(AuthenticationStatus.SUCCESS);
-            return loginContextWrapper;
+            callbackHandler.authenticationSucceed(subject);
+            authenticationStatus = AuthenticationStatus.SUCCESS;
+
 
         } catch (AuthenticationContinueException ace) {
             //the current AuthenticationScheme needs multiple roundtrips
             logger.debug("authentication is not yet complete. a new exchange between client and server is required " + ace.getMessage());
-            loginContextWrapper.setStatus(AuthenticationStatus.CONTINUE);
-            return loginContextWrapper;
+            authenticationStatus = AuthenticationStatus.CONTINUE;
         } catch (AuthenticationChallengeException ace) {
             //the callbackHandle handle this case. we only need here to go back the call to the user
             logger.debug("authentication challenge built. a new exchange between client and server is required " + ace.getMessage());
-            loginContextWrapper.setStatus(AuthenticationStatus.FAILURE);
-            return loginContextWrapper;
+            authenticationStatus = AuthenticationStatus.FAILURE;
 
         } catch (LoginException e) {
 
             logger.info("authentication failed " + e.getMessage(), e);
-
             callbackHandler.authenticationFailed();
-            loginContextWrapper.setStatus(AuthenticationStatus.FAILURE);
-            return loginContextWrapper;
-
+            authenticationStatus = AuthenticationStatus.FAILURE;
+        } finally {
+            return new AuthenticationResult(authenticationStatus, loginContextWrapper);
         }
     }
 
@@ -104,7 +102,7 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
      * method called when authentication succeed. it can be overriden by subclasses,
      * for, as an example, do some manipulation on Stateful sessions.
      */
-    protected void authenticationSucceed() {
+    protected void authenticationSucceed(LoginContextWrapper loginContextWrapper, Req Req) {
     }
 
     /**
@@ -113,7 +111,7 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
      * @return authenticated PersistedSubject or null if user is not authenticated
      * @throws SecurityException the caller does not have the permission to call the subject
      */
-    public static <Req extends Request> Subject getCurrentSubject() {
+    public Subject getCurrentSubject(Req req) {
         AccessControlContext acc = AccessController.getContext();
         if (acc == null) {
             //acc== null signifies System code,

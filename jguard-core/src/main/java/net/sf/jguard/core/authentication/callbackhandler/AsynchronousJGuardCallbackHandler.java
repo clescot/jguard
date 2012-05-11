@@ -16,7 +16,6 @@ public abstract class AsynchronousJGuardCallbackHandler<Req extends Request, Res
 
     @Override
     protected void handle(Callback[] callbacks, AuthenticationSchemeHandler<Req, Res> authenticationSchemeHandler) throws UnsupportedCallbackException {
-        super.handle(callbacks, authenticationSchemeHandler);
         if (!authenticationSchemeHandler.answerToChallenge(request, response)
                 && authenticationSchemeHandler.impliesChallenge()) {
             //user has not yet tried to answer to an authentication challenge
@@ -26,6 +25,7 @@ public abstract class AsynchronousJGuardCallbackHandler<Req extends Request, Res
 
             throw new AuthenticationChallengeForCallbackHandlerException(null, authenticationSchemeHandler.getName());
         }
+        super.handle(callbacks, authenticationSchemeHandler);
 
 
     }

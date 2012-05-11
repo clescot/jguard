@@ -60,27 +60,27 @@ public abstract class StatefulAuthenticationServicePoint<Req extends StatefulReq
      *
      * @param loginContextWrapper
      */
-    protected void authenticationSucceed(LoginContextWrapper loginContextWrapper, Req Req) {
+    protected void authenticationSucceed(LoginContextWrapper loginContextWrapper, Req req) {
 
 
         //we remove this variable before invalidate the session
         //to prevent the session listener to erase the subject
-        Req.removeSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
+        req.removeSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
 
         //we move variables bound , from the old session to the new one
         Map<String, Object> sessionEntries = new HashMap<String, Object>();
-        Iterator<String> it = Req.getSessionAttributeNames();
+        Iterator<String> it = req.getSessionAttributeNames();
         while (it.hasNext()) {
             String key = it.next();
-            Object value = Req.getSessionAttribute(key);
+            Object value = req.getSessionAttribute(key);
             sessionEntries.put(key, value);
         }
 
-        Req.invalidateSession();
+        req.invalidateSession();
 
-        Req.setSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapper);
+        req.setSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapper);
         for (Map.Entry<String, Object> stringObjectEntry : sessionEntries.entrySet()) {
-            Req.setSessionAttribute(stringObjectEntry.getKey(), stringObjectEntry.getValue());
+            req.setSessionAttribute(stringObjectEntry.getKey(), stringObjectEntry.getValue());
         }
 
     }
@@ -95,13 +95,13 @@ public abstract class StatefulAuthenticationServicePoint<Req extends StatefulReq
      *
      * @return current Subject
      */
-    public static <Req extends StatefulRequest> Subject getCurrentSubject(Req req) {
+    public Subject getCurrentSubject(Req req) {
         Subject subject;
-        LoginContextWrapper loginContextWrapperImpl = (LoginContextWrapperImpl) req.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
-        if (loginContextWrapperImpl != null) {
-            subject = loginContextWrapperImpl.getSubject();
+        LoginContextWrapper loginContextWrapper = (LoginContextWrapper) req.getSessionAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER);
+        if (loginContextWrapper != null) {
+            subject = loginContextWrapper.getSubject();
         } else {
-            subject = AbstractAuthenticationServicePoint.getCurrentSubject();
+            subject = super.getCurrentSubject(req);
         }
 
         return subject;
