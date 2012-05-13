@@ -79,6 +79,7 @@ public class JGuardServletRequestWrapperTest extends JGuardJEETest {
 
     @Test
     public void testIsUserInRole() {
+        //given
         HttpServletRequestSimulator request = new HttpServletRequestSimulator();
         HttpSessionSimulator session = new HttpSessionSimulator();
         request.setSession(session);
@@ -108,21 +109,49 @@ public class JGuardServletRequestWrapperTest extends JGuardJEETest {
     }
 
     @Test
-    public void testGetRemoteUser() {
+    public void testGetRemoteUser_nominal_case() {
         HttpServletRequestSimulator request = new HttpServletRequestSimulator();
 
         // Mock subject and credential
         Subject subj = new Subject();
         JGuardCredential login = new JGuardCredential(LOGIN, TEST_USER);
+        subj.getPublicCredentials().add(login);
         LoginContextWrapperMockImpl loginContextWrapperMock = new LoginContextWrapperMockImpl(applicationName, configuration);
         loginContextWrapperMock.setSubject(subj);
 
         request.getSession(true).setAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapperMock);
         JGuardServletRequestWrapper wrapper = new JGuardServletRequestWrapper(applicationName, authenticationManager, request, loginContextWrapperMock);
 
+        when(authenticationManager.getIdentityCredential(subj)).thenReturn(login);
+
+
         // Testing with public credentials
         subj.getPublicCredentials().add(login);
         assertEquals(TEST_USER, wrapper.getRemoteUser());
+
+
+    }
+
+    @Test
+    public void testGetRemoteUser_with_identityCredential_inprivateCredentials() {
+        HttpServletRequestSimulator request = new HttpServletRequestSimulator();
+
+        // Mock subject and credential
+        Subject subj = new Subject();
+        JGuardCredential login = new JGuardCredential(LOGIN, TEST_USER);
+        subj.getPublicCredentials().add(login);
+        LoginContextWrapperMockImpl loginContextWrapperMock = new LoginContextWrapperMockImpl(applicationName, configuration);
+        loginContextWrapperMock.setSubject(subj);
+
+        request.getSession(true).setAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapperMock);
+        JGuardServletRequestWrapper wrapper = new JGuardServletRequestWrapper(applicationName, authenticationManager, request, loginContextWrapperMock);
+
+        when(authenticationManager.getIdentityCredential(subj)).thenReturn(null);
+
+
+        // Testing with public credentials
+        subj.getPublicCredentials().add(login);
+
 
         // Testing with private credentials
         subj.getPublicCredentials().clear();
@@ -130,10 +159,32 @@ public class JGuardServletRequestWrapperTest extends JGuardJEETest {
         subj.getPrivateCredentials().add(login);
         //login can only be present in the public subject credential set
         assertNull(TEST_USER, wrapper.getRemoteUser());
+    }
+
+    @Test
+    public void testGetRemoteUser_with_no_valid_credentials() {
+        HttpServletRequestSimulator request = new HttpServletRequestSimulator();
+
+        // Mock subject and credential
+        Subject subj = new Subject();
+        JGuardCredential login = new JGuardCredential(LOGIN, TEST_USER);
+        subj.getPublicCredentials().add(login);
+        LoginContextWrapperMockImpl loginContextWrapperMock = new LoginContextWrapperMockImpl(applicationName, configuration);
+        loginContextWrapperMock.setSubject(subj);
+
+        request.getSession(true).setAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER, loginContextWrapperMock);
+        JGuardServletRequestWrapper wrapper = new JGuardServletRequestWrapper(applicationName, authenticationManager, request, loginContextWrapperMock);
+
+        JGuardCredential invalidCredential = new JGuardCredential(DUMMY_VALUE, DUMMY_VALUE);
+        when(authenticationManager.getIdentityCredential(subj)).thenReturn(null);
+
+
+        // Testing with public credentials
+        subj.getPublicCredentials().add(login);
+
 
         // Testing with no valid credential
         Subject invalidSubj = new Subject();
-        JGuardCredential invalidCredential = new JGuardCredential(DUMMY_VALUE, DUMMY_VALUE);
         invalidSubj.getPublicCredentials().add(invalidCredential);
         invalidSubj.getPrivateCredentials().add(invalidCredential);
         ((LoginContextWrapperMockImpl) request.getSession().getAttribute(StatefulAuthenticationServicePoint.LOGIN_CONTEXT_WRAPPER)).setSubject(invalidSubj);
