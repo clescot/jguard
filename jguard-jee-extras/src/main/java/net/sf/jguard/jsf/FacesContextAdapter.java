@@ -1,6 +1,5 @@
 package net.sf.jguard.jsf;
 
-import com.google.inject.servlet.RequestScoped;
 import net.sf.jguard.core.lifecycle.Response;
 import net.sf.jguard.core.lifecycle.StatefulRequest;
 
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Iterator;
 
-@RequestScoped
 public class FacesContextAdapter implements StatefulRequest<FacesContext>, Response<FacesContext> {
 
     private FacesContext facesContext;

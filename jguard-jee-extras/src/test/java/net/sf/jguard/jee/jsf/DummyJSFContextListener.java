@@ -40,6 +40,8 @@ import net.sf.jguard.jsf.JSFModule;
 public class DummyJSFContextListener extends ContextListener {
 
 
+    private static Module jsfModule = new JSFModule();
+
     @Override
     public ServletModule getServletModule() {
 
@@ -53,7 +55,11 @@ public class DummyJSFContextListener extends ContextListener {
 
     @Override
     public Module getTechnologySpecificModule() {
-        return new JSFModule();
+        return jsfModule;
+    }
+
+    public static void setTechnologySpecificModule(Module jsfModule) {
+        DummyJSFContextListener.jsfModule = jsfModule;
     }
 
     public Injector getBuiltInjector() {

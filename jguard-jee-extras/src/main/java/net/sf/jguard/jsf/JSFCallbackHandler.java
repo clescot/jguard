@@ -9,7 +9,9 @@ import java.util.Collection;
 public class JSFCallbackHandler extends AsynchronousJGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter> {
 
     @Inject
-    public JSFCallbackHandler(FacesContextAdapter request, FacesContextAdapter response, Collection<AuthenticationSchemeHandler<FacesContextAdapter, FacesContextAdapter>> authenticationSchemeHandlers) {
+    public JSFCallbackHandler(FacesContextAdapter request, FacesContextAdapter response,
+                              Collection<AuthenticationSchemeHandler<FacesContextAdapter,
+                                      FacesContextAdapter>> authenticationSchemeHandlers) {
         super(request, response, authenticationSchemeHandlers);
     }
 

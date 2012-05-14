@@ -163,6 +163,9 @@ public class Permission<T extends java.security.Permission> {
         } catch (NoSuchMethodException e) {
             logger.error("method not found =", e);
         }
+        if (newPerm == null) {
+            throw new IllegalArgumentException("permission with class='" + clazz.getName() + "' name='" + name + "' actions='" + actions + "' cannot be instantiated ");
+        }
         return newPerm;
     }
 

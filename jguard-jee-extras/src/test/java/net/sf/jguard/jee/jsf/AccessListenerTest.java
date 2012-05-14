@@ -27,8 +27,11 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.jee.jsf;
 
+import com.google.inject.Binder;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.servlet.GuiceFilter;
+import com.google.inject.util.Modules;
 import com.mycila.testing.junit.MycilaJunitRunner;
 import net.sf.jguard.core.PolicyEnforcementPointOptions;
 import net.sf.jguard.core.authentication.manager.AbstractAuthenticationManager;
@@ -38,6 +41,7 @@ import net.sf.jguard.jee.HttpConstants;
 import net.sf.jguard.jee.SecurityTestCase;
 import net.sf.jguard.jee.listeners.ContextListener;
 import net.sf.jguard.jsf.AccessListener;
+import net.sf.jguard.jsf.JSFModule;
 import org.apache.myfaces.lifecycle.LifecycleImpl;
 import org.apache.shale.test.base.AbstractViewControllerTestCase;
 import org.junit.Before;
@@ -49,6 +53,7 @@ import org.springframework.mock.web.MockFilterConfig;
 
 import javax.faces.application.NavigationHandler;
 import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContextEvent;
@@ -125,10 +130,17 @@ public class AccessListenerTest extends AbstractViewControllerTestCase implement
         servletContext.setDocumentRoot(new File(here.toURI()));
 
         dummyContextListener = new DummyJSFContextListener();
-
+        JSFModule jsfModule = new JSFModule();
+        Module testModule = new Module() {
+            public void configure(Binder binder) {
+                binder.bind(FacesContext.class).toInstance(facesContext);
+            }
+        };
+        dummyContextListener.setTechnologySpecificModule(Modules.combine(jsfModule, testModule));
         ServletContextEvent servletContextEvent = new ServletContextEvent(servletContext);
         dummyContextListener.contextInitialized(servletContextEvent);
         injector = dummyContextListener.getBuiltInjector();
+
         filterChain = new MockFilterChain();
         MockFilterConfig filterConfig = new MockFilterConfig(servletContext);
         guiceFilter.init(filterConfig);

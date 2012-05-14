@@ -159,6 +159,12 @@ public class RolePrincipal implements PermissionContainer, Cloneable {
     }
 
     public static Permission translateToJGuardPermission(java.security.Permission permission) {
+        if (permission == null) {
+            throw new IllegalArgumentException("permission must not be null");
+        }
+        if (permission.getName() == null) {
+            throw new IllegalArgumentException("permission name must not be null");
+        }
         return new Permission(permission.getClass(), permission.getName(), permission.getActions());
     }
 

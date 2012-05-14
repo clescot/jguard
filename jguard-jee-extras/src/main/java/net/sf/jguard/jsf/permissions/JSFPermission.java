@@ -60,6 +60,13 @@ public final class JSFPermission extends BasicPermission {
         pattern = Pattern.compile(name);
     }
 
+    /**
+     * @param name view Id
+     */
+    public JSFPermission(String name, String actions) {
+        this(name);
+    }
+
     public boolean equals(Object obj) {
         if (obj != null && obj instanceof JSFPermission) {
             JSFPermission jsfp = (JSFPermission) obj;

@@ -1,7 +1,14 @@
 package net.sf.jguard.core.principals;
 
+import net.sf.jguard.core.authorization.permissions.MockPermission;
+import net.sf.jguard.core.authorization.permissions.Permission;
 import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import org.junit.Test;
+
+import java.io.FilePermission;
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 
 public class RolePrincipalTest {
 
@@ -75,6 +82,30 @@ public class RolePrincipalTest {
     @Test(expected = IllegalArgumentException.class)
     public void testConstructors5() {
         RolePrincipal rolePrincipal = new RolePrincipal("sdfsd", "", new Organization());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testTranslateToJGuardPermission_with_null_argument() {
+        RolePrincipal.translateToJGuardPermission(null);
+    }
+
+    @Test
+    public void testTranslateToJGuardPermission_with_permission() {
+        //when
+        Permission permission = RolePrincipal.translateToJGuardPermission(new FilePermission("/", "read"));
+        //then
+        assertThat(permission, is(not(nullValue())));
+
+    }
+
+
+    @Test
+    public void testTranslateToJGuardPermission_with_permission_with_a_name_and_null_actions() {
+        //when
+        Permission permission = RolePrincipal.translateToJGuardPermission(new MockPermission("/", null));
+        //then
+        assertThat(permission, is(not(nullValue())));
+
     }
 
 
