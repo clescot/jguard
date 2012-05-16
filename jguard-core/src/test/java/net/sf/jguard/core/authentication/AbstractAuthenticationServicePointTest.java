@@ -53,7 +53,7 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(loginContextWrapper) {
         };
         //when
-        abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers));
 
     }
 
@@ -70,7 +70,7 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(loginContextWrapper) {
         };
         //when
-        AuthenticationResult authenticationResult = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        AuthenticationResult authenticationResult = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers));
         assertThat(authenticationResult.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 
@@ -88,7 +88,7 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(loginContextWrapper) {
         };
         //when
-        AuthenticationResult authenticationResult = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        AuthenticationResult authenticationResult = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers));
         assertThat(authenticationResult.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 
@@ -108,7 +108,7 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(loginContextWrapper) {
         };
         //when
-        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers));
         assertThat(authenticateResult.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 
@@ -127,7 +127,7 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(loginContextWrapper) {
         };
         //when
-        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers));
         assertThat(authenticateResult.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 
@@ -147,7 +147,7 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(loginContextWrapper) {
         };
         //when
-        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new AsynchronousMockCallbackHandler(req, res, authenticationSchemeHandlers));
         assertThat(authenticateResult.getStatus(), is(AuthenticationStatus.FAILURE));
     }
 
@@ -165,7 +165,7 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(loginContextWrapper) {
         };
         //when
-        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers));
         assertThat(authenticateResult.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 
@@ -182,7 +182,7 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(loginContextWrapper) {
         };
         //when
-        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers));
         assertThat(authenticateResult.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 
@@ -199,7 +199,7 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(loginContextWrapper) {
         };
         //when
-        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers));
         assertThat(authenticateResult.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 
@@ -217,7 +217,7 @@ public class AbstractAuthenticationServicePointTest {
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(loginContextWrapper) {
         };
         //when
-        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers), req);
+        AuthenticationResult authenticateResult = abstractAuthenticationServicePoint.authenticate(new MockCallbackHandler(req, res, authenticationSchemeHandlers));
         assertThat(authenticateResult.getStatus(), is(AuthenticationStatus.SUCCESS));
     }
 

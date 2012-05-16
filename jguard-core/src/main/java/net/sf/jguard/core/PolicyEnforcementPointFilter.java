@@ -124,7 +124,7 @@ public abstract class PolicyEnforcementPointFilter<Req extends StatefulRequest, 
      */
     private AuthenticationStatus authenticateAfterRegistration(JGuardCallbackHandler<Req, Res> callbackHandler, Req req) {
 
-        return authenticationServicePoint.authenticate(callbackHandler, req).getStatus();
+        return authenticationServicePoint.authenticate(callbackHandler).getStatus();
 
     }
 

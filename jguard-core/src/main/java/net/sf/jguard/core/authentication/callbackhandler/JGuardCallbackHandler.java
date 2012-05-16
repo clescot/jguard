@@ -54,6 +54,8 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
 
     private static final Logger logger = LoggerFactory.getLogger(JGuardCallbackHandler.class.getName());
     protected Collection<AuthenticationSchemeHandler<Req, Res>> registeredAuthenticationSchemeHandlers = null;
+
+
     protected Req request;
     protected Res response;
     private Set<AuthenticationSchemeHandler<Req, Res>> usedAuthenticationSchemeHandlers = new HashSet<AuthenticationSchemeHandler<Req, Res>>();
@@ -175,5 +177,8 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
         }
     }
 
+    public Req getRequest() {
+        return request;
+    }
 
 }

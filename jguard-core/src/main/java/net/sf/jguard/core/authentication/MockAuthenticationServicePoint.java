@@ -3,7 +3,6 @@ package net.sf.jguard.core.authentication;
 import com.google.inject.Singleton;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
-import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockRequestAdapter;
 import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 
@@ -66,6 +65,6 @@ public class MockAuthenticationServicePoint extends StatefulAuthenticationServic
      * @return wrapper around the Guest Subject
      */
     public AuthenticationResult impersonateAsGuest() {
-        return authenticate(guestCallbackHandler, new MockRequestAdapter(new MockRequest()));
+        return authenticate(guestCallbackHandler);
     }
 }

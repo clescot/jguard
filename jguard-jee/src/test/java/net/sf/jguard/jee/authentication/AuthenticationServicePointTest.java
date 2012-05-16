@@ -95,7 +95,7 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter> authenticationServicePoint = injector.getInstance(Key.get(new TypeLiteral<AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }));
         JGuardCallbackHandler<HttpServletRequestAdapter, HttpServletResponseAdapter> callbackHandler = injector.getInstance(AsynchronousJGuardCallbackHandler.class);
-        AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler, new HttpServletRequestAdapter(request)).getStatus();
+        AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler).getStatus();
 
         assertEquals(AuthenticationStatus.FAILURE, status);
         assertEquals("/Logon.do", response.getForwardedUrl());
@@ -119,7 +119,7 @@ public class AuthenticationServicePointTest extends JGuardJEETest {
         AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter> authenticationServicePoint = injector.getInstance(Key.get(new TypeLiteral<AuthenticationServicePoint<HttpServletRequestAdapter, HttpServletResponseAdapter>>() {
         }));
         JGuardCallbackHandler callbackHandler = injector.getInstance(AsynchronousJGuardCallbackHandler.class);
-        AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler, new HttpServletRequestAdapter(request)).getStatus();
+        AuthenticationStatus status = authenticationServicePoint.authenticate(callbackHandler).getStatus();
         assertEquals(AuthenticationStatus.SUCCESS, status);
     }
 

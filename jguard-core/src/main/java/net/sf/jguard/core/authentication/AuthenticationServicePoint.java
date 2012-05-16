@@ -41,7 +41,7 @@ import javax.security.auth.Subject;
 public interface AuthenticationServicePoint<Req extends Request, Res extends Response> {
 
 
-    AuthenticationResult authenticate(JGuardCallbackHandler<Req, Res> callbackHandler, Req req);
+    AuthenticationResult authenticate(JGuardCallbackHandler<Req, Res> callbackHandler);
 
 
     /**

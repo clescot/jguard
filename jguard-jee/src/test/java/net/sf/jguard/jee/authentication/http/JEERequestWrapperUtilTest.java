@@ -48,6 +48,7 @@ public class JEERequestWrapperUtilTest {
         principals.add(rolePrincipal);
         subject = new Subject(false, principals, publicCredentials, privateCredentials);
         when(mockLoginContextWrapper.getSubject()).thenReturn(subject);
+        when(mockAuthenticationManager.getIdentityCredential(subject)).thenReturn(identityCredential);
         when(mockAuthenticationManager.getCredentialId()).thenReturn(IDENTITY_KEY);
 
     }

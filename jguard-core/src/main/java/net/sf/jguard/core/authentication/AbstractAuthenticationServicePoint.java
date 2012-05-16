@@ -62,22 +62,20 @@ public abstract class AbstractAuthenticationServicePoint<Req extends Request, Re
 
 
     public AuthenticationResult authenticate(
-            JGuardCallbackHandler<Req, Res> callbackHandler, Req req) throws AuthenticationException {
+            JGuardCallbackHandler<Req, Res> callbackHandler) throws AuthenticationException {
         AuthenticationStatus authenticationStatus = null;
         Subject subject = null;
         try {
 
-            //we use the wrapper object bound to user with the dedicated object(callabckHandler)
+            //we use the wrapper object bound to user with the dedicated object(callbackHandler)
             //to communicate with him to authenticate
 
             subject = loginContextWrapper.login(callbackHandler);
-            authenticationSucceed(loginContextWrapper, req);
 
-
+            authenticationSucceed(loginContextWrapper, callbackHandler.getRequest());
             //propagate the authentication success
             callbackHandler.authenticationSucceed(subject);
             authenticationStatus = AuthenticationStatus.SUCCESS;
-
 
         } catch (AuthenticationContinueException ace) {
             //the current AuthenticationScheme needs multiple roundtrips

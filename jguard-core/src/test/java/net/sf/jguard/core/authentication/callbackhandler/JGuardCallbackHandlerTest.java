@@ -1,6 +1,7 @@
 package net.sf.jguard.core.authentication.callbackhandler;
 
 import com.google.common.collect.Lists;
+import net.sf.jguard.core.authentication.LoginContextWrapper;
 import net.sf.jguard.core.authentication.callbacks.AuthenticationSchemeHandlerCallback;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.authentication.schemes.DummyAuthenticationSchemeHandler;
@@ -87,7 +88,9 @@ public class JGuardCallbackHandlerTest {
         //when
         mockCallbackHandler.handle(callbacks);
         Subject subject = new Subject();
-        mockCallbackHandler.authenticationSucceed(subject);
+        LoginContextWrapper loginContextWrapper = mock(LoginContextWrapper.class);
+        when(loginContextWrapper.getSubject()).thenReturn(subject);
+        mockCallbackHandler.authenticationSucceed(loginContextWrapper.getSubject());
         //then
         verify(authenticationSchemeHandler).authenticationSucceed(subject, request, response);
     }

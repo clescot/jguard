@@ -1,16 +1,17 @@
 package net.sf.jguard.core.authentication.filters;
 
-import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.AuthenticationResult;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
 import net.sf.jguard.core.authentication.AuthenticationStatus;
-import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
 import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
+import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.filters.FilterChain;
 import net.sf.jguard.core.lifecycle.Request;
 import net.sf.jguard.core.lifecycle.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
 
 /**
  * Authenticate a user if the request implies the answer to an Authentication challenge.
@@ -22,19 +23,19 @@ import org.slf4j.LoggerFactory;
 public abstract class AuthenticationChallengeFilter<Req extends Request, Res extends Response> extends AuthenticationFilter<Req, Res> {
 
     private AuthenticationServicePoint<Req, Res> authenticationServicePoint;
-    private Provider<AsynchronousJGuardCallbackHandler<Req, Res>> callbackHandlerProvider;
+    protected Collection<AuthenticationSchemeHandler<Req, Res>> registeredAuthenticationSchemeHandlers;
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationChallengeFilter.class.getName());
 
     public AuthenticationChallengeFilter(AuthenticationServicePoint<Req, Res> authenticationServicePoint,
-                                         Provider<AsynchronousJGuardCallbackHandler<Req, Res>> callbackHandlerProvider) {
+                                         Collection<AuthenticationSchemeHandler<Req, Res>> registeredAuthenticationSchemeHandlers) {
         this.authenticationServicePoint = authenticationServicePoint;
-        this.callbackHandlerProvider = callbackHandlerProvider;
+        this.registeredAuthenticationSchemeHandlers = registeredAuthenticationSchemeHandlers;
     }
 
     public void doFilter(Req request, Res response, FilterChain<Req, Res> chain) {
-        JGuardCallbackHandler<Req, Res> callbackHandler = callbackHandlerProvider.get();
+        JGuardCallbackHandler<Req, Res> callbackHandler = getCallbackHandler(request, response);
 
-        AuthenticationResult authenticationResult = authenticationServicePoint.authenticate(callbackHandler, request);
+        AuthenticationResult authenticationResult = authenticationServicePoint.authenticate(callbackHandler);
         if (!AuthenticationStatus.SUCCESS.equals(authenticationResult.getStatus())) {
             //authentication continue with another roundtrip
             //or authentication failed (401 for HTTP)
@@ -46,5 +47,5 @@ public abstract class AuthenticationChallengeFilter<Req extends Request, Res ext
 
     }
 
-
+    public abstract JGuardCallbackHandler<Req, Res> getCallbackHandler(Req req, Res res);
 }
