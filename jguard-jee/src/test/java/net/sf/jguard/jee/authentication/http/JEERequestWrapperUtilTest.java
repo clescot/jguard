@@ -87,7 +87,8 @@ public class JEERequestWrapperUtilTest {
     @Test
     public void testGetRemoteUserWithNullIdentityCredentialInSubject() throws Exception {
         when(mockLoginContextWrapper.getSubject()).thenReturn(subject);
-        subject.getPublicCredentials().clear();
+        when(mockAuthenticationManager.getIdentityCredential(subject)).thenReturn(null);
+
         String user = JEERequestWrapperUtil.getRemoteUser(mockLoginContextWrapper, mockAuthenticationManager);
         Assert.assertThat(user, is(nullValue()));
     }
