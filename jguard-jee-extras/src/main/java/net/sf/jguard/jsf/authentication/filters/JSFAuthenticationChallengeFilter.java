@@ -27,13 +27,15 @@
 
 package net.sf.jguard.jsf.authentication.filters;
 
-import com.google.inject.Provider;
 import net.sf.jguard.core.authentication.AuthenticationServicePoint;
-import net.sf.jguard.core.authentication.callbackhandler.AsynchronousJGuardCallbackHandler;
+import net.sf.jguard.core.authentication.callbackhandler.JGuardCallbackHandler;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
+import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.jsf.FacesContextAdapter;
+import net.sf.jguard.jsf.JSFCallbackHandler;
 
 import javax.inject.Inject;
+import java.util.Collection;
 
 /**
  * @author <a href="mailto:diabolo512@users.sourceforge.net">Charles Lescot</a>
@@ -42,7 +44,12 @@ public class JSFAuthenticationChallengeFilter extends AuthenticationChallengeFil
 
     @Inject
     public JSFAuthenticationChallengeFilter(AuthenticationServicePoint<FacesContextAdapter, FacesContextAdapter> authenticationServicePoint,
-                                            Provider<AsynchronousJGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter>> jGuardCallbackHandlerProvider) {
-        super(authenticationServicePoint, jGuardCallbackHandlerProvider);
+                                            Collection<AuthenticationSchemeHandler<FacesContextAdapter, FacesContextAdapter>> registeredAuthenticationSchemeHandlers) {
+        super(authenticationServicePoint, registeredAuthenticationSchemeHandlers);
+    }
+
+    @Override
+    public JGuardCallbackHandler<FacesContextAdapter, FacesContextAdapter> getCallbackHandler(FacesContextAdapter facesContextAdapter, FacesContextAdapter facesContextAdapter1) {
+        return new JSFCallbackHandler(facesContextAdapter, facesContextAdapter, registeredAuthenticationSchemeHandlers);
     }
 }
