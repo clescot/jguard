@@ -47,5 +47,5 @@ public abstract class AuthenticationChallengeFilter<Req extends Request, Res ext
 
     }
 
-    public abstract JGuardCallbackHandler<Req, Res> getCallbackHandler(Req req, Res res);
+    protected abstract JGuardCallbackHandler<Req, Res> getCallbackHandler(Req req, Res res);
 }
