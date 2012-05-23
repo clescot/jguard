@@ -96,8 +96,45 @@ public abstract class UserLoginModule implements LoginModule {
         } else {
             throw new IllegalArgumentException("options map is null : 'options' map must contains an authenticationManager instance");
         }
+        if (callbackHandler == null) {
+            throw new IllegalArgumentException("callbackHandler is null");
+        }
     }
 
+    /**
+     * we ignore the PMD rule for the LoginException class,
+     * which unfortunately hide the {@link java.security.GeneralSecurityException} constructor which
+     * contains a {@link Throwable} parameter.
+     *
+     * @return
+     * @throws LoginException
+     */
+    @SuppressWarnings("PMD.PreserveStackTrace")
+    public boolean login() throws LoginException {
+        if (!skipPasswordCheck) {
+            skipPasswordCheck = Boolean.valueOf((String) sharedState.get(SKIP_CREDENTIAL_CHECK));
+        }
+
+        List<Callback> cbks = getCallbacks();
+        cbks.add(new AuthenticationSchemeHandlerCallback());
+        try {
+            callbacks = cbks.toArray(new Callback[cbks.size()]);
+            callbackHandler.handle(callbacks);
+
+            authenticationSchemeHandlerName = ((AuthenticationSchemeHandlerCallback) getCallback(cbks, AuthenticationSchemeHandlerCallback.class)).getAuthenticationSchemeHandlerName();
+
+        } catch (java.io.IOException ioe) {
+            throw new LoginException(ioe.toString());
+        } catch (AuthenticationChallengeForCallbackHandlerException cnc) {
+            throw new AuthenticationChallengeException(cnc.getMessage());
+        } catch (UnsupportedCallbackException uce) {
+            throw new LoginException("Callback error : " + uce.getCallback().toString() +
+                    " not available to authenticate the user");
+        }
+
+
+        return true;
+    }
 
     /**
      * remove Principals and Private/Public credentials from Subject.
@@ -148,44 +185,6 @@ public abstract class UserLoginModule implements LoginModule {
         return null;
     }
 
-    /**
-     * we ignore the PMD rule for the LoginException class,
-     * which unfortunately hide the {@link java.security.GeneralSecurityException} constructor which
-     * contains a {@link Throwable} parameter.
-     *
-     * @return
-     * @throws LoginException
-     */
-    @SuppressWarnings("PMD.PreserveStackTrace")
-    public boolean login() throws LoginException {
-        if (!skipPasswordCheck) {
-            skipPasswordCheck = Boolean.valueOf((String) sharedState.get(SKIP_CREDENTIAL_CHECK));
-        }
-        if (callbackHandler == null) {
-            throw new LoginException("there is no CallbackHandler to authenticate the user");
-        }
-
-
-        List<Callback> cbks = getCallbacks();
-        cbks.add(new AuthenticationSchemeHandlerCallback());
-        try {
-            callbacks = cbks.toArray(new Callback[cbks.size()]);
-            callbackHandler.handle(callbacks);
-
-            authenticationSchemeHandlerName = ((AuthenticationSchemeHandlerCallback) getCallback(cbks, AuthenticationSchemeHandlerCallback.class)).getAuthenticationSchemeHandlerName();
-
-        } catch (java.io.IOException ioe) {
-            throw new LoginException(ioe.toString());
-        } catch (AuthenticationChallengeForCallbackHandlerException cnc) {
-            throw new AuthenticationChallengeException(cnc.getMessage());
-        } catch (UnsupportedCallbackException uce) {
-            throw new LoginException("Callback error : " + uce.getCallback().toString() +
-                    " not available to authenticate the user");
-        }
-
-
-        return true;
-    }
 
     /**
      * add Principals and Public/Private credentials to Subject.
