@@ -222,6 +222,17 @@ public class JGuardCredentialTest {
             assertThat(equals, is(false));
         }
 
+        @Test
+        public void test_equals_with_all_name_and_values_are_null() throws Exception {
+            //given
+            JGuardCredential jGuardCredential = new JGuardCredential(null, null);
+            JGuardCredential jGuardCredential2 = new JGuardCredential(null, null);
+            //when
+            boolean equals = jGuardCredential.equals(jGuardCredential2);
+            //then
+            assertThat(equals, is(true));
+        }
+
 
     }
 

@@ -110,7 +110,7 @@ public class JGuardCredential implements Serializable, Cloneable {
             return false;
         }
         if (this.name == null || this.value == null) {
-            return false;
+            return (cred.name == null || cred.value == null);
         }
 
         return this.name.equals(cred.name) && this.value.equals(cred.value);
