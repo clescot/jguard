@@ -27,6 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authentication.callbackhandler;
 
+import com.google.common.collect.Lists;
 import net.sf.jguard.core.authentication.callbacks.AuthenticationSchemeHandlerCallback;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.lifecycle.Request;
@@ -86,7 +87,7 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
      * Interactions between multiple loginmodules, to choose which authentication scheme must be encountered
      * among multiple ones, is possible. Each Authentication Scheme is implemented with a loginModule, and its related {@link AuthenticationSchemeHandler}
      * implementation. each {@link AuthenticationSchemeHandler}s are registered.
-     * Correlation between a loginModule and an AuthentitcationSchemeHandler is expressed with specific callbacks.
+     * Correlation between a loginModule and an AuthenticationSchemeHandler is expressed with specific callbacks.
      * this method implements this correlation.
      *
      * @param authenticationSchemeHandlers
@@ -98,10 +99,11 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
         Collection<Class> requiredCallbackTypes = getCallbacksClasses(callbacks);
         for (AuthenticationSchemeHandler<Req, Res> authSchemeHandler : authenticationSchemeHandlers) {
             //callbacks which can be filled by the current AuthenticationSchemeHandler
-            Collection<Class<? extends Callback>> callbackTypes = authSchemeHandler.getCallbackTypes();
+            Collection<Class<? extends Callback>> callbackTypes = Lists.newArrayList(authSchemeHandler.getCallbackTypes());
+            callbackTypes.add(AuthenticationSchemeHandlerCallback.class);
             //if all callbacks used by the AuthenticationSchemeHandler are present in the callbacks asked by loginmodule
             //we use this authenticationSchemehandler
-            if (requiredCallbackTypes.containsAll(callbackTypes)) {
+            if (!requiredCallbackTypes.isEmpty() && callbackTypes.containsAll(requiredCallbackTypes)) {
                 //callbacks types identify which authenticationSchemeHandler is required 
                 //among multiple ones registered in the Scopes and contained in the CallbackHandler
                 return authSchemeHandler;

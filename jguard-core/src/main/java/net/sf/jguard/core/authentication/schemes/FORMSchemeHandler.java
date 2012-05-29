@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public abstract class FORMSchemeHandler<Req extends Request, Res extends Response> implements StatefulAuthenticationSchemeHandler<Req, Res> {
 
-    Collection<Class<? extends Callback>> callbackTypes = null;
+    protected Collection<Class<? extends Callback>> callbackTypes = null;
     private PermissionCollection grantedPermissions;
     protected Permission logoffPermission;
     protected Permission logonPermission;

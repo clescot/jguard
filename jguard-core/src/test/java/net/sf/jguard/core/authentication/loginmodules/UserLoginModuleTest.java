@@ -2,6 +2,7 @@ package net.sf.jguard.core.authentication.loginmodules;
 
 import com.google.common.collect.Lists;
 import net.sf.jguard.core.authentication.callbackhandler.MockCallbackHandler;
+import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.manager.JGuardAuthenticationManagerMarkups;
 import net.sf.jguard.core.authentication.manager.MockAuthenticationManager;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
@@ -28,6 +29,7 @@ import static org.mockito.Mockito.verify;
 public class UserLoginModuleTest {
 
     public static final String NAME_FROM_HOOK_FORM_SCHEME_HANDLER = "HOOK";
+    public static final String DUMMY_PROMPT = "dummy";
     private UserLoginModule userLoginModule;
     private ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers;
     private MockCallbackHandler callbackHandler;
@@ -59,7 +61,10 @@ public class UserLoginModuleTest {
             }
         };
         authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
-        authenticationSchemeHandlers.add(new HookImplFormSchemeHandler(null));
+        Collection<Callback> callbacks = Lists.newArrayList();
+        callbacks.add(new NameCallback(DUMMY_PROMPT));
+        HookImplFormSchemeHandler schemeHandler = new HookImplFormSchemeHandler(callbacks);
+        authenticationSchemeHandlers.add(schemeHandler);
         callbackHandler = new MockCallbackHandler(null, null, authenticationSchemeHandlers);
         mockAuthenticationManager = new MockAuthenticationManager("dummy application Name");
     }
@@ -150,7 +155,7 @@ public class UserLoginModuleTest {
         Map<String, Object> options = new HashMap<String, Object>();
         options.put(JGuardAuthenticationManagerMarkups.AUTHENTICATION_MANAGER.getLabel(), mockAuthenticationManager);
         Subject subject = new Subject();
-        userLoginModule.initialize(subject, mockCallbackHandler, shareState, options);
+        userLoginModule.initialize(subject, callbackHandler, shareState, options);
 
         userLoginModule.login();
         //when
@@ -158,7 +163,7 @@ public class UserLoginModuleTest {
         Set<Object> publicCredentials = subject.getPublicCredentials();
         //then
         assertThat(commit, is(true));
-        // JGuardCredential jGuardCredential = new JGuardCredential(UserLoginModule.AUTHENTICATION_SCHEME_HANDLER_NAME, NAME_FROM_HOOK_FORM_SCHEME_HANDLER);
-        //assertThat(publicCredentials.contains(jGuardCredential), is(true));
+        JGuardCredential jGuardCredential = new JGuardCredential(UserLoginModule.AUTHENTICATION_SCHEME_HANDLER_NAME, NAME_FROM_HOOK_FORM_SCHEME_HANDLER);
+        assertThat(publicCredentials.contains(jGuardCredential), is(true));
     }
 }
