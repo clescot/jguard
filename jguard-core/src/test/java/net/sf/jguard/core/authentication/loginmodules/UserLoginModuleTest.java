@@ -1,12 +1,14 @@
 package net.sf.jguard.core.authentication.loginmodules;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import net.sf.jguard.core.authentication.callbackhandler.MockCallbackHandler;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.manager.JGuardAuthenticationManagerMarkups;
 import net.sf.jguard.core.authentication.manager.MockAuthenticationManager;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.authentication.schemes.HookImplFormSchemeHandler;
+import net.sf.jguard.core.authorization.permissions.RolePrincipal;
 import net.sf.jguard.core.lifecycle.MockRequestAdapter;
 import net.sf.jguard.core.lifecycle.MockResponseAdapter;
 import org.junit.Before;
@@ -19,6 +21,7 @@ import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
+import java.security.Principal;
 import java.util.*;
 
 import static org.hamcrest.Matchers.is;
@@ -31,10 +34,14 @@ public class UserLoginModuleTest {
     public static final String NAME_FROM_HOOK_FORM_SCHEME_HANDLER = "HOOK";
     public static final String DUMMY_PROMPT = "dummy";
     private UserLoginModule userLoginModule;
+    private Set<Object> gPrivateCredentials = Sets.newHashSet();
+    private Set<Object> gPublicCredentials = Sets.newHashSet();
     private ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers;
     private MockCallbackHandler callbackHandler;
     private MockAuthenticationManager mockAuthenticationManager;
 
+
+    private Set<Principal> grincipals = Sets.newHashSet();
     @Mock
     private CallbackHandler mockCallbackHandler;
     @InjectMocks
@@ -50,13 +57,14 @@ public class UserLoginModuleTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-
         userLoginModule = new UserLoginModule() {
             @Override
             protected List<Callback> getCallbacks() {
                 List<Callback> list = Lists.newArrayList();
                 list.add(new NameCallback("dummy"));
-
+                this.globalPrincipals = grincipals;
+                this.globalPrivateCredentials = gPrivateCredentials;
+                this.globalPublicCredentials = gPublicCredentials;
                 return list;
             }
         };
@@ -106,6 +114,15 @@ public class UserLoginModuleTest {
         userLoginModule.initialize(new Subject(), null, shareState, options);
     }
 
+
+    @Test(expected = NullPointerException.class)
+    public void test_initialize_with_null_subject() throws Exception {
+        //given
+        Map<String, ?> shareState = new HashMap<String, Object>();
+        Map<String, Object> options = new HashMap<String, Object>();
+        Subject subject = null;
+        userLoginModule.initialize(subject, callbackHandler, shareState, options);
+    }
 
     @Test
     public void testLogin() throws Exception {
@@ -165,5 +182,33 @@ public class UserLoginModuleTest {
         assertThat(commit, is(true));
         JGuardCredential jGuardCredential = new JGuardCredential(UserLoginModule.AUTHENTICATION_SCHEME_HANDLER_NAME, NAME_FROM_HOOK_FORM_SCHEME_HANDLER);
         assertThat(publicCredentials.contains(jGuardCredential), is(true));
+    }
+
+
+    @Test
+    public void testCommit_nominal_case() throws Exception {
+        //given
+        Map<String, ?> shareState = new HashMap<String, Object>();
+        Map<String, Object> options = new HashMap<String, Object>();
+        options.put(JGuardAuthenticationManagerMarkups.AUTHENTICATION_MANAGER.getLabel(), mockAuthenticationManager);
+        Subject subject = new Subject();
+        RolePrincipal admin = new RolePrincipal("admin", "jguard-struts-example");
+        grincipals.add(admin);
+        JGuardCredential secret = new JGuardCredential("secret", "123");
+        gPrivateCredentials.add(secret);
+        JGuardCredential name = new JGuardCredential("name", "john");
+        gPublicCredentials.add(name);
+        userLoginModule.initialize(subject, callbackHandler, shareState, options);
+
+        userLoginModule.login();
+        //when
+        boolean commit = userLoginModule.commit();
+
+        //then
+        assertThat(subject.getPrincipals().contains(admin), is(true));
+        assertThat(subject.getPublicCredentials().contains(name), is(true));
+        assertThat(subject.getPrivateCredentials().contains(secret), is(true));
+
+
     }
 }

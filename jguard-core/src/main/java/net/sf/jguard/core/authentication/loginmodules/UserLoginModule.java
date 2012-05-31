@@ -27,6 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authentication.loginmodules;
 
+import com.google.common.base.Preconditions;
 import net.sf.jguard.core.authentication.callbacks.AuthenticationChallengeForCallbackHandlerException;
 import net.sf.jguard.core.authentication.callbacks.AuthenticationSchemeHandlerCallback;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
@@ -81,7 +82,7 @@ public abstract class UserLoginModule implements LoginModule {
     public void initialize(Subject subject, CallbackHandler callbackHandler,
                            Map<String, ?> sharedState,
                            Map<String, ?> options) {
-
+        Preconditions.checkNotNull(subject, "subject to authenticate in loginModule cannot be 'null'");
         this.subject = subject;
         this.callbackHandler = callbackHandler;
         this.sharedState = sharedState;
@@ -195,20 +196,23 @@ public abstract class UserLoginModule implements LoginModule {
         if (!loginOK) {
             return false;
         }
-        Set<Principal> principals = subject.getPrincipals();
-        if (globalPrincipals != null) {
-            principals.addAll(globalPrincipals);
+        if (subject != null) {
+            Set<Principal> principals = subject.getPrincipals();
+            if (globalPrincipals != null) {
+                principals.addAll(globalPrincipals);
+            }
+            Set<Object> privCredentials = subject.getPrivateCredentials();
+            if (globalPrivateCredentials != null) {
+                privCredentials.addAll(globalPrivateCredentials);
+            }
+            Set<Object> pubCredentials = subject.getPublicCredentials();
+            if (globalPublicCredentials != null) {
+                pubCredentials.addAll(globalPublicCredentials);
+            }
+            JGuardCredential cred = new JGuardCredential(AUTHENTICATION_SCHEME_HANDLER_NAME, authenticationSchemeHandlerName);
+            pubCredentials.add(cred);
+
         }
-        Set<Object> privCredentials = subject.getPrivateCredentials();
-        if (globalPrivateCredentials != null) {
-            privCredentials.addAll(globalPrivateCredentials);
-        }
-        Set<Object> pubCredentials = subject.getPublicCredentials();
-        if (globalPublicCredentials != null) {
-            pubCredentials.addAll(globalPublicCredentials);
-        }
-        JGuardCredential cred = new JGuardCredential(AUTHENTICATION_SCHEME_HANDLER_NAME, authenticationSchemeHandlerName);
-        pubCredentials.add(cred);
         return true;
     }
 
