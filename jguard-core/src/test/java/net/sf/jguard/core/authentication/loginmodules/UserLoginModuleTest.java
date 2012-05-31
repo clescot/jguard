@@ -3,6 +3,7 @@ package net.sf.jguard.core.authentication.loginmodules;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.sf.jguard.core.authentication.callbackhandler.MockCallbackHandler;
+import net.sf.jguard.core.authentication.callbacks.AuthenticationChallengeForCallbackHandlerException;
 import net.sf.jguard.core.authentication.credentials.JGuardCredential;
 import net.sf.jguard.core.authentication.manager.JGuardAuthenticationManagerMarkups;
 import net.sf.jguard.core.authentication.manager.MockAuthenticationManager;
@@ -21,12 +22,16 @@ import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
+import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.auth.login.LoginException;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 public class UserLoginModuleTest {
@@ -131,6 +136,30 @@ public class UserLoginModuleTest {
         verify(mockCallbackHandler).handle(any(Callback[].class));
     }
 
+    @Test(expected = LoginException.class)
+    public void testLogin_throw_ioexception() throws Exception {
+        initProperlyUserLoginmodule();
+        doThrow(new IOException("dummy exception")).when(mockCallbackHandler).handle(any(Callback[].class));
+        mockUserLoginModule.login();
+        verify(mockCallbackHandler).handle(any(Callback[].class));
+    }
+
+    @Test(expected = AuthenticationChallengeException.class)
+    public void testLogin_throw_AuthenticationChallengeForCallbackHandlerException() throws Exception {
+        initProperlyUserLoginmodule();
+        doThrow(new AuthenticationChallengeForCallbackHandlerException(new NameCallback("prompt"))).when(mockCallbackHandler).handle(any(Callback[].class));
+        mockUserLoginModule.login();
+        verify(mockCallbackHandler).handle(any(Callback[].class));
+    }
+
+    @Test(expected = LoginException.class)
+    public void testLogin_throw_UnsupportedCallbackException() throws Exception {
+        initProperlyUserLoginmodule();
+        doThrow(new UnsupportedCallbackException(new NameCallback("prompt"))).when(mockCallbackHandler).handle(any(Callback[].class));
+        mockUserLoginModule.login();
+        verify(mockCallbackHandler).handle(any(Callback[].class));
+    }
+
     private void initProperlyUserLoginmodule() {
         Map<String, ?> shareState = new HashMap<String, Object>();
         Map<String, Object> options = new HashMap<String, Object>();
@@ -140,12 +169,55 @@ public class UserLoginModuleTest {
 
     @Test
     public void testLogout() throws Exception {
+        //given
+        Map<String, ?> shareState = new HashMap<String, Object>();
+        Map<String, Object> options = new HashMap<String, Object>();
+        options.put(JGuardAuthenticationManagerMarkups.AUTHENTICATION_MANAGER.getLabel(), mockAuthenticationManager);
+        Subject subject = new Subject();
+        RolePrincipal admin = new RolePrincipal("admin", "jguard-struts-example");
+        grincipals.add(admin);
+        JGuardCredential secret = new JGuardCredential("secret", "123");
+        gPrivateCredentials.add(secret);
+        JGuardCredential name = new JGuardCredential("name", "john");
+        gPublicCredentials.add(name);
+        userLoginModule.initialize(subject, callbackHandler, shareState, options);
 
+        userLoginModule.login();
+        userLoginModule.commit();
+        //when
+        userLoginModule.logout();
+
+        //then
+        assertThat(subject.getPrincipals().isEmpty(), is(true));
+
+        assertThat(subject.getPublicCredentials().isEmpty(), is(true));
+        assertThat(subject.getPrivateCredentials().isEmpty(), is(true));
     }
 
     @Test
     public void testAbort() throws Exception {
+        //given
+        Map<String, ?> shareState = new HashMap<String, Object>();
+        Map<String, Object> options = new HashMap<String, Object>();
+        options.put(JGuardAuthenticationManagerMarkups.AUTHENTICATION_MANAGER.getLabel(), mockAuthenticationManager);
+        Subject subject = new Subject();
+        RolePrincipal admin = new RolePrincipal("admin", "jguard-struts-example");
+        grincipals.add(admin);
+        JGuardCredential secret = new JGuardCredential("secret", "123");
+        gPrivateCredentials.add(secret);
+        JGuardCredential name = new JGuardCredential("name", "john");
+        gPublicCredentials.add(name);
+        userLoginModule.initialize(subject, callbackHandler, shareState, options);
 
+        userLoginModule.login();
+        //when
+        userLoginModule.abort();
+
+        //then
+        assertThat(subject.getPrincipals().isEmpty(), is(true));
+
+        assertThat(subject.getPublicCredentials().isEmpty(), is(true));
+        assertThat(subject.getPrivateCredentials().isEmpty(), is(true));
     }
 
 
@@ -202,13 +274,11 @@ public class UserLoginModuleTest {
 
         userLoginModule.login();
         //when
-        boolean commit = userLoginModule.commit();
+        userLoginModule.commit();
 
         //then
         assertThat(subject.getPrincipals().contains(admin), is(true));
         assertThat(subject.getPublicCredentials().contains(name), is(true));
         assertThat(subject.getPrivateCredentials().contains(secret), is(true));
-
-
     }
 }
