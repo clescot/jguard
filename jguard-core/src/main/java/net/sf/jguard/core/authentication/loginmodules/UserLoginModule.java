@@ -92,7 +92,7 @@ public abstract class UserLoginModule implements LoginModule {
             skipPasswordCheck = Boolean.valueOf((String) options.get(SKIP_CREDENTIAL_CHECK));
             authenticationManager = (AuthenticationManager) options.get(JGuardAuthenticationManagerMarkups.AUTHENTICATION_MANAGER.getLabel());
             if (authenticationManager == null) {
-                throw new IllegalArgumentException("authenticationManager is null : 'options' map must contains an authenticationManager instance");
+                throw new IllegalArgumentException("authenticationManager is null : 'options' map must contains an authenticationManager instance bound to the '" + JGuardAuthenticationManagerMarkups.AUTHENTICATION_MANAGER.getLabel() + "' key");
             }
         } else {
             throw new IllegalArgumentException("options map is null : 'options' map must contains an authenticationManager instance");

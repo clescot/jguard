@@ -3,6 +3,8 @@ package net.sf.jguard.core.authentication;
 import net.sf.jguard.core.authentication.callbackhandler.AsynchronousMockCallbackHandler;
 import net.sf.jguard.core.authentication.callbackhandler.MockCallbackHandler;
 import net.sf.jguard.core.authentication.loginmodules.MockLoginModule;
+import net.sf.jguard.core.authentication.manager.AuthenticationManager;
+import net.sf.jguard.core.authentication.manager.JGuardAuthenticationManagerMarkups;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
 import net.sf.jguard.core.lifecycle.MockRequest;
 import net.sf.jguard.core.lifecycle.MockRequestAdapter;
@@ -32,6 +34,9 @@ public class AbstractAuthenticationServicePointTest {
 
     @Mock
     private AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter> authenticationSchemeHandler;
+
+    @Mock
+    private AuthenticationManager authenticationManager;
 
     private AbstractAuthenticationServicePoint abstractAuthenticationServicePoint;
 
@@ -223,7 +228,9 @@ public class AbstractAuthenticationServicePointTest {
 
 
     private AppConfigurationEntry[] getAppConfigurationEntriesWithOneMockLoginModule() {
-        AppConfigurationEntry entry = new AppConfigurationEntry(MockLoginModule.class.getName(), AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, new HashMap());
+        HashMap options = new HashMap();
+        options.put(JGuardAuthenticationManagerMarkups.AUTHENTICATION_MANAGER.getLabel(), authenticationManager);
+        AppConfigurationEntry entry = new AppConfigurationEntry(MockLoginModule.class.getName(), AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, options);
         return new AppConfigurationEntry[]{entry};
     }
 

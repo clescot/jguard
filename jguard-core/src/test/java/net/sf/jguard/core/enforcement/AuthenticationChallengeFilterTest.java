@@ -1,6 +1,7 @@
 package net.sf.jguard.core.enforcement;
 
 import com.mycila.testing.junit.MycilaJunitRunner;
+import net.sf.jguard.core.authentication.Guest;
 import net.sf.jguard.core.authentication.filters.AuthenticationChallengeFilter;
 import net.sf.jguard.core.filters.Filter;
 import net.sf.jguard.core.filters.FilterChain;
@@ -13,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import javax.security.auth.Subject;
 
 import static org.hamcrest.Matchers.*;
 
@@ -23,7 +25,11 @@ import static org.hamcrest.Matchers.*;
 public class AuthenticationChallengeFilterTest extends FilterTest {
 
     @Inject
-    AuthenticationChallengeFilter<MockRequestAdapter, MockResponseAdapter> challengeFilter;
+    private AuthenticationChallengeFilter<MockRequestAdapter, MockResponseAdapter> challengeFilter;
+
+    @Inject
+    @Guest
+    private Subject guestSubject;
 
     @Before
     public void setUp() {
@@ -58,11 +64,11 @@ public class AuthenticationChallengeFilterTest extends FilterTest {
 
 
     @Test
-    public void test_that_filter_pass_through_when_user_does_not_answer_to_a_challenge() {
+    public void test_that_filter_pass_through_when_user_does_not_answer_to_a_challenge_and_authenticate_as_a_guest() {
         schemeHandler.setAnswerToChallenge(false);
         schemeHandler.setChallengeNeeded(true);
         policyEnforcementPoint.doFilter(request, response);
-        Assert.assertNull(authenticationServicePoint.getCurrentSubject(request));
+        Assert.assertThat(authenticationServicePoint.getCurrentSubject(request), is(guestSubject));
     }
 
 

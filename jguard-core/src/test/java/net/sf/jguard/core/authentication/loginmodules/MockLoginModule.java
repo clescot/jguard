@@ -20,11 +20,12 @@ public class MockLoginModule extends UserNamePasswordLoginModule implements Logi
     private CallbackHandler callbackHandler;
 
     public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState, Map<String, ?> options) {
-
+        super.initialize(subject, callbackHandler, sharedState, options);
         this.callbackHandler = callbackHandler;
     }
 
     public boolean login() throws LoginException {
+        super.login();
         try {
             callbackHandler.handle(new Callback[]{});
         } catch (java.io.IOException ioe) {
@@ -40,14 +41,17 @@ public class MockLoginModule extends UserNamePasswordLoginModule implements Logi
     }
 
     public boolean commit() throws LoginException {
+        super.commit();
         return commit;
     }
 
     public boolean abort() throws LoginException {
+        super.abort();
         return abort;
     }
 
     public boolean logout() throws LoginException {
+        super.logout();
         return logout;
     }
 
