@@ -16,7 +16,7 @@ public class GuestSubjectProvider implements Provider<Subject> {
             AuthenticationResult authenticationResult = authenticationServicePoint.impersonateAsGuest();
             subject = authenticationResult.getSubject();
             if (null == subject) {
-                throw new ProvisionException("provided subject is null");
+                throw new ProvisionException("provided guest subject is null");
             }
         }
     }
