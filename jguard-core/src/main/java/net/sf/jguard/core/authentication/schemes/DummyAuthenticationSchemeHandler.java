@@ -36,6 +36,8 @@ import net.sf.jguard.core.lifecycle.Response;
 import javax.inject.Inject;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.NameCallback;
+import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import java.io.FilePermission;
 import java.security.Permission;
@@ -69,7 +71,10 @@ public class DummyAuthenticationSchemeHandler<Req extends Request, Res extends R
     }
 
     public Collection<Class<? extends Callback>> getCallbackTypes() {
-        return new ArrayList<Class<? extends Callback>>();
+        ArrayList<Class<? extends Callback>> classes = new ArrayList<Class<? extends Callback>>();
+        classes.add(NameCallback.class);
+        classes.add(PasswordCallback.class);
+        return classes;
     }
 
     public boolean answerToChallenge(Req request, Res response) {

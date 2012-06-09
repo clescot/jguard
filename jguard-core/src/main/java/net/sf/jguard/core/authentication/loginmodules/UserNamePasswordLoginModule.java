@@ -1,5 +1,6 @@
 package net.sf.jguard.core.authentication.loginmodules;
 
+import com.google.common.base.Strings;
 import net.sf.jguard.core.authentication.callbacks.GuestCallbacksProvider;
 import net.sf.jguard.core.util.CryptUtils;
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public class UserNamePasswordLoginModule extends UserLoginModule {
         login = ((NameCallback) callbacks[0]).getName();
         password = ((PasswordCallback) callbacks[1]).getPassword();
 
-        if (login == null || login.equals("")) {
+        if (Strings.isNullOrEmpty(login)) {
             login = GuestCallbacksProvider.GUEST;
             password = GuestCallbacksProvider.GUEST.toCharArray();
         }

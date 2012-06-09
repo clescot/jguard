@@ -27,6 +27,7 @@ http://sourceforge.net/projects/jguard/
 */
 package net.sf.jguard.core.authentication.callbackhandler;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import net.sf.jguard.core.authentication.callbacks.AuthenticationSchemeHandlerCallback;
 import net.sf.jguard.core.authentication.schemes.AuthenticationSchemeHandler;
@@ -111,6 +112,7 @@ public abstract class JGuardCallbackHandler<Req extends Request, Res extends Res
 
         }
 
+        logger.warn("no authenticationSchemeHandler can handle " + Joiner.on(',').join(callbacks));
         return null;
     }
 

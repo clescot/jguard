@@ -15,14 +15,18 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;
+import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class AbstractAuthenticationServicePointTest {
@@ -144,11 +148,9 @@ public class AbstractAuthenticationServicePointTest {
         MockResponseAdapter res = new MockResponseAdapter(new MockResponse());
         Collection<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>> authenticationSchemeHandlers = new ArrayList<AuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter>>();
         authenticationSchemeHandlers.add(authenticationSchemeHandler);
-        AppConfigurationEntry[] entries = getAppConfigurationEntriesWithOneMockLoginModule();
-        when(configuration.getAppConfigurationEntry(applicationName)).thenReturn(entries);
-        when(authenticationSchemeHandler.answerToChallenge(req, res)).thenReturn(false);
-        when(authenticationSchemeHandler.impliesChallenge()).thenReturn(true);
-        LoginContextWrapper loginContextWrapper = new LoginContextWrapperImpl(applicationName, configuration);
+
+        LoginContextWrapper loginContextWrapper = mock(LoginContextWrapper.class);
+        when(loginContextWrapper.login(any(CallbackHandler.class))).thenThrow(new LoginException());
         abstractAuthenticationServicePoint = new AbstractAuthenticationServicePoint(loginContextWrapper) {
         };
         //when

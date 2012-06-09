@@ -45,7 +45,7 @@ public abstract class FilterTest extends JGuardTest {
 
 
     @Inject
-    protected DummyAuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter> schemeHandler;
+    protected DummyAuthenticationSchemeHandler<MockRequestAdapter, MockResponseAdapter> dummyAuthenticationSchemeHandler;
     @Inject
     protected MockPolicyEnforcementPoint policyEnforcementPoint;
     protected Filter<MockRequestAdapter, MockResponseAdapter> beforeFilter;
